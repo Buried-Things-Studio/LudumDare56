@@ -89,8 +89,11 @@ public class CombatController : MonoBehaviour
         Critter nonPriorityCritter = State.IsPlayerPriority ? State.NpcCritter : State.PlayerCritter;
         MoveID priorityMoveID = State.IsPlayerPriority ? State.PlayerSelectedMoveID : State.NpcSelectedMoveID;
         MoveID nonPriorityMoveID = State.IsPlayerPriority ? State.NpcSelectedMoveID : State.PlayerSelectedMoveID;
+        Move priorityMove = priorityCritter.Moves.Find(move => move.ID == priorityMoveID);
+        Move nonPriorityMove = nonPriorityCritter.Moves.Find(move => move.ID == nonPriorityMoveID);
 
-        priorityCritter.Moves.Find(move => move.ID == priorityMoveID).ExecuteMove(State);
+        priorityMove.ExecuteMove(State);
+        priorityMove.CurrentUses--;
 
         if (CheckCombatFinished())
         {
@@ -99,7 +102,8 @@ public class CombatController : MonoBehaviour
             return;
         }
 
-        nonPriorityCritter.Moves.Find(move => move.ID == nonPriorityMoveID).ExecuteMove(State);
+        nonPriorityMove.ExecuteMove(State);
+        nonPriorityMove.CurrentUses--;
 
         if (CheckCombatFinished())
         {

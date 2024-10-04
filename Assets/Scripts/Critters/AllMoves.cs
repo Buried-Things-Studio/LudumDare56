@@ -18,6 +18,8 @@ public class HoneyDrink : Move
         Name = "Honey Drink";
         ID = MoveID.HoneyDrink;
         Affinity = CritterAffinity.None;
+        MaxUses = 5;
+        CurrentUses = 5;
     }
 
 
