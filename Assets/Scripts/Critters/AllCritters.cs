@@ -10,6 +10,9 @@ public class Bee : Critter
         Name = "Bee";
         MaxHealth = 50;
         CurrentHealth = 50;
-        List<CritterAffinity> Affinity = new List<CritterAffinity>(){CritterAffinity.None};
+        MaxSpeed = 5;
+        CurrentSpeed = 5;
+        Affinities.Add(CritterAffinity.None);
+        Moves.Add(new HoneyDrink(){UserGUID = GUID});
     }
 }
