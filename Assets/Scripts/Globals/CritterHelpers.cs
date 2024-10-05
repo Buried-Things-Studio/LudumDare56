@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 
@@ -9,6 +10,7 @@ public static class CritterHelpers
     public static Dictionary<CritterAffinity, List<CritterAffinity>> GoodDefences = new Dictionary<CritterAffinity, List<CritterAffinity>>(); //search by defending affinity in key field
     public static Dictionary<CritterAffinity, List<CritterAffinity>> BadDefences = new Dictionary<CritterAffinity, List<CritterAffinity>>(); //search by defending affinity in key field
     public static List<int> ExpToNextLevel = new List<int>(){0, 100, 200, 350, 575, 950, 1575, 2200, 2950, 4000};
+    public static int MaxTeamSize = 5;
 
 
     public static Color GetAffinityColor(CritterAffinity affinity)
@@ -76,6 +78,12 @@ public static class CritterHelpers
         }
 
         return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * GetDamageMultiplier(opponent.Affinities, move.Affinity));
+    }
+
+
+    public static int GetCatchHealthThreshold(Critter critter)
+    {
+        return Mathf.Max(1, Mathf.FloorToInt(critter.MaxHealth * ((11 - critter.Level) * 0.05f)));
     }
 
 
