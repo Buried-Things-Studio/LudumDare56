@@ -21,23 +21,23 @@ public class Critter
     public Vector2Int HealthLevelIncrease;
 
     public int MaxSpeed;
-    public int CurrentSpeed;
+    public int SpeedStage;
     public Vector2Int SpeedLevelIncrease;
 
     public int MaxSharpAttack;
-    public int CurrentSharpAttack;
+    public int SharpAttackStage;
     public Vector2Int SharpAttackLevelIncrease;
 
     public int MaxSharpDefense;
-    public int CurrentSharpDefense;
+    public int SharpDefenseStage;
     public Vector2Int SharpDefenseLevelIncrease;
 
     public int MaxBluntAttack;
-    public int CurrentBluntAttack;
+    public int BluntAttackStage;
     public Vector2Int BluntAttackLevelIncrease;
 
     public int MaxBluntDefense;
-    public int CurrentBluntDefense;
+    public int BluntDefenseStage;
     public Vector2Int BluntDefenseLevelIncrease;
 
 
@@ -61,23 +61,18 @@ public class Critter
 
         int speedIncrease = UnityEngine.Random.Range(SpeedLevelIncrease.x, SpeedLevelIncrease.y + 1);
         MaxSpeed += speedIncrease;
-        CurrentSpeed += speedIncrease;
 
         int sharpAttackIncrease = UnityEngine.Random.Range(SharpAttackLevelIncrease.x, SharpAttackLevelIncrease.y + 1);
         MaxSharpAttack += sharpAttackIncrease;
-        CurrentSharpAttack += sharpAttackIncrease;
 
         int sharpDefenseIncrease = UnityEngine.Random.Range(SharpDefenseLevelIncrease.x, SharpDefenseLevelIncrease.y + 1);
         MaxSharpDefense += sharpDefenseIncrease;
-        CurrentSharpDefense += sharpDefenseIncrease;
 
         int bluntAttackIncrease = UnityEngine.Random.Range(BluntAttackLevelIncrease.x, BluntAttackLevelIncrease.y + 1);
         MaxBluntAttack += bluntAttackIncrease;
-        CurrentBluntAttack += bluntAttackIncrease;
 
         int bluntDefenseIncrease = UnityEngine.Random.Range(BluntDefenseLevelIncrease.x, BluntDefenseLevelIncrease.y + 1);
         MaxBluntDefense += bluntDefenseIncrease;
-        CurrentBluntDefense += bluntDefenseIncrease;
     }
 
 

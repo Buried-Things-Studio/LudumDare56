@@ -67,11 +67,11 @@ public class BugMenu : MonoBehaviour
         _healthBarFillImage.fillAmount = (float)selectedCritter.CurrentHealth / (float)selectedCritter.MaxHealth;
         _expBarFillImage.fillAmount = selectedCritter.Level == 10 ? 1f : (float)selectedCritter.Exp / (float)CritterHelpers.ExpToNextLevel[selectedCritter.Level];
     
-        _bluntAttackStatTMP.text = $"BLUNT ATT<br><size=26>{selectedCritter.CurrentBluntAttack}";
-        _bluntDefenseStatTMP.text = $"BLUNT DEF<br><size=26>{selectedCritter.CurrentBluntDefense}";
-        _sharpAttackStatTMP.text = $"SHARP ATT<br><size=26>{selectedCritter.CurrentSharpAttack}";
-        _sharpDefenseStatTMP.text = $"SHARP DEF<br><size=26>{selectedCritter.CurrentSharpDefense}";
-        _speedStatTMP.text = $"SPEED<br><size=26>{selectedCritter.CurrentSpeed}";
+        _bluntAttackStatTMP.text = $"BLUNT ATT<br><size=26>{selectedCritter.MaxBluntAttack}";
+        _bluntDefenseStatTMP.text = $"BLUNT DEF<br><size=26>{selectedCritter.MaxBluntDefense}";
+        _sharpAttackStatTMP.text = $"SHARP ATT<br><size=26>{selectedCritter.MaxSharpAttack}";
+        _sharpDefenseStatTMP.text = $"SHARP DEF<br><size=26>{selectedCritter.MaxSharpDefense}";
+        _speedStatTMP.text = $"SPEED<br><size=26>{selectedCritter.MaxSpeed}";
 
         for (int i = 0; i < _moveDetails.Count; i++)
         {

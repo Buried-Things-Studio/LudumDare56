@@ -70,14 +70,99 @@ public static class CritterHelpers
 
         if (move.IsSharp)
         {
-            statRatio = (float)user.CurrentSharpAttack / (float)Mathf.Max(1, opponent.CurrentSharpDefense);
+            statRatio = (float)GetEffectiveSharpAttack(user) / (float)Mathf.Max(1, GetEffectiveSharpDefense(opponent));
         }
         else
         {
-            statRatio = (float)user.CurrentBluntAttack / (float)Mathf.Max(1, opponent.CurrentBluntDefense);
+            statRatio = (float)GetEffectiveBluntAttack(user) / (float)Mathf.Max(1, GetEffectiveBluntDefense(opponent));
         }
 
         return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * GetDamageMultiplier(opponent.Affinities, move.Affinity));
+    }
+
+
+    public static int GetEffectiveSpeed(Critter critter)
+    {
+        if (critter.SpeedStage == 0)
+        {
+            return critter.MaxSpeed;
+        }
+        else if (critter.SpeedStage > 0)
+        {
+            return Mathf.FloorToInt(critter.MaxSpeed + (critter.SpeedStage * 0.5f));
+        }
+        else
+        {
+            return Mathf.Max(1, Mathf.FloorToInt((critter.MaxSpeed * 2) / (float)(2 + Mathf.Abs(critter.SpeedStage))));
+        }
+    }
+
+
+    public static int GetEffectiveBluntAttack(Critter critter)
+    {
+        if (critter.BluntAttackStage == 0)
+        {
+            return critter.MaxBluntAttack;
+        }
+        else if (critter.BluntAttackStage > 0)
+        {
+            return Mathf.FloorToInt(critter.MaxBluntAttack + (critter.BluntAttackStage * 0.5f));
+        }
+        else
+        {
+            return Mathf.Max(1, Mathf.FloorToInt((critter.MaxBluntAttack * 2) / (float)(2 + Mathf.Abs(critter.BluntAttackStage))));
+        }
+    }
+
+
+    public static int GetEffectiveBluntDefense(Critter critter)
+    {
+        if (critter.BluntDefenseStage == 0)
+        {
+            return critter.MaxBluntDefense;
+        }
+        else if (critter.BluntDefenseStage > 0)
+        {
+            return Mathf.FloorToInt(critter.MaxBluntDefense + (critter.BluntDefenseStage * 0.5f));
+        }
+        else
+        {
+            return Mathf.Max(1, Mathf.FloorToInt((critter.MaxBluntDefense * 2) / (float)(2 + Mathf.Abs(critter.BluntDefenseStage))));
+        }
+    }
+
+
+    public static int GetEffectiveSharpAttack(Critter critter)
+    {
+        if (critter.SharpAttackStage == 0)
+        {
+            return critter.MaxSharpAttack;
+        }
+        else if (critter.SharpAttackStage > 0)
+        {
+            return Mathf.FloorToInt(critter.MaxSharpAttack + (critter.SharpAttackStage * 0.5f));
+        }
+        else
+        {
+            return Mathf.Max(1, Mathf.FloorToInt((critter.MaxSharpAttack * 2) / (float)(2 + Mathf.Abs(critter.SharpAttackStage))));
+        }
+    }
+
+
+    public static int GetEffectiveSharpDefense(Critter critter)
+    {
+        if (critter.SharpDefenseStage == 0)
+        {
+            return critter.MaxSharpDefense;
+        }
+        else if (critter.SharpDefenseStage > 0)
+        {
+            return Mathf.FloorToInt(critter.MaxSharpDefense + (critter.SharpDefenseStage * 0.5f));
+        }
+        else
+        {
+            return Mathf.Max(1, Mathf.FloorToInt((critter.MaxSharpDefense * 2) / (float)(2 + Mathf.Abs(critter.SharpDefenseStage))));
+        }
     }
 
 

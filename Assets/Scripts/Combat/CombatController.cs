@@ -69,14 +69,17 @@ public class CombatController : MonoBehaviour
 
     private void DetermineStartingCritter()
     {
-        if (State.PlayerCritter.CurrentSpeed == State.NpcCritter.CurrentSpeed)
+        int playerSpeed = CritterHelpers.GetEffectiveSpeed(State.PlayerCritter);
+        int npcSpeed = CritterHelpers.GetEffectiveSpeed(State.NpcCritter);
+        
+        if (playerSpeed == npcSpeed)
         {
             State.IsPlayerPriority = UnityEngine.Random.Range(0, 2) == 0;
 
             return;
         }
 
-        State.IsPlayerPriority = State.PlayerCritter.CurrentSpeed > State.NpcCritter.CurrentSpeed;
+        State.IsPlayerPriority = playerSpeed > npcSpeed;
     }
 
 
