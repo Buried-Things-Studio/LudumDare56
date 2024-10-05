@@ -6,15 +6,21 @@ using UnityEngine;
 public class Item
 {
     public string Name;
+    public string Description;
     public ItemType ID;
     public int OwnedCount;
     public int Price;
+}
 
 
-    public Item(ItemType type, int price)
+public class MasonJar : Item
+{
+    public MasonJar()
     {
-        ID = type;
-        Price = price;
+        Name = "Mason Jar";
+        Description = "Throw it at bugs to catch them!";
+        ID = ItemType.MasonJar;
+        Price = 500;
     }
 }
 

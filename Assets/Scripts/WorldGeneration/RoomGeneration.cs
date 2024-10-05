@@ -166,9 +166,9 @@ public class RoomGeneration
         }
         else if (room.Type == RoomType.Shop)
         {
-            room.ShopItems.Add(new Item(ItemType.MasonJar, 500));
-            room.ShopItems.Add(new Item(ItemType.MasonJar, 500));
-            room.ShopItems.Add(new Item(ItemType.MasonJar, 500));
+            room.ShopItems.Add(new MasonJar());
+            room.ShopItems.Add(new MasonJar());
+            room.ShopItems.Add(new MasonJar());
         }
     }
 
