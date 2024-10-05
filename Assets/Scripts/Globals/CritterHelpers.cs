@@ -58,8 +58,68 @@ public static class CritterHelpers
 
     private static void InitializeAffinityTable()
     {
+        //ANT (0)
+        BadDefences[CritterAffinity.Ant] = new List<CritterAffinity>(){
+            CritterAffinity.Bee,
+            CritterAffinity.Spider,
+        };
+
+        GoodDefences[CritterAffinity.Ant] = new List<CritterAffinity>(){
+            CritterAffinity.Caterpillar,
+            CritterAffinity.Mollusc,
+        };
+        
+        //BEE (-1)
         BadDefences[CritterAffinity.Bee] = new List<CritterAffinity>(){
             CritterAffinity.Bee,
+            CritterAffinity.Spider,
+        };
+
+        GoodDefences[CritterAffinity.Bee] = new List<CritterAffinity>(){
+            CritterAffinity.Ant,
+            CritterAffinity.Beetle,
+        };
+
+        //BEETLE (+2)
+        BadDefences[CritterAffinity.Beetle] = new List<CritterAffinity>(){
+            CritterAffinity.Ant,
+        };
+        
+        GoodDefences[CritterAffinity.Beetle] = new List<CritterAffinity>(){
+            CritterAffinity.Bee,
+            CritterAffinity.Beetle,
+            CritterAffinity.Mollusc,
+        };
+
+        //CATERPILLAR (-1)
+        BadDefences[CritterAffinity.Caterpillar] = new List<CritterAffinity>(){
+
+        };
+        
+        GoodDefences[CritterAffinity.Caterpillar] = new List<CritterAffinity>(){
+
+        };
+
+        //MOLLUSC (+1)
+        BadDefences[CritterAffinity.Mollusc] = new List<CritterAffinity>(){
+            CritterAffinity.Beetle,
+        };
+        
+        GoodDefences[CritterAffinity.Mollusc] = new List<CritterAffinity>(){
+            CritterAffinity.Caterpillar,
+            CritterAffinity.Mollusc,
+            CritterAffinity.Spider,
+        };
+
+        //SPIDER (0)
+        BadDefences[CritterAffinity.Spider] = new List<CritterAffinity>(){
+            CritterAffinity.Caterpillar,
+            CritterAffinity.Mollusc,
+        };
+        
+        GoodDefences[CritterAffinity.Spider] = new List<CritterAffinity>(){
+            CritterAffinity.Bee,
+            CritterAffinity.Spider,
         };
     }
 }
