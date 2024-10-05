@@ -26,4 +26,24 @@ public class Collector
             _critters.Add(newCritter);
         }
     }
+
+
+    public List<Critter> GetCritters()
+    {
+        return _critters;
+    }
+
+
+    public Critter GetActiveCritter()
+    {
+        foreach (Critter critter in _critters)
+        {
+            if (critter.CurrentHealth > 0)
+            {
+                return critter;
+            }
+        }
+
+        return null; //should never be hit
+    }
 }

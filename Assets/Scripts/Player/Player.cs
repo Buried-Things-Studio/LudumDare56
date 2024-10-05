@@ -42,6 +42,11 @@ public class Player
     }
 
 
+    public List<Critter> GetCritters()
+    {
+        return _critters;
+    }
+
     public void AddMoney(int moneyToAdd)
     {
         _money += moneyToAdd;

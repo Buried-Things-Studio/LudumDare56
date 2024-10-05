@@ -9,8 +9,9 @@ public class Critter
 {
     public string Name;
     public Guid GUID;
-    public List<CritterAffinity> Affinities;
-    public List<Move> Moves;
+    public List<CritterAffinity> Affinities = new List<CritterAffinity>();
+    public List<Move> Moves = new List<Move>();
+    public List<Guid> Participants = new List<Guid>();
 
     public int Level;
     public int Exp;
@@ -118,13 +119,10 @@ public class Critter
     }
 
 
-    public int DealDamage(int damageAmount, CritterAffinity damagingAffinity)
+    public int DealDamage(int damageAmount)
     {
         int healthBeforeDamage = CurrentHealth;
-        float damageMultiplier = CritterHelpers.GetDamageMultiplier(Affinities, damagingAffinity);
-        int multipliedDamageAmount = Mathf.CeilToInt(damageAmount * damageMultiplier);
-
-        CurrentHealth = Mathf.Max(CurrentHealth - multipliedDamageAmount, 0);
+        CurrentHealth = Mathf.Max(CurrentHealth - damageAmount, 0);
 
         return healthBeforeDamage - CurrentHealth;
     }
