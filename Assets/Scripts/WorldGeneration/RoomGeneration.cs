@@ -11,6 +11,8 @@ public class RoomGeneration: MonoBehaviour
     private List<Room> _allRooms;
     private List<GameObject> _floorTiles = new List<GameObject>();
     private GameObject _player;
+    private CollectorController _collectorController;
+    private EncounterController _encounterController;
     [SerializeField] private List<GameObject> _normalTilePrefabs;
     [SerializeField] private List<GameObject> _grassTilePrefabs;
     [SerializeField] private List<GameObject> _doorTilePrefabs;
@@ -22,18 +24,13 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private List<GameObject> _trainerTilePrefabs;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private GameObject _collectorPrefab;
-    private MapGeneration _mapGeneration;
+    [SerializeField] private MapGeneration _mapGeneration;
     private int _collectorsPerFloor = 3;
 
-    public void Start()
-    {
-        GenerateRooms(Vector2Int.zero, Vector2Int.zero, CritterAffinity.Ant);
-    }
 
-
-    public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity)
+    public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController)
     {
-        _mapGeneration = new MapGeneration();
+        _encounterController = encounterController;
         _map = _mapGeneration.GenerateMainPath();
 
         _allRooms = GenerateRoomData(_map, collectorLevelRange, teamSizeRange, bossAffinity);
@@ -187,7 +184,7 @@ public class RoomGeneration: MonoBehaviour
         for (int i = 0; i < _collectorsPerFloor; i++)
         {
             int randomIndex = UnityEngine.Random.Range(0, availableRooms.Count);
-            availableRooms[i].Collectors.Add(new Collector(false, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y + 1), collectorLevelRange, null));
+            availableRooms[i].Collectors.Add(new Collector(false, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y+1), collectorLevelRange, null));
             Debug.Log("Collector at " + availableRooms[i].Coordinates.ToString());
             availableRooms.RemoveAt(i);
         }
@@ -200,6 +197,10 @@ public class RoomGeneration: MonoBehaviour
         if(_currentRoom.Collectors.Count > 0)
         {
             collectorPosition = Random.Range(0,3).ToString();
+        }
+        else 
+        {
+            _collectorController = null;
         }
         Debug.Log("collectorPosition = " + collectorPosition.ToString());
 
@@ -311,6 +312,8 @@ public class RoomGeneration: MonoBehaviour
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
+        playerController.EncounterController = _encounterController;
+        playerController.CollectorController = _collectorController;
     }
 
     public void GenerateTrainer(GameObject parentTile, string direction, Collector collector)
@@ -321,6 +324,8 @@ public class RoomGeneration: MonoBehaviour
         collectorController.Coordinates = parentTile.GetComponent<Tile>().Coordinates;
         collectorController.Direction = direction;
         collectorController.Collector = collector;
+        collectorController.CalculateVisibleCoords();
+        _collectorController = collectorController;
     }
 
     public void PlacePlayerInNewRoom(Vector2Int coords)
@@ -360,6 +365,8 @@ public class RoomGeneration: MonoBehaviour
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
+        playerController.EncounterController = _encounterController;
+        playerController.CollectorController = _collectorController;
     }
 
 

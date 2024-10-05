@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Collector
 {
-    private List<Critter> _critters;
+    private List<Critter> _critters = new List<Critter>();
     private bool _isBoss;
     public bool HasBeenDefeated;
 
@@ -15,6 +15,9 @@ public class Collector
     {
         _isBoss = isBoss;
         List<Critter> availableCritters = MasterCollection.GetAllCritters(availableAffinities);
+        Debug.Log("check");
+        Debug.Log("available critters count = " + availableCritters.Count.ToString());
+        Debug.Log("teamSize = " + teamSize.ToString());
 
         for (int i = 0; i < teamSize; i++)
         {
