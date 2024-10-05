@@ -7,7 +7,9 @@ using UnityEngine;
 public enum MoveID
 {
     None,
-    HoneyDrink
+    Bonk,
+    HoneyDrink,
+    Stinger
 }
 
 
@@ -16,8 +18,9 @@ public class HoneyDrink : Move
     public HoneyDrink()
     {
         Name = "Honey Drink";
+        Description = "The user drinks reinvigorating honey to heal 20hp.";
         ID = MoveID.HoneyDrink;
-        Affinity = CritterAffinity.None;
+        Affinity = CritterAffinity.Bee;
         MaxUses = 5;
         CurrentUses = 5;
     }
@@ -26,6 +29,29 @@ public class HoneyDrink : Move
     public override void ExecuteMove(CombatState state)
     {
         Critter user = state.GetUserFromGUID(UserGUID);
-        user.IncreaseHealth(10);
+        user.IncreaseHealth(20);
+    }
+}
+
+
+public class Bonk : Move
+{
+    public Bonk()
+    {
+        Name = "Bonk";
+        Description = "A clumsy bonk.";
+        ID = MoveID.Bonk;
+        Affinity = CritterAffinity.Bee;
+        BasePower = 20;
+        IsSharp = false;
+        MaxUses = 20;
+        CurrentUses = 20;
+    }
+
+
+    public override void ExecuteMove(CombatState state)
+    {
+        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        opponent.DealDamage(CritterHelpers.GetDamage(state, this));
     }
 }

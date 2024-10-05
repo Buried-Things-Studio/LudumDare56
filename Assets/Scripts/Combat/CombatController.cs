@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -29,13 +30,17 @@ public class CombatState
 
 public class CombatController : MonoBehaviour
 {
+    public Player PlayerData;
+    public Collector OpponentData;
     private CombatState State = new CombatState();
     
     
-    public void SetupCombat(Critter playerCritter, Critter npcCritter)
+    public void SetupCombat(Player playerData, Collector opponentData, Critter npcCritter)
     {
-        State.PlayerCritter = playerCritter;
-        State.NpcCritter = npcCritter;
+        PlayerData = playerData;
+        OpponentData = opponentData;
+        State.PlayerCritter = PlayerData.GetActiveCritter();
+        State.NpcCritter = OpponentData == null ? npcCritter : OpponentData.GetActiveCritter();
 
         InitializeTurn();
     }
@@ -45,6 +50,7 @@ public class CombatController : MonoBehaviour
     {
         ClearTurnData();
         DetermineStartingCritter();
+        PopulateParticipant(); //TODO: also update on switch-in
         PickNpcMove();
     }
 
@@ -66,6 +72,15 @@ public class CombatController : MonoBehaviour
         }
 
         State.IsPlayerPriority = State.PlayerCritter.CurrentSpeed > State.NpcCritter.CurrentSpeed;
+    }
+
+
+    private void PopulateParticipant()
+    {
+        if (!State.NpcCritter.Participants.Contains(State.PlayerCritter.GUID))
+        {
+            State.NpcCritter.Participants.Add(State.PlayerCritter.GUID);
+        }
     }
 
 
@@ -92,22 +107,20 @@ public class CombatController : MonoBehaviour
         Move priorityMove = priorityCritter.Moves.Find(move => move.ID == priorityMoveID);
         Move nonPriorityMove = nonPriorityCritter.Moves.Find(move => move.ID == nonPriorityMoveID);
 
-        priorityMove.ExecuteMove(State);
-        priorityMove.CurrentUses--;
+        TryExecuteMove(priorityMove);
 
-        if (CheckCombatFinished())
+        if (CheckDeath())
         {
-            FinishCombat();
+            ExecuteDeath();
             
             return;
         }
 
-        nonPriorityMove.ExecuteMove(State);
-        nonPriorityMove.CurrentUses--;
+        TryExecuteMove(nonPriorityMove);
 
-        if (CheckCombatFinished())
+        if (CheckDeath())
         {
-            FinishCombat();
+            ExecuteDeath();
         }
         else
         {
@@ -116,14 +129,49 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private bool CheckCombatFinished()
+    private void TryExecuteMove(Move move)
+    {
+        if (UnityEngine.Random.Range(0, 100) < move.Accuracy)
+        {
+            move.ExecuteMove(State);
+        }
+
+        move.CurrentUses--;
+    }
+
+
+    private bool CheckDeath()
     {
         return State.PlayerCritter.CurrentHealth <= 0 || State.NpcCritter.CurrentHealth <= 0;
     }
 
 
-    private void FinishCombat()
+    private void ExecuteDeath()
     {
+        if (State.NpcCritter.CurrentHealth <= 0)
+        {
+            List<Critter> crittersReceivingExp = State.NpcCritter.Participants
+                .Select(participantGuid => PlayerData.GetCritters().Find(teamCritter => teamCritter.GUID == participantGuid))
+                .Where(critter => critter.CurrentHealth > 0)
+                .ToList();
+            
+            foreach (Critter critter in crittersReceivingExp)
+            {
+                critter.IncreaseExp(State.NpcCritter.Level * 100 / crittersReceivingExp.Count);
+            }
+        }
 
+        if (!PlayerData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
+        {
+            //TODO: go to game over
+        }
+        else if (OpponentData != null && !OpponentData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
+        {
+            //TODO: go to win
+        }
+        else if (State.NpcCritter.CurrentHealth <= 0)
+        {
+            //TODO: go to win
+        }
     }
 }
