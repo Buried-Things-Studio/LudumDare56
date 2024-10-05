@@ -13,6 +13,11 @@ public class RoomGeneration : MonoBehaviour
     [SerializeField] private List<GameObject> _normalTilePrefabs;
     [SerializeField] private List<GameObject> _grassTilePrefabs;
     [SerializeField] private List<GameObject> _doorTilePrefabs;
+    [SerializeField] private List<GameObject> _exitTilePrefabs;
+    [SerializeField] private List<GameObject> _shopTilePrefabs;
+    [SerializeField] private List<GameObject> _treasureTilePrefabs;
+    [SerializeField] private List<GameObject> _hospitalTilePrefabs;
+    [SerializeField] private List<GameObject> _bossTilePrefabs;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private MapGeneration _mapGeneration;
 
@@ -54,9 +59,34 @@ public class RoomGeneration : MonoBehaviour
         return adjacencies;
     }
 
-    private List<List<string>> GetNormalRoomLayoutBasedOnAdjacencies(List<bool> adjacencies)
+    private List<List<string>> GetRoomLayoutBasedOnAdjacencies(List<bool> adjacencies, RoomType roomType)
     {
-        List<List<List<string>>> usableRoomLayouts = RoomLayouts.NormalRoomLayouts;
+
+        List<List<List<string>>> usableRoomLayouts = new List<List<List<string>>>();
+        if(roomType == RoomType.Normal || roomType == RoomType.Start)
+        {
+            usableRoomLayouts = RoomLayouts.NormalRoomLayouts;
+        }
+        else if(roomType == RoomType.Shop)
+        {
+            usableRoomLayouts = RoomLayouts.ShopRoomLayouts;
+        }
+        else if(roomType == RoomType.Boss)
+        {
+            usableRoomLayouts = RoomLayouts.BossRoomLayouts;
+        }
+        else if(roomType == RoomType.Hospital)
+        {
+            usableRoomLayouts = RoomLayouts.HospitalRoomLayouts;
+        }
+        else if(roomType == RoomType.Treasure)
+        {
+            usableRoomLayouts = RoomLayouts.TreasureRoomLayouts;
+        }
+
+
+
+
         if(adjacencies[0])
         {
             usableRoomLayouts = usableRoomLayouts.Where(room => room[0][7] == "D" && room[0][8] == "D").ToList();
@@ -104,7 +134,7 @@ public class RoomGeneration : MonoBehaviour
         foreach(KeyValuePair<Vector2Int, RoomType> kvp in map)
         { /// TODO: different layouts for different room types
             List<bool> adjacencyArray = GetAdjacencyArray(kvp.Key, path);
-            List<List<string>> layout = GetNormalRoomLayoutBasedOnAdjacencies(adjacencyArray);
+            List<List<string>> layout = GetRoomLayoutBasedOnAdjacencies(adjacencyArray, kvp.Value);
             Room newRoom = new Room(kvp.Value, kvp.Key, layout);
             allRooms.Add(newRoom);
         }
@@ -142,9 +172,50 @@ public class RoomGeneration : MonoBehaviour
                     tileObject.GetComponent<Tile>().Type = TileType.Door;
                     _floorTiles.Add(tileObject);
                 }
+                if(_currentRoom.Layout[i][j] == "B")
+                {
+                    GameObject randomBossTile = _bossTilePrefabs[Random.Range(0, _bossTilePrefabs.Count)];
+                    GameObject tileObject = Instantiate(randomBossTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
+                    tileObject.GetComponent<Tile>().Type = TileType.Boss;
+                    _floorTiles.Add(tileObject);
+                }
+                if(_currentRoom.Layout[i][j] == "E")
+                {
+                    GameObject randomExitTile = _exitTilePrefabs[Random.Range(0, _exitTilePrefabs.Count)];
+                    GameObject tileObject = Instantiate(randomExitTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
+                    tileObject.GetComponent<Tile>().Type = TileType.Exit;
+                    _floorTiles.Add(tileObject);
+                }
+                if(_currentRoom.Layout[i][j] == "T")
+                {
+                    GameObject randomTreasureTile = _treasureTilePrefabs[Random.Range(0, _treasureTilePrefabs.Count)];
+                    GameObject tileObject = Instantiate(randomTreasureTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
+                    tileObject.GetComponent<Tile>().Type = TileType.Treasure;
+                    _floorTiles.Add(tileObject);
+                }
+                if(_currentRoom.Layout[i][j] == "S")
+                {
+                    GameObject randomShopTile = _shopTilePrefabs[Random.Range(0, _shopTilePrefabs.Count)];
+                    GameObject tileObject = Instantiate(randomShopTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
+                    tileObject.GetComponent<Tile>().Type = TileType.Shop;
+                    _floorTiles.Add(tileObject);
+                }
+                if(_currentRoom.Layout[i][j] == "H")
+                {
+                    GameObject randomHospitalTile = _hospitalTilePrefabs[Random.Range(0, _hospitalTilePrefabs.Count)];
+                    GameObject tileObject = Instantiate(randomHospitalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
+                    tileObject.GetComponent<Tile>().Type = TileType.Hospital;
+                    _floorTiles.Add(tileObject);
+                }
             }
         }
     }
+
 
     public void GeneratePlayer()
     {
