@@ -601,6 +601,7 @@ GameObject:
   - component: {fileID: 5983203869574077688}
   - component: {fileID: 6585120165602252046}
   - component: {fileID: 2739726056085941553}
+  - component: {fileID: 8163811525899135322}
   m_Layer: 5
   m_Name: MoveOption
   m_TagString: Untagged
@@ -684,6 +685,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &8163811525899135322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138728799498229076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0db4a60476c95f43b6216b3fe5ac74e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveNameTMP: {fileID: 7562834577918395808}
+  _usesTMP: {fileID: 3079448570999782556}
+  _typeIcon: {fileID: 4909407837697328820}
+  _spikesImage: {fileID: 1474678145852735038}
+  _backgroundFadeImage: {fileID: 4173319145847302534}
 --- !u!1 &8739103872175396849
 GameObject:
   m_ObjectHideFlags: 0
