@@ -12,7 +12,7 @@ public class Bee : Critter
         CurrentHealth = 50;
         MaxSpeed = 5;
         CurrentSpeed = 5;
-        Affinities.Add(CritterAffinity.None);
+        Affinities.Add(CritterAffinity.Sting);
         Moves.Add(new HoneyDrink(){UserGUID = GUID});
     }
 }

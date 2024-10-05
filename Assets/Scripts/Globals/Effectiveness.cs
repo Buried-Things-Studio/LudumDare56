@@ -36,6 +36,8 @@ public static class Effectiveness
 
     private static void InitializeAffinityTable()
     {
-        
+        BadDefences[CritterAffinity.Sting] = new List<CritterAffinity>(){
+            CritterAffinity.Sting,
+        };
     }
 }
