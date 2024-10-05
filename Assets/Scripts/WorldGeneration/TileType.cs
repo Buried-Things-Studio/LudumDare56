@@ -7,4 +7,5 @@ public enum TileType{
     Treasure, 
     Hospital, 
     Shop,
+    Trainer,
 }
