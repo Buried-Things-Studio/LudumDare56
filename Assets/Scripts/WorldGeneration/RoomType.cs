@@ -1,4 +1,4 @@
-enum RoomType{
+public enum RoomType{
     Normal, 
     Boss, 
     Start, 
