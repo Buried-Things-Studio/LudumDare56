@@ -6,8 +6,8 @@ using System.Linq;
 
 public class MapGeneration
 {
-    private int _pathLength = 10;
-    private int _branchingRooms = 10;
+    private int _pathLength = 4;
+    private int _branchingRooms = 2;
     [SerializeField] private GameObject _startRoomPrefab;
     [SerializeField] private GameObject _normalRoomPrefab;
     [SerializeField] private GameObject _bossRoomPrefab;
