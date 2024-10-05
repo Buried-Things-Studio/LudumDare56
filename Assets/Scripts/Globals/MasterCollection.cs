@@ -29,7 +29,7 @@ public static class MasterCollection
     {
         List<Critter> allCritters = GetAllCritterTypes().Select(critterType => (Critter)Activator.CreateInstance(critterType)).ToList();
 
-        if (availableAffinities.Count == 0)
+        if (availableAffinities == null || availableAffinities.Count == 0)
         {
             return allCritters;
         }
