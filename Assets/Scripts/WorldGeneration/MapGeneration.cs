@@ -7,7 +7,6 @@ public class MapGeneration : MonoBehaviour
 {
     private int _pathLength = 10;
     private int _branchingRooms = 10;
-    private Dictionary<Vector2Int, RoomType> _map = new Dictionary<Vector2Int, RoomType>();
     [SerializeField] private GameObject _startRoomPrefab;
     [SerializeField] private GameObject _normalRoomPrefab;
     [SerializeField] private GameObject _bossRoomPrefab;
@@ -20,49 +19,45 @@ public class MapGeneration : MonoBehaviour
     void Start()
     {
         GenerateMainPath();
-        DisplayMap();
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public Dictionary<Vector2Int, RoomType> GenerateMainPath()
     {
-        
-    }
-
-    private void GenerateMainPath()
-    {
-        _map.Add(new Vector2Int(0, 0), RoomType.Start);
+        Dictionary<Vector2Int, RoomType> map = new Dictionary<Vector2Int, RoomType>();
+        map.Add(new Vector2Int(0, 0), RoomType.Start);
         Vector2Int currentRoom = new Vector2Int(0, 0);
         List<Vector2Int> path = new List<Vector2Int>(){currentRoom};
         for(int i = 0; i < _pathLength - 1; i++)
         {
             Vector2Int newCoord = GetNextRoomCoordinate(path, currentRoom);
-            _map.Add(newCoord, RoomType.Normal);
+            map.Add(newCoord, RoomType.Normal);
             currentRoom = newCoord;
             path.Add(newCoord);
         }
         Vector2Int bossCoord = GetNextRoomCoordinate(path, currentRoom);
-        _map.Add(bossCoord, RoomType.Boss);
+        map.Add(bossCoord, RoomType.Boss);
 
         for(int i = 0; i < _branchingRooms; i ++)
         {
-            List<Vector2Int> possibleNextRooms = GetPossibleBranchingRooms();
+            List<Vector2Int> possibleNextRooms = GetPossibleBranchingRooms(map);
             Vector2Int nextRoomCoords = possibleNextRooms[Random.Range(0, possibleNextRooms.Count)];
-            _map.Add(nextRoomCoords, RoomType.Normal);
+            map.Add(nextRoomCoords, RoomType.Normal);
         }
 
-        List<Vector2Int> hospitalNextRooms = GetPossibleBranchingRooms();
+        List<Vector2Int> hospitalNextRooms = GetPossibleBranchingRooms(map);
         Vector2Int hospitalRoomCoords = hospitalNextRooms[Random.Range(0, hospitalNextRooms.Count)];
-        _map.Add(hospitalRoomCoords, RoomType.Hospital);
+        map.Add(hospitalRoomCoords, RoomType.Hospital);
 
-        List<Vector2Int> shopNextRooms = GetPossibleBranchingRooms();
+        List<Vector2Int> shopNextRooms = GetPossibleBranchingRooms(map);
         Vector2Int shopRoomCoords = shopNextRooms[Random.Range(0, shopNextRooms.Count)];
-        _map.Add(shopRoomCoords, RoomType.Shop);
+        map.Add(shopRoomCoords, RoomType.Shop);
 
-        List<Vector2Int> treasureNextRooms = GetPossibleBranchingRooms();
+        List<Vector2Int> treasureNextRooms = GetPossibleBranchingRooms(map);
         Vector2Int treasureRoomCoords = treasureNextRooms[Random.Range(0, treasureNextRooms.Count)];
-        _map.Add(treasureRoomCoords, RoomType.Treasure);
+        map.Add(treasureRoomCoords, RoomType.Treasure);
+
+        return map;
     }
 
     private Vector2Int GetNextRoomCoordinate(List<Vector2Int> path, Vector2Int previousCoordinate)
@@ -115,17 +110,17 @@ public class MapGeneration : MonoBehaviour
         
     }
 
-    private List<Vector2Int> GetPossibleBranchingRooms()
+    private List<Vector2Int> GetPossibleBranchingRooms(Dictionary<Vector2Int, RoomType> map)
     {
         List<Vector2Int> allAdjacentRooms = new List<Vector2Int>();
         List<Vector2Int> path = new List<Vector2Int>();
 
-        foreach(KeyValuePair<Vector2Int, RoomType> kvp in _map)
+        foreach(KeyValuePair<Vector2Int, RoomType> kvp in map)
         {
             path.Add(kvp.Key);
         }
 
-        foreach(KeyValuePair<Vector2Int, RoomType> kvp in _map)
+        foreach(KeyValuePair<Vector2Int, RoomType> kvp in map)
         {
             if(kvp.Value == RoomType.Normal)
             {
@@ -151,9 +146,9 @@ public class MapGeneration : MonoBehaviour
         return usableRooms;
     }
 
-    private void DisplayMap()
+    private void DisplayMap(Dictionary<Vector2Int, RoomType> map)
     {
-        foreach(KeyValuePair<Vector2Int, RoomType> kvp in _map)
+        foreach(KeyValuePair<Vector2Int, RoomType> kvp in map)
         {
             if(kvp.Value == RoomType.Start)
             {
