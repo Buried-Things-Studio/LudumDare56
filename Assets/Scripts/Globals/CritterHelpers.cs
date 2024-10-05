@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public static class Effectiveness
+public static class CritterHelpers
 {
     public static Dictionary<CritterAffinity, List<CritterAffinity>> GoodDefences = new Dictionary<CritterAffinity, List<CritterAffinity>>(); //search by defending affinity in key field
     public static Dictionary<CritterAffinity, List<CritterAffinity>> BadDefences = new Dictionary<CritterAffinity, List<CritterAffinity>>(); //search by defending affinity in key field
+    public static List<int> ExpToNextLevel = new List<int>(){0, 100, 200, 350, 575, 950, 1575, 2200, 2950, 4000, 5200};
 
 
     public static float GetDamageMultiplier(List<CritterAffinity> defendingAffinities, CritterAffinity attackingAffinity)
@@ -36,8 +37,8 @@ public static class Effectiveness
 
     private static void InitializeAffinityTable()
     {
-        BadDefences[CritterAffinity.Sting] = new List<CritterAffinity>(){
-            CritterAffinity.Sting,
+        BadDefences[CritterAffinity.Bee] = new List<CritterAffinity>(){
+            CritterAffinity.Bee,
         };
     }
 }
