@@ -3,12 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Bee : Critter
+public class BulletAnt : Critter
 {
-    public Bee()
+    public BulletAnt()
     {
-        Name = "Bee";
+        Name = "Bullet Ant";
+        Affinities.Add(CritterAffinity.Ant);
+        Moves.Add(new Snip(){UserGUID = GUID});
+
+        MaxHealth = 15;
+        CurrentHealth = 15;
+        HealthLevelIncrease = new Vector2Int(2, 5);
+
+        MaxSpeed = 6;
+        CurrentSpeed = 6;
+        SpeedLevelIncrease = new Vector2Int(2, 3);
+
+        MaxSharpAttack = 12;
+        CurrentSharpAttack = 12;
+        SharpAttackLevelIncrease = new Vector2Int(4, 5);
+
+        MaxSharpDefense = 5;
+        CurrentSharpDefense = 5;
+        SharpDefenseLevelIncrease = new Vector2Int(2, 4);
+
+        MaxBluntAttack = 5;
+        CurrentBluntAttack = 5;
+        BluntAttackLevelIncrease = new Vector2Int(2, 3);
+
+        MaxBluntDefense = 5;
+        CurrentBluntDefense = 5;
+        BluntDefenseLevelIncrease = new Vector2Int(2, 4);
+    }
+}
+
+
+public class Bumblebee : Critter
+{
+    public Bumblebee()
+    {
+        Name = "Bumblebee";
         Affinities.Add(CritterAffinity.Bee);
+        Moves.Add(new Bonk(){UserGUID = GUID});
         Moves.Add(new HoneyDrink(){UserGUID = GUID});
 
         MaxHealth = 35;
@@ -34,5 +70,41 @@ public class Bee : Critter
         MaxBluntDefense = 8;
         CurrentBluntDefense = 8;
         BluntDefenseLevelIncrease = new Vector2Int(2, 4);
+    }
+}
+
+
+public class ScarabBeetle : Critter
+{
+    public ScarabBeetle()
+    {
+        Name = "Scarab Beetle";
+        Affinities.Add(CritterAffinity.Beetle);
+        Moves.Add(new RollDung(){UserGUID = GUID});
+        Moves.Add(new ShellBump(){UserGUID = GUID});
+
+        MaxHealth = 25;
+        CurrentHealth = 25;
+        HealthLevelIncrease = new Vector2Int(4, 5);
+
+        MaxSpeed = 6;
+        CurrentSpeed = 6;
+        SpeedLevelIncrease = new Vector2Int(2, 3);
+
+        MaxSharpAttack = 6;
+        CurrentSharpAttack = 6;
+        SharpAttackLevelIncrease = new Vector2Int(2, 4);
+
+        MaxSharpDefense = 7;
+        CurrentSharpDefense = 7;
+        SharpDefenseLevelIncrease = new Vector2Int(3, 5);
+
+        MaxBluntAttack = 5;
+        CurrentBluntAttack = 5;
+        BluntAttackLevelIncrease = new Vector2Int(2, 3);
+
+        MaxBluntDefense = 8;
+        CurrentBluntDefense = 8;
+        BluntDefenseLevelIncrease = new Vector2Int(3, 4);
     }
 }
