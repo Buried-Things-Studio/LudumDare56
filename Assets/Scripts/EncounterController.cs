@@ -5,15 +5,18 @@ using System.Linq;
 using UnityEngine;
 
 
-public class EncounterController : MonoBehaviour
+public class EncounterController
 {
     private float _encounterChance = 0.125f;
     private int _critterTypesAvailablePerFloor = 5;
     private List<Type> _critterTypesAvailableOnFloor = new List<Type>();
+    private Vector2Int _wildEncounterLevelRange;
 
 
-    public void SetAvailableCrittersOnFloor()
+    public void SetAvailableCrittersOnFloor(Vector2Int levelRange)
     {
+        _wildEncounterLevelRange = levelRange;
+        
         _critterTypesAvailableOnFloor.Clear();
         List<Type> availableCritterTypes = new List<Type>(MasterCollection.GetAllCritterTypes());
 
@@ -44,6 +47,7 @@ public class EncounterController : MonoBehaviour
         {
             Type randomCritterType = _critterTypesAvailableOnFloor[UnityEngine.Random.Range(0, _critterTypesAvailableOnFloor.Count)];
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
+            randomCritter.SetStartingLevel(UnityEngine.Random.Range(_wildEncounterLevelRange.x, _wildEncounterLevelRange.y + 1));
 
             //TODO: GIVE RANDOM CRITTER TO COMBAT CONTROLLER
         }
