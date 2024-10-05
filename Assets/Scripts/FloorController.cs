@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class FloorController : MonoBehaviour
 {
-    public EncounterController EncounterController;
+    public EncounterController Encounters;
+    public RoomGeneration RoomGen;
     
     private int _currentLevel = 0;
     private List<Vector2Int> _wildEncounterLevelRanges = new List<Vector2Int>(){
@@ -25,12 +26,22 @@ public class FloorController : MonoBehaviour
         new Vector2Int(6, 7),
         new Vector2Int(8, 9),
     };
+    private List<Vector2Int> _collectorTeamSizeRanges = new List<Vector2Int>(){
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 2),
+        new Vector2Int(2, 3),
+        new Vector2Int(2, 4),
+        new Vector2Int(3, 4),
+        new Vector2Int(3, 5),
+    };
     private CritterAffinity _levelBossAffinity;
 
 
     private void Start()
     {
-        EncounterController = new EncounterController();
+        Encounters = new EncounterController();
+        RoomGen = new RoomGeneration();
+
         InitializeLevel();
     }
 
@@ -42,6 +53,7 @@ public class FloorController : MonoBehaviour
         int randomAffinityIndex = UnityEngine.Random.Range(0, Enum.GetNames(typeof(CritterAffinity)).Length);
         _levelBossAffinity = (CritterAffinity)randomAffinityIndex;
 
-        EncounterController.SetAvailableCrittersOnFloor(_wildEncounterLevelRanges[_currentLevel]);
+        Encounters.SetAvailableCrittersOnFloor(_wildEncounterLevelRanges[_currentLevel]);
+        RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity);
     }
 }

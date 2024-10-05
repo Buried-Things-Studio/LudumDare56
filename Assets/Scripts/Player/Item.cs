@@ -9,10 +9,18 @@ public class Item
     public ItemType ID;
     public int OwnedCount;
     public int Price;
+
+
+    public Item(ItemType type, int price)
+    {
+        ID = type;
+        Price = price;
+    }
 }
 
 
 public enum ItemType
 {
     None,
+    MasonJar
 }
