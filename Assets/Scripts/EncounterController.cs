@@ -9,24 +9,13 @@ public class EncounterController : MonoBehaviour
 {
     private float _encounterChance = 0.125f;
     private int _critterTypesAvailablePerFloor = 5;
-    private List<Type> _allCritterTypes;
     private List<Type> _critterTypesAvailableOnFloor = new List<Type>();
-
-
-    private void Start()
-    {
-        _allCritterTypes = new List<Type>(
-            AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type.IsSubclassOf(typeof(Critter)))
-        );
-    }
 
 
     public void SetAvailableCrittersOnFloor()
     {
         _critterTypesAvailableOnFloor.Clear();
-        List<Type> availableCritterTypes = new List<Type>(_allCritterTypes);
+        List<Type> availableCritterTypes = new List<Type>(MasterCollection.GetAllCritterTypes());
 
         Debug.Log("CRITTERS AVAILABLE ON FLOOR:");
 
