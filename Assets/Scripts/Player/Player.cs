@@ -9,7 +9,6 @@ public class Player
     private List<Item> _items;
     private int _money;
 
-
     public Critter GetActiveCritter()
     {
         foreach (Critter critter in _critters)

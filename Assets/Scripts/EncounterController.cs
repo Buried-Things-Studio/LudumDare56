@@ -30,9 +30,9 @@ public class EncounterController
             }
             
             int randomIndex = UnityEngine.Random.Range(0, availableCritterTypes.Count);
-            _critterTypesAvailableOnFloor.Add(availableCritterTypes[i]);
+            _critterTypesAvailableOnFloor.Add(availableCritterTypes[randomIndex]);
 
-            Debug.Log($"-- {availableCritterTypes[i].GetType()}");
+            Debug.Log($"-- {availableCritterTypes[randomIndex].GetType()}");
 
             availableCritterTypes.RemoveAt(randomIndex);
         }
@@ -49,6 +49,7 @@ public class EncounterController
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
             randomCritter.SetStartingLevel(UnityEngine.Random.Range(_wildEncounterLevelRange.x, _wildEncounterLevelRange.y + 1));
 
+            Debug.Log("Entering wild encounter");
             //TODO: GIVE RANDOM CRITTER TO COMBAT CONTROLLER
         }
 
