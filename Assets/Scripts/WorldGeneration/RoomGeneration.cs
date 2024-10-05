@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 
-public class RoomGeneration
+public class RoomGeneration: MonoBehaviour
 {
     private Room _currentRoom; 
     private Dictionary<Vector2Int, RoomType> _map;
@@ -19,9 +19,16 @@ public class RoomGeneration
     [SerializeField] private List<GameObject> _treasureTilePrefabs;
     [SerializeField] private List<GameObject> _hospitalTilePrefabs;
     [SerializeField] private List<GameObject> _bossTilePrefabs;
+    [SerializeField] private List<GameObject> _trainerTilePrefabs;
     [SerializeField] private GameObject _playerPrefab;
+    [SerializeField] private GameObject _collectorPrefab;
     private MapGeneration _mapGeneration;
-    private int _collectorsPerFloor;
+    private int _collectorsPerFloor = 3;
+
+    public void Start()
+    {
+        GenerateRooms(Vector2Int.zero, Vector2Int.zero, CritterAffinity.Ant);
+    }
 
 
     public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity)
@@ -181,6 +188,7 @@ public class RoomGeneration
         {
             int randomIndex = UnityEngine.Random.Range(0, availableRooms.Count);
             availableRooms[i].Collectors.Add(new Collector(false, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y + 1), collectorLevelRange, null));
+            Debug.Log("Collector at " + availableRooms[i].Coordinates.ToString());
             availableRooms.RemoveAt(i);
         }
     }
@@ -188,6 +196,13 @@ public class RoomGeneration
 
     public void DisplayCurrentRoom()
     {
+        string collectorPosition = "-1";
+        if(_currentRoom.Collectors.Count > 0)
+        {
+            collectorPosition = Random.Range(0,3).ToString();
+        }
+        Debug.Log("collectorPosition = " + collectorPosition.ToString());
+
         for(int i = 0; i < 9; i ++)
         {
             for(int j = 0; j < 16; j ++)
@@ -232,7 +247,7 @@ public class RoomGeneration
                     tileObject.GetComponent<Tile>().Type = TileType.Exit;
                     _floorTiles.Add(tileObject);
                 }
-                if(_currentRoom.Layout[i][j] == "T")
+                if(_currentRoom.Layout[i][j] == "M")
                 {
                     GameObject randomTreasureTile = _treasureTilePrefabs[Random.Range(0, _treasureTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomTreasureTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
@@ -256,6 +271,29 @@ public class RoomGeneration
                     tileObject.GetComponent<Tile>().Type = TileType.Hospital;
                     _floorTiles.Add(tileObject);
                 }
+                if(_currentRoom.Layout[i][j] == "0" 
+                || _currentRoom.Layout[i][j] == "1" 
+                || _currentRoom.Layout[i][j] == "2" 
+                || _currentRoom.Layout[i][j] == "3" )
+                {
+                    if(_currentRoom.Layout[i][j] == collectorPosition)
+                    {
+                        GameObject randomTrainerTile = _trainerTilePrefabs[Random.Range(0, _trainerTilePrefabs.Count)];
+                        GameObject tileObject = GameObject.Instantiate(randomTrainerTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                        tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
+                        tileObject.GetComponent<Tile>().Type = TileType.Trainer;
+                        _floorTiles.Add(tileObject);
+                        GenerateTrainer(tileObject, _currentRoom.Layout[i][j], _currentRoom.Collectors[0]);
+                    }
+                    else 
+                    {
+                        GameObject randomNormalTile = _normalTilePrefabs[Random.Range(0, _normalTilePrefabs.Count)];
+                        GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                        tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
+                        tileObject.GetComponent<Tile>().Type = TileType.Normal;
+                        _floorTiles.Add(tileObject);
+                    }
+                }
             }
         }
     }
@@ -275,6 +313,15 @@ public class RoomGeneration
         playerController.RoomGeneration = this;
     }
 
+    public void GenerateTrainer(GameObject parentTile, string direction, Collector collector)
+    {
+        GameObject trainer = GameObject.Instantiate(_collectorPrefab, parentTile.transform);
+        trainer.transform.localPosition = Vector3.zero;
+        CollectorController collectorController = trainer.GetComponent<CollectorController>();
+        collectorController.Coordinates = parentTile.GetComponent<Tile>().Coordinates;
+        collectorController.Direction = direction;
+        collectorController.Collector = collector;
+    }
 
     public void PlacePlayerInNewRoom(Vector2Int coords)
     {

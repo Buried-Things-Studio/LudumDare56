@@ -8,6 +8,7 @@ public class Collector
 {
     private List<Critter> _critters;
     private bool _isBoss;
+    public bool HasBeenDefeated;
 
 
     public Collector(bool isBoss, int teamSize, Vector2Int levelRange, List<CritterAffinity> availableAffinities)
