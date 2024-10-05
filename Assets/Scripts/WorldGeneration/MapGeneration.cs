@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 
-public class MapGeneration
+public class MapGeneration: MonoBehaviour
 {
     private int _pathLength = 4;
     private int _branchingRooms = 2;

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 
-public class RoomGeneration
+public class RoomGeneration: MonoBehaviour
 {
     private Room _currentRoom; 
     private Dictionary<Vector2Int, RoomType> _map;
@@ -21,8 +21,14 @@ public class RoomGeneration
     [SerializeField] private List<GameObject> _bossTilePrefabs;
     [SerializeField] private List<GameObject> _trainerTilePrefabs;
     [SerializeField] private GameObject _playerPrefab;
+    [SerializeField] private GameObject _collectorPrefab;
     private MapGeneration _mapGeneration;
-    private int _collectorsPerFloor;
+    private int _collectorsPerFloor = 3;
+
+    public void Start()
+    {
+        GenerateRooms(Vector2Int.zero, Vector2Int.zero, CritterAffinity.Ant);
+    }
 
 
     public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity)
@@ -182,6 +188,7 @@ public class RoomGeneration
         {
             int randomIndex = UnityEngine.Random.Range(0, availableRooms.Count);
             availableRooms[i].Collectors.Add(new Collector(false, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y + 1), collectorLevelRange, null));
+            Debug.Log("Collector at " + availableRooms[i].Coordinates.ToString());
             availableRooms.RemoveAt(i);
         }
     }
@@ -194,6 +201,7 @@ public class RoomGeneration
         {
             collectorPosition = Random.Range(0,3).ToString();
         }
+        Debug.Log("collectorPosition = " + collectorPosition.ToString());
 
         for(int i = 0; i < 9; i ++)
         {
@@ -307,7 +315,8 @@ public class RoomGeneration
 
     public void GenerateTrainer(GameObject parentTile, string direction, Collector collector)
     {
-        GameObject trainer = GameObject.Instantiate(_trainerTilePrefabs[Random.Range(0, _trainerTilePrefabs.Count)], parentTile.transform);
+        GameObject trainer = GameObject.Instantiate(_collectorPrefab, parentTile.transform);
+        trainer.transform.localPosition = Vector3.zero;
         CollectorController collectorController = trainer.GetComponent<CollectorController>();
         collectorController.Coordinates = parentTile.GetComponent<Tile>().Coordinates;
         collectorController.Direction = direction;

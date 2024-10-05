@@ -325,9 +325,12 @@ MonoBehaviour:
   - {fileID: 7051653404306038857, guid: 7599bbf0d7c3fc646be91151eb404b21, type: 3}
   _bossTilePrefabs:
   - {fileID: 7051653404306038857, guid: 1c05664f0b32217428ddc540baae8d79, type: 3}
+  _trainerTilePrefabs:
+  - {fileID: 7051653404306038857, guid: 09d1c7e3a756c534d9246bce224c6373, type: 3}
   _playerPrefab: {fileID: 7662160576490488370, guid: a148f0736bcc81541a31a7bf727068a8,
     type: 3}
-  _mapGeneration: {fileID: 316404923}
+  _collectorPrefab: {fileID: 7662160576490488370, guid: 345ef16956aa45648aa6d0d783e2bd30,
+    type: 3}
 --- !u!1 &851748495
 GameObject:
   m_ObjectHideFlags: 0

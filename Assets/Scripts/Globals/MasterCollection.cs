@@ -12,7 +12,7 @@ public static class MasterCollection
 
     public static List<Type> GetAllCritterTypes()
     {
-        if (_allCritterTypes.Count == 0)
+        if (_allCritterTypes == null)
         {
             _allCritterTypes = new List<Type>(
             AppDomain.CurrentDomain.GetAssemblies()

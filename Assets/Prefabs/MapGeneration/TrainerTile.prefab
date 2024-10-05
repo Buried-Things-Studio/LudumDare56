@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7651054214657082460}
   - component: {fileID: 7771992237777587263}
   m_Layer: 0
-  m_Name: WestTrainerTile
+  m_Name: TrainerTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
