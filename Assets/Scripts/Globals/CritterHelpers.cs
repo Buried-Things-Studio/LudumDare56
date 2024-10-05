@@ -35,6 +35,27 @@ public static class CritterHelpers
     }
 
 
+    public static int GetDamage(CombatState state, Move move)
+    {
+        Critter user = state.GetUserFromGUID(move.UserGUID);
+        Critter opponent = state.GetOpponentFromGUID(move.UserGUID);
+        int baseDamage = move.BasePower / 5;
+        float sameAffinityBonus = user.Affinities.Contains(move.Affinity) ? 1.5f : 1f;
+        float statRatio = 0f;
+
+        if (move.IsSharp)
+        {
+            statRatio = (float)user.CurrentSharpAttack / (float)Mathf.Max(1, opponent.CurrentSharpDefense);
+        }
+        else
+        {
+            statRatio = (float)user.CurrentBluntAttack / (float)Mathf.Max(1, opponent.CurrentBluntDefense);
+        }
+
+        return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * GetDamageMultiplier(opponent.Affinities, move.Affinity));
+    }
+
+
     private static void InitializeAffinityTable()
     {
         BadDefences[CritterAffinity.Bee] = new List<CritterAffinity>(){
