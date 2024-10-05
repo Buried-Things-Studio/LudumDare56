@@ -42,4 +42,5 @@ public class Critter
 public enum CritterAffinity
 {
     None,
+    Sting,
 }
