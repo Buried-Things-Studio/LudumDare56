@@ -44,6 +44,8 @@ public class CombatController : MonoBehaviour
         OpponentData = opponentData;
         State.PlayerCritter = PlayerData.GetActiveCritter();
         State.NpcCritter = OpponentData == null ? npcCritter : OpponentData.GetActiveCritter();
+        State.PlayerCritter.ResetTemporaryStats();
+        State.NpcCritter.ResetTemporaryStats();
 
         InitializeTurn();
     }
@@ -53,7 +55,7 @@ public class CombatController : MonoBehaviour
     {
         ClearTurnData();
         DetermineStartingCritter();
-        PopulateParticipant(); //TODO: also update on switch-in
+        PopulateParticipant();
         PickNpcMove();
     }
 
@@ -123,7 +125,7 @@ public class CombatController : MonoBehaviour
         }
         else
         {
-            TryExecuteMove(priorityMove);
+            TryExecuteMove(priorityCritter, priorityMove);
 
             if (CheckDeath())
             {
@@ -141,7 +143,7 @@ public class CombatController : MonoBehaviour
             }
             else
             {
-                TryExecuteMove(nonPriorityMove);
+                TryExecuteMove(nonPriorityCritter, nonPriorityMove);
 
                 if (CheckDeath())
                 {
@@ -178,29 +180,47 @@ public class CombatController : MonoBehaviour
 
             //do catch
 
-            //end combat if successful wild catch?
+            //end combat if successful wild catch? end if failed and they run away?
         }
     }
 
 
     private void PlayerSwitchActive()
     {
+        State.PlayerCritter.ResetTemporaryStats();
         State.PlayerCritter = PlayerData.GetCritters().Find(critter => critter.GUID == State.PlayerSelectedSwitchActiveGUID);
-
-        //TODO: reset stat changes
 
         PopulateParticipant();
     }
 
 
-    private void TryExecuteMove(Move move)
+    private void TryExecuteMove(Critter user, Move move)
     {
+        if (user.StatusEffects.Exists(status => status.StatusType == StatusEffectType.Confuse))
+        {
+            bool isNoLongerConfused = user.ReduceConfuseTurnsRemaining();
+
+            if (!isNoLongerConfused && UnityEngine.Random.Range(0, 2) == 0)
+            {
+                FailConfusionCheck(user);
+
+                return;
+            }
+        }
+
+        
         if (UnityEngine.Random.Range(0, 100) < move.Accuracy)
         {
             move.ExecuteMove(State);
         }
 
         move.CurrentUses--;
+    }
+
+
+    private void FailConfusionCheck(Critter critter)
+    {
+        critter.DealDamage(CritterHelpers.GetConfusionDamage(critter));
     }
 
 

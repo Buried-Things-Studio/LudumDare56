@@ -81,6 +81,25 @@ public static class CritterHelpers
     }
 
 
+    public static int GetConfusionDamage(Critter user)
+    {
+        int baseDamage = 8; //40 base power
+        float statRatio = 0f;
+        bool isSharp = user.MaxSharpAttack > user.MaxBluntAttack;
+
+        if (isSharp)
+        {
+            statRatio = (float)GetEffectiveSharpAttack(user) / (float)Mathf.Max(1, GetEffectiveSharpDefense(user));
+        }
+        else
+        {
+            statRatio = (float)GetEffectiveBluntAttack(user) / (float)Mathf.Max(1, GetEffectiveBluntDefense(user));
+        }
+
+        return Mathf.CeilToInt(baseDamage * statRatio);
+    }
+
+
     public static int GetEffectiveSpeed(Critter critter)
     {
         if (critter.SpeedStage == 0)
@@ -222,7 +241,7 @@ public static class CritterHelpers
         };
         
         GoodDefences[CritterAffinity.Mollusc] = new List<CritterAffinity>(){
-            CritterAffinity.Caterpillar,
+            CritterAffinity.Caterpillar, //remove for 0 on both caterpillar and mollusc?
             CritterAffinity.Mollusc,
             CritterAffinity.Spider,
         };
