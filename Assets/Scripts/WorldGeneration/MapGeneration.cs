@@ -148,27 +148,27 @@ public class MapGeneration: MonoBehaviour
         {
             if(kvp.Value == RoomType.Start)
             {
-                GameObject.Instantiate(_startRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_startRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Normal)
             {
-                GameObject.Instantiate(_normalRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_normalRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Boss)
             {
-                GameObject.Instantiate(_bossRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_bossRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Shop)
             {
-                GameObject.Instantiate(_shopRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_shopRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Treasure)
             {
-                GameObject.Instantiate(_treasureRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_treasureRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Hospital)
             {
-                GameObject.Instantiate(_hospitalRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_hospitalRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
         }
         
