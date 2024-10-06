@@ -220,6 +220,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Normal;
+                    tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "G")
@@ -228,6 +229,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomGrassTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Grass;
+                    tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);                
                 }
                 if(_currentRoom.Layout[i][j] == "D")
@@ -236,6 +238,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomDoorTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Door;
+                    tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "B")
@@ -244,6 +247,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomBossTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Boss;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "E")
@@ -252,6 +256,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomExitTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Exit;
+                    tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "M")
@@ -260,6 +265,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomTreasureTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Treasure;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "S")
@@ -268,6 +274,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomShopTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Shop;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "H")
@@ -276,6 +283,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomHospitalTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Hospital;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "R")
@@ -284,6 +292,7 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomStarterTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Starter;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "0" 
@@ -293,10 +302,14 @@ public class RoomGeneration: MonoBehaviour
                 {
                     if(_currentRoom.Layout[i][j] == collectorPosition)
                     {
-                        GameObject randomTrainerTile = _trainerTilePrefabs[UnityEngine.Random.Range(0, _trainerTilePrefabs.Count)];
+                        List<GameObject> _grassAndNormalTilePrefabs = new List<GameObject>();
+                        _grassAndNormalTilePrefabs.AddRange(_grassTilePrefabs);
+                        _grassAndNormalTilePrefabs.AddRange(_normalTilePrefabs);
+                        GameObject randomTrainerTile = _grassAndNormalTilePrefabs[UnityEngine.Random.Range(0, _grassAndNormalTilePrefabs.Count)];
                         GameObject tileObject = GameObject.Instantiate(randomTrainerTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                         tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                         tileObject.GetComponent<Tile>().Type = TileType.Trainer;
+                        tileObject.GetComponent<Tile>().IsWalkable = false;
                         _floorTiles.Add(tileObject);
                         GenerateTrainer(tileObject, _currentRoom.Layout[i][j], _currentRoom.Collectors[0]);
                     }
@@ -306,6 +319,7 @@ public class RoomGeneration: MonoBehaviour
                         GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                         tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                         tileObject.GetComponent<Tile>().Type = TileType.Normal;
+                        tileObject.GetComponent<Tile>().IsWalkable = true;
                         _floorTiles.Add(tileObject);
                     }
                 }
