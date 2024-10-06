@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
             if(CollectorController.VisibleCoords.Contains(CurrentCoords))
             {
                 _newTileChecks = false;
-                CollectorController.MoveToPlayer();
+                CollectorController.MoveToPlayer(CurrentCoords);
                 return;
             }
         }
@@ -235,4 +235,5 @@ public class PlayerController : MonoBehaviour
         _isMoving = false;
         _newTileChecks = true;
     }
+
 }
