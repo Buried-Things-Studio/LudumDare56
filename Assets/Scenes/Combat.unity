@@ -160,6 +160,8 @@ MonoBehaviour:
   _moveOptionsObject: {fileID: 8629359474223624740}
   _itemOptions: {fileID: 6515562187462484793}
   _itemOptionsObject: {fileID: 6515562187462484792}
+  _bugMenu: {fileID: 1712545789}
+  _bugMenuObject: {fileID: 1712545788}
 --- !u!4 &45792852
 Transform:
   m_ObjectHideFlags: 0
@@ -2126,6 +2128,24 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59622f5a027baa642bac89548fe3424f, type: 3}
+--- !u!1 &1712545788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7890396901314575648, guid: 59622f5a027baa642bac89548fe3424f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1712545787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1712545789 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8294259443771204612, guid: 59622f5a027baa642bac89548fe3424f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1712545787}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712545788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 531a5da55bd9f294e81bc1b6384465a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1756315810
 GameObject:
   m_ObjectHideFlags: 0

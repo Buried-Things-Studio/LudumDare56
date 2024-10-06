@@ -50,6 +50,10 @@ public class FloorController : MonoBehaviour
         starter.SetStartingLevel(5);
         PlayerData.AddCritter(starter);
 
+        Critter boi = new MonarchButterfly();
+        boi.SetStartingLevel(3);
+        PlayerData.AddCritter(boi);
+
         InitializeLevel();
     }
 

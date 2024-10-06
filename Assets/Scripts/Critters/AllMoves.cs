@@ -32,6 +32,7 @@ public class Bonk : Move
         ID = MoveID.Bonk;
         Affinity = CritterAffinity.Bee;
         IsSharp = false;
+        IsTargeted = true;
         BasePower = 20;
         Accuracy = 95;
         MaxUses = 20;
@@ -55,6 +56,7 @@ public class Dazzle : Move
         Description = "The user's beauty dazzles and confuses their opponent.";
         ID = MoveID.Dazzle;
         Affinity = CritterAffinity.Caterpillar;
+        IsTargeted = true;
         Accuracy = 50;
         MaxUses = 10;
         CurrentUses = 10;
@@ -77,6 +79,7 @@ public class HoneyDrink : Move
         Description = "The user drinks reinvigorating honey to heal 20hp.";
         ID = MoveID.HoneyDrink;
         Affinity = CritterAffinity.Bee;
+        IsTargeted = false;
         Accuracy = 100;
         MaxUses = 5;
         CurrentUses = 5;
@@ -99,6 +102,7 @@ public class MenacingGrin : Move
         Description = "The user intimidates their opponent with and lowers their attack.";
         ID = MoveID.MenacingGrin;
         Affinity = CritterAffinity.Spider;
+        IsTargeted = true;
         Accuracy = 100;
         MaxUses = 15;
         CurrentUses = 15;
@@ -122,6 +126,7 @@ public class RollDung : Move
         Description = "The user builds up speed as they roll a dungball.";
         ID = MoveID.RollDung;
         Affinity = CritterAffinity.Beetle;
+        IsTargeted = false;
         Accuracy = 100;
         MaxUses = 10;
         CurrentUses = 10;
@@ -145,6 +150,7 @@ public class ShellBump : Move
         ID = MoveID.ShellBump;
         Affinity = CritterAffinity.Beetle;
         IsSharp = false;
+        IsTargeted = true;
         BasePower = 30;
         Accuracy = 95;
         MaxUses = 20;
@@ -169,6 +175,7 @@ public class Snip : Move
         ID = MoveID.Snip;
         Affinity = CritterAffinity.Ant;
         IsSharp = true;
+        IsTargeted = true;
         BasePower = 35;
         Accuracy = 100;
         MaxUses = 20;
@@ -192,6 +199,7 @@ public class WebTrap : Move
         Description = "The user slows their opponent by trapping them in a web.";
         ID = MoveID.WebTrap;
         Affinity = CritterAffinity.Spider;
+        IsTargeted = true;
         Accuracy = 100;
         MaxUses = 20;
         CurrentUses = 20;
@@ -215,6 +223,7 @@ public class WingStrike : Move
         ID = MoveID.WingStrike;
         Affinity = CritterAffinity.Caterpillar;
         IsSharp = false;
+        IsTargeted = true;
         BasePower = 35;
         Accuracy = 80;
         MaxUses = 10;

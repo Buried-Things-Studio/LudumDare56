@@ -19,7 +19,7 @@ public class BugInfoContainer : MonoBehaviour
     {
         _bugNameTMP.text = critter.Name;
         _levelTMP.text = $"<size=18>Lv </size><mspace=24>{critter.Level}";
-        _affinityColorFadeImage.color = CritterHelpers.GetAffinityColor(critter.Affinities[0]);
+        _affinityColorFadeImage.color = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
 
         _healthNumbersTMP.text = $"<mspace=14>{critter.CurrentHealth}/{critter.MaxHealth}";
         _healthBarFillImage.fillAmount = (float)critter.CurrentHealth / (float)critter.MaxHealth;

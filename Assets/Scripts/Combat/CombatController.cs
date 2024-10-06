@@ -49,9 +49,10 @@ public class CombatController : MonoBehaviour
         State.PlayerCritter.ResetTemporaryStats();
         State.NpcCritter.ResetTemporaryStats();
 
-        _viz.PopulateCritterInfo(State.PlayerCritter, State.NpcCritter);
-
         InitializeTurn();
+
+        _viz.InitializeCombatUI(this, playerData, State.PlayerCritter, State.NpcCritter);
+        _viz.StartPlayerBattleActionChoice();
     }
 
 
@@ -213,7 +214,7 @@ public class CombatController : MonoBehaviour
         }
 
         
-        if (UnityEngine.Random.Range(0, 100) < move.Accuracy)
+        if (!move.IsTargeted || UnityEngine.Random.Range(0, 100) < move.Accuracy)
         {
             move.ExecuteMove(State);
         }

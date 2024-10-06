@@ -993,6 +993,7 @@ GameObject:
   - component: {fileID: 4860081827103786897}
   - component: {fileID: 2758013105368070668}
   - component: {fileID: 6278676833866446058}
+  - component: {fileID: 8935422049049846368}
   m_Layer: 5
   m_Name: BugTypeColor
   m_TagString: Untagged
@@ -1057,6 +1058,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &8935422049049846368
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4664797602173383224}
+  m_Enabled: 1
+  m_Alpha: 0.8
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5415339176746549569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,6 +1189,7 @@ MonoBehaviour:
   _critterLevelTMP: {fileID: 6200357481532105155}
   _critterHealthNumbersTMP: {fileID: 100923975558962548}
   _critterHealthFillImageTMP: {fileID: 7408860634565653327}
+  _critterAffinityColorFadeImage: {fileID: 6278676833866446058}
   _selection: {fileID: 2668694495308675070}
 --- !u!1 &5652577851965764591
 GameObject:

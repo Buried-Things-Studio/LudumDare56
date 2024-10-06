@@ -18,6 +18,14 @@ public class ItemOptions : MonoBehaviour
 
     public void PopulateItems(List<Item> items)
     {
+        foreach (ItemOption item in _itemOptions)
+        {
+            GameObject.Destroy(item.gameObject);
+        }
+
+        _selections.Clear();
+        _itemOptions.Clear();
+        
         foreach (Item item in items)
         {
             GameObject newItemOption = GameObject.Instantiate(_itemOptionPrefab);

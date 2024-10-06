@@ -48,6 +48,12 @@ public class Player
     }
 
 
+    public List<Item> GetItems()
+    {
+        return _items;
+    }
+
+
     public void AddMoney(int moneyToAdd)
     {
         _money += moneyToAdd;

@@ -12,6 +12,7 @@ public class Move
     public Guid UserGUID;
     public CritterAffinity Affinity;
     public int BasePower;
+    public bool IsTargeted;
     public bool IsSharp;
     public int Accuracy = 100; //TODO: may need to track if a targeted move?
     public int MaxUses;

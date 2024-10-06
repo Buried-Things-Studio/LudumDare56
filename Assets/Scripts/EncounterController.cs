@@ -41,11 +41,11 @@ public class EncounterController : MonoBehaviour
     }
     
     
-    public bool CheckRandomEncounter()
+    public bool CheckRandomEncounter(bool forceCombat = false)
     {
         bool isEnteringEncounter = UnityEngine.Random.Range(0f, 1f) < _encounterChance;
 
-        if (isEnteringEncounter)
+        if (isEnteringEncounter || forceCombat)
         {
             Type randomCritterType = _critterTypesAvailableOnFloor[UnityEngine.Random.Range(0, _critterTypesAvailableOnFloor.Count)];
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;

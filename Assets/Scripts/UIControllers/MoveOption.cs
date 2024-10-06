@@ -22,8 +22,8 @@ public class MoveOption : MonoBehaviour
         _moveNameTMP.text = move.Name;
         _usesTMP.text = $"{move.CurrentUses}/{move.MaxUses}";
 
-        _spikesImage.color = CritterHelpers.GetAffinityColor(move.Affinity);
-        _backgroundFadeImage.color = CritterHelpers.GetAffinityColor(move.Affinity);
+        _spikesImage.color = CritterAffinityData.GetAffinityColor(move.Affinity);
+        _backgroundFadeImage.color = CritterAffinityData.GetAffinityColor(move.Affinity);
     }
 
 

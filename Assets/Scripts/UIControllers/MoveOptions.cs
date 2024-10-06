@@ -23,7 +23,7 @@ public class MoveOptions : MonoBehaviour
         {
             MoveOption option = _moveOptions[i];
 
-            if (critter.Moves.Count < i)
+            if (critter.Moves.Count <= i)
             {
                 option.gameObject.SetActive(false);
 
@@ -49,6 +49,7 @@ public class MoveOptions : MonoBehaviour
         Move selectedMove = _moveOptions[_currentSelectedIndex].GetMove();
         _moveDescriptionTMP.text = selectedMove.Description;
         _bluntSharpTMP.text = selectedMove.IsSharp ? "SHARP" : "BLUNT";
+        _bluntSharpTMP.text = selectedMove.BasePower > 0 ? _bluntSharpTMP.text : "--";
         _movePowerTMP.text = selectedMove.BasePower > 0 ? selectedMove.BasePower.ToString() : "--";
         //TODO: blunt/sharp icon
     }

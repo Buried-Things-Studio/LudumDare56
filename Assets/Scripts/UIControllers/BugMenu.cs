@@ -28,13 +28,21 @@ public class BugMenu : MonoBehaviour
 
     [SerializeField] private List<MoveDetails> _moveDetails;
 
-    private List<GameObject> _selections;
-    private List<BugOption> _bugOptions;
+    private List<GameObject> _selections = new List<GameObject>();
+    private List<BugOption> _bugOptions = new List<BugOption>();
     private int _currentSelectedIndex;
 
 
     public void PopulateCritters(List<Critter> critters)
     {
+        foreach (BugOption bug in _bugOptions)
+        {
+            GameObject.Destroy(bug.gameObject);
+        }
+
+        _selections.Clear();
+        _bugOptions.Clear();
+        
         foreach (Critter critter in critters)
         {
             GameObject newBugOption = GameObject.Instantiate(_bugOptionPrefab);
@@ -75,7 +83,7 @@ public class BugMenu : MonoBehaviour
 
         for (int i = 0; i < _moveDetails.Count; i++)
         {
-            if (selectedCritter.Moves.Count < i)
+            if (selectedCritter.Moves.Count <= i)
             {
                 _moveDetails[i].gameObject.SetActive(false);
                 
@@ -96,5 +104,36 @@ public class BugMenu : MonoBehaviour
         _currentSelectedIndex += isMovingUp ? -1 : 1;
         _currentSelectedIndex = (_currentSelectedIndex + _selections.Count) % _selections.Count;
         ShowCurrentSelection();
+    }
+
+
+    public IEnumerator PlayerInteraction()
+    {
+        yield return new WaitForEndOfFrame();
+
+        bool isClosing = false;
+        
+        while (!isClosing)
+        {
+            if (Input.GetKeyDown(Controls.MenuUpKey))
+            {
+                MoveSelection(true);
+            }
+            else if (Input.GetKeyDown(Controls.MenuDownKey))
+            {
+                MoveSelection(false);
+            }
+            // else if (Input.GetKeyDown(Controls.MenuSelectKey))
+            // {
+            //     isSelected = TrySelectMoveOption();
+            // }
+            else if (Input.GetKeyDown(Controls.MenuBackKey))
+            {
+                isClosing = true;
+                //StartPlayerBattleActionChoice();
+            }
+
+            yield return null;
+        }
     }
 }
