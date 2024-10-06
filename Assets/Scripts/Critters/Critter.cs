@@ -50,6 +50,104 @@ public class Critter
         }
     }
 
+    public void SetStartingMoves(OpponentType opponentType)
+    {
+        int desiredMoveCount = 0;
+        int moveQuality = 0 
+        if(Level < 4)
+        {
+            if(opponentType == OpponentType.Wild)
+            {
+                desiredMoveCount = 2;
+                moveQuality = 0;
+            }
+            if(opponentType == OpponentType.Trainer || opponentType == OpponentType.Boss)
+            {
+                desiredMoveCount = 3;
+                moveQuality = 1;
+            }
+        }
+        else
+        {
+            if(opponentType == OpponentType.Wild)
+            {
+                desiredMoveCount = 3;
+                moveQuality = 1;
+            }
+            if(opponentType == OpponentType.Trainer || opponentType == OpponentType.Boss)
+            {
+                desiredMoveCount = 4;
+                if(Level < 8)
+                {
+                    moveQuality = 2;
+                }
+                else 
+                {
+                    moveQuality = 3;
+                }
+            }
+        }
+
+        int remainingMovesToApply = Moves.Count - desiredMoveCount;
+        List<Moves> allMoves = MasterCollection.GetAllMoveTypes();
+        foreach(Move move in Moves)
+        {
+            allMoves.Remove(move);
+        }
+        List<Moves> correctTypeMoves = allMoves.Where(move => Affinities.Contains(move.Affinity)).ToList();
+        List<Moves> orderedCorrectMoves = correctTypeMoves.OrderBy(move => move.MaxUses).ToList();
+
+        if(moveQuality == 1)
+        {
+            if(correctTypeMoves.Count > remainingMovesToApply)
+            {
+                correctTypeMoves.RemoveAt(0);
+            }
+        }
+
+        if(moveQuality == 2)
+        {
+            if(correctTypeMoves.Count > remainingMovesToApply)
+            {
+                correctTypeMoves.RemoveAt(correctTypeMoves.Count - 1);
+            }
+        }
+
+        for(int i = 0; i < remainingMovesToApply; i ++)
+        {
+            if(correctTypeMoves.Count == 0)
+            {
+                int index = Random.Range(0, allMoves.Count);
+                Moves.Add(allMoves[index]);
+                allMoves.RemoveAt(index);
+            }
+            else if(moveQuality == 0)
+            {
+                Move move = correctTypeMoves.Last();
+                Moves.Add(move);
+                correctTypeMoves.Remove(move);
+            }
+            else if(moveQuality == 3)
+            {
+                Move move = correctTypeMoves[0];
+                Moves.Add(move);
+                correctTypeMoves.Remove(move);
+            }
+            else if(moveQuality == 1)
+            {
+                int index = Random.Range(0, correctTypeMoves.Count);
+                Moves.Add(correctTypeMoves[index]);
+                correctTypeMoves.RemoveAt(index);
+            }
+            else if(moveQuality == 2)
+            {
+                int index = Random.Range(0, correctTypeMoves.Count);
+                Moves.Add(correctTypeMoves[index]);
+                correctTypeMoves.RemoveAt(index);
+            }
+        }
+    }
+
 
     public void ResetTemporaryStats()
     {
