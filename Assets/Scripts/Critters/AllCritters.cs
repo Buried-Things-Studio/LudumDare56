@@ -155,6 +155,7 @@ public class ScarabBeetle : Critter
     }
 }
 
+
 public class BlackWidowSpider : Critter
 {
     public BlackWidowSpider()
@@ -169,26 +170,22 @@ public class BlackWidowSpider : Critter
         HealthLevelIncrease = new Vector2Int(2, 4);
 
         MaxSpeed = 5;
-        CurrentSpeed = 5;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
         MaxSharpAttack = 10;
-        CurrentSharpAttack = 10;
         SharpAttackLevelIncrease = new Vector2Int(3, 5);
 
         MaxSharpDefense = 6;
-        CurrentSharpDefense = 6;
         SharpDefenseLevelIncrease = new Vector2Int(3, 4);
 
         MaxBluntAttack = 3;
-        CurrentBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(1, 2);
 
         MaxBluntDefense = 5;
-        CurrentBluntDefense = 5;
         BluntDefenseLevelIncrease = new Vector2Int(3, 4);
     }
 }
+
 
 public class HawaiianSmilingSpider : Critter
 {
@@ -204,26 +201,22 @@ public class HawaiianSmilingSpider : Critter
         HealthLevelIncrease = new Vector2Int(1, 4);
 
         MaxSpeed = 7;
-        CurrentSpeed = 7;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
         MaxSharpAttack = 8;
-        CurrentSharpAttack = 8;
         SharpAttackLevelIncrease = new Vector2Int(3, 4);
 
         MaxSharpDefense = 6;
-        CurrentSharpDefense = 6;
         SharpDefenseLevelIncrease = new Vector2Int(3, 4);
 
         MaxBluntAttack = 5;
-        CurrentBluntAttack = 5;
         BluntAttackLevelIncrease = new Vector2Int(2, 3);
 
         MaxBluntDefense = 6;
-        CurrentBluntDefense = 6;
         BluntDefenseLevelIncrease = new Vector2Int(3, 4);
     }
 }
+
 
 public class MonarchButterfly : Critter
 {
@@ -239,23 +232,18 @@ public class MonarchButterfly : Critter
         HealthLevelIncrease = new Vector2Int(1, 4);
 
         MaxSpeed = 4;
-        CurrentSpeed = 4;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
         MaxSharpAttack = 3;
-        CurrentSharpAttack = 3;
         SharpAttackLevelIncrease = new Vector2Int(1, 3);
 
         MaxSharpDefense = 5;
-        CurrentSharpDefense = 5;
         SharpDefenseLevelIncrease = new Vector2Int(2, 3);
 
         MaxBluntAttack = 9;
-        CurrentBluntAttack = 9;
         BluntAttackLevelIncrease = new Vector2Int(4, 5);
 
         MaxBluntDefense = 7;
-        CurrentBluntDefense = 7;
         BluntDefenseLevelIncrease = new Vector2Int(3, 5);
     }
 }
