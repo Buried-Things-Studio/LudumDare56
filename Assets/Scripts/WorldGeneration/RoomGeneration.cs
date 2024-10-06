@@ -114,29 +114,29 @@ public class RoomGeneration: MonoBehaviour
 
         if(adjacencies[0])
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[0][7] == "D" && room[0][8] == "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[0][4] == "D").ToList();
         }
         else
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[0][7] != "D" && room[0][8] != "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[0][4] != "D").ToList();
         }
 
         if(adjacencies[1])
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[4][15] == "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[4][8] == "D").ToList();
         }
         else
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[4][15] != "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[4][8] != "D").ToList();
         }
 
         if(adjacencies[2])
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[8][7] == "D" && room[8][8] == "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[8][4] == "D").ToList();
         }
         else
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[8][7] != "D" && room[8][8] != "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[8][4] != "D").ToList();
         }
 
         if(adjacencies[3])
@@ -206,7 +206,14 @@ public class RoomGeneration: MonoBehaviour
         string collectorPosition = "-1";
         if(_currentRoom.Collectors.Count > 0)
         {
-            collectorPosition = UnityEngine.Random.Range(0,3).ToString();
+            if(_currentRoom.Collectors[0].position == "-1")
+            {
+                collectorPosition = UnityEngine.Random.Range(0,3).ToString();
+                _currentRoom.Collectors[0].position = collectorPosition;
+            }
+            else{
+                collectorPosition = _currentRoom.Collectors[0].position;
+            }
         }
         else 
         {
@@ -216,7 +223,7 @@ public class RoomGeneration: MonoBehaviour
 
         for(int i = 0; i < 9; i ++)
         {
-            for(int j = 0; j < 16; j ++)
+            for(int j = 0; j < 9; j ++)
             {
                 if(_currentRoom.Layout[i][j] == "N")
                 {
@@ -306,10 +313,7 @@ public class RoomGeneration: MonoBehaviour
                 {
                     if(_currentRoom.Layout[i][j] == collectorPosition)
                     {
-                        List<GameObject> _grassAndNormalTilePrefabs = new List<GameObject>();
-                        _grassAndNormalTilePrefabs.AddRange(_grassTilePrefabs);
-                        _grassAndNormalTilePrefabs.AddRange(_normalTilePrefabs);
-                        GameObject randomTrainerTile = _grassAndNormalTilePrefabs[UnityEngine.Random.Range(0, _grassAndNormalTilePrefabs.Count)];
+                        GameObject randomTrainerTile = _grassTilePrefabs[UnityEngine.Random.Range(0, _grassTilePrefabs.Count)];
                         GameObject tileObject = GameObject.Instantiate(randomTrainerTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                         tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                         tileObject.GetComponent<Tile>().Type = TileType.Trainer;
@@ -366,27 +370,19 @@ public class RoomGeneration: MonoBehaviour
     public void PlacePlayerInNewRoom(Vector2Int coords)
     {
         Vector2Int newCoords = new Vector2Int(0, 0);
-        if(coords == new Vector2Int(8, 8))
+        if(coords == new Vector2Int(4, 8))
         {
-            newCoords = new Vector2Int(8, 0);
+            newCoords = new Vector2Int(4, 0);
         }
-        if(coords == new Vector2Int(7, 8))
+        if(coords == new Vector2Int(4, 0))
         {
-            newCoords = new Vector2Int(7, 0);
-        }
-        if(coords == new Vector2Int(8, 0))
-        {
-            newCoords = new Vector2Int(8, 8);
-        }
-        if(coords == new Vector2Int(7, 0))
-        {
-            newCoords = new Vector2Int(7, 8);
+            newCoords = new Vector2Int(4, 8);
         }
         if(coords == new Vector2Int(0, 4))
         {
-            newCoords = new Vector2Int(15, 4);
+            newCoords = new Vector2Int(8, 4);
         }
-        if(coords == new Vector2Int(15, 4))
+        if(coords == new Vector2Int(8, 4))
         {
             newCoords = new Vector2Int(0, 4);
         }
