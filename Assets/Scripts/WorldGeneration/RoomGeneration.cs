@@ -33,7 +33,11 @@ public class RoomGeneration: MonoBehaviour
     public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController)
     {
         _encounterController = encounterController;
-        _map = _mapGeneration.GenerateMainPath();
+        _map = _mapGeneration.SafeGenerateMainPath();
+        if(_map == null)
+        {
+            Debug.Log("Map generation failed too many times. No map generated");
+        }
 
         _allRooms = GenerateRoomData(_map, collectorLevelRange, teamSizeRange, bossAffinity);
         GenerateCollectors(collectorLevelRange, teamSizeRange);

@@ -16,7 +16,23 @@ public class MapGeneration: MonoBehaviour
     [SerializeField] private GameObject _treasureRoomPrefab;
 
 
-    public Dictionary<Vector2Int, RoomType> GenerateMainPath()
+    public Dictionary<Vector2Int, RoomType> SafeGenerateMainPath()
+    {
+        int tryCount = 0; 
+        while(tryCount < 100)
+        {
+            Debug.Log("Try count = " + tryCount.ToString());
+            tryCount ++;
+            try{
+                return GenerateMainPath();
+            }
+            catch{
+                Debug.Log("Generate Main Path failure, retrying...");
+            }
+        }
+        return null;
+    }
+    private Dictionary<Vector2Int, RoomType> GenerateMainPath()
     {
         Dictionary<Vector2Int, RoomType> map = new Dictionary<Vector2Int, RoomType>();
         map.Add(new Vector2Int(0, 0), RoomType.Start);
