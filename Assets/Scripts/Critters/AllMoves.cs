@@ -7,6 +7,9 @@ using UnityEngine;
 public enum MoveID
 {
     None,
+    SwitchActive,
+    UseItem,
+    
     Astonish,
     Bonk,
     HoneyDrink,

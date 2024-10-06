@@ -14,6 +14,9 @@ public class CombatState
     public MoveID PlayerSelectedMoveID;
     public MoveID NpcSelectedMoveID;
 
+    public ItemType PlayerSelectedItemType;
+    public Guid PlayerSelectedSwitchActiveGUID;
+
 
     public Critter GetUserFromGUID(Guid GUID)
     {
@@ -59,19 +62,24 @@ public class CombatController : MonoBehaviour
     {
         State.PlayerSelectedMoveID = MoveID.None;
         State.NpcSelectedMoveID = MoveID.None;
+        State.PlayerSelectedItemType = ItemType.None;
+        State.PlayerSelectedSwitchActiveGUID = Guid.Empty;
     }
 
 
     private void DetermineStartingCritter()
     {
-        if (State.PlayerCritter.CurrentSpeed == State.NpcCritter.CurrentSpeed)
+        int playerSpeed = CritterHelpers.GetEffectiveSpeed(State.PlayerCritter);
+        int npcSpeed = CritterHelpers.GetEffectiveSpeed(State.NpcCritter);
+        
+        if (playerSpeed == npcSpeed)
         {
             State.IsPlayerPriority = UnityEngine.Random.Range(0, 2) == 0;
 
             return;
         }
 
-        State.IsPlayerPriority = State.PlayerCritter.CurrentSpeed > State.NpcCritter.CurrentSpeed;
+        State.IsPlayerPriority = playerSpeed > npcSpeed;
     }
 
 
@@ -107,25 +115,81 @@ public class CombatController : MonoBehaviour
         Move priorityMove = priorityCritter.Moves.Find(move => move.ID == priorityMoveID);
         Move nonPriorityMove = nonPriorityCritter.Moves.Find(move => move.ID == nonPriorityMoveID);
 
-        TryExecuteMove(priorityMove);
+        bool isNonPriorityDead = false;
 
-        if (CheckDeath())
+        if (priorityMove == null)
         {
-            ExecuteDeath();
-            
-            return;
-        }
-
-        TryExecuteMove(nonPriorityMove);
-
-        if (CheckDeath())
-        {
-            ExecuteDeath();
+            ExecuteBattleAction(priorityMoveID);
         }
         else
         {
-            InitializeTurn();
+            TryExecuteMove(priorityMove);
+
+            if (CheckDeath())
+            {
+                ExecuteDeath();
+                
+                isNonPriorityDead = true;
+            }
         }
+
+        if (!isNonPriorityDead)
+        {
+            if (nonPriorityMove == null)
+            {
+                ExecuteBattleAction(nonPriorityMoveID);
+            }
+            else
+            {
+                TryExecuteMove(nonPriorityMove);
+
+                if (CheckDeath())
+                {
+                    ExecuteDeath();
+                }
+            }
+        }
+
+        InitializeTurn();
+    }
+
+
+    private void ExecuteBattleAction(MoveID ID)
+    {
+        if (ID == MoveID.UseItem)
+        {
+            PlayerUseItem();
+        }
+        else
+        {
+            PlayerSwitchActive();
+        }
+    }
+
+
+    private void PlayerUseItem()
+    {
+        if (State.PlayerSelectedItemType == ItemType.MasonJar)
+        {
+            bool isCatchSuccessful =
+                OpponentData == null
+                && PlayerData.GetCritters().Count < CritterHelpers.MaxTeamSize
+                && State.NpcCritter.CurrentHealth <= CritterHelpers.GetCatchHealthThreshold(State.NpcCritter);
+
+            //do catch
+
+            //end combat if successful wild catch?
+        }
+    }
+
+
+    private void PlayerSwitchActive()
+    {
+        State.PlayerCritter = PlayerData.GetCritters().Find(critter => critter.GUID == State.PlayerSelectedSwitchActiveGUID);
+
+        //TODO: reset stat changes
+
+        PopulateParticipant();
     }
 
 
