@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
             if(CollectorController.VisibleCoords.Contains(CurrentCoords))
             {
                 _newTileChecks = false;
-                CollectorController.MoveToPlayer();
+                CollectorController.MoveToPlayer(CurrentCoords);
                 return;
             }
         }
@@ -223,7 +223,7 @@ public class PlayerController : MonoBehaviour
     {
         _isMoving = true;
         float elapsedTime = 0f;
-        float timeToMove = 0.25f;
+        float timeToMove = 0.15f;
 
         while(elapsedTime < timeToMove)
         {
@@ -235,4 +235,5 @@ public class PlayerController : MonoBehaviour
         _isMoving = false;
         _newTileChecks = true;
     }
+
 }
