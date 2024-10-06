@@ -27,7 +27,7 @@ public static class MasterCollection
 
     public static List<Type> GetAllMoveTypes()
     {
-        if(_allMoveTypes = null)
+        if(_allMoveTypes == null)
         {
             _allMoveTypes = new List<Type>(
                 AppDomain.CurrentDomain.GetAssemblies()
@@ -36,6 +36,12 @@ public static class MasterCollection
             );
         }
         return _allMoveTypes;
+    }
+
+    public static List<Move> GetAllMoves()
+    {
+        List<Move> allMoves = GetAllMoveTypes().Select(moveType => (Move)Activator.CreateInstance(moveType)).ToList();
+        return allMoves;
     }
 
 
