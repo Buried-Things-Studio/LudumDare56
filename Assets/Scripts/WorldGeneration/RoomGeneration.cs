@@ -321,7 +321,6 @@ public class RoomGeneration: MonoBehaviour
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.CurrentCoords = _floorTiles[72].GetComponent<Tile>().Coordinates;
         Debug.Log("Setting current coords to " + _floorTiles[72].GetComponent<Tile>().Coordinates.ToString());
-        playerController.CanMove = true;
         playerController.CurrentRoom = _currentRoom;
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
@@ -374,7 +373,6 @@ public class RoomGeneration: MonoBehaviour
         _player.transform.localPosition = Vector3.zero;
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.CurrentCoords = newCoords;
-        playerController.CanMove = true;
         playerController.CurrentRoom = _currentRoom;
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
