@@ -14,7 +14,7 @@ public class CombatState
     public MoveID PlayerSelectedMoveID;
     public MoveID NpcSelectedMoveID;
 
-    public ItemType PlayerSelectedItemType;
+    public Guid PlayerSelectedHealItemTarget;
     public Guid PlayerSelectedSwitchActiveGUID;
 
 
@@ -37,7 +37,7 @@ public class CombatController : MonoBehaviour
     
     public Player PlayerData;
     public Collector OpponentData;
-    private CombatState State = new CombatState();
+    public CombatState State = new CombatState();
     
     
     public void SetupCombat(Player playerData, Collector opponentData, Critter npcCritter)
@@ -69,7 +69,7 @@ public class CombatController : MonoBehaviour
     {
         State.PlayerSelectedMoveID = MoveID.None;
         State.NpcSelectedMoveID = MoveID.None;
-        State.PlayerSelectedItemType = ItemType.None;
+        State.PlayerSelectedHealItemTarget = Guid.Empty;
         State.PlayerSelectedSwitchActiveGUID = Guid.Empty;
     }
 
@@ -163,30 +163,33 @@ public class CombatController : MonoBehaviour
 
     private void ExecuteBattleAction(MoveID ID)
     {
-        if (ID == MoveID.UseItem)
-        {
-            PlayerUseItem();
-        }
-        else
+        if (ID == MoveID.SwitchActive)
         {
             PlayerSwitchActive();
+        }
+        else if (ID == MoveID.ThrowMasonJar)
+        {
+            PlayerThrowMasonJar();
+        }
+        else if (ID == MoveID.UseHealItem)
+        {
+            PlayerUseHealItem();
         }
     }
 
 
-    private void PlayerUseItem()
+    private void PlayerThrowMasonJar()
     {
-        if (State.PlayerSelectedItemType == ItemType.MasonJar)
-        {
-            bool isCatchSuccessful =
-                OpponentData == null
-                && PlayerData.GetCritters().Count < CritterHelpers.MaxTeamSize
-                && State.NpcCritter.CurrentHealth <= CritterHelpers.GetCatchHealthThreshold(State.NpcCritter);
+        bool isCatchSuccessful =
+            OpponentData == null
+            && PlayerData.GetCritters().Count < CritterHelpers.MaxTeamSize
+            && State.NpcCritter.CurrentHealth <= CritterHelpers.GetCatchHealthThreshold(State.NpcCritter);
+    }
 
-            //do catch
 
-            //end combat if successful wild catch? end if failed and they run away?
-        }
+    private void PlayerUseHealItem()
+    {
+        //TODO: HEAL
     }
 
 

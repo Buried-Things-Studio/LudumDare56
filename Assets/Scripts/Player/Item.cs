@@ -25,8 +25,21 @@ public class MasonJar : Item
 }
 
 
+public class Nectar : Item
+{
+    public Nectar()
+    {
+        Name = "Healing Nectar";
+        Description = "Restore your bugs' vitality with this sweet nectar. heals XX hp.";
+        ID = ItemType.Nectar;
+        Price = 200;
+    }
+}
+
+
 public enum ItemType
 {
     None,
-    MasonJar
+    MasonJar,
+    Nectar,
 }

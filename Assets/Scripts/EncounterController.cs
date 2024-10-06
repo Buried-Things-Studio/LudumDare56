@@ -34,8 +34,6 @@ public class EncounterController : MonoBehaviour
             int randomIndex = UnityEngine.Random.Range(0, availableCritterTypes.Count);
             _critterTypesAvailableOnFloor.Add(availableCritterTypes[randomIndex]);
 
-            Debug.Log($"-- {availableCritterTypes[randomIndex].GetType()}");
-
             availableCritterTypes.RemoveAt(randomIndex);
         }
     }

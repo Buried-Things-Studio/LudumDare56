@@ -106,9 +106,10 @@ public class CombatUIController : MonoBehaviour
         {
             StartPlayerBugMenuInteraction();
         }
-
-        //TODO: allow item selection
-        //TODO: allow active switch
+        else if (selection == BattleOption.Item)
+        {
+            StartPlayerItemChoice();
+        }
 
         return true;
     }
@@ -192,4 +193,67 @@ public class CombatUIController : MonoBehaviour
 
         StartPlayerBattleActionChoice(); //TODO: handle menu choices
     }
+
+
+    public void StartPlayerItemChoice()
+    {
+        SetInactiveAllMenus();
+        _itemOptionsObject.SetActive(true);
+        _itemOptions.PopulateItems(_player.GetItems());
+        _itemOptions.ShowCurrentSelection();
+
+        StartCoroutine(ItemOptionsInteraction());
+    }
+
+
+    private IEnumerator ItemOptionsInteraction()
+    {
+        yield return new WaitForEndOfFrame();
+
+        bool isSelected = false;
+        
+        while (!isSelected)
+        {
+            if (Input.GetKeyDown(Controls.MenuUpKey))
+            {
+                _itemOptions.MoveSelection(true);
+            }
+            else if (Input.GetKeyDown(Controls.MenuDownKey))
+            {
+                _itemOptions.MoveSelection(false);
+            }
+            else if (Input.GetKeyDown(Controls.MenuSelectKey))
+            {
+                ItemType selectedItem = _itemOptions.GetSelectedItemType();
+
+                if (selectedItem == ItemType.MasonJar && _combatController.OpponentData != null)
+                {
+                    //do nothing
+                }
+                else
+                {
+                    isSelected = true;
+
+                    if (selectedItem == ItemType.MasonJar)
+                    {
+                        _combatController.SetPlayerMove(MoveID.ThrowMasonJar);
+                    }
+                    else if (selectedItem == ItemType.Nectar)
+                    {
+                        _combatController.State.PlayerSelectedHealItemTarget = _player.GetCritters()[0].GUID; //TODO: give the player choice here
+                        _combatController.SetPlayerMove(MoveID.UseHealItem);
+                    }
+                }
+
+            }
+            else if (Input.GetKeyDown(Controls.MenuBackKey))
+            {
+                isSelected = true;
+                StartPlayerBattleActionChoice();
+            }
+
+            yield return null;
+        }
+    }
+
 }

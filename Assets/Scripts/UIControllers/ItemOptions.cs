@@ -11,8 +11,8 @@ public class ItemOptions : MonoBehaviour
     [SerializeField] private GameObject _itemOptionParent;
     [SerializeField] private TextMeshProUGUI _itemDescriptionTMP;
 
-    private List<GameObject> _selections;
-    private List<ItemOption> _itemOptions;
+    private List<GameObject> _selections = new List<GameObject>();
+    private List<ItemOption> _itemOptions = new List<ItemOption>();
     private int _currentSelectedIndex;
 
 
@@ -35,6 +35,8 @@ public class ItemOptions : MonoBehaviour
             _itemOptions.Add(option);
             _selections.Add(option.GetSelection());
             option.PopulateItemDetails(item);
+
+            Debug.Log($"Added item! It's a {item.Name}");
         }
 
         ShowCurrentSelection();
@@ -58,5 +60,11 @@ public class ItemOptions : MonoBehaviour
         _currentSelectedIndex += isMovingUp ? -1 : 1;
         _currentSelectedIndex = (_currentSelectedIndex + _selections.Count) % _selections.Count;
         ShowCurrentSelection();
+    }
+
+
+    public ItemType GetSelectedItemType()
+    {
+        return _itemOptions[_currentSelectedIndex].GetItem().ID;
     }
 }

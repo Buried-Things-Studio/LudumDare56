@@ -7,8 +7,10 @@ using UnityEngine;
 public enum MoveID
 {
     None,
+
     SwitchActive,
-    UseItem,
+    ThrowMasonJar,
+    UseHealItem,
     
     Bonk,
     Dazzle,
