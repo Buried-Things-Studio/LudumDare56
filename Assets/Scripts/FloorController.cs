@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class FloorController : MonoBehaviour
 {
-    public EncounterController Encounters;
+    [SerializeField] private EncounterController Encounters;
     public RoomGeneration RoomGen;
     public Player PlayerData;
     
@@ -40,8 +40,10 @@ public class FloorController : MonoBehaviour
 
     private void Start()
     {
-        Encounters = new EncounterController();
+        GameObject.DontDestroyOnLoad(this.gameObject);
+        
         PlayerData = new Player();
+        Encounters.PlayerData = PlayerData;
 
         //TODO: remove!
         Critter starter = new BulletAnt();

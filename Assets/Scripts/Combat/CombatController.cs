@@ -33,6 +33,8 @@ public class CombatState
 
 public class CombatController : MonoBehaviour
 {
+    [SerializeField] private CombatUIController _viz;
+    
     public Player PlayerData;
     public Collector OpponentData;
     private CombatState State = new CombatState();
@@ -46,6 +48,8 @@ public class CombatController : MonoBehaviour
         State.NpcCritter = OpponentData == null ? npcCritter : OpponentData.GetActiveCritter();
         State.PlayerCritter.ResetTemporaryStats();
         State.NpcCritter.ResetTemporaryStats();
+
+        _viz.PopulateCritterInfo(State.PlayerCritter, State.NpcCritter);
 
         InitializeTurn();
     }

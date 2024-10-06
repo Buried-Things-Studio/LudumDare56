@@ -18,5 +18,9 @@ public class CombatUIController : MonoBehaviour
     [SerializeField] private GameObject _itemOptionsObject;
 
 
-    
+    public void PopulateCritterInfo(Critter playerCritter, Critter npcCritter)
+    {
+        _playerBugInfoContainer.PopulateBugData(playerCritter);
+        _npcBugInfoContainer.PopulateBugData(npcCritter);
+    }
 }

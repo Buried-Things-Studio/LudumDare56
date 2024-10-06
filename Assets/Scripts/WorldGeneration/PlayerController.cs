@@ -24,20 +24,21 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         CheckPressedKeys();
+
         if(_isMoving)
         {
             return;
         }
-        else if(_newTileChecks)
+        else if (_newTileChecks)
         {
             CheckForEncounters();
         }
 
-        if(_checkContinuedMovement)
+        if (_checkContinuedMovement)
         {
             CheckForContinuedMovement();
         }
-        if(_checkNewMovement)
+        if (_checkNewMovement)
         {
             CheckForNewMovement();
         }
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(SmoothMove(transform.position, tile.transform.position));
     }
 
+
     private void AttemptMoveUp(Tile currentTile)
     {
         Vector2Int targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y +1);
@@ -66,6 +68,7 @@ public class PlayerController : MonoBehaviour
             RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords);
         }
     }
+
 
     private void AttemptMoveDown(Tile currentTile)
     {
@@ -82,6 +85,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void AttemptMoveRight(Tile currentTile)
     {
         Vector2Int targetCoords = new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y);
@@ -96,6 +100,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void AttemptMoveLeft(Tile currentTile)
     {
         Vector2Int targetCoords = new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y);
@@ -109,6 +114,7 @@ public class PlayerController : MonoBehaviour
             RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords);
         }
     }
+
 
     private void CheckForNewMovement()
     {
@@ -130,6 +136,7 @@ public class PlayerController : MonoBehaviour
             AttemptMoveLeft(currentTile);
         }
     }
+    
 
     private void CheckForContinuedMovement()
     {
@@ -168,34 +175,41 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void CheckForEncounters()
     {
         _checkContinuedMovement = false;
         _checkNewMovement = false;
+
         // trainer check
-        if(CollectorController != null)
+        if (CollectorController != null)
         {
-            if(CollectorController.VisibleCoords.Contains(CurrentCoords))
+            if (CollectorController.VisibleCoords.Contains(CurrentCoords))
             {
                 _newTileChecks = false;
                 CollectorController.MoveToPlayer();
+
                 return;
             }
         }
 
         Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
+
         // grass check 
-        if(currentTile.Type == TileType.Grass)
+        if (currentTile.Type == TileType.Grass)
         {
-            if(EncounterController.CheckRandomEncounter())
+            if (EncounterController.CheckRandomEncounter())
             {
                 _newTileChecks = false;
+
                 return;
             }
         }
+
         _newTileChecks = false;
         _checkContinuedMovement = true;
     }
+
 
     private void CheckPressedKeys()
     {

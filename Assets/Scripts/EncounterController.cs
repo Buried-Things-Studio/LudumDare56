@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
-public class EncounterController
+public class EncounterController : MonoBehaviour
 {
+    public Player PlayerData;
     private float _encounterChance = 0.125f;
     private int _critterTypesAvailablePerFloor = 5;
     private List<Type> _critterTypesAvailableOnFloor = new List<Type>();
@@ -49,10 +51,26 @@ public class EncounterController
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
             randomCritter.SetStartingLevel(UnityEngine.Random.Range(_wildEncounterLevelRange.x, _wildEncounterLevelRange.y + 1));
 
-            Debug.Log("Entering wild encounter");
-            //TODO: GIVE RANDOM CRITTER TO COMBAT CONTROLLER
+            StartCoroutine(DoCombat(randomCritter));
         }
 
         return isEnteringEncounter;
+    }
+
+
+    private IEnumerator DoCombat(Critter opponent)
+    {
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
+
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
+        }
+
+        CombatController combatController = GameObject.FindObjectOfType<CombatController>();
+
+        combatController.SetupCombat(PlayerData, null, opponent);
+
+        yield return null;
     }
 }
