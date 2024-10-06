@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 
 public class RoomGeneration: MonoBehaviour
@@ -143,7 +144,7 @@ public class RoomGeneration: MonoBehaviour
             usableRoomLayouts = usableRoomLayouts.Where(room => room[4][0] != "D").ToList();
         }
 
-        return usableRoomLayouts[Random.Range(0, usableRoomLayouts.Count)];
+        return usableRoomLayouts[UnityEngine.Random.Range(0, usableRoomLayouts.Count)];
     }
 
 
@@ -201,7 +202,7 @@ public class RoomGeneration: MonoBehaviour
         string collectorPosition = "-1";
         if(_currentRoom.Collectors.Count > 0)
         {
-            collectorPosition = Random.Range(0,3).ToString();
+            collectorPosition = UnityEngine.Random.Range(0,3).ToString();
         }
         else 
         {
@@ -215,7 +216,7 @@ public class RoomGeneration: MonoBehaviour
             {
                 if(_currentRoom.Layout[i][j] == "N")
                 {
-                    GameObject randomNormalTile = _normalTilePrefabs[Random.Range(0, _normalTilePrefabs.Count)];
+                    GameObject randomNormalTile = _normalTilePrefabs[UnityEngine.Random.Range(0, _normalTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Normal;
@@ -223,7 +224,7 @@ public class RoomGeneration: MonoBehaviour
                 }
                 if(_currentRoom.Layout[i][j] == "G")
                 {
-                    GameObject randomGrassTile = _grassTilePrefabs[Random.Range(0, _grassTilePrefabs.Count)];
+                    GameObject randomGrassTile = _grassTilePrefabs[UnityEngine.Random.Range(0, _grassTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomGrassTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Grass;
@@ -231,7 +232,7 @@ public class RoomGeneration: MonoBehaviour
                 }
                 if(_currentRoom.Layout[i][j] == "D")
                 {
-                    GameObject randomDoorTile = _doorTilePrefabs[Random.Range(0, _doorTilePrefabs.Count)];
+                    GameObject randomDoorTile = _doorTilePrefabs[UnityEngine.Random.Range(0, _doorTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomDoorTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Door;
@@ -239,7 +240,7 @@ public class RoomGeneration: MonoBehaviour
                 }
                 if(_currentRoom.Layout[i][j] == "B")
                 {
-                    GameObject randomBossTile = _bossTilePrefabs[Random.Range(0, _bossTilePrefabs.Count)];
+                    GameObject randomBossTile = _bossTilePrefabs[UnityEngine.Random.Range(0, _bossTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomBossTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Boss;
@@ -247,7 +248,7 @@ public class RoomGeneration: MonoBehaviour
                 }
                 if(_currentRoom.Layout[i][j] == "E")
                 {
-                    GameObject randomExitTile = _exitTilePrefabs[Random.Range(0, _exitTilePrefabs.Count)];
+                    GameObject randomExitTile = _exitTilePrefabs[UnityEngine.Random.Range(0, _exitTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomExitTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Exit;
@@ -255,7 +256,7 @@ public class RoomGeneration: MonoBehaviour
                 }
                 if(_currentRoom.Layout[i][j] == "M")
                 {
-                    GameObject randomTreasureTile = _treasureTilePrefabs[Random.Range(0, _treasureTilePrefabs.Count)];
+                    GameObject randomTreasureTile = _treasureTilePrefabs[UnityEngine.Random.Range(0, _treasureTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomTreasureTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Treasure;
@@ -263,7 +264,7 @@ public class RoomGeneration: MonoBehaviour
                 }
                 if(_currentRoom.Layout[i][j] == "S")
                 {
-                    GameObject randomShopTile = _shopTilePrefabs[Random.Range(0, _shopTilePrefabs.Count)];
+                    GameObject randomShopTile = _shopTilePrefabs[UnityEngine.Random.Range(0, _shopTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomShopTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Shop;
@@ -271,7 +272,7 @@ public class RoomGeneration: MonoBehaviour
                 }
                 if(_currentRoom.Layout[i][j] == "H")
                 {
-                    GameObject randomHospitalTile = _hospitalTilePrefabs[Random.Range(0, _hospitalTilePrefabs.Count)];
+                    GameObject randomHospitalTile = _hospitalTilePrefabs[UnityEngine.Random.Range(0, _hospitalTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomHospitalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Hospital;
@@ -279,7 +280,7 @@ public class RoomGeneration: MonoBehaviour
                 }
                 if(_currentRoom.Layout[i][j] == "R")
                 {
-                    GameObject randomStarterTile = _starterTilePrefabs[Random.Range(0, _starterTilePrefabs.Count)];
+                    GameObject randomStarterTile = _starterTilePrefabs[UnityEngine.Random.Range(0, _starterTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomStarterTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Starter;
@@ -292,7 +293,7 @@ public class RoomGeneration: MonoBehaviour
                 {
                     if(_currentRoom.Layout[i][j] == collectorPosition)
                     {
-                        GameObject randomTrainerTile = _trainerTilePrefabs[Random.Range(0, _trainerTilePrefabs.Count)];
+                        GameObject randomTrainerTile = _trainerTilePrefabs[UnityEngine.Random.Range(0, _trainerTilePrefabs.Count)];
                         GameObject tileObject = GameObject.Instantiate(randomTrainerTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                         tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                         tileObject.GetComponent<Tile>().Type = TileType.Trainer;
@@ -301,7 +302,7 @@ public class RoomGeneration: MonoBehaviour
                     }
                     else 
                     {
-                        GameObject randomNormalTile = _normalTilePrefabs[Random.Range(0, _normalTilePrefabs.Count)];
+                        GameObject randomNormalTile = _normalTilePrefabs[UnityEngine.Random.Range(0, _normalTilePrefabs.Count)];
                         GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                         tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                         tileObject.GetComponent<Tile>().Type = TileType.Normal;
@@ -394,5 +395,22 @@ public class RoomGeneration: MonoBehaviour
         _player.GetComponent<PlayerController>().CurrentRoom = _currentRoom;
         DisplayCurrentRoom();
         PlacePlayerInNewRoom(currentTileCoords);
+    }
+
+
+    public void GenerateStarterCritters()
+    {
+        Room startRoom = _allRooms.Find(room => room.Type == RoomType.Start);
+        List<Type> availableCritterTypes = MasterCollection.GetAllCritterTypes();
+
+        for (int i = 0; i < 3; i++)
+        {
+            Type randomCritterType = availableCritterTypes[UnityEngine.Random.Range(0, availableCritterTypes.Count)];
+            availableCritterTypes.Remove(randomCritterType);
+
+            Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
+            randomCritter.SetStartingLevel(1);
+            startRoom.StarterPicks.Add(randomCritter);
+        }
     }
 }
