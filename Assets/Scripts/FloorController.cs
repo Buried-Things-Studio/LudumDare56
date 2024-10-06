@@ -55,5 +55,10 @@ public class FloorController : MonoBehaviour
 
         Encounters.SetAvailableCrittersOnFloor(_wildEncounterLevelRanges[_currentLevel]);
         RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters);
+
+        if (_currentLevel == 1)
+        {
+            RoomGen.GenerateStarterCritters();
+        }
     }
 }
