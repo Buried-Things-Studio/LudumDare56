@@ -223,7 +223,7 @@ public class PlayerController : MonoBehaviour
     {
         _isMoving = true;
         float elapsedTime = 0f;
-        float timeToMove = 0.25f;
+        float timeToMove = 0.15f;
 
         while(elapsedTime < timeToMove)
         {
