@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class Player
 {
-    private List<Critter> _critters;
-    private List<Item> _items;
+    private List<Critter> _critters = new List<Critter>();
+    private List<Item> _items = new List<Item>();
     private int _money;
+
 
     public Critter GetActiveCritter()
     {
@@ -45,6 +46,7 @@ public class Player
     {
         return _critters;
     }
+
 
     public void AddMoney(int moneyToAdd)
     {

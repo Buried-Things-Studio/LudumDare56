@@ -8,6 +8,7 @@ public class FloorController : MonoBehaviour
 {
     public EncounterController Encounters;
     public RoomGeneration RoomGen;
+    public Player PlayerData;
     
     private int _currentLevel = 0;
     private List<Vector2Int> _wildEncounterLevelRanges = new List<Vector2Int>(){
@@ -40,6 +41,12 @@ public class FloorController : MonoBehaviour
     private void Start()
     {
         Encounters = new EncounterController();
+        PlayerData = new Player();
+
+        //TODO: remove!
+        Critter starter = new BulletAnt();
+        starter.SetStartingLevel(5);
+        PlayerData.AddCritter(starter);
 
         InitializeLevel();
     }
