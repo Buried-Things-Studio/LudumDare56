@@ -311,6 +311,10 @@ public class RoomGeneration: MonoBehaviour
                 }
             }
         }
+        if(_collectorController != null)
+        {
+            _collectorController.RoomTiles = _floorTiles;
+        }
     }
 
 
