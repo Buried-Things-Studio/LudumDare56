@@ -8,4 +8,5 @@ public enum TileType{
     Hospital, 
     Shop,
     Trainer,
+    Starter,
 }

@@ -448,6 +448,53 @@ public static class RoomLayouts
         }
     };
 
+    public static List<List<List<string>>> StartRoomLayouts = new List<List<List<string>>>(){
+        new List<List<string>>(){
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "R", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "R", "N", "N"},
+        new List<string>(){ "N", "N", "R", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "D", "D", "N", "N", "N", "N", "N", "N", "N"},
+        },
+        new List<List<string>>(){
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "D", "N", "N", "N", "R", "N", "N", "N", "N", "N", "N", "N", "R", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "R", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        },
+        new List<List<string>>(){
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "R", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "R", "N", "N", "N", "N", "N", "N", "N", "R", "N", "N", "N", "D"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        },
+        new List<List<string>>(){
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "D", "D", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "R", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "R", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "R", "N", "N", "N", "N", "N", "N", "N", "N"},
+        new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "N"},
+        },
+    };
+
 
 
 }
