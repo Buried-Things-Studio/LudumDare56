@@ -8,6 +8,7 @@ using UnityEngine;
 public static class MasterCollection
 {
     private static List<Type> _allCritterTypes;
+    private static List<Type> _allMoveTypes;
 
 
     public static List<Type> GetAllCritterTypes()
@@ -22,6 +23,19 @@ public static class MasterCollection
         }
 
         return _allCritterTypes;
+    }
+
+    public static List<Type> GetAllMoveTypes()
+    {
+        if(_allMoveTypes = null)
+        {
+            _allMoveTypes = new List<Type>(
+                AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => type.IsSubclassOf(typeof(Move)))
+            );
+        }
+        return _allMoveTypes;
     }
 
 
