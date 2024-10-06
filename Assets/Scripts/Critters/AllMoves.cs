@@ -10,12 +10,38 @@ public enum MoveID
     SwitchActive,
     UseItem,
     
+    Astonish,
     Bonk,
     HoneyDrink,
+    MenacingGrin,
     RollDung,
     ShellBump,
     Snip,
-    Stinger
+    Stinger, 
+    WebTrap,
+    WingStrike,
+}
+
+
+public class Astonish : Move
+{
+    public Astonish()
+    {
+        Name = "Astonish";
+        Description = "The user's beauty astonishes and confuses their opponent.";
+        ID = MoveID.Astonish;
+        Affinity = CritterAffinity.Caterpillar;
+        Accuracy = 50;
+        MaxUses = 10;
+        CurrentUses = 10;
+    }
+
+
+    public override void ExecuteMove(CombatState state)
+    {
+        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        // Confuse opponent
+    }
 }
 
 
@@ -61,6 +87,28 @@ public class HoneyDrink : Move
     {
         Critter user = state.GetUserFromGUID(UserGUID);
         user.IncreaseHealth(20);
+    }
+}
+
+
+public class MenacingGrin : Move
+{
+    public MenacingGrin()
+    {
+        Name = "Menacing Grin";
+        Description = "The user intimidates their opponent with and lowers their attack.";
+        ID = MoveID.MenacingGrin;
+        Affinity = CritterAffinity.Spider;
+        Accuracy = 100;
+        MaxUses = 15;
+        CurrentUses = 15;
+    }
+
+
+    public override void ExecuteMove(CombatState state)
+    {
+        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        //TODO: Lower opponent attack here 
     }
 }
 
@@ -117,6 +165,52 @@ public class Snip : Move
         Accuracy = 100;
         MaxUses = 20;
         CurrentUses = 20;
+    }
+
+
+    public override void ExecuteMove(CombatState state)
+    {
+        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        opponent.DealDamage(CritterHelpers.GetDamage(state, this));
+    }
+}
+
+
+public class WebTrap : Move
+{
+    public WebTrap()
+    {
+        Name = "Web Trap";
+        Description = "The user slows their opponent by trapping them in a web.";
+        ID = MoveID.WebTrap;
+        Affinity = CritterAffinity.Spider;
+        Accuracy = 100;
+        MaxUses = 20;
+        CurrentUses = 20;
+    }
+
+
+    public override void ExecuteMove(CombatState state)
+    {
+        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        //TODO: reduce speed of opponent here 
+    }
+}
+
+
+public class WingStrike : Move
+{
+    public WingStrike()
+    {
+        Name = "Wing Strike";
+        Description = "The user strikes the opponent with their wings.";
+        ID = MoveID.WingStrike;
+        Affinity = CritterAffinity.Caterpillar;
+        IsSharp = false;
+        BasePower = 35;
+        Accuracy = 80;
+        MaxUses = 10;
+        CurrentUses = 10;
     }
 
 
