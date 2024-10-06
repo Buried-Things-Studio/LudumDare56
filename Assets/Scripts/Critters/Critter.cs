@@ -12,6 +12,7 @@ public class Critter
     public List<CritterAffinity> Affinities = new List<CritterAffinity>();
     public List<Move> Moves = new List<Move>();
     public List<Guid> Participants = new List<Guid>();
+    public List<StatusEffect> StatusEffects = new List<StatusEffect>();
 
     public int Level;
     public int Exp;
@@ -47,6 +48,18 @@ public class Critter
         {
             IncreaseLevel();
         }
+    }
+
+
+    public void ResetTemporaryStats()
+    {
+        Participants.Clear();
+        StatusEffects = StatusEffects.Where(status => status.StatusType != StatusEffectType.Confuse).ToList();
+        SpeedStage = 0;
+        SharpAttackStage = 0;
+        SharpDefenseStage = 0;
+        BluntAttackStage = 0;
+        BluntDefenseStage = 0;
     }
 
 
@@ -121,6 +134,82 @@ public class Critter
 
         return healthBeforeDamage - CurrentHealth;
     }
+
+
+    public void SetStatusEffect(StatusEffectType newStatus)
+    {
+        if (!StatusEffects.Exists(status => status.StatusType == newStatus))
+        {
+            StatusEffects.Add(new StatusEffect(newStatus));
+        }
+    }
+
+
+    public bool ReduceConfuseTurnsRemaining()
+    {
+        StatusEffect confuse = StatusEffects.Find(status => status.StatusType == StatusEffectType.Confuse);
+        confuse.TurnsRemaining--;
+
+        if (confuse.TurnsRemaining <= 0)
+        {
+            StatusEffects.Remove(confuse);
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public void ChangeSpeedStage(int change)
+    {
+        SpeedStage += change; //TODO: cap these?
+    }
+
+
+    public void ChangeBluntAttackStage(int change)
+    {
+        BluntAttackStage += change;
+    }
+
+
+    public void ChangeBluntDefenseStage(int change)
+    {
+        BluntDefenseStage += change;
+    }
+
+
+    public void ChangeSharpAttackStage(int change)
+    {
+        SharpAttackStage += change;
+    }
+
+
+    public void ChangeSharpDefenseStage(int change)
+    {
+        SharpDefenseStage += change;
+    }
+}
+
+
+public class StatusEffect
+{
+    public StatusEffectType StatusType;
+    public int TurnsRemaining;
+    
+    
+    public StatusEffect(StatusEffectType typeOfEffect)
+    {
+        StatusType = typeOfEffect;
+        TurnsRemaining = UnityEngine.Random.Range(2, 6);
+    }
+}
+
+
+public enum StatusEffectType
+{
+    None,
+    Confuse,
 }
 
 

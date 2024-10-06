@@ -62,7 +62,7 @@ public class BugMenu : MonoBehaviour
         _nameTMP.text = selectedCritter.Name;
         _levelTMP.text = $"<size=20>lv </size>{selectedCritter.Level}";
         _healthNumbersTMP.text = $"<mspace=14>{selectedCritter.CurrentHealth}/{selectedCritter.MaxHealth}";
-        _expTMP.text = selectedCritter.Level == 10 ? $"<mspace=14>{selectedCritter.Exp}" : $"<mspace=14>{selectedCritter.Exp}/{CritterHelpers.ExpToNextLevel[selectedCritter.Level]}"; 
+        _expTMP.text = selectedCritter.Level == 10 ? $"<mspace=14>MAX" : $"<mspace=14>{selectedCritter.Exp}/{CritterHelpers.ExpToNextLevel[selectedCritter.Level]}"; 
         
         _healthBarFillImage.fillAmount = (float)selectedCritter.CurrentHealth / (float)selectedCritter.MaxHealth;
         _expBarFillImage.fillAmount = selectedCritter.Level == 10 ? 1f : (float)selectedCritter.Exp / (float)CritterHelpers.ExpToNextLevel[selectedCritter.Level];

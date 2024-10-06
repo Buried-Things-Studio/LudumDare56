@@ -225,7 +225,7 @@ public class MonarchButterfly : Critter
         Name = "Monarch Butterfly";
         Affinities.Add(CritterAffinity.Caterpillar);
         Moves.Add(new WingStrike(){UserGUID = GUID});
-        Moves.Add(new Astonish(){UserGUID = GUID});
+        Moves.Add(new Dazzle(){UserGUID = GUID});
 
         MaxHealth = 20;
         CurrentHealth = 20;

@@ -10,8 +10,8 @@ public enum MoveID
     SwitchActive,
     UseItem,
     
-    Astonish,
     Bonk,
+    Dazzle,
     HoneyDrink,
     MenacingGrin,
     RollDung,
@@ -20,28 +20,6 @@ public enum MoveID
     Stinger, 
     WebTrap,
     WingStrike,
-}
-
-
-public class Astonish : Move
-{
-    public Astonish()
-    {
-        Name = "Astonish";
-        Description = "The user's beauty astonishes and confuses their opponent.";
-        ID = MoveID.Astonish;
-        Affinity = CritterAffinity.Caterpillar;
-        Accuracy = 50;
-        MaxUses = 10;
-        CurrentUses = 10;
-    }
-
-
-    public override void ExecuteMove(CombatState state)
-    {
-        Critter opponent = state.GetOpponentFromGUID(UserGUID);
-        // Confuse opponent
-    }
 }
 
 
@@ -65,6 +43,28 @@ public class Bonk : Move
     {
         Critter opponent = state.GetOpponentFromGUID(UserGUID);
         opponent.DealDamage(CritterHelpers.GetDamage(state, this));
+    }
+}
+
+
+public class Dazzle : Move
+{
+    public Dazzle()
+    {
+        Name = "Dazzle";
+        Description = "The user's beauty dazzles and confuses their opponent.";
+        ID = MoveID.Dazzle;
+        Affinity = CritterAffinity.Caterpillar;
+        Accuracy = 50;
+        MaxUses = 10;
+        CurrentUses = 10;
+    }
+
+
+    public override void ExecuteMove(CombatState state)
+    {
+        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        opponent.SetStatusEffect(StatusEffectType.Confuse);
     }
 }
 
@@ -108,7 +108,8 @@ public class MenacingGrin : Move
     public override void ExecuteMove(CombatState state)
     {
         Critter opponent = state.GetOpponentFromGUID(UserGUID);
-        //TODO: Lower opponent attack here 
+        opponent.ChangeBluntAttackStage(-1);
+        opponent.ChangeSharpAttackStage(-1);
     }
 }
 
@@ -124,6 +125,13 @@ public class RollDung : Move
         Accuracy = 100;
         MaxUses = 10;
         CurrentUses = 10;
+    }
+
+
+    public override void ExecuteMove(CombatState state)
+    {
+        Critter user = state.GetUserFromGUID(UserGUID);
+        user.ChangeSpeedStage(1);
     }
 }
 
@@ -193,7 +201,7 @@ public class WebTrap : Move
     public override void ExecuteMove(CombatState state)
     {
         Critter opponent = state.GetOpponentFromGUID(UserGUID);
-        //TODO: reduce speed of opponent here 
+        opponent.ChangeSpeedStage(-1);
     }
 }
 
