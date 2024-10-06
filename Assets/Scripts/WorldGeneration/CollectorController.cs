@@ -92,8 +92,13 @@ public class CollectorController : MonoBehaviour
         {
             List<Vector2Int> closerCoords = GetCloserAdjacentCoords(playerCoords);
             Vector2Int chosenCoord = closerCoords[Random.Range(0, closerCoords.Count)];
+            GameObject oldTileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == Coordinates);
+            Tile oldTile = oldTileObject.GetComponent<Tile>();
+            oldTile.IsWalkable = true;
+
             GameObject tileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == chosenCoord);
             Tile tile = tileObject.GetComponent<Tile>();
+            tile.IsWalkable = false;
             Coordinates = chosenCoord;
             yield return StartCoroutine(SmoothMove(transform.position, tile.transform.position));
 
