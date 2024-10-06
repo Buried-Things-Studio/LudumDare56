@@ -28,6 +28,12 @@ public class CombatState
     {
         return PlayerCritter.GUID == GUID ? NpcCritter : PlayerCritter;
     }
+
+
+    public bool IsUserPlayer(Guid GUID)
+    {
+        return PlayerCritter.GUID == GUID;
+    }
 }
 
 
@@ -207,9 +213,11 @@ public class CombatController : MonoBehaviour
         if (user.StatusEffects.Exists(status => status.StatusType == StatusEffectType.Confuse))
         {
             bool isNoLongerConfused = user.ReduceConfuseTurnsRemaining();
+            _viz.AddVisualStep(new ConfuseStatusUpdateStep(user.Name, !isNoLongerConfused));
 
             if (!isNoLongerConfused && UnityEngine.Random.Range(0, 2) == 0)
             {
+                _viz.AddVisualStep(new ConfuseCheckFailureStep(user.Name));
                 FailConfusionCheck(user);
 
                 return;
@@ -219,7 +227,13 @@ public class CombatController : MonoBehaviour
         
         if (!move.IsTargeted || UnityEngine.Random.Range(0, 100) < move.Accuracy)
         {
-            move.ExecuteMove(State);
+            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name));
+            List<CombatVisualStep> steps = move.ExecuteMove(State);
+            _viz.AddVisualSteps(steps);
+        }
+        else
+        {
+            _viz.AddVisualStep(new MoveAccuracyCheckFailureStep(user.Name));
         }
 
         move.CurrentUses--;

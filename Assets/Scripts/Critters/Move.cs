@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Move
+public abstract class Move
 {
     public string Name;
     public string Description;
@@ -19,5 +19,5 @@ public class Move
     public int CurrentUses;
 
 
-    public virtual void ExecuteMove(CombatState state){}
+    public abstract List<CombatVisualStep> ExecuteMove(CombatState state);
 }

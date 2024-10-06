@@ -136,12 +136,16 @@ public class Critter
     }
 
 
-    public void SetStatusEffect(StatusEffectType newStatus)
+    public bool SetStatusEffect(StatusEffectType newStatus)
     {
         if (!StatusEffects.Exists(status => status.StatusType == newStatus))
         {
             StatusEffects.Add(new StatusEffect(newStatus));
+
+            return true;
         }
+
+        return false;
     }
 
 

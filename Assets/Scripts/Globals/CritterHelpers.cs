@@ -10,26 +10,26 @@ public static class CritterHelpers
     public static Dictionary<CritterAffinity, List<CritterAffinity>> BadDefences = new Dictionary<CritterAffinity, List<CritterAffinity>>(); //search by defending affinity in key field
     public static List<int> ExpToNextLevel = new List<int>(){0, 100, 200, 350, 575, 950, 1575, 2200, 2950, 4000};
     public static int MaxTeamSize = 5;
+
     
-    
-    public static float GetDamageMultiplier(List<CritterAffinity> defendingAffinities, CritterAffinity attackingAffinity)
+    public static int GetDamageMultiplier(List<CritterAffinity> defendingAffinities, CritterAffinity attackingAffinity)
     {
         if (GoodDefences.Count == 0)
         {
             PopulateAffinityTable();
         }
         
-        float multiplier = 1f;
+        int multiplier = 4;
 
         foreach (CritterAffinity defendingAffinity in defendingAffinities)
         {
             if (GoodDefences[defendingAffinity].Contains(attackingAffinity))
             {
-                multiplier *= 0.5f;
+                multiplier /= 2;
             }
             else if (BadDefences[defendingAffinity].Contains(attackingAffinity))
             {
-                multiplier *= 2f;
+                multiplier *= 2;
             }
         }
 
@@ -37,7 +37,7 @@ public static class CritterHelpers
     }
 
 
-    public static int GetDamage(CombatState state, Move move)
+    public static int GetDamage(CombatState state, Move move, out int damageMultiplier)
     {
         Critter user = state.GetUserFromGUID(move.UserGUID);
         Critter opponent = state.GetOpponentFromGUID(move.UserGUID);
@@ -54,7 +54,9 @@ public static class CritterHelpers
             statRatio = (float)GetEffectiveBluntAttack(user) / (float)Mathf.Max(1, GetEffectiveBluntDefense(opponent));
         }
 
-        return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * GetDamageMultiplier(opponent.Affinities, move.Affinity));
+        damageMultiplier = GetDamageMultiplier(opponent.Affinities, move.Affinity);
+
+        return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * (damageMultiplier / 4f));
     }
 
 

@@ -20,6 +20,7 @@ public class CombatUIController : MonoBehaviour
     [SerializeField] private BugMenu _bugMenu;
     [SerializeField] private GameObject _bugMenuObject;
 
+    public CombatVisualSteps VisualSteps;
     private Player _player;
     private CombatController _combatController;
 
@@ -35,6 +36,24 @@ public class CombatUIController : MonoBehaviour
         _battleOptionsObject.SetActive(true);
         _battleOptions.SetSelectedIndexToMove();
         _battleOptionsObject.SetActive(false);
+    }
+
+
+    public void AddVisualStep(CombatVisualStep step)
+    {
+        VisualSteps.CurrentSteps.Add(step);
+    }
+
+
+    public void AddVisualSteps(List<CombatVisualStep> steps)
+    {
+        VisualSteps.CurrentSteps.AddRange(steps);
+    }
+
+
+    public void ExecuteVisualSteps()
+    {
+
     }
 
 
