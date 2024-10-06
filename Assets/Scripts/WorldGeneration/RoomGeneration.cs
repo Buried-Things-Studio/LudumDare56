@@ -27,6 +27,7 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private GameObject _collectorPrefab;
     [SerializeField] private MapGeneration _mapGeneration;
+    [SerializeField] private MiniMapController _miniMapController;
     private int _collectorsPerFloor = 3;
 
 
@@ -45,6 +46,39 @@ public class RoomGeneration: MonoBehaviour
         _currentRoom = _allRooms.Find(room => room.Type == RoomType.Start);
         DisplayCurrentRoom();
         GeneratePlayer();
+        _miniMapController.Map = _allRooms;
+        _miniMapController.UpdateMap();
+    }
+
+    private List<Room> GetAdjacentRooms(Room room)
+    {
+        Vector2Int coord = room.Coordinates;
+        List<Vector2Int> adjCoords = new List<Vector2Int>(){
+            new Vector2Int(coord.x, coord.y + 1),
+            new Vector2Int(coord.x + 1, coord.y),
+            new Vector2Int(coord.x, coord.y - 1),
+            new Vector2Int(coord.x - 1, coord.y),
+        };
+
+        List<Room> adjRooms = new List<Room>();
+
+        foreach(Vector2Int adjCoord in adjCoords)
+        {
+            if(_allRooms.Exists(room => room.Coordinates == adjCoord))
+            {
+                adjRooms.Add(_allRooms.Find(room => room.Coordinates == adjCoord));
+            }
+        }
+        return adjRooms;
+    }
+
+    private void MarkAdjacentRooms(Room currentRoom)
+    {
+        List<Room> adjRooms = GetAdjacentRooms(currentRoom);
+        foreach(Room room in adjRooms)
+        {
+            room.AdjacentToExplored = true;
+        }
     }
 
 
@@ -348,6 +382,9 @@ public class RoomGeneration: MonoBehaviour
         playerController.CurrentCoords = _floorTiles[72].GetComponent<Tile>().Coordinates;
         Debug.Log("Setting current coords to " + _floorTiles[72].GetComponent<Tile>().Coordinates.ToString());
         playerController.CurrentRoom = _currentRoom;
+        _currentRoom.Explored = true;
+        MarkAdjacentRooms(_currentRoom);
+        SetContainsPlayer(_currentRoom);
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
@@ -392,11 +429,15 @@ public class RoomGeneration: MonoBehaviour
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.CurrentCoords = newCoords;
         playerController.CurrentRoom = _currentRoom;
+        _currentRoom.Explored = true;
+        MarkAdjacentRooms(_currentRoom);
+        SetContainsPlayer(_currentRoom);
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
         playerController.EncounterController = _encounterController;
         playerController.CollectorController = _collectorController;
+        _miniMapController.UpdateMap();
     }
 
 
@@ -428,5 +469,14 @@ public class RoomGeneration: MonoBehaviour
             randomCritter.SetStartingLevel(1);
             startRoom.StarterPicks.Add(randomCritter);
         }
+    }
+
+    public void SetContainsPlayer(Room roomContainingPlayer)
+    {
+        foreach(Room room in _allRooms)
+        {
+            room.ContainsPlayer = false;
+        }
+        roomContainingPlayer.ContainsPlayer = true;
     }
 }
