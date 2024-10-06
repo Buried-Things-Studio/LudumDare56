@@ -53,7 +53,7 @@ public class Critter
     public void SetStartingMoves(OpponentType opponentType)
     {
         int desiredMoveCount = 0;
-        int moveQuality = 0 
+        int moveQuality = 0;
         if(Level < 4)
         {
             if(opponentType == OpponentType.Wild)
@@ -89,13 +89,13 @@ public class Critter
         }
 
         int remainingMovesToApply = Moves.Count - desiredMoveCount;
-        List<Moves> allMoves = MasterCollection.GetAllMoveTypes();
+        List<Move> allMoves = MasterCollection.GetAllMoves();
         foreach(Move move in Moves)
         {
             allMoves.Remove(move);
         }
-        List<Moves> correctTypeMoves = allMoves.Where(move => Affinities.Contains(move.Affinity)).ToList();
-        List<Moves> orderedCorrectMoves = correctTypeMoves.OrderBy(move => move.MaxUses).ToList();
+        List<Move> correctTypeMoves = allMoves.Where(move => Affinities.Contains(move.Affinity)).ToList();
+        List<Move> orderedCorrectMoves = correctTypeMoves.OrderBy(move => move.MaxUses).ToList();
 
         if(moveQuality == 1)
         {
@@ -117,7 +117,7 @@ public class Critter
         {
             if(correctTypeMoves.Count == 0)
             {
-                int index = Random.Range(0, allMoves.Count);
+                int index = UnityEngine.Random.Range(0, allMoves.Count);
                 Moves.Add(allMoves[index]);
                 allMoves.RemoveAt(index);
             }
@@ -135,13 +135,13 @@ public class Critter
             }
             else if(moveQuality == 1)
             {
-                int index = Random.Range(0, correctTypeMoves.Count);
+                int index = UnityEngine.Random.Range(0, correctTypeMoves.Count);
                 Moves.Add(correctTypeMoves[index]);
                 correctTypeMoves.RemoveAt(index);
             }
             else if(moveQuality == 2)
             {
-                int index = Random.Range(0, correctTypeMoves.Count);
+                int index = UnityEngine.Random.Range(0, correctTypeMoves.Count);
                 Moves.Add(correctTypeMoves[index]);
                 correctTypeMoves.RemoveAt(index);
             }
