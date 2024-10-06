@@ -22,6 +22,7 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private List<GameObject> _hospitalTilePrefabs;
     [SerializeField] private List<GameObject> _bossTilePrefabs;
     [SerializeField] private List<GameObject> _trainerTilePrefabs;
+    [SerializeField] private List<GameObject> _starterTilePrefabs;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private GameObject _collectorPrefab;
     [SerializeField] private MapGeneration _mapGeneration;
@@ -78,9 +79,13 @@ public class RoomGeneration: MonoBehaviour
     {
 
         List<List<List<string>>> usableRoomLayouts = new List<List<List<string>>>();
-        if(roomType == RoomType.Normal || roomType == RoomType.Start)
+        if(roomType == RoomType.Normal)
         {
             usableRoomLayouts = RoomLayouts.NormalRoomLayouts;
+        }
+        else if(roomType == RoomType.Start)
+        {
+            usableRoomLayouts = RoomLayouts.StartRoomLayouts;
         }
         else if(roomType == RoomType.Shop)
         {
@@ -270,6 +275,14 @@ public class RoomGeneration: MonoBehaviour
                     GameObject tileObject = GameObject.Instantiate(randomHospitalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Hospital;
+                    _floorTiles.Add(tileObject);
+                }
+                if(_currentRoom.Layout[i][j] == "R")
+                {
+                    GameObject randomStarterTile = _starterTilePrefabs[Random.Range(0, _starterTilePrefabs.Count)];
+                    GameObject tileObject = GameObject.Instantiate(randomStarterTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
+                    tileObject.GetComponent<Tile>().Type = TileType.Starter;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "0" 
