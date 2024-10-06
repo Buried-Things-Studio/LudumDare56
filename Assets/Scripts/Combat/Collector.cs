@@ -6,18 +6,22 @@ using UnityEngine;
 
 public class Collector
 {
-    private List<Critter> _critters;
+    private List<Critter> _critters = new List<Critter>();
     private bool _isBoss;
+    public bool HasBeenDefeated;
 
 
-    public Collector(bool isBoss, int teamSize, int floorNumber, List<CritterAffinity> availableAffinities)
+    public Collector(bool isBoss, int teamSize, Vector2Int levelRange, List<CritterAffinity> availableAffinities)
     {
         _isBoss = isBoss;
         List<Critter> availableCritters = MasterCollection.GetAllCritters(availableAffinities);
+        Debug.Log("check");
+        Debug.Log("available critters count = " + availableCritters.Count.ToString());
+        Debug.Log("teamSize = " + teamSize.ToString());
 
         for (int i = 0; i < teamSize; i++)
         {
-            int level = floorNumber + UnityEngine.Random.Range(0, 2);
+            int level = UnityEngine.Random.Range(levelRange.x, levelRange.y + 1);
             level += isBoss ? 1 : 0;
             
             Critter randomCritterToClone = availableCritters[UnityEngine.Random.Range(0, availableCritters.Count)];

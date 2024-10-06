@@ -9,6 +9,9 @@ public class Room
     public List<List<string>> Layout;
     public bool Explored;
 
+    public List<Item> ShopItems = new List<Item>();
+    public List<Collector> Collectors = new List<Collector>();
+
     public Room(RoomType type, Vector2Int coords, List<List<string>> layout)
     {
         Type = type;

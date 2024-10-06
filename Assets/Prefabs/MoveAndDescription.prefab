@@ -738,6 +738,7 @@ GameObject:
   - component: {fileID: 3376895826120592132}
   - component: {fileID: 7191183455761210371}
   - component: {fileID: 7236219662126014995}
+  - component: {fileID: 6340769933640216883}
   m_Layer: 5
   m_Name: MoveAndDescription
   m_TagString: Untagged
@@ -817,6 +818,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &6340769933640216883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4222405415163442383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff05cc190261fc24db8ec6eb5366f5d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveNameTMP: {fileID: 3242816539820425244}
+  _usesTMP: {fileID: 2226644293379426659}
+  _powerTMP: {fileID: 7459965831135862679}
+  _bluntSharpTMP: {fileID: 6073277139173937864}
+  _descriptionTMP: {fileID: 3540178909536472353}
+  _typeIcon: {fileID: 1475167656639318488}
+  _spikesImage: {fileID: 6445971725551006440}
+  _backgroundFadeImage: {fileID: 3455804721244830139}
 --- !u!1 &5154209238231848559
 GameObject:
   m_ObjectHideFlags: 0

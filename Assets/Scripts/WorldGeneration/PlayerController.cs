@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     public List<Room> Map;
     public GameObject PlayerObject;
     public RoomGeneration RoomGeneration;
+    public CollectorController CollectorController;
+    public EncounterController EncounterController;
+
 
     public void Update()
     {
@@ -21,9 +24,7 @@ public class PlayerController : MonoBehaviour
             Vector2Int targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y +1);
             if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords))
             {
-                PlayerObject.transform.parent = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == targetCoords).transform;
-                PlayerObject.transform.localPosition = Vector3.zero;
-                CurrentCoords = targetCoords;
+                MoveToNewTile(targetCoords);
             }
             else if(currentTile.Type == TileType.Door)
             {
@@ -33,11 +34,10 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKeyDown("down"))
         {
-            if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == new Vector2Int(CurrentCoords.x, CurrentCoords.y -1)))
+            Vector2Int targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y -1);
+            if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords))
             {
-                PlayerObject.transform.parent = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == new Vector2Int(CurrentCoords.x, CurrentCoords.y -1)).transform;
-                PlayerObject.transform.localPosition = Vector3.zero;
-                CurrentCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y -1);
+                MoveToNewTile(targetCoords);
             }
             else if(currentTile.Type == TileType.Door)
             {
@@ -47,11 +47,10 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKeyDown("right"))
         {
-            if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y)))
+            Vector2Int targetCoords = new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y);
+            if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords))
             {
-                PlayerObject.transform.parent = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y)).transform;
-                PlayerObject.transform.localPosition = Vector3.zero;
-                CurrentCoords = new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y);
+                MoveToNewTile(targetCoords);
             }
             else if(currentTile.Type == TileType.Door)
             {
@@ -61,17 +60,40 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKeyDown("left"))
         {
-            if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y)))
+            Vector2Int targetCoords = new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y);
+            if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords))
             {
-                PlayerObject.transform.parent = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y)).transform;
-                PlayerObject.transform.localPosition = Vector3.zero;
-                CurrentCoords = new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y);
+                MoveToNewTile(targetCoords);
             }
             else if(currentTile.Type == TileType.Door)
             {
                 Vector2Int newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x - 1, CurrentRoom.Coordinates.y);
                 RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords);
             }
+        }
+    }
+
+    private void MoveToNewTile(Vector2Int targetCoords)
+    {
+        GameObject tileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == targetCoords);
+        Tile tile = tileObject.GetComponent<Tile>();
+        PlayerObject.transform.parent = tileObject.transform;
+        PlayerObject.transform.localPosition = Vector3.zero;
+        CurrentCoords = targetCoords;
+
+        // trainer check
+        if(CollectorController != null)
+        {
+            if(CollectorController.VisibleCoords.Contains(targetCoords))
+            {
+                CollectorController.MoveToPlayer();
+            }
+        }
+
+        // grass check 
+        if(tile.Type == TileType.Grass)
+        {
+            EncounterController.CheckRandomEncounter();
         }
     }
 }
