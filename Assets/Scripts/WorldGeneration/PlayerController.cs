@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
                         FloorController.PlayerData.RemoveMoney(cost);
                         MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
                         moneyCanvasController.SetMoney(FloorController.PlayerData.GetMoney());
-                        FloorController.PlayerData.AddItem(item);
+                        FloorController.PlayerData.AddItemToInventory(item);
                         tile.ShopItem = null;
                         tileObject.GetComponent<ShopTileController>().ScrollParent.SetActive(false);
                         yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
                         FloorController.PlayerData.RemoveMoney(cost);
                         MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
                         moneyCanvasController.SetMoney(FloorController.PlayerData.GetMoney());
-                        FloorController.PlayerData.AddItem(item);
+                        FloorController.PlayerData.AddItemToInventory(item);
                         tile.ShopItem = null;
                         tileObject.GetComponent<ShopTileController>().NectarParent.SetActive(false);
                         tileObject.GetComponent<ShopTileController>().MasonJarParent.SetActive(false);
