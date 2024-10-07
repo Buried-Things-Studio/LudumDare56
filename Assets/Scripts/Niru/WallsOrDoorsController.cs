@@ -9,7 +9,15 @@ public class WallsOrDoorsController : MonoBehaviour
 
     public void Generate()
     {
-        foreach(WallOrDoor w in _wallOrDoors)
+        StartCoroutine(Wait());
+    }
+
+
+    private IEnumerator Wait()
+    {
+        yield return null;
+
+        foreach (WallOrDoor w in _wallOrDoors)
         {
             w.CheckForDoors();
         }
