@@ -33,8 +33,8 @@ public class CombatUIController : MonoBehaviour
         VisualSteps = new CombatVisualSteps();
         _combatController = combatController;
         _player = player;
-        _playerBugInfoContainer.PopulateBugData(playerCritter, true);
-        _npcBugInfoContainer.PopulateBugData(npcCritter, false);
+        _playerBugInfoContainer.PopulateBugData(playerCritter, false);
+        _npcBugInfoContainer.PopulateBugData(npcCritter, _combatController.OpponentData == null);
 
         SetInactiveAllMenus();
         _battleOptionsObject.SetActive(true);
@@ -45,13 +45,13 @@ public class CombatUIController : MonoBehaviour
 
     public void UpdatePlayerBugData(Critter critter)
     {
-        _playerBugInfoContainer.PopulateBugData(critter, true);
+        _playerBugInfoContainer.PopulateBugData(critter, false);
     }
 
 
     public void UpdateNpcBugData(Critter critter)
     {
-        _npcBugInfoContainer.PopulateBugData(critter, false);
+        _npcBugInfoContainer.PopulateBugData(critter, _combatController.OpponentData == null);
     }
 
 
@@ -99,7 +99,7 @@ public class CombatUIController : MonoBehaviour
             {
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
 
-                _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter, true); //this might not be the critter that levelled, but there's no harm with a repopulate
+                _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter, false); //this might not be the critter that levelled, but there's no harm with a repopulate
             }
             else
             {

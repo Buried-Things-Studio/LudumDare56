@@ -21,12 +21,12 @@ public class BugInfoContainer : MonoBehaviour
     private Color _catchThresholdInactiveColor = new Color32(0x48, 0x48, 0x48, 0xFF); //#484848FF
     private Color _catchThresholdActiveColor = new Color32(0x2C, 0x96, 0x3E, 0xFF); //#2C963EFF
     private float _maxCatchThresholdX = 332; //this is just eyeballed
-    private bool _isPlayerCritter;
+    private bool _isWildCritter;
 
 
-    public void PopulateBugData(Critter critter, bool isPlayerCritter)
+    public void PopulateBugData(Critter critter, bool isWildCritter)
     {
-        _isPlayerCritter = isPlayerCritter;
+        _isWildCritter = isWildCritter;
         
         _bugNameTMP.text = critter.Name;
         _levelTMP.text = $"<size=18>Lv </size><mspace=24>{critter.Level}";
@@ -35,7 +35,7 @@ public class BugInfoContainer : MonoBehaviour
         _healthNumbersTMP.text = $"<mspace=14>{critter.CurrentHealth}/{critter.MaxHealth}";
         _healthBarFillImage.fillAmount = (float)critter.CurrentHealth / (float)critter.MaxHealth;
 
-        if (_isPlayerCritter)
+        if (!_isWildCritter)
         {
             _catchThresholdBarImage.gameObject.SetActive(false);
         }
@@ -59,7 +59,7 @@ public class BugInfoContainer : MonoBehaviour
 
     private void UpdateCatchThresholdColor(int currentHealth, int maxHealth, int level)
     {
-        if (_isPlayerCritter)
+        if (!_isWildCritter)
         {
             return;
         }
