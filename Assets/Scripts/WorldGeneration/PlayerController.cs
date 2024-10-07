@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public CollectorController CollectorController;
     public EncounterController EncounterController;
     public int Direction = 0;
+    public bool IsInvisibleToEncounters;
     private bool _isMoving; 
     private bool _newTileChecks; 
     private bool _checkContinuedMovement;
@@ -254,7 +255,7 @@ public class PlayerController : MonoBehaviour
         MapState mapState = new MapState(Map, CurrentRoom.Coordinates, CurrentCoords, Direction);
 
         // trainer check
-        if (CollectorController != null)
+        if (CollectorController != null && !IsInvisibleToEncounters)
         {
             if (!CollectorController.Collector.HasBeenDefeated && CollectorController.VisibleCoords.Contains(CurrentCoords))
             {
@@ -267,7 +268,7 @@ public class PlayerController : MonoBehaviour
         Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
 
         // grass check 
-        if (currentTile.Type == TileType.Grass)
+        if (currentTile.Type == TileType.Grass && !IsInvisibleToEncounters)
         {
             ////Grass particle effect
             //_grassParticleSystem.Play();
