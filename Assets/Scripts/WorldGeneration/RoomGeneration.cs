@@ -28,13 +28,15 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private GameObject _collectorPrefab;
     [SerializeField] private MapGeneration _mapGeneration;
     [SerializeField] private MiniMapController _miniMapController;
+    private FloorController _floorController; 
     private int _collectorsPerFloor = 3;
 
 
-    public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController)
+    public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController, FloorController floorController)
     {
         _encounterController = encounterController;
         _map = _mapGeneration.SafeGenerateMainPath();
+        _floorController = floorController;
         if(_map == null)
         {
             Debug.Log("Map generation failed too many times. No map generated");
@@ -55,9 +57,10 @@ public class RoomGeneration: MonoBehaviour
         Debug.Log("Generating Map from MapState");
         _allRooms = mapState.Map;
         _currentRoom = _allRooms.Find(room => room.Coordinates == mapState.PlayerRoom);
+        _miniMapController = GameObject.FindObjectOfType<MiniMapController>();
+        _miniMapController.Map = _allRooms;
         DisplayCurrentRoom();
         PlacePlayerAtCoords(mapState.PlayerTile, mapState.PlayerDirection);
-        _miniMapController.Map = _allRooms;
         _miniMapController.UpdateMap();
     }
 
@@ -248,6 +251,7 @@ public class RoomGeneration: MonoBehaviour
 
     public void DisplayCurrentRoom()
     {
+        _floorTiles.Clear();
         string collectorPosition = "-1";
         if(_currentRoom.Collectors.Count > 0)
         {
@@ -381,6 +385,12 @@ public class RoomGeneration: MonoBehaviour
         if(_collectorController != null)
         {
             _collectorController.RoomTiles = _floorTiles;
+            _collectorController.MoveToTile();
+            if(_collectorController.Collector.Coords != new Vector2Int(-100, -100))
+            {
+                _floorTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == _collectorController.Collector.Coords).GetComponent<Tile>().IsWalkable = false;
+            }
+        
         }
     }
 
@@ -399,6 +409,7 @@ public class RoomGeneration: MonoBehaviour
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
+        playerController.FloorController = _floorController;
         playerController.EncounterController = _encounterController;
         playerController.CollectorController = _collectorController;
     }
@@ -429,6 +440,7 @@ public class RoomGeneration: MonoBehaviour
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
         playerController.EncounterController = _encounterController;
+        playerController.FloorController = _floorController;
         playerController.CollectorController = _collectorController;
         playerController.Direction = direction;
         playerController.SnapToDirection();
@@ -467,6 +479,7 @@ public class RoomGeneration: MonoBehaviour
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
         playerController.EncounterController = _encounterController;
+        playerController.FloorController = _floorController;
         playerController.CollectorController = _collectorController;
         playerController.Direction = direction;
         playerController.SnapToDirection();

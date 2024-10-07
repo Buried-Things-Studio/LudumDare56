@@ -49,10 +49,10 @@ public class CollectorController : MonoBehaviour
         }
     }
 
-    public void MoveToPlayer(Vector2Int playerCoords, EncounterController encounterController, MapState mapState)
+    public void MoveToPlayer(Vector2Int playerCoords, EncounterController encounterController)
     {
         Debug.Log("Moving to player");
-        StartCoroutine(SlideToPlayer(playerCoords, encounterController, mapState));
+        StartCoroutine(SlideToPlayer(playerCoords, encounterController));
     }
 
 
@@ -90,7 +90,7 @@ public class CollectorController : MonoBehaviour
         return closerAdjCoords;
     }
 
-    private IEnumerator SlideToPlayer(Vector2Int playerCoords, EncounterController encounterController, MapState mapState)
+    private IEnumerator SlideToPlayer(Vector2Int playerCoords, EncounterController encounterController)
     {
         while(CalculateManhattanDistance(Coordinates, playerCoords) > 1)
         {
@@ -104,6 +104,7 @@ public class CollectorController : MonoBehaviour
             Tile tile = tileObject.GetComponent<Tile>();
             tile.IsWalkable = false;
             Coordinates = chosenCoord;
+            Collector.Coords = chosenCoord;
             yield return StartCoroutine(SmoothMove(transform.position, tile.transform.position));
 
         }
@@ -112,7 +113,7 @@ public class CollectorController : MonoBehaviour
 
         yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You there, battle my bugs!"));
 
-        encounterController.StartCollectorCombat(Collector, mapState);
+        encounterController.StartCollectorCombat(Collector);
         
         yield return null;
     }
@@ -162,5 +163,19 @@ public class CollectorController : MonoBehaviour
         }
 
         transform.rotation = Quaternion.Euler(new Vector3(0f, targetDirection, 0f));
+    }
+
+    public void MoveToTile()
+    {
+        if(Collector.Coords != new Vector2Int(-100, -100))
+        {
+            Vector3 meshStartPos = _meshTransform.localPosition;
+            GameObject newTileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == Collector.Coords);
+            GameObject currentTileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == Collector.Coords);
+            newTileObject.GetComponent<Tile>().IsWalkable = false;
+            currentTileObject.GetComponent<Tile>().IsWalkable = true;
+            transform.position = newTileObject.transform.position;
+            _meshTransform.localPosition = meshStartPos;
+        }
     }
 }

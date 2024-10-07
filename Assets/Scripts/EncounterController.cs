@@ -40,7 +40,7 @@ public class EncounterController : MonoBehaviour
     }
     
     
-    public bool CheckRandomEncounter(bool forceCombat = false, MapState mapState = null)
+    public bool CheckRandomEncounter(bool forceCombat = false)
     {
         bool isEnteringEncounter = UnityEngine.Random.Range(0f, 1f) < _encounterChance;
 
@@ -50,14 +50,14 @@ public class EncounterController : MonoBehaviour
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
             randomCritter.SetStartingLevel(UnityEngine.Random.Range(_wildEncounterLevelRange.x, _wildEncounterLevelRange.y + 1));
 
-            StartCoroutine(DoCombat(randomCritter, mapState));
+            StartCoroutine(DoCombat(randomCritter));
         }
 
         return isEnteringEncounter;
     }
 
 
-    public IEnumerator DoCombat(Critter opponent, MapState mapState = null)
+    public IEnumerator DoCombat(Critter opponent)
     {
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
 
@@ -70,19 +70,19 @@ public class EncounterController : MonoBehaviour
 
         CombatController combatController = GameObject.FindObjectOfType<CombatController>();
 
-        combatController.SetupCombat(PlayerData, null, opponent, mapState);
+        combatController.SetupCombat(PlayerData, null, opponent);
 
         yield return null;
     }
 
 
-    public void StartCollectorCombat(Collector collector, MapState mapState)
+    public void StartCollectorCombat(Collector collector)
     {
-        StartCoroutine(DoCollectorCombat(collector, mapState));
+        StartCoroutine(DoCollectorCombat(collector));
     }
 
 
-    public IEnumerator DoCollectorCombat(Collector collector, MapState mapState)
+    public IEnumerator DoCollectorCombat(Collector collector)
     {
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
 
@@ -100,7 +100,7 @@ public class EncounterController : MonoBehaviour
             Debug.Log($"The collector has a {critter.Name}");
         }
 
-        combatController.SetupCombat(PlayerData, collector, null, mapState);
+        combatController.SetupCombat(PlayerData, collector, null);
 
         yield return null;
     }
