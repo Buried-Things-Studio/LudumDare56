@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool _newTileChecks; 
     private bool _checkContinuedMovement;
     private bool _isMovementBlockedByUI;
+    private bool _isMovementBlockedByOverworldMenu;
     private bool _checkNewMovement = true;
     private List<string> _keyPressPriorityOrder = new List<string>();
     public FloorController FloorController;
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         CheckPressedKeys();
 
-        if (_isMoving || _isMovementBlockedByUI)
+        if (_isMoving || _isMovementBlockedByUI || _isMovementBlockedByOverworldMenu)
         {
             return;
         }
@@ -56,6 +57,18 @@ public class PlayerController : MonoBehaviour
         {
             CheckForNewMovement();
         }
+    }
+
+
+    public bool GetAbleToMove()
+    {
+        return (_checkContinuedMovement || _checkNewMovement) && !_isMovementBlockedByUI;
+    }
+
+
+    public void SetOverworldMenuUIBlock(bool isMenuOpen)
+    {
+        _isMovementBlockedByOverworldMenu = isMenuOpen;
     }
 
 

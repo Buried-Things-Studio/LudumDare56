@@ -57,10 +57,13 @@ public class FloorController : MonoBehaviour
 
             Debug.Log("Does map exist  = " +  doesMapExist.ToString());
 
-            if(doesMapExist){
+            if (doesMapExist)
+            {
                 SingleFloorController.RoomGen.GenerateMapFromMapState(SingleFloorController.MapState);
+                GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
             }
-            else {
+            else
+            {
                 SingleFloorController.InitializeLevel();
             }
 
@@ -103,6 +106,9 @@ public class FloorController : MonoBehaviour
         PlayerData.AddItemToInventory(new Nectar());
         PlayerData.AddItemToInventory(new Nectar());
         PlayerData.AddItemToInventory(new Nectar());
+        MoveManual newMoveManual = new MoveManual();
+        newMoveManual.SetRandomMove();
+        PlayerData.AddItemToInventory(newMoveManual);
         //--------------
 
         InitializeLevel();
@@ -135,11 +141,13 @@ public class FloorController : MonoBehaviour
         }
 
         RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this);
+        GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
     }
+
 
     public void IncrementLevel()
     {
-        _currentLevel ++; 
+        _currentLevel++; 
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
     }
 
