@@ -18,6 +18,8 @@ public class MoveOptions : MonoBehaviour
     
     public void PopulateMoves(Critter critter)
     {
+        _selections.Clear();
+        
         for (int i = 0; i < _moveOptions.Count; i++)
         {
             MoveOption option = _moveOptions[i];
@@ -40,6 +42,11 @@ public class MoveOptions : MonoBehaviour
 
     public void ShowCurrentSelection()
     {
+        if (_currentSelectedIndex >= _selections.Count)
+        {
+            _currentSelectedIndex = 0;
+        }
+        
         for (int i = 0; i < _selections.Count; i++)
         {
             _selections[i].SetActive(i == _currentSelectedIndex);
