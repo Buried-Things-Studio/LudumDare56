@@ -250,7 +250,7 @@ public class ApplyStatusEffectStep : CombatVisualStep
 
         if (StatusType == StatusEffectType.Confuse) //TODO: add future statuses
         {
-            statusName = "confused!";
+            statusName = "confused";
         }
         else
         {
@@ -383,6 +383,6 @@ public class WinningsStep : CombatVisualStep
 
     public override string GetPopulatedMessage()
     {
-        return $"Won £{Winnings}!";
+        return $"Won {Winnings} coins!";
     }
 }

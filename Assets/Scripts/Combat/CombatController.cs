@@ -385,8 +385,9 @@ public class CombatController : MonoBehaviour
             //TODO: go to win
             //StartCoroutine(GoToMainGame());
 
-            PlayerData.AddMoney(100 * OpponentData.GetCritters().Count);
-            
+            int winnings = 100 * OpponentData.GetCritters().Count;
+            PlayerData.AddMoney(winnings);
+            _viz.AddVisualStep(new WinningsStep(winnings));
 
             return true;
         }
