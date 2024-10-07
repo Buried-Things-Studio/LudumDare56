@@ -22,6 +22,8 @@ public class CombatState
 
 public class CombatController : MonoBehaviour
 {
+    [SerializeField] private Transform _playerMeshParent;
+    [SerializeField] private Transform _npcMeshParent;
     [SerializeField] private CombatUIController _viz;
     
     public Player PlayerData;
@@ -37,9 +39,16 @@ public class CombatController : MonoBehaviour
         State.NpcCritter = OpponentData == null ? npcCritter : OpponentData.GetActiveCritter();
         State.PlayerCritter.ResetTemporaryStats();
         State.NpcCritter.ResetTemporaryStats();
-
+        
+        InitializeMeshes();
         _viz.InitializeCombatUI(this, playerData, State.PlayerCritter, State.NpcCritter);
         StartCoroutine(InitializeTurn());
+    }
+
+
+    private void InitializeMeshes()
+    {
+        GameObject playerMesh = GameObject.Instantiate()
     }
 
 
