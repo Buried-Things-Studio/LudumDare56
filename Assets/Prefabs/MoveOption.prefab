@@ -702,6 +702,7 @@ MonoBehaviour:
   _typeIcon: {fileID: 4909407837697328820}
   _spikesImage: {fileID: 1474678145852735038}
   _backgroundFadeImage: {fileID: 4173319145847302534}
+  _selection: {fileID: 5880971794590045224}
 --- !u!1 &8739103872175396849
 GameObject:
   m_ObjectHideFlags: 0

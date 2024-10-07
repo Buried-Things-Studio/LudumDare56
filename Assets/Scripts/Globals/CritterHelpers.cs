@@ -6,53 +6,30 @@ using UnityEngine;
 
 public static class CritterHelpers
 {
-    public static Dictionary<CritterAffinity, Color> AffinityColors = new Dictionary<CritterAffinity, Color>();
     public static Dictionary<CritterAffinity, List<CritterAffinity>> GoodDefences = new Dictionary<CritterAffinity, List<CritterAffinity>>(); //search by defending affinity in key field
     public static Dictionary<CritterAffinity, List<CritterAffinity>> BadDefences = new Dictionary<CritterAffinity, List<CritterAffinity>>(); //search by defending affinity in key field
     public static List<int> ExpToNextLevel = new List<int>(){0, 100, 200, 350, 575, 950, 1575, 2200, 2950, 4000};
     public static int MaxTeamSize = 5;
 
-
-    public static Color GetAffinityColor(CritterAffinity affinity)
-    {
-        if (AffinityColors.Count == 0)
-        {
-            PopulateAffinityColors();
-        }
-
-        return AffinityColors[affinity];
-    }
-
-
-    private static void PopulateAffinityColors()
-    {
-        AffinityColors[CritterAffinity.Ant] = Color.red;
-        AffinityColors[CritterAffinity.Bee] = Color.yellow;
-        AffinityColors[CritterAffinity.Beetle] = Color.blue;
-        AffinityColors[CritterAffinity.Caterpillar] = Color.green;
-        AffinityColors[CritterAffinity.Mollusc] = Color.magenta;
-        AffinityColors[CritterAffinity.Spider] = Color.black;
-    }
     
-    
-    public static float GetDamageMultiplier(List<CritterAffinity> defendingAffinities, CritterAffinity attackingAffinity)
+    public static int GetDamageMultiplier(List<CritterAffinity> defendingAffinities, CritterAffinity attackingAffinity)
     {
         if (GoodDefences.Count == 0)
         {
             PopulateAffinityTable();
         }
         
-        float multiplier = 1f;
+        int multiplier = 4;
 
         foreach (CritterAffinity defendingAffinity in defendingAffinities)
         {
             if (GoodDefences[defendingAffinity].Contains(attackingAffinity))
             {
-                multiplier *= 0.5f;
+                multiplier /= 2;
             }
             else if (BadDefences[defendingAffinity].Contains(attackingAffinity))
             {
-                multiplier *= 2f;
+                multiplier *= 2;
             }
         }
 
@@ -60,10 +37,10 @@ public static class CritterHelpers
     }
 
 
-    public static int GetDamage(CombatState state, Move move)
+    public static int GetDamage(CombatState state, Move move, bool isPlayerUser, out int damageMultiplier)
     {
-        Critter user = state.GetUserFromGUID(move.UserGUID);
-        Critter opponent = state.GetOpponentFromGUID(move.UserGUID);
+        Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
         int baseDamage = move.BasePower / 5;
         float sameAffinityBonus = user.Affinities.Contains(move.Affinity) ? 1.5f : 1f;
         float statRatio = 0f;
@@ -77,7 +54,9 @@ public static class CritterHelpers
             statRatio = (float)GetEffectiveBluntAttack(user) / (float)Mathf.Max(1, GetEffectiveBluntDefense(opponent));
         }
 
-        return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * GetDamageMultiplier(opponent.Affinities, move.Affinity));
+        damageMultiplier = GetDamageMultiplier(opponent.Affinities, move.Affinity);
+
+        return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * (damageMultiplier / 4f));
     }
 
 

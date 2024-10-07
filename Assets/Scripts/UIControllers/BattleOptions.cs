@@ -9,6 +9,12 @@ public class BattleOptions : MonoBehaviour
     private int _currentSelectedIndex = 0;
 
 
+    public void SetSelectedIndexToMove()
+    {
+        
+    }
+
+
     public void ShowCurrentSelection()
     {
         for (int i = 0; i < _selections.Count; i++)

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,13 +30,22 @@ public class BugMenu : MonoBehaviour
 
     [SerializeField] private List<MoveDetails> _moveDetails;
 
-    private List<GameObject> _selections;
-    private List<BugOption> _bugOptions;
+    public Guid SelectedCritterGuid = Guid.Empty;
+    private List<GameObject> _selections = new List<GameObject>();
+    private List<BugOption> _bugOptions = new List<BugOption>();
     private int _currentSelectedIndex;
 
 
     public void PopulateCritters(List<Critter> critters)
     {
+        foreach (BugOption bug in _bugOptions)
+        {
+            GameObject.Destroy(bug.gameObject);
+        }
+
+        _selections.Clear();
+        _bugOptions.Clear();
+        
         foreach (Critter critter in critters)
         {
             GameObject newBugOption = GameObject.Instantiate(_bugOptionPrefab);
@@ -75,7 +86,7 @@ public class BugMenu : MonoBehaviour
 
         for (int i = 0; i < _moveDetails.Count; i++)
         {
-            if (selectedCritter.Moves.Count < i)
+            if (selectedCritter.Moves.Count <= i)
             {
                 _moveDetails[i].gameObject.SetActive(false);
                 
@@ -97,4 +108,68 @@ public class BugMenu : MonoBehaviour
         _currentSelectedIndex = (_currentSelectedIndex + _selections.Count) % _selections.Count;
         ShowCurrentSelection();
     }
+
+
+    public IEnumerator PlayerInteraction(BugMenuContext context)
+    {
+        if (context == BugMenuContext.ChooseActiveWithoutCommit)
+        {
+            yield return StartCoroutine(ChooseActiveInteraction(false));
+        }
+        else if (context == BugMenuContext.ForceChooseActive)
+        {
+            yield return StartCoroutine(ChooseActiveInteraction(true));
+        }
+        else if (context == BugMenuContext.SwapToActiveSlot)
+        {
+            yield return StartCoroutine(ChooseActiveInteraction(false));
+        }
+    }
+
+
+    public IEnumerator ChooseActiveInteraction(bool isForcingChoice)
+    {
+        yield return new WaitForEndOfFrame();
+
+        bool isClosing = false;
+        SelectedCritterGuid = Guid.Empty;
+        
+        while (!isClosing)
+        {
+            if (Input.GetKeyDown(Controls.MenuUpKey))
+            {
+                MoveSelection(true);
+            }
+            else if (Input.GetKeyDown(Controls.MenuDownKey))
+            {
+                MoveSelection(false);
+            }
+            else if (Input.GetKeyDown(Controls.MenuSelectKey))
+            {
+                Critter selectedCritter = _bugOptions[_currentSelectedIndex].GetCritter();
+
+                if (selectedCritter.CurrentHealth > 0)
+                {
+                    SelectedCritterGuid = selectedCritter.GUID;
+                    isClosing = true;
+                }
+            }
+            else if (!isForcingChoice && Input.GetKeyDown(Controls.MenuBackKey))
+            {
+                SelectedCritterGuid = Guid.Empty;
+                isClosing = true;
+            }
+
+            yield return null;
+        }
+    }
+}
+
+
+public enum BugMenuContext
+{
+    None,
+    SwapToActiveSlot,
+    ChooseActiveWithoutCommit,
+    ForceChooseActive
 }

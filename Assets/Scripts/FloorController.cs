@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class FloorController : MonoBehaviour
 {
-    public EncounterController Encounters;
+    [SerializeField] private EncounterController Encounters;
     public RoomGeneration RoomGen;
+    public Player PlayerData;
     
     private int _currentLevel = 0;
     private List<Vector2Int> _wildEncounterLevelRanges = new List<Vector2Int>(){
@@ -39,7 +40,27 @@ public class FloorController : MonoBehaviour
 
     private void Awake()
     {
-        Encounters = new EncounterController();
+        GameObject.DontDestroyOnLoad(this.gameObject);
+        
+        PlayerData = new Player();
+        Encounters.PlayerData = PlayerData;
+
+        //TODO: remove!----------
+        Critter starter = new Bumblebee();
+        starter.SetStartingLevel(2);
+        PlayerData.AddCritter(starter);
+
+        Critter boi = new MonarchButterfly();
+        boi.SetStartingLevel(3);
+        PlayerData.AddCritter(boi);
+
+        PlayerData.AddItemToInventory(new MasonJar());
+        PlayerData.AddItemToInventory(new MasonJar());
+        PlayerData.AddItemToInventory(new MasonJar());
+        PlayerData.AddItemToInventory(new Nectar());
+        PlayerData.AddItemToInventory(new Nectar());
+        PlayerData.AddItemToInventory(new Nectar());
+        //--------------
 
         InitializeLevel();
     }

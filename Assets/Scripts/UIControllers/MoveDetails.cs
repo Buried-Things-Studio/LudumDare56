@@ -26,11 +26,12 @@ public class MoveDetails : MonoBehaviour
         _moveNameTMP.text = move.Name;
         _usesTMP.text = $"{move.CurrentUses}/{move.MaxUses}";
         _bluntSharpTMP.text = move.IsSharp ? "SHARP" : "BLUNT";
+        _bluntSharpTMP.text = move.BasePower > 0 ? _bluntSharpTMP.text : "--";
         _descriptionTMP.text = move.Description;
-        _powerTMP.text = move.BasePower.ToString();
+        _powerTMP.text = move.BasePower > 0 ? move.BasePower.ToString() : "--";
 
-        _spikesImage.color = CritterHelpers.GetAffinityColor(move.Affinity);
-        _backgroundFadeImage.color = CritterHelpers.GetAffinityColor(move.Affinity);
+        _spikesImage.color = CritterAffinityData.GetAffinityColor(move.Affinity);
+        _backgroundFadeImage.color = CritterAffinityData.GetAffinityColor(move.Affinity);
     }
 
 

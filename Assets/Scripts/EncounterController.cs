@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
-public class EncounterController
+public class EncounterController : MonoBehaviour
 {
+    public Player PlayerData;
     private float _encounterChance = 0.125f;
     private int _critterTypesAvailablePerFloor = 5;
     private List<Type> _critterTypesAvailableOnFloor = new List<Type>();
@@ -32,27 +34,41 @@ public class EncounterController
             int randomIndex = UnityEngine.Random.Range(0, availableCritterTypes.Count);
             _critterTypesAvailableOnFloor.Add(availableCritterTypes[randomIndex]);
 
-            Debug.Log($"-- {availableCritterTypes[randomIndex].GetType()}");
-
             availableCritterTypes.RemoveAt(randomIndex);
         }
     }
     
     
-    public bool CheckRandomEncounter()
+    public bool CheckRandomEncounter(bool forceCombat = false)
     {
         bool isEnteringEncounter = UnityEngine.Random.Range(0f, 1f) < _encounterChance;
 
-        if (isEnteringEncounter)
+        if (isEnteringEncounter || forceCombat)
         {
             Type randomCritterType = _critterTypesAvailableOnFloor[UnityEngine.Random.Range(0, _critterTypesAvailableOnFloor.Count)];
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
             randomCritter.SetStartingLevel(UnityEngine.Random.Range(_wildEncounterLevelRange.x, _wildEncounterLevelRange.y + 1));
 
-            Debug.Log("Entering wild encounter");
-            //TODO: GIVE RANDOM CRITTER TO COMBAT CONTROLLER
+            StartCoroutine(DoCombat(randomCritter));
         }
 
         return isEnteringEncounter;
+    }
+
+
+    public IEnumerator DoCombat(Critter opponent)
+    {
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
+
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
+        }
+
+        CombatController combatController = GameObject.FindObjectOfType<CombatController>();
+
+        combatController.SetupCombat(PlayerData, null, opponent);
+
+        yield return null;
     }
 }
