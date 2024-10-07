@@ -384,8 +384,11 @@ public class CombatController : MonoBehaviour
         {
             //TODO: go to win
             //StartCoroutine(GoToMainGame());
-            return true;
 
+            PlayerData.AddMoney(100 * OpponentData.GetCritters().Count);
+            
+
+            return true;
         }
         else if (OpponentData == null && State.NpcCritter.CurrentHealth <= 0)
         {

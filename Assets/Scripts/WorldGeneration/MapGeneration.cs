@@ -32,6 +32,8 @@ public class MapGeneration: MonoBehaviour
         }
         return null;
     }
+
+    
     private Dictionary<Vector2Int, RoomType> GenerateMainPath()
     {
         Dictionary<Vector2Int, RoomType> map = new Dictionary<Vector2Int, RoomType>();

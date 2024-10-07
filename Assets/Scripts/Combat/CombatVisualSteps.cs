@@ -368,3 +368,21 @@ public class TryCatchTooFullCritterStep : CombatVisualStep
         return $"{messages[UnityEngine.Random.Range(0, messages.Count)]}";
     }
 }
+
+
+public class WinningsStep : CombatVisualStep
+{
+    public int Winnings;
+
+
+    public WinningsStep(int winnings)
+    {
+        Winnings = winnings;
+    }
+
+
+    public override string GetPopulatedMessage()
+    {
+        return $"Won £{Winnings}!";
+    }
+}

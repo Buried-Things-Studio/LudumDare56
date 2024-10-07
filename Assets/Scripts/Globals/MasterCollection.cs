@@ -48,6 +48,9 @@ public static class MasterCollection
     public static List<Critter> GetAllCritters(List<CritterAffinity> availableAffinities)
     {
         List<Critter> allCritters = GetAllCritterTypes().Select(critterType => (Critter)Activator.CreateInstance(critterType)).ToList();
+        Debug.Log("MasterCollection GetAllCritters()");
+        Debug.Log(GetAllCritterTypes().Count);
+        Debug.Log(allCritters.Count);
 
         if (availableAffinities == null || availableAffinities.Count == 0)
         {
@@ -58,16 +61,24 @@ public static class MasterCollection
 
         foreach (Critter critter in allCritters)
         {
+            Debug.Log($"Checking if {critter.Name} is available...");
+            
             foreach (CritterAffinity affinity in critter.Affinities)
             {
+                Debug.Log($"Checking if {critter.Name} is of affinity {affinity}...");
+
                 if (availableAffinities.Contains(affinity))
                 {
+                    Debug.Log($"Critter is available!");
+                    
                     availableCritters.Add(critter);
 
                     break;
                 }
             }
         }
+
+        Debug.Log($"returning {availableCritters.Count} critters");
 
         return availableCritters;
     }

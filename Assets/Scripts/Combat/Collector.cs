@@ -16,9 +16,8 @@ public class Collector
     {
         _isBoss = isBoss;
         List<Critter> availableCritters = MasterCollection.GetAllCritters(availableAffinities);
-        Debug.Log("check");
-        Debug.Log("available critters count = " + availableCritters.Count.ToString());
-        Debug.Log("teamSize = " + teamSize.ToString());
+        Debug.Log($"available critters count = {availableCritters.Count.ToString()}");
+        Debug.Log($"teamSize = " + teamSize.ToString());
 
         for (int i = 0; i < teamSize; i++)
         {
