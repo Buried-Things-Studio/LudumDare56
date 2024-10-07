@@ -73,11 +73,11 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(InteractWithBoss());
         }
-        if(tileType == tileType.Hospital)
+        if(tileType == TileType.Hospital)
         {
             StartCoroutine(InteractWithHospital());
         }
-        if(tileType == tileType.Shop)
+        if(tileType == TileType.Shop)
         {
             StartCoroutine(InteractWithShop());
         }
@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator InteractWithShop()
     {
+        yield return null;
         
     }
 
@@ -98,14 +99,28 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Hospitals can either heal your bugs or restore their attack uses. You can only do one. Do you want to heal your bugs?"));
-
-            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Okay, so you want to restore your bugs attack uses?"));
-
-            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Then why are you wasting my time? Humph."));
-
+            yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice("Hospitals can either heal your bugs or restore their attack uses. You can only do one. Do you want to heal your bugs?"));
+            if(GlobalUI.TextBox.IsSelectingYes)
+            {
+                FloorController.PlayerData.HealAllCritters();
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("There you go, all your bugs are healed and ready to fight, good luck!"));
+                _isMovementBlockedByUI= false;
+            }
+            else {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice("Okay, so you want to restore your bugs attack uses?"));
+                if(GlobalUI.TextBox.IsSelectingYes)
+                {
+                    FloorController.PlayerData.RestoreUsesToAllCritters();
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("All your bugs have had their attack uses restored, use them carefully!"));
+                    _isMovementBlockedByUI= false;
+                }
+                else{
+                     yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Then why are you wasting my time? Humph."));
+                      _isMovementBlockedByUI= false;
+                }
+            }
         }
-
+        yield return null;
     }
 
     private IEnumerator InteractWithBoss()

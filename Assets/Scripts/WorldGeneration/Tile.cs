@@ -9,5 +9,6 @@ public class Tile : MonoBehaviour
     public TileType Type;
     public bool IsWalkable;
     public Critter Starter;
+    public Item ShopItem;
     public RoomType ConnectingRoom = RoomType.None; 
 }

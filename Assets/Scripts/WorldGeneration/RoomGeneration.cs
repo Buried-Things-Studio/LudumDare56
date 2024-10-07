@@ -233,6 +233,10 @@ public class RoomGeneration: MonoBehaviour
         {
             room.ShopItems.Add(new MasonJar());
             room.ShopItems.Add(new Nectar());
+            room.ShopItems.Add(new Nectar());
+            MoveManual moveManual= new MoveManual()
+            room.ShopItems
+
         }
     }
 
