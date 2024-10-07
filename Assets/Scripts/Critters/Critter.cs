@@ -8,6 +8,7 @@ using UnityEngine;
 public class Critter
 {
     public string Name;
+    public string Lore;
     public Guid GUID = Guid.NewGuid();
     public List<CritterAffinity> Affinities = new List<CritterAffinity>();
     public List<Move> Moves = new List<Move>();
