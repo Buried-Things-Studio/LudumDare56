@@ -304,6 +304,7 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Door;
                     tileObject.GetComponent<Tile>().IsWalkable = true;
+                    tileObject.GetComponent<Tile>().ConnectingRoom = GetConnectingRoom(new Vector2Int(j, 8-i));
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "B")
@@ -400,12 +401,15 @@ public class RoomGeneration: MonoBehaviour
             }
         
         }
+
+        //TODO
+        //Run my walls and doors code
     }
 
 
     public void GeneratePlayer()
     {
-        _player = GameObject.Instantiate(_playerPrefab, _floorTiles[72].transform);
+        _player = GameObject.Instantiate(_playerPrefab, _floorTiles[40].transform);
         _player.transform.localPosition = Vector3.zero;
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.CurrentCoords = _floorTiles[72].GetComponent<Tile>().Coordinates;
@@ -533,5 +537,28 @@ public class RoomGeneration: MonoBehaviour
             room.ContainsPlayer = false;
         }
         roomContainingPlayer.ContainsPlayer = true;
+    }
+
+    private RoomType GetConnectingRoom(Vector2Int tileCoords)
+    {
+        Debug.Log(tileCoords.ToString());
+        Room adjRoom = null;
+        if(tileCoords == new Vector2Int(0,4))
+        {
+            adjRoom = _allRooms.Find(room => room.Coordinates == new Vector2Int(_currentRoom.Coordinates.x - 1, _currentRoom.Coordinates.y));
+        }
+        if(tileCoords == new Vector2Int(8,4))
+        {
+            adjRoom = _allRooms.Find(room => room.Coordinates == new Vector2Int(_currentRoom.Coordinates.x + 1, _currentRoom.Coordinates.y));
+        }
+                if(tileCoords == new Vector2Int(4,0))
+        {
+            adjRoom = _allRooms.Find(room => room.Coordinates == new Vector2Int(_currentRoom.Coordinates.x, _currentRoom.Coordinates.y - 1));
+        }
+                if(tileCoords == new Vector2Int(4,8))
+        {
+            adjRoom = _allRooms.Find(room => room.Coordinates == new Vector2Int(_currentRoom.Coordinates.x, _currentRoom.Coordinates.y + 1));
+        }
+        return adjRoom.Type;
     }
 }

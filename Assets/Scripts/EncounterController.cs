@@ -59,6 +59,9 @@ public class EncounterController : MonoBehaviour
 
     public IEnumerator DoCombat(Critter opponent)
     {
+        //TODO
+        //Pixel dissolve and musical sting
+
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
 
         while (!sceneLoading.isDone)
@@ -84,6 +87,9 @@ public class EncounterController : MonoBehaviour
 
     public IEnumerator DoCollectorCombat(Collector collector)
     {
+        //TODO
+        //Pixel dissolve and musical sting
+
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
 
         while (!sceneLoading.isDone)

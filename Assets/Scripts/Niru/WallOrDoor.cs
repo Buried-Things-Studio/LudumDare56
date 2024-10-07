@@ -30,7 +30,7 @@ public class WallOrDoor : MonoBehaviour
             {
                 colliders = true;
 
-                ChooseDoorway();
+                ChooseDoorway(c.GetComponent<Tile>().Type);
                 Debug.Log("Doorway");
             }
         }
@@ -54,8 +54,25 @@ public class WallOrDoor : MonoBehaviour
     }
 
 
-    public void ChooseDoorway()
+    public void ChooseDoorway(TileType type)
     {
-        _regularDoorway.SetActive(true);
+        switch (type)
+        {
+            case TileType.Door:
+                _regularDoorway.SetActive(true);
+                break;
+            case TileType.Shop:
+                _regularDoorway.SetActive(true);
+                break;
+            case TileType.Hospital:
+                _regularDoorway.SetActive(true);
+                break;
+            case TileType.Treasure:
+                _regularDoorway.SetActive(true);
+                break;
+            case TileType.Boss:
+                _bossDoorway.SetActive(true);
+                break;
+        }
     }
 }
