@@ -27,12 +27,14 @@ public class CombatController : MonoBehaviour
     public Player PlayerData;
     public Collector OpponentData;
     public CombatState State = new CombatState();
+    public MapState MapState; 
     
     
-    public void SetupCombat(Player playerData, Collector opponentData, Critter npcCritter)
+    public void SetupCombat(Player playerData, Collector opponentData, Critter npcCritter, MapState mapState)
     {
         PlayerData = playerData;
         OpponentData = opponentData;
+        MapState = mapState;
         State.PlayerCritter = PlayerData.GetActiveCritter();
         State.NpcCritter = OpponentData == null ? npcCritter : OpponentData.GetActiveCritter();
         State.PlayerCritter.ResetTemporaryStats();
@@ -404,9 +406,14 @@ public class CombatController : MonoBehaviour
         
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
 
+        RoomGeneration roomGeneration = GameObject.FindObjectOfType<RoomGeneration>();
+
+
         while (!sceneLoading.isDone)
         {
             yield return null;
         }
+
+        roomGeneration.GenerateMapFromMapState(MapState);
     }
 }
