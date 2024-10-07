@@ -528,11 +528,11 @@ public class LimeButterfly : Critter
 }
 
 
-public class MammothButterfly : Critter
+public class MammothMoth : Critter
 {
-    public MammothButterfly()
+    public MammothMoth()
     {
-        Name = "Mammoth Butterfly";
+        Name = "Mammoth Moth";
         Affinities.Add(CritterAffinity.Butterfly);
         Moves.Add(new WingStrike(){UserGUID = GUID});
         Moves.Add(new Dazzle(){UserGUID = GUID});

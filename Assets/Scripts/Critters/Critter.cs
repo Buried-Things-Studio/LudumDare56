@@ -300,7 +300,7 @@ public class Critter
 
     public void ChangeSpeedStage(int change)
     {
-        SpeedStage += change; //TODO: cap these?
+        SpeedStage += change;
     }
 
 

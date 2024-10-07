@@ -31,8 +31,6 @@ public class BugOption : MonoBehaviour
 
         _typeIconImage.sprite = PictureHelpers.GetBugAffinityPicture(critter);
         _typeIconImage.color = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
-
-        //TODO: picture
     }
 
 
