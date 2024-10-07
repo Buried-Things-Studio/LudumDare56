@@ -10,6 +10,8 @@ public class Collector
     private bool _isBoss;
     public bool HasBeenDefeated;
     public string position = "-1";
+    public Vector2Int Coords = new Vector2Int(-100, -100); 
+
 
 
     public Collector(bool isBoss, int teamSize, Vector2Int levelRange, List<CritterAffinity> availableAffinities)

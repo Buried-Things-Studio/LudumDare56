@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private bool _checkContinuedMovement;
     private bool _checkNewMovement = true;
     private List<string> _keyPressPriorityOrder = new List<string>();
+    public FloorController FloorController;
 
     //Anim
     [SerializeField] private Transform _meshTransform;
@@ -198,8 +199,9 @@ public class PlayerController : MonoBehaviour
         // grass check 
         if (currentTile.Type == TileType.Grass)
         {
-            if (EncounterController.CheckRandomEncounter(false, mapState))
+            if (EncounterController.CheckRandomEncounter(false))
             {
+                FloorController.MapState = mapState;
                 _newTileChecks = false;
 
                 return;
@@ -366,8 +368,8 @@ public class PlayerController : MonoBehaviour
         _checkNewMovement = false;
 
         MapState mapState = new MapState(Map, CurrentRoom.Coordinates, CurrentCoords, Direction);
-        
-        CollectorController.MoveToPlayer(CurrentCoords, EncounterController, mapState);
+        FloorController.MapState = mapState;
+        CollectorController.MoveToPlayer(CurrentCoords, EncounterController);
     }
 
 }

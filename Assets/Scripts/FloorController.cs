@@ -11,6 +11,7 @@ public class FloorController : MonoBehaviour
     public Player PlayerData;
     public static FloorController SingleFloorController;
     public bool IsActivated = false;
+    public MapState MapState;
     
     private int _currentLevel = 0;
     private List<Vector2Int> _wildEncounterLevelRanges = new List<Vector2Int>(){
@@ -42,12 +43,17 @@ public class FloorController : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Floor controller AWAKE function");
+
         if (SingleFloorController == null)
         {
             SingleFloorController = this;
         }
         else if (SingleFloorController != this)
         {
+            SingleFloorController.RoomGen.GenerateMapFromMapState(SingleFloorController.MapState);
+            Debug.Log("Not the original, destroying ... ");
+
             GameObject.Destroy(this.gameObject);
 
             return;
@@ -99,7 +105,7 @@ public class FloorController : MonoBehaviour
         _levelBossAffinity = (CritterAffinity)randomAffinityIndex;
 
         Encounters.SetAvailableCrittersOnFloor(_wildEncounterLevelRanges[_currentLevel]);
-        RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters);
+        RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this);
 
         if (_currentLevel == 1)
         {
