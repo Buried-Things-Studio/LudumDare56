@@ -41,9 +41,7 @@ public class Player
 
 
     public void AddItemToInventory(Item item)
-    {
-        _money = Mathf.Min(_money - item.Price, 0); //should never need to clamp the value
-        
+    {        
         Item existingItem = _items.Find(ownedItem => ownedItem.ID == item.ID);
 
         if (existingItem == null)

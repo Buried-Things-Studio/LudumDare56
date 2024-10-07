@@ -30,6 +30,7 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private MiniMapController _miniMapController;
     private FloorController _floorController; 
     private List<Critter> _starters = new List<Critter>();
+    private List<MoveManual> _rewards = new List<MoveManual>();
 
     [SerializeField] private WallsOrDoorsController _wallsOrDoorsController;
 
@@ -382,16 +383,23 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Starter;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
-                    tileObject.GetComponent<Tile>().Starter = _starters[starterTileIndex];
-
-                    if (_encounterController.IsStarterChosen)
+                    if(_floorController.GetCurrentLevel() == 1)
                     {
-                        tileObject.GetComponentInChildren<MasonJarObject>().DestroyJar();
+                        tileObject.GetComponent<Tile>().Starter = _starters[starterTileIndex];
+                        if (_encounterController.IsStarterChosen)
+                        {
+                            tileObject.GetComponentInChildren<MasonJarObject>().DestroyJar();
+                        }
+                        else
+                        {
+                            tileObject.GetComponentInChildren<MasonJarObject>().Glow(_starters[starterTileIndex]);
+                        }
                     }
                     else
                     {
-                        tileObject.GetComponentInChildren<MasonJarObject>().Glow(_starters[starterTileIndex]);
+                        tileObject.GetComponent<Tile>().Reward = _rewards[starterTileIndex];
                     }
+
 
                     _floorTiles.Add(tileObject);
                     starterTileIndex++;
@@ -572,6 +580,18 @@ public class RoomGeneration: MonoBehaviour
             randomCritter.SetStartingLevel(2);
             _starters.Add(randomCritter);
         }
+    }
+
+    public void GenerateRewardMoves()
+    {
+        List<ManualMove> moves = new List<ManualMove>();
+        for(int i = 0; i < 3; i ++)
+        {
+            MoveManual moveManual= new MoveManual();
+            moveManual.SetRandomMove();
+            moves.Add(moveManual);
+        }
+        _rewards = moves;
     }
 
 

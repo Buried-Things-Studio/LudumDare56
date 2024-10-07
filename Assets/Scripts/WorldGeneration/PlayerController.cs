@@ -93,18 +93,39 @@ public class PlayerController : MonoBehaviour
         }
         else{
             int coins = FloorController.PlayerData.GetMoney();
+            Debug.Log("coins = " + coins.ToString());
+            Debug.Log(item.ID);
             Item item = tile.ShopItem;
             int cost = item.Price;
             if(cost > coins)
             {
-                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"This {tile.ShopItem.Name} costs {cost}. Come back when you have enough coins if you would like to buy it."));
-                _isMovementBlockedByUI = false;
+                if(item.ID == ItemType.MoveManual)
+                {
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowMoveMessage($"{((MoveManual)item).TeachableMove.Name} costs {cost}. Come back when you have enough coins if you would like to buy it.", ((MoveManual)item).TeachableMove, false));
+                    _isMovementBlockedByUI = false;
+                }
+                else{
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"This {tile.ShopItem.Name} costs {cost}. Come back when you have enough coins if you would like to buy it."));
+                    _isMovementBlockedByUI = false;
+                }
             }
             else{
                 if(item.ID == ItemType.MoveManual)
                 {
-                    //dislpay move and ask here 
-                    _isMovementBlockedByUI = false;
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowMoveMessage($"{((MoveManual)item).TeachableMove.Name} costs {cost}. Come back when you have enough coins if you would like to buy it.", ((MoveManual)item).TeachableMove, true));
+                    if(GlobalUI.TextBox.IsSelectingYes)
+                    {
+                        FloorController.PlayerData.RemoveMoney(cost);
+                        FloorController.PlayerData.AddItem(item);
+                        tile.ShopItem = null;
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                        _isMovementBlockedByUI= false;
+                    }
+                    else 
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Have a look around, maybe there's something else that will take your fancy."));
+                    }
+                    _isMovementBlockedByUI= false;
                 }
                 else{
                     yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice($"This {tile.ShopItem.Name} costs {cost}. Would you like to buy it?"));

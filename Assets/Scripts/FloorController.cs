@@ -129,6 +129,10 @@ public class FloorController : MonoBehaviour
         {
             RoomGen.GenerateStarterCritters();
         }
+        else
+        {
+            RoomGen.GenerateRewardMoves();
+        }
 
         RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this);
     }
