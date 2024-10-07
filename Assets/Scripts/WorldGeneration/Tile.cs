@@ -11,5 +11,6 @@ public class Tile : MonoBehaviour
     public Critter Starter;
     public MoveManual Reward;
     public Item ShopItem;
+    public MoveManual Treasure;
     public RoomType ConnectingRoom = RoomType.None; 
 }
