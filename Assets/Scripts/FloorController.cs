@@ -114,6 +114,12 @@ public class FloorController : MonoBehaviour
         MoveManual newMoveManual = new MoveManual();
         newMoveManual.SetRandomMove();
         PlayerData.AddItemToInventory(newMoveManual);
+        newMoveManual = new MoveManual();
+        newMoveManual.SetRandomMove();
+        PlayerData.AddItemToInventory(newMoveManual);
+        newMoveManual = new MoveManual();
+        newMoveManual.SetRandomMove();
+        PlayerData.AddItemToInventory(newMoveManual);
         //--------------
 
         InitializeLevel();

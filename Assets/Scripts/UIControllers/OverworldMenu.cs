@@ -212,8 +212,9 @@ public class OverworldMenu : MonoBehaviour
                         if (_bugMenu.SelectedCritterGuid != Guid.Empty)
                         {
                             _player.TeachMoveToCritter((MoveManual)_itemOptions.GetSelectedItem(), _bugMenu.SelectedCritterGuid);
-                            StartPlayerMenuActionChoice();
                         }
+                        
+                        StartPlayerMenuActionChoice();
                     }
                 }
 
