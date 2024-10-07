@@ -190,7 +190,28 @@ public class PlayerController : MonoBehaviour
         if (GlobalUI.TextBox.IsSelectingYes)
         {
             EncounterController.IsStarterChosen = true;
-            FloorController.PlayerData.AddCritter(starter); //hello new friend! TODO: block/unblock door
+            FloorController.PlayerData.AddCritter(starter); //hello new friend!
+
+            List<MasonJarObject> mjos = GameObject.FindObjectsOfType<MasonJarObject>().ToList();
+
+            // List<MasonJarObject> mjos = RoomTiles.Select(room => GetComponentInChildren<MasonJarObject>()).ToList();
+
+            // foreach (GameObject go in RoomTiles)
+            // {
+            //     Debug.Log(go.GetComponent<Tile>().Type);
+            // }
+            
+            foreach (MasonJarObject mjo in mjos)
+            {
+                //Debug.Log("Trying to destroy jar...");
+                
+                if (mjo != null)
+                {
+                    Debug.Log("DESTROY JAR!");
+                    
+                    mjo.DestroyJar();
+                }
+            }
         }
 
         _isMovementBlockedByUI = false;

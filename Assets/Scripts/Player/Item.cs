@@ -63,7 +63,7 @@ public class MoveManual : Item
     public void SetTeachableMove(Move move)
     {
         TeachableMove = move;
-        Description = $"Teach one bug the move {TeachableMove.Name}";
+        Description = $"Teach one bug the move {TeachableMove.Name}.";
     }
 }
 
