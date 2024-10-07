@@ -597,8 +597,14 @@ public class RoomGeneration: MonoBehaviour
 
     public void GoToNewLevel()
     {
-        _floorController.IncrementLevel();
+        StartCoroutine(WaitToDescend());
     }
 
     
+    private IEnumerator WaitToDescend()
+    {
+        yield return new WaitForSeconds(0.4f);
+
+        _floorController.IncrementLevel();
+    }
 }

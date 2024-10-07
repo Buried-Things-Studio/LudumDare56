@@ -13,5 +13,16 @@ public class OneShotController : MonoBehaviour
         _mySource.clip = MyClip;
         _mySource.pitch = i;
         _mySource.Play();
+
+        Destroy(this.gameObject, MyClip.length);
+    }
+
+
+    public void Play()
+    {
+        _mySource.clip = MyClip;
+        _mySource.Play();
+
+        Destroy(this.gameObject, MyClip.length);
     }
 }
