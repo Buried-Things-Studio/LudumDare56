@@ -1190,6 +1190,7 @@ MonoBehaviour:
   _critterHealthNumbersTMP: {fileID: 100923975558962548}
   _critterHealthFillImageTMP: {fileID: 7408860634565653327}
   _critterAffinityColorFadeImage: {fileID: 6278676833866446058}
+  _critterProfileImage: {fileID: 5555239986726420046}
   _selection: {fileID: 2668694495308675070}
 --- !u!1 &5652577851965764591
 GameObject:

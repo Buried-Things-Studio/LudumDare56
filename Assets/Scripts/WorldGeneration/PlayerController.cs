@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
     {
         _isMovementBlockedByUI = true;
         
-        yield return StartCoroutine(GlobalUI.TextBox.ShowStarterChoice(starter.Name));
+        yield return StartCoroutine(GlobalUI.TextBox.ShowStarterChoice(starter));
 
         if (GlobalUI.TextBox.IsSelectingYes)
         {
