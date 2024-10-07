@@ -78,14 +78,126 @@ public class PlayerController : MonoBehaviour
         Tile tile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront).GetComponent<Tile>();
         TileType tileType = tile.Type;
 
-        if (tileType == TileType.Starter && !EncounterController.IsStarterChosen)
+        if (tileType == TileType.Starter && FloorController.GetCurrentLevel() == 1 && !EncounterController.IsStarterChosen)
         {
             StartCoroutine(TryChooseStarter(tile.Starter));
+        }
+        if(tileType == TileType.Starter && FloorController.GetCurrentLevel() > 1 )
+        {
+            StartCoroutine(TryChooseReward(tile.Reward));
         }
         if(tileType == TileType.Boss)
         {
             StartCoroutine(InteractWithBoss());
         }
+        if(tileType == TileType.Hospital)
+        {
+            StartCoroutine(InteractWithHospital());
+        }
+        if(tileType == TileType.Shop)
+        {
+            StartCoroutine(InteractWithShop(tile));
+        }
+    }
+
+    private IEnumerator InteractWithShop(Tile tile)
+    {
+        _isMovementBlockedByUI = true;
+        if(tile.ShopItem == null)
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Nothing more to buy here."));
+            _isMovementBlockedByUI = true;
+        }
+        else{
+            int coins = FloorController.PlayerData.GetMoney();
+            Debug.Log("coins = " + coins.ToString());
+            Item item = tile.ShopItem;
+            Debug.Log(item.ID);
+            int cost = item.Price;
+            if(cost > coins)
+            {
+                if(item.ID == ItemType.MoveManual)
+                {
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMoveMessage(((MoveManual)item).TeachableMove, $"{((MoveManual)item).TeachableMove.Name} costs {cost}. Come back when you have enough coins if you would like to buy it."));
+                    _isMovementBlockedByUI = false;
+                }
+                else{
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"This {tile.ShopItem.Name} costs {cost}. Come back when you have enough coins if you would like to buy it."));
+                    _isMovementBlockedByUI = false;
+                }
+            }
+            else{
+                if(item.ID == ItemType.MoveManual)
+                {
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(((MoveManual)item).TeachableMove, $"{((MoveManual)item).TeachableMove.Name} costs {cost}. Would you like to buy it?"));
+                    if(GlobalUI.TextBox.IsSelectingYes)
+                    {
+                        FloorController.PlayerData.RemoveMoney(cost);
+                        FloorController.PlayerData.AddItem(item);
+                        tile.ShopItem = null;
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                        _isMovementBlockedByUI= false;
+                    }
+                    else 
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Have a look around, maybe there's something else that will take your fancy."));
+                    }
+                    _isMovementBlockedByUI= false;
+                }
+                else{
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice($"This {tile.ShopItem.Name} costs {cost}. Would you like to buy it?"));
+                    if(GlobalUI.TextBox.IsSelectingYes)
+                    {
+                        FloorController.PlayerData.RemoveMoney(cost);
+                        FloorController.PlayerData.AddItem(item);
+                        tile.ShopItem = null;
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                        _isMovementBlockedByUI= false;
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Have a look around, maybe there's something else that will take your fancy."));
+
+                    }
+                    _isMovementBlockedByUI = false;
+                }
+            }
+        }
+        yield return null;
+    }
+
+    private IEnumerator InteractWithHospital()
+    {
+        _isMovementBlockedByUI = true;
+        if(CurrentRoom.HospitalAlreadyUsed)
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Oh no! Hospitals can only be used once and you've already visited this hospital."));
+            _isMovementBlockedByUI= false;
+        }
+        else
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice("Hospitals can either heal your bugs or restore their attack uses. You can only do one. Do you want to heal your bugs?"));
+            if(GlobalUI.TextBox.IsSelectingYes)
+            {
+                FloorController.PlayerData.HealAllCritters();
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("There you go, all your bugs are healed and ready to fight, good luck!"));
+                _isMovementBlockedByUI= false;
+            }
+            else {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice("Okay, so you want to restore your bugs attack uses?"));
+                if(GlobalUI.TextBox.IsSelectingYes)
+                {
+                    FloorController.PlayerData.RestoreUsesToAllCritters();
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("All your bugs have had their attack uses restored, use them carefully!"));
+                    _isMovementBlockedByUI= false;
+                }
+                else{
+                     yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Then why are you wasting my time? Humph."));
+                      _isMovementBlockedByUI= false;
+                }
+            }
+        }
+        yield return null;
     }
 
     private IEnumerator InteractWithBoss()
@@ -104,6 +216,36 @@ public class PlayerController : MonoBehaviour
             CollectorController.StartBossFight(EncounterController);
 
         }
+    }
+
+    private IEnumerator TryChooseReward(MoveManual reward)
+    {
+        _isMovementBlockedByUI = true;
+        if(reward == null)
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You've already chosen a reward for fighting the last boss. Look out for more rewards on the next level!"));
+            _isMovementBlockedByUI = false;
+        }
+        else{
+            yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(reward.TeachableMove, "Would you like to choose this move?"));
+            if(GlobalUI.TextBox.IsSelectingYes)
+            {
+                FloorController.PlayerData.AddItemToInventory(reward);
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You can now teach the move to a bug of your choice."));
+                List<Tile> starterTiles = RoomTiles.Where(tile => tile.GetComponent<Tile>().Type == TileType.Starter).Select(tile => tile.GetComponent<Tile>()).ToList();
+                foreach(Tile tile in starterTiles)
+                {
+                    tile.Reward = null;
+                }
+                _isMovementBlockedByUI= false;
+            }
+            else {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Look at the other moves and pick the best one!"));
+                _isMovementBlockedByUI= false;
+
+            }
+        }
+
     }
 
 
