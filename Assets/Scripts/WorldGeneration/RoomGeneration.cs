@@ -50,6 +50,16 @@ public class RoomGeneration: MonoBehaviour
         _miniMapController.UpdateMap();
     }
 
+    public void GenerateMapFromMapState(MapState mapState)
+    {
+        _allRooms = mapState.Map;
+        _currentRoom = _allRooms.Find(room => room.Coordinates == mapState.PlayerRoom);
+        DisplayCurrentRoom();
+        PlacePlayerAtCoords(mapState.PlayerTile, mapState.PlayerDirection);
+        _miniMapController.Map = _allRooms;
+        _miniMapController.UpdateMap();
+    }
+
     private List<Room> GetAdjacentRooms(Room room)
     {
         Vector2Int coord = room.Coordinates;
@@ -402,6 +412,26 @@ public class RoomGeneration: MonoBehaviour
         collectorController.Collector = collector;
         collectorController.CalculateVisibleCoords();
         _collectorController = collectorController;
+    }
+
+    public void PlacePlayerAtCoords(Vector2Int coords, int direction)
+    {
+        _player = GameObject.Instantiate(_playerPrefab, _floorTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coords).transform);
+        _player.transform.localPosition = Vector3.zero;
+        PlayerController playerController = _player.GetComponent<PlayerController>();
+        playerController.CurrentCoords = coords;
+        playerController.CurrentRoom = _currentRoom;
+        _currentRoom.Explored = true;
+        MarkAdjacentRooms(_currentRoom);
+        SetContainsPlayer(_currentRoom);
+        playerController.RoomTiles = _floorTiles;
+        playerController.Map = _allRooms;
+        playerController.RoomGeneration = this;
+        playerController.EncounterController = _encounterController;
+        playerController.CollectorController = _collectorController;
+        playerController.Direction = direction;
+        playerController.SnapToDirection();
+        _miniMapController.UpdateMap();
     }
 
     public void PlacePlayerInNewRoom(Vector2Int coords, int direction)

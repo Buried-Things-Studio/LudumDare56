@@ -9,6 +9,7 @@ public class FloorController : MonoBehaviour
     [SerializeField] private EncounterController Encounters;
     public RoomGeneration RoomGen;
     public Player PlayerData;
+    public bool IsActivated = false;
     
     private int _currentLevel = 0;
     private List<Vector2Int> _wildEncounterLevelRanges = new List<Vector2Int>(){
@@ -40,6 +41,11 @@ public class FloorController : MonoBehaviour
 
     private void Awake()
     {
+        if(IsActivated)
+        {
+            return;
+        }
+        IsActivated = true;
         GameObject.DontDestroyOnLoad(this.gameObject);
         
         PlayerData = new Player();
@@ -47,11 +53,11 @@ public class FloorController : MonoBehaviour
 
         //TODO: remove!----------
         Critter starter = new Bumblebee();
-        starter.SetStartingLevel(2);
+        starter.SetStartingLevel(10);
         PlayerData.AddCritter(starter);
 
         Critter boi = new MonarchButterfly();
-        boi.SetStartingLevel(3);
+        boi.SetStartingLevel(10);
         PlayerData.AddCritter(boi);
 
         PlayerData.AddItemToInventory(new MasonJar());

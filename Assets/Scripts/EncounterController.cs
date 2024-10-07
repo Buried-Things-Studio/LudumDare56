@@ -39,7 +39,7 @@ public class EncounterController : MonoBehaviour
     }
     
     
-    public bool CheckRandomEncounter(bool forceCombat = false)
+    public bool CheckRandomEncounter(bool forceCombat = false, MapState mapState = null)
     {
         bool isEnteringEncounter = UnityEngine.Random.Range(0f, 1f) < _encounterChance;
 
@@ -49,14 +49,14 @@ public class EncounterController : MonoBehaviour
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
             randomCritter.SetStartingLevel(UnityEngine.Random.Range(_wildEncounterLevelRange.x, _wildEncounterLevelRange.y + 1));
 
-            StartCoroutine(DoCombat(randomCritter));
+            StartCoroutine(DoCombat(randomCritter, mapState));
         }
 
         return isEnteringEncounter;
     }
 
 
-    public IEnumerator DoCombat(Critter opponent)
+    public IEnumerator DoCombat(Critter opponent, MapState mapState = null)
     {
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
 
@@ -67,7 +67,7 @@ public class EncounterController : MonoBehaviour
 
         CombatController combatController = GameObject.FindObjectOfType<CombatController>();
 
-        combatController.SetupCombat(PlayerData, null, opponent);
+        combatController.SetupCombat(PlayerData, null, opponent, mapState);
 
         yield return null;
     }
