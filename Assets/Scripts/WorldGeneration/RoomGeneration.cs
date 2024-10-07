@@ -449,6 +449,7 @@ public class RoomGeneration: MonoBehaviour
         }
         _floorTiles.Clear();
         _currentRoom = _allRooms.Find(room => room.Coordinates == newRoomCoords);
+        Debug.Log(_currentRoom == null);
         _player.GetComponent<PlayerController>().CurrentRoom = _currentRoom;
         DisplayCurrentRoom();
         PlacePlayerInNewRoom(currentTileCoords);

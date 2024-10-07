@@ -13,12 +13,16 @@ public class PlayerController : MonoBehaviour
     public RoomGeneration RoomGeneration;
     public CollectorController CollectorController;
     public EncounterController EncounterController;
-
+    private int _direction = 0;
     private bool _isMoving; 
     private bool _newTileChecks; 
     private bool _checkContinuedMovement;
     private bool _checkNewMovement = true;
     private List<string> _keyPressPriorityOrder = new List<string>();
+
+    //Anim
+    [SerializeField] private Transform _meshTransform;
+    [SerializeField] private AnimationCurve _bounceCurve;
 
 
     public void Update()
@@ -54,63 +58,53 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(SmoothMove(transform.position, tile.transform.position));
     }
 
-
-    private void AttemptMoveUp(Tile currentTile)
+    private Vector2Int GetTargetCoords(string direction)
     {
-        Vector2Int targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y +1);
-        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
+        Vector2Int targetCoords = new Vector2Int();
+        if((direction == "forward" && _direction == 0) || (direction == "backward" && _direction == 2))
         {
-            MoveToNewTile(targetCoords);
+            targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y + 1);
         }
-        else if(currentTile.Type == TileType.Door)
+        if((direction == "forward" && _direction == 2) || (direction == "backward" && _direction == 0))
         {
-            Vector2Int newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x, CurrentRoom.Coordinates.y + 1);
-            RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords);
+            targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y - 1);
         }
+        if((direction == "forward" && _direction == 1) || (direction == "backward" && _direction == 3))
+        {
+            targetCoords = new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y);
+        }
+        if((direction == "forward" && _direction == 3) || (direction == "backward" && _direction == 1))
+        {
+            targetCoords = new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y);
+        }
+        return targetCoords;
     }
 
-
-    private void AttemptMoveDown(Tile currentTile)
+    private void AttemptMove(Tile currentTile, Vector2Int targetCoords)
     {
-        Vector2Int targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y -1);
-        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
-        {
-
-            MoveToNewTile(targetCoords);
-        }
-        else if(currentTile.Type == TileType.Door)
-        {
-            Vector2Int newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x, CurrentRoom.Coordinates.y - 1);
-            RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords);
-        }
-    }
-
-
-    private void AttemptMoveRight(Tile currentTile)
-    {
-        Vector2Int targetCoords = new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y);
         if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
         {
             MoveToNewTile(targetCoords);
         }
         else if(currentTile.Type == TileType.Door)
         {
-            Vector2Int newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x + 1, CurrentRoom.Coordinates.y);
-            RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords);
-        }
-    }
-
-
-    private void AttemptMoveLeft(Tile currentTile)
-    {
-        Vector2Int targetCoords = new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y);
-        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
-        {
-            MoveToNewTile(targetCoords);
-        }
-        else if(currentTile.Type == TileType.Door)
-        {
-            Vector2Int newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x - 1, CurrentRoom.Coordinates.y);
+            Vector2Int newRoomCoords = CurrentCoords; 
+            if(_direction == 0)
+            {
+                newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x, CurrentRoom.Coordinates.y + 1);
+            }
+            if(_direction == 1)
+            {
+                newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x + 1, CurrentRoom.Coordinates.y);
+            }
+            if(_direction == 2)
+            {
+                newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x, CurrentRoom.Coordinates.y - 1);
+            }
+            if(_direction == 3)
+            {
+                newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x - 1, CurrentRoom.Coordinates.y);
+            }
             RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords);
         }
     }
@@ -121,19 +115,19 @@ public class PlayerController : MonoBehaviour
         Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
         if(Input.GetKeyDown("up"))
         {
-            AttemptMoveUp(currentTile);
+            AttemptMove(currentTile, GetTargetCoords("forward"));
         }
         else if(Input.GetKeyDown("down"))
         {
-            AttemptMoveDown(currentTile);
+            AttemptMove(currentTile, GetTargetCoords("backward"));
         }
         else if(Input.GetKeyDown("right"))
         {
-            AttemptMoveRight(currentTile);
+            StartCoroutine(SmoothRotate(1));
         }
         else if(Input.GetKeyDown("left"))
         {
-            AttemptMoveLeft(currentTile);
+            StartCoroutine(SmoothRotate(3));
         }
     }
     
@@ -152,19 +146,19 @@ public class PlayerController : MonoBehaviour
             Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
             if(_topPriorityKey == "up")
             {
-                AttemptMoveUp(currentTile);
+                AttemptMove(currentTile, GetTargetCoords("forward"));
             }
             if(_topPriorityKey == "down")
             {
-                AttemptMoveDown(currentTile);
+                AttemptMove(currentTile, GetTargetCoords("backward"));
             }
             if(_topPriorityKey == "right")
             {
-                AttemptMoveRight(currentTile);
+                StartCoroutine(SmoothRotate(1));
             }
             if(_topPriorityKey == "left")
             {
-                AttemptMoveLeft(currentTile);
+                StartCoroutine(SmoothRotate(3));
             }
         }
         else
@@ -239,15 +233,63 @@ public class PlayerController : MonoBehaviour
         float elapsedTime = 0f;
         float timeToMove = 0.15f;
 
-        while(elapsedTime < timeToMove)
+        Vector3 meshStartPos = _meshTransform.localPosition;
+
+        while (elapsedTime < timeToMove)
         {
-            transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / timeToMove));
             elapsedTime += Time.deltaTime;
+
+            transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / timeToMove));
+
+            _meshTransform.localPosition = meshStartPos + Vector3.up * _bounceCurve.Evaluate((elapsedTime / 15) * 100);
+
             yield return null;
         }
+
+        _meshTransform.localPosition = meshStartPos;
+
         transform.position = endPosition;
         _isMoving = false;
         _newTileChecks = true;
     }
+
+    IEnumerator SmoothRotate(int direction) 
+	{	
+        float angle = direction == 1 ? 90f : -90;
+        float currentDirection = 0f; 
+        if(_direction == 0)
+        {
+            currentDirection = 0f;
+        }
+        else if(_direction == 1)
+        {
+            currentDirection = 90f; 
+        }
+        else if(_direction == 2)
+        {
+            currentDirection = 180f; 
+        }
+        else if(_direction == 3)
+        {
+            currentDirection = 270f;
+        }
+        float target = currentDirection + angle;
+        float elapsedTime = 0f;
+        float timeToMove = 0.15f;
+
+        while (elapsedTime < timeToMove)
+        {
+            elapsedTime += Time.deltaTime;
+            transform.rotation = Quaternion.Euler(new Vector3(0f, Mathf.Lerp(currentDirection, target, (elapsedTime / timeToMove)), 0f));
+            yield return null;
+        }
+        transform.rotation = Quaternion.Euler(new Vector3(0f, target, 0f));
+        int targetDegrees = (int)target;
+        int newDirection = targetDegrees/90; 
+        _direction = (newDirection + 4) % 4;
+        Debug.Log("Direction = " + _direction.ToString());
+        _isMoving = false;
+        _checkContinuedMovement = true;
+	}
 
 }
