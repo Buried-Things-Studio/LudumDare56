@@ -117,6 +117,12 @@ public class CollectorController : MonoBehaviour
         yield return null;
     }
 
+    public void StartBossFight(EncounterController encounterController)
+    {
+        Collector.HasBeenDefeated = true;
+        encounterController.StartCollectorCombat(Collector);
+    }
+
 
     private IEnumerator SmoothMove(Vector3 startPosition, Vector3 endPosition)
     {
