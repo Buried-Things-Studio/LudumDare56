@@ -584,7 +584,7 @@ public class RoomGeneration: MonoBehaviour
 
     public void GenerateRewardMoves()
     {
-        List<ManualMove> moves = new List<ManualMove>();
+        List<MoveManual> moves = new List<MoveManual>();
         for(int i = 0; i < 3; i ++)
         {
             MoveManual moveManual= new MoveManual();
