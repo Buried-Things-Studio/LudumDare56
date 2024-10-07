@@ -366,11 +366,20 @@ public class RoomGeneration: MonoBehaviour
                 {
                     GameObject randomStarterTile = _starterTilePrefabs[UnityEngine.Random.Range(0, _starterTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomStarterTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
-                    tileObject.GetComponentInChildren<MasonJarObject>().Glow(_starters[starterTileIndex]);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Starter;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
                     tileObject.GetComponent<Tile>().Starter = _starters[starterTileIndex];
+
+                    if (_encounterController.IsStarterChosen)
+                    {
+                        tileObject.GetComponentInChildren<MasonJarObject>().DestroyJar();
+                    }
+                    else
+                    {
+                        tileObject.GetComponentInChildren<MasonJarObject>().Glow(_starters[starterTileIndex]);
+                    }
+
                     _floorTiles.Add(tileObject);
                     starterTileIndex++;
                 }
@@ -388,6 +397,10 @@ public class RoomGeneration: MonoBehaviour
                         tileObject.GetComponent<Tile>().IsWalkable = false;
                         _floorTiles.Add(tileObject);
                         GenerateTrainer(tileObject, _currentRoom.Layout[i][j], _currentRoom.Collectors[0], false);
+                        if(_collectorController.Collector.Coords != new Vector2Int(-100, -100))
+                        {
+                            tileObject.GetComponent<Tile>().IsWalkable = true;
+                        }
                     }
                     else 
                     {

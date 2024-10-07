@@ -11,5 +11,6 @@ public static class Controls
     public static KeyCode MenuRightKey = KeyCode.RightArrow;
     public static KeyCode MenuSelectKey = KeyCode.Return;
     public static KeyCode MenuBackKey = KeyCode.Backspace;
+    public static KeyCode OverworldMenuKey = KeyCode.Space;
     public static KeyCode OverworldInteractKey = KeyCode.Return;
 }

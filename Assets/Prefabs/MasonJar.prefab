@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4bc8349fa72464b837a3567ee6d41f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jarGO: {fileID: 4854286920032688064}
   _bugInJarGO: {fileID: 5170924859716720181}
 --- !u!4 &5194397015595797882 stripped
 Transform:

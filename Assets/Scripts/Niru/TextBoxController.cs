@@ -12,6 +12,8 @@ public class TextBoxController : MonoBehaviour
     [SerializeField] private GameObject _moveOnTab;
     [SerializeField] private GameObject _choiceTab;
     [SerializeField] private GameObject _imageTab;
+    [SerializeField] private GameObject _moveTab;
+    [SerializeField] private MoveDetails _moveDetails;
 
     [SerializeField] private Image _imageTabImage;
     [SerializeField] private List<GameObject> _choiceSelections;
@@ -37,6 +39,7 @@ public class TextBoxController : MonoBehaviour
         _moveOnTab.SetActive(false);
         _choiceTab.SetActive(false);
         _imageTab.SetActive(false);
+        _moveTab.SetActive(false);
     }
 
 
@@ -61,6 +64,69 @@ public class TextBoxController : MonoBehaviour
     }
 
 
+    public IEnumerator ShowSimpleMoveMessage(Move move, string message)
+    {
+        ChangeShowState(true);
+        _mainTMP.text = message;
+        DisableAllTabs();
+        _moveOnTab.SetActive(true);
+        _moveTab.SetActive(true);
+        _moveDetails.PopulateMove(move);
+
+        yield return new WaitForEndOfFrame();
+
+        while (
+            !Input.GetKeyDown(Controls.MenuSelectKey)
+            && !Input.GetKeyDown(Controls.MenuBackKey)
+            && !Input.GetKeyDown(Controls.MenuRightKey))
+        {
+            yield return null;
+        }
+
+        ChangeShowState(false);
+    }
+
+
+    public IEnumerator ShowMoveYesNoChoice(Move move, string message)
+    {
+        ChangeShowState(true);
+        _mainTMP.text = message;
+        DisableAllTabs();
+        _choiceTab.SetActive(true);
+        _currentSelectedIndex = 0;
+        ShowCurrentSelection();
+        _moveTab.SetActive(true);
+        _moveDetails.PopulateMove(move);
+
+        yield return new WaitForEndOfFrame();
+
+        bool isSelected = false;
+
+        while (!isSelected)
+        {
+            if (Input.GetKeyDown(Controls.MenuLeftKey) || Input.GetKeyDown(Controls.MenuUpKey))
+            {
+                MoveSelection(true);
+            }
+            else if (Input.GetKeyDown(Controls.MenuRightKey) || Input.GetKeyDown(Controls.MenuDownKey))
+            {
+                MoveSelection(false);
+            }
+            else if (Input.GetKeyDown(Controls.MenuSelectKey))
+            {
+                IsSelectingYes = _currentSelectedIndex == 0;
+                isSelected = true;
+            }
+            
+            yield return null;
+        }
+
+        ChangeShowState(false);
+
+        yield return null;
+    }
+
+
     public void ShowCurrentSelection()
     {
         for (int i = 0; i < _choiceSelections.Count; i++)
@@ -78,7 +144,45 @@ public class TextBoxController : MonoBehaviour
     }
 
 
-    public IEnumerator ShowStarterChoice(Critter starter)
+    public IEnumerator ShowYesNoChoice(string message)
+    {
+        ChangeShowState(true);
+        _mainTMP.text = message;
+        DisableAllTabs();
+        _choiceTab.SetActive(true);
+        _currentSelectedIndex = 0;
+        ShowCurrentSelection();
+
+        yield return new WaitForEndOfFrame();
+
+        bool isSelected = false;
+
+        while (!isSelected)
+        {
+            if (Input.GetKeyDown(Controls.MenuLeftKey) || Input.GetKeyDown(Controls.MenuUpKey))
+            {
+                MoveSelection(true);
+            }
+            else if (Input.GetKeyDown(Controls.MenuRightKey) || Input.GetKeyDown(Controls.MenuDownKey))
+            {
+                MoveSelection(false);
+            }
+            else if (Input.GetKeyDown(Controls.MenuSelectKey))
+            {
+                IsSelectingYes = _currentSelectedIndex == 0;
+                isSelected = true;
+            }
+            
+            yield return null;
+        }
+
+        ChangeShowState(false);
+
+        yield return null;
+    }
+
+
+    public IEnumerator ShowStarterChoice(string starterName)
     {
         ChangeShowState(true);
         _mainTMP.text = $"Would you like to take the {starter.Name}?";
