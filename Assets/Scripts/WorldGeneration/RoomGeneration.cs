@@ -421,8 +421,8 @@ public class RoomGeneration: MonoBehaviour
         _player = GameObject.Instantiate(_playerPrefab, _floorTiles[40].transform);
         _player.transform.localPosition = Vector3.zero;
         PlayerController playerController = _player.GetComponent<PlayerController>();
-        playerController.CurrentCoords = _floorTiles[72].GetComponent<Tile>().Coordinates;
-        Debug.Log("Setting current coords to " + _floorTiles[72].GetComponent<Tile>().Coordinates.ToString());
+        playerController.CurrentCoords = _floorTiles[40].GetComponent<Tile>().Coordinates;
+        Debug.Log("Setting current coords to " + _floorTiles[40].GetComponent<Tile>().Coordinates.ToString());
         playerController.CurrentRoom = _currentRoom;
         _currentRoom.Explored = true;
         MarkAdjacentRooms(_currentRoom);
