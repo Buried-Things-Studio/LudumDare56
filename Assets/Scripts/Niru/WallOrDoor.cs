@@ -11,9 +11,13 @@ public class WallOrDoor : MonoBehaviour
     [SerializeField] private GameObject _treasureDoorway;
     [SerializeField] private GameObject _bossDoorway;
 
+    [SerializeField] private AnimationCurve _scaleCurve;
+
 
     public void CheckForDoors()
     {
+        StartCoroutine(ScaleIn());
+
         foreach(GameObject g in _brickPiles)
         {
             g.SetActive(false);
@@ -78,5 +82,21 @@ public class WallOrDoor : MonoBehaviour
                 _bossDoorway.SetActive(true);
                 break;
         }
+    }
+
+
+    private IEnumerator ScaleIn()
+    {
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / 0.7f;
+
+            transform.localScale = Vector3.one * _scaleCurve.Evaluate(t);
+
+            yield return null;
+        }
+
+        transform.localScale = Vector3.one;
     }
 }

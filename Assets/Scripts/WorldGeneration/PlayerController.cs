@@ -384,9 +384,12 @@ public class PlayerController : MonoBehaviour
         {
             currentDirection = 270f;
         }
+
         float target = currentDirection + angle;
         float elapsedTime = 0f;
         float timeToMove = 0.3f;
+
+        GameObject.Find("MiniMap").GetComponentInChildren<MiniMapController>().Spin(target);
 
         while (elapsedTime < timeToMove)
         {
@@ -394,6 +397,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0f, Mathf.Lerp(currentDirection, target, (elapsedTime / timeToMove)), 0f));
             yield return null;
         }
+
         transform.rotation = Quaternion.Euler(new Vector3(0f, target, 0f));
         int targetDegrees = (int)target;
         int newDirection = targetDegrees/90; 

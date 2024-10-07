@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,9 +38,40 @@ public class Nectar : Item
 }
 
 
+public class MoveManual : Item
+{
+    public Move TeachableMove;
+    
+    
+    public MoveManual()
+    {
+        Name = "Move Manual";
+        ID = ItemType.MoveManual;
+        Price = 2000;
+    }
+
+
+    public void SetRandomMove()
+    {
+        List<Type> moveTypes = MasterCollection.GetAllMoveTypes();
+        Move move = Activator.CreateInstance(moveTypes[UnityEngine.Random.Range(0, moveTypes.Count)]) as Move;
+
+        SetTeachableMove(move);
+    }
+
+
+    public void SetTeachableMove(Move move)
+    {
+        TeachableMove = move;
+        Description = $"Teach one bug the move {TeachableMove.Name}";
+    }
+}
+
+
 public enum ItemType
 {
     None,
     MasonJar,
+    MoveManual,
     Nectar,
 }

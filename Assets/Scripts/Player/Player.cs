@@ -26,6 +26,12 @@ public class Player
     }
 
 
+    public List<Item> GetBattleItems()
+    {
+        return _items.Where(item => item.ID == ItemType.MasonJar || item.ID == ItemType.Nectar).ToList();
+    }
+
+
     public void SetActiveCritter(Guid guid)
     {
         Critter newActiveCritter = _critters.Find(critter => critter.GUID == guid);
@@ -91,5 +97,33 @@ public class Player
     public void AddCritter(Critter critter)
     {
         _critters.Add(critter);
+    }
+
+
+    public void TeachMoveToCritter(MoveManual moveManual, Guid critterGuid)
+    {
+        _critters.Find(critter => critter.GUID == critterGuid).Moves.Add(moveManual.TeachableMove);
+        _items.Remove(moveManual);
+    }
+
+
+    public void HealAllCritters()
+    {
+        foreach (Critter critter in _critters)
+        {
+            critter.RestoreAllHealth();
+        }
+    }
+
+
+    public void RestoreUsesToAllCritters()
+    {
+        foreach (Critter critter in _critters)
+        {
+            foreach (Move move in critter.Moves)
+            {
+                move.CurrentUses = move.MaxUses;
+            }
+        }
     }
 }
