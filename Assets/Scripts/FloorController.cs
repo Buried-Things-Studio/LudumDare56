@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class FloorController : MonoBehaviour
 {
-    [SerializeField] private EncounterController Encounters;
+    [SerializeField] public EncounterController Encounters;
     public RoomGeneration RoomGen;
     public Player PlayerData;
     public static FloorController SingleFloorController;

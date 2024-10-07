@@ -331,6 +331,12 @@ public class PlayerController : MonoBehaviour
                     
                     mjo.DestroyJar();
                 }
+
+                GameObject tileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Type == TileType.Door);
+                tileObject.GetComponent<DoorTileController>().NorthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().EastDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().SouthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().WestDoorBlock.SetActive(false);
             }
         }
 
