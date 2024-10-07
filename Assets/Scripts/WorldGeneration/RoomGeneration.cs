@@ -29,7 +29,6 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private MapGeneration _mapGeneration;
     [SerializeField] private MiniMapController _miniMapController;
     private FloorController _floorController; 
-    private int _collectorsPerFloor = 3;
     private List<Critter> _starters = new List<Critter>();
 
 
@@ -230,8 +229,7 @@ public class RoomGeneration: MonoBehaviour
         else if (room.Type == RoomType.Shop)
         {
             room.ShopItems.Add(new MasonJar());
-            room.ShopItems.Add(new MasonJar());
-            room.ShopItems.Add(new MasonJar());
+            room.ShopItems.Add(new Nectar());
         }
     }
 
@@ -240,7 +238,7 @@ public class RoomGeneration: MonoBehaviour
     {
         List<Room> availableRooms = _allRooms.Where(room => room.Type == RoomType.Normal).ToList();
 
-        for (int i = 0; i < _collectorsPerFloor; i++)
+        for (int i = 0; i < _floorController.GetCurrentLevel(); i++)
         {
             int randomIndex = UnityEngine.Random.Range(0, availableRooms.Count);
             availableRooms[i].Collectors.Add(new Collector(false, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y+1), collectorLevelRange, null));
