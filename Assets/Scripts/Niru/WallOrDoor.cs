@@ -12,39 +12,40 @@ public class WallOrDoor : MonoBehaviour
     [SerializeField] private GameObject _bossDoorway;
 
 
-    private void Start()
+    public void CheckForDoors()
     {
-        CheckForDoors();
-    }
+        foreach(GameObject g in _brickPiles)
+        {
+            g.SetActive(false);
+        }
 
+        _regularDoorway.SetActive(false);
+        _shopDoorway.SetActive(false);
+        _hospitalDoorway.SetActive(false);
+        _treasureDoorway.SetActive(false);
+        _bossDoorway.SetActive(false);
 
-    private void CheckForDoors()
-    {
         bool colliders = false;
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 0.2f);
 
+
         foreach(Collider c in hitColliders)
         {
+            //Debug.Log("Collision with " + c.gameObject.name);
+
             if (c.gameObject.tag == "Door")
             {
                 colliders = true;
 
-                ChooseDoorway(c.GetComponent<Tile>().Type);
+                ChooseDoorway(c.GetComponent<Tile>().ConnectingRoom);
                 Debug.Log("Doorway");
+
+                return;
             }
         }
 
-        if (colliders == false)
-        {
-            ChooseBricks();
-        }
-    }
-
-
-    private void FixedUpdate()
-    {
-        //CheckForDoors();
+        ChooseBricks();
     }
 
 
@@ -54,23 +55,26 @@ public class WallOrDoor : MonoBehaviour
     }
 
 
-    public void ChooseDoorway(TileType type)
+    public void ChooseDoorway(RoomType type)
     {
         switch (type)
         {
-            case TileType.Door:
+            case RoomType.Normal:
                 _regularDoorway.SetActive(true);
                 break;
-            case TileType.Shop:
+            case RoomType.Start:
                 _regularDoorway.SetActive(true);
                 break;
-            case TileType.Hospital:
-                _regularDoorway.SetActive(true);
+            case RoomType.Shop:
+                _shopDoorway.SetActive(true);
                 break;
-            case TileType.Treasure:
-                _regularDoorway.SetActive(true);
+            case RoomType.Hospital:
+                _hospitalDoorway.SetActive(true);
                 break;
-            case TileType.Boss:
+            case RoomType.Treasure:
+                _treasureDoorway.SetActive(true);
+                break;
+            case RoomType.Boss:
                 _bossDoorway.SetActive(true);
                 break;
         }

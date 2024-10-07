@@ -31,6 +31,8 @@ public class RoomGeneration: MonoBehaviour
     private FloorController _floorController; 
     private int _collectorsPerFloor = 3;
 
+    [SerializeField] private WallsOrDoorsController _wallsOrDoorsController;
+
 
     public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController, FloorController floorController)
     {
@@ -396,6 +398,7 @@ public class RoomGeneration: MonoBehaviour
 
         //TODO
         //Run my walls and doors code
+        _wallsOrDoorsController.Generate();
     }
 
 
