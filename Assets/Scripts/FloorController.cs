@@ -60,7 +60,7 @@ public class FloorController : MonoBehaviour
             if (doesMapExist)
             {
                 SingleFloorController.RoomGen.GenerateMapFromMapState(SingleFloorController.MapState);
-                GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
+                //GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
             }
             else
             {
@@ -92,6 +92,15 @@ public class FloorController : MonoBehaviour
         starter.SetStartingLevel(10);
         PlayerData.AddCritter(starter);
 
+        foreach (Move move in starter.Moves)
+        {
+            move.CurrentUses = 0;
+        }
+
+        Critter boye = new Honeybee();
+        boye.SetStartingLevel(10);
+        PlayerData.AddCritter(boye);
+
         Critter boi = new MonarchButterfly();
         boi.SetStartingLevel(10);
         PlayerData.AddCritter(boi);
@@ -103,6 +112,12 @@ public class FloorController : MonoBehaviour
         PlayerData.AddItemToInventory(new Nectar());
         PlayerData.AddItemToInventory(new Nectar());
         MoveManual newMoveManual = new MoveManual();
+        newMoveManual.SetRandomMove();
+        PlayerData.AddItemToInventory(newMoveManual);
+        newMoveManual = new MoveManual();
+        newMoveManual.SetRandomMove();
+        PlayerData.AddItemToInventory(newMoveManual);
+        newMoveManual = new MoveManual();
         newMoveManual.SetRandomMove();
         PlayerData.AddItemToInventory(newMoveManual);
         //--------------
@@ -137,7 +152,7 @@ public class FloorController : MonoBehaviour
         }
 
         RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this);
-        GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
+        //GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
     }
 
 

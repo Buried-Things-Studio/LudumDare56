@@ -41,10 +41,10 @@ public class Player
 
 
     public void AddItemToInventory(Item item)
-    {        
+    {
         Item existingItem = _items.Find(ownedItem => ownedItem.ID == item.ID);
 
-        if (existingItem == null)
+        if (existingItem == null || item.ID == ItemType.MoveManual)
         {
             _items.Add(item);
             item.OwnedCount = 1;

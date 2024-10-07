@@ -408,7 +408,7 @@ public class LeptopomaSnail : Critter
 {
     public LeptopomaSnail()
     {
-        Name = "Leptopoma Snail";
+        Name = "Leptopoma";
         Affinities.Add(CritterAffinity.Mollusc);
         Moves.Add(new Smother(){UserGUID = GUID});
         Moves.Add(new MysteriousSlime(){UserGUID = GUID});
