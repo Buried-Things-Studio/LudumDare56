@@ -23,13 +23,20 @@ public class OverworldMenu : MonoBehaviour
 
     [SerializeField] private BugMenu _bugMenu;
     [SerializeField] private GameObject _bugMenuObject;
-    
+
+    [SerializeField] private Book _book;
     [SerializeField] private GameObject _bookObject;
     
     private bool _isMenuOpen;
     private bool _isMenuClosing;
     private Player _player;
     private PlayerController _playerController;
+
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _navigateClip;
+    [SerializeField] private AudioClip _selectClip;
+    [SerializeField] private AudioClip _backOutClip;
 
 
     public void GetComponentsInScene(Player player, PlayerController playerController)
@@ -66,7 +73,7 @@ public class OverworldMenu : MonoBehaviour
         _menuOptionsObject.SetActive(false);
         _itemOptionsObject.SetActive(false);
         _bugMenuObject.SetActive(false);
-        //_bookObject.SetActive(false);
+        _bookObject.SetActive(false);
     }
 
 
@@ -95,10 +102,18 @@ public class OverworldMenu : MonoBehaviour
             if (Input.GetKeyDown(Controls.MenuUpKey))
             {
                 _menuOptions.MoveSelection(true);
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _navigateClip;
+                osc.Play();
             }
             else if (Input.GetKeyDown(Controls.MenuDownKey))
             {
                 _menuOptions.MoveSelection(false);
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _navigateClip;
+                osc.Play();
             }
             else if (Input.GetKeyDown(Controls.MenuSelectKey))
             {
@@ -118,6 +133,10 @@ public class OverworldMenu : MonoBehaviour
                 isSelected = true;
                 _isMenuClosing = true;
                 SetInactiveAllMenus();
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _backOutClip;
+                osc.Play();
             }
 
             yield return null;
@@ -145,8 +164,12 @@ public class OverworldMenu : MonoBehaviour
         }
         else if (translatedSelection == MenuOption.Book)
         {
-            //StartPlayerItemChoice();
+            StartBook();
         }
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _selectClip;
+        osc.Play();
 
         return true;
     }
@@ -278,6 +301,25 @@ public class OverworldMenu : MonoBehaviour
             Debug.Log("Choosing to change active!");
             _player.SetActiveCritter(selectedGuid);
         }
+
+        StartPlayerMenuActionChoice();
+
+        yield return null;
+    }
+
+
+    private void StartBook()
+    {
+        SetInactiveAllMenus();
+        _bookObject.SetActive(true);
+
+        StartCoroutine(BookInteraction());
+    }
+
+
+    private IEnumerator BookInteraction()
+    {
+        yield return StartCoroutine(_book.HoldBookOpen());
 
         StartPlayerMenuActionChoice();
 

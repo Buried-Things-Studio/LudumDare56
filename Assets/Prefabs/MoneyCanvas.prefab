@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 3464659728210449570}
   - component: {fileID: 1884082090158043798}
   - component: {fileID: 2883884225882520586}
+  - component: {fileID: 4850373098825983166}
   m_Layer: 5
   m_Name: MoneyCanvas
   m_TagString: Untagged
@@ -313,3 +314,16 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4850373098825983166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7032162180071077255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea756e72e833c324fbf07f02c96ee7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moneyTMP: {fileID: 7763712078432511604}

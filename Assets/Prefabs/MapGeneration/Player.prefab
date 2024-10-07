@@ -303,6 +303,24 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _grassParticleSystem: {fileID: 8004829363031532819}
+  _descendClip: {fileID: 8300000, guid: bae11d786068429469398f8cb7a4fbc4, type: 3}
+  _grassSteps:
+  - {fileID: 8300000, guid: a390d7febd7bf2a48957b9d2a7ff2971, type: 3}
+  - {fileID: 8300000, guid: 4dc8ca298a9ab304e9810067d1c506e7, type: 3}
+  - {fileID: 8300000, guid: 962ed4955214a9b44935ae0abde28a0a, type: 3}
+  - {fileID: 8300000, guid: 001db7b292089c243b7724f7d3b2d260, type: 3}
+  - {fileID: 8300000, guid: 9a7005f284a8be9449469073b1ab4899, type: 3}
+  - {fileID: 8300000, guid: 50b671679c70a5b4f94a028304c066e3, type: 3}
+  - {fileID: 8300000, guid: 737eb911fb483564f812745b0746204a, type: 3}
+  _dirtSteps:
+  - {fileID: 8300000, guid: 3ac3c941e8dd8f34ca828d666508c9aa, type: 3}
+  - {fileID: 8300000, guid: bac4af794c37de3499e20aa94edbfefe, type: 3}
+  - {fileID: 8300000, guid: 712d786687cad4548966dc42978f70f0, type: 3}
+  - {fileID: 8300000, guid: 763c25aa3e8d18040a7c136c9b003ed9, type: 3}
+  - {fileID: 8300000, guid: b256920903db3e74099b449138d564be, type: 3}
+  - {fileID: 8300000, guid: 1eec05903385300448f7f3986670981b, type: 3}
+  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
+    type: 3}
 --- !u!1001 &4515284559220327275
 PrefabInstance:
   m_ObjectHideFlags: 0
