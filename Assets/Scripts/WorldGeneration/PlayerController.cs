@@ -28,20 +28,21 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         CheckPressedKeys();
+
         if(_isMoving)
         {
             return;
         }
-        else if(_newTileChecks)
+        else if (_newTileChecks)
         {
             CheckForEncounters();
         }
 
-        if(_checkContinuedMovement)
+        if (_checkContinuedMovement)
         {
             CheckForContinuedMovement();
         }
-        if(_checkNewMovement)
+        if (_checkNewMovement)
         {
             CheckForNewMovement();
         }
@@ -113,6 +114,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void CheckForNewMovement()
     {
         Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
@@ -133,6 +135,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(SmoothRotate(3));
         }
     }
+    
 
     private void CheckForContinuedMovement()
     {
@@ -171,34 +174,41 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void CheckForEncounters()
     {
         _checkContinuedMovement = false;
         _checkNewMovement = false;
+
         // trainer check
-        if(CollectorController != null)
+        if (CollectorController != null)
         {
-            if(CollectorController.VisibleCoords.Contains(CurrentCoords))
+            if (CollectorController.VisibleCoords.Contains(CurrentCoords))
             {
                 _newTileChecks = false;
                 CollectorController.MoveToPlayer(CurrentCoords);
+
                 return;
             }
         }
 
         Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
+
         // grass check 
-        if(currentTile.Type == TileType.Grass)
+        if (currentTile.Type == TileType.Grass)
         {
-            if(EncounterController.CheckRandomEncounter())
+            if (EncounterController.CheckRandomEncounter())
             {
                 _newTileChecks = false;
+
                 return;
             }
         }
+
         _newTileChecks = false;
         _checkContinuedMovement = true;
     }
+
 
     private void CheckPressedKeys()
     {

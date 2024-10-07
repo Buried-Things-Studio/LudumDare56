@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,10 @@ using UnityEngine;
 
 public class Player
 {
-    private List<Critter> _critters;
-    private List<Item> _items;
+    private List<Critter> _critters = new List<Critter>();
+    private List<Item> _items = new List<Item>();
     private int _money;
+
 
     public Critter GetActiveCritter()
     {
@@ -20,6 +22,14 @@ public class Player
         }
 
         return null; //should never be hit
+    }
+
+
+    public void SetActiveCritter(Guid guid)
+    {
+        Critter newActiveCritter = _critters.Find(critter => critter.GUID == guid);
+        _critters.Remove(newActiveCritter);
+        _critters.Insert(0, newActiveCritter);
     }
 
 
@@ -41,10 +51,29 @@ public class Player
     }
 
 
+    public void RemoveItemFromInventory(ItemType itemType)
+    {
+        Item existingItem = _items.Find(ownedItem => ownedItem.ID == itemType);
+        existingItem.OwnedCount--;
+
+        if (existingItem.OwnedCount <= 0)
+        {
+            _items.Remove(existingItem);
+        }
+    }
+
+
     public List<Critter> GetCritters()
     {
         return _critters;
     }
+
+
+    public List<Item> GetItems()
+    {
+        return _items;
+    }
+
 
     public void AddMoney(int moneyToAdd)
     {

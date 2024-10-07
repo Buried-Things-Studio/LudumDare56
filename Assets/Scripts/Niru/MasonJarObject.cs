@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MasonJarObject : MonoBehaviour
 {
     public Critter MyCritter;
@@ -29,7 +30,7 @@ public class MasonJarObject : MonoBehaviour
             _bugInJarGO.SetActive(true);
 
             float multiplier = Mathf.Pow(2, 5);
-            Color HDRColor = CritterHelpers.GetAffinityColor(MyCritter.Affinities[0]);
+            Color HDRColor = CritterAffinityData.GetAffinityColor(MyCritter.Affinities[0]);
             HDRColor = new Color(HDRColor.r * multiplier, HDRColor.g * multiplier, HDRColor.b * multiplier, 1);
 
             _bugInJarGO.GetComponent<Renderer>().material.SetColor("_EmissionColor", HDRColor);
