@@ -48,7 +48,7 @@ public class CombatController : MonoBehaviour
 
     private void InitializeMeshes()
     {
-        GameObject playerMesh = GameObject.Instantiate()
+        //GameObject playerMesh = GameObject.Instantiate()
     }
 
 
