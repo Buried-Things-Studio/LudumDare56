@@ -11,6 +11,7 @@ public enum MoveID
     SwitchActive,
     ThrowMasonJar,
     UseHealItem,
+    TriedItsBest,
     
     Bonk,
     Carapace,
@@ -29,6 +30,47 @@ public enum MoveID
     ToxicTouch,
     WebTrap,
     WingStrike,
+}
+
+
+public class TriedItsBest : Move
+{
+    public TriedItsBest()
+    {
+        Name = "tried its best";
+        ID = MoveID.TriedItsBest;
+        Affinity = CritterAffinity.None;
+        IsSharp = false;
+        IsTargeted = true;
+        BasePower = 20;
+        Accuracy = 100;
+        MaxUses = 9999;
+        CurrentUses = 9999;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
+
+        int startingHealth = opponent.CurrentHealth;
+        int damageMultiplier;
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
+        opponent.DealDamage(damage);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth));
+
+        if (opponent.CurrentHealth > 0)
+        {
+            startingHealth = user.CurrentHealth;
+            user.DealDamage(damage);
+            steps.Add(new HealthChangeStep(isPlayerUser, user.Level, startingHealth, user.CurrentHealth, user.MaxHealth));
+        }
+
+        return steps;
+    }
 }
 
 

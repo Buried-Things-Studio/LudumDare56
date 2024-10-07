@@ -92,7 +92,12 @@ public class FloorController : MonoBehaviour
         starter.SetStartingLevel(10);
         PlayerData.AddCritter(starter);
 
-        Critter boye = new Bumblebee();
+        foreach (Move move in starter.Moves)
+        {
+            move.CurrentUses = 0;
+        }
+
+        Critter boye = new Honeybee();
         boye.SetStartingLevel(10);
         PlayerData.AddCritter(boye);
 
