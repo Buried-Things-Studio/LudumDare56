@@ -8,6 +8,8 @@ public class Room
     public Vector2Int Coordinates;
     public List<List<string>> Layout;
     public bool Explored;
+    public bool AdjacentToExplored;
+    public bool ContainsPlayer;
 
     public List<Item> ShopItems = new List<Item>();
     public List<Collector> Collectors = new List<Collector>();
