@@ -43,7 +43,7 @@ public class RoomGeneration: MonoBehaviour
         }
 
         _allRooms = GenerateRoomData(_map, collectorLevelRange, teamSizeRange, bossAffinity);
-        GenerateCollectors(collectorLevelRange, teamSizeRange);
+        GenerateCollectors(collectorLevelRange, teamSizeRange, bossAffinity);
 
         _currentRoom = _allRooms.Find(room => room.Type == RoomType.Start);
         DisplayCurrentRoom();
@@ -235,7 +235,7 @@ public class RoomGeneration: MonoBehaviour
     }
 
 
-    private void GenerateCollectors(Vector2Int teamSizeRange, Vector2Int collectorLevelRange)
+    private void GenerateCollectors(Vector2Int teamSizeRange, Vector2Int collectorLevelRange, CritterAffinity bossAffinity)
     {
         List<Room> availableRooms = _allRooms.Where(room => room.Type == RoomType.Normal).ToList();
 
@@ -246,6 +246,9 @@ public class RoomGeneration: MonoBehaviour
             Debug.Log("Collector at " + availableRooms[i].Coordinates.ToString());
             availableRooms.RemoveAt(i);
         }
+
+        Room bossRoom = _allRooms.Find(room => room.Type == RoomType.Boss);
+        bossRoom.Boss = new Collector(true, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y + 1), collectorLevelRange, new List<CritterAffinity>(){bossAffinity});
     }
 
 
@@ -302,14 +305,20 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().ConnectingRoom = GetConnectingRoom(new Vector2Int(j, 8-i));
                     _floorTiles.Add(tileObject);
                 }
-                if(_currentRoom.Layout[i][j] == "B")
+                if(_currentRoom.Layout[i][j] == "B0"
+                    || _currentRoom.Layout[i][j] == "B1"
+                    || _currentRoom.Layout[i][j] == "B2"
+                    || _currentRoom.Layout[i][j] == "B3")
                 {
+                    string tileCode = _currentRoom.Layout[i][j];
                     GameObject randomBossTile = _bossTilePrefabs[UnityEngine.Random.Range(0, _bossTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomBossTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Boss;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
+                    string direction = tileCode == "B0" ? "0" : tileCode == "B1" ? "1" : tileCode == "B2" ? "2" : "3";
+                    GenerateTrainer(tileObject, direction, _currentRoom.Boss, true);
                 }
                 if(_currentRoom.Layout[i][j] == "E")
                 {
@@ -369,7 +378,7 @@ public class RoomGeneration: MonoBehaviour
                         tileObject.GetComponent<Tile>().Type = TileType.Trainer;
                         tileObject.GetComponent<Tile>().IsWalkable = false;
                         _floorTiles.Add(tileObject);
-                        GenerateTrainer(tileObject, _currentRoom.Layout[i][j], _currentRoom.Collectors[0]);
+                        GenerateTrainer(tileObject, _currentRoom.Layout[i][j], _currentRoom.Collectors[0], false);
                     }
                     else 
                     {
@@ -415,7 +424,7 @@ public class RoomGeneration: MonoBehaviour
         playerController.CollectorController = _collectorController;
     }
 
-    public void GenerateTrainer(GameObject parentTile, string direction, Collector collector)
+    public void GenerateTrainer(GameObject parentTile, string direction, Collector collector, bool isBoss)
     {
         GameObject trainer = GameObject.Instantiate(_collectorPrefab, parentTile.transform);
         trainer.transform.localPosition = Vector3.zero;
@@ -423,8 +432,17 @@ public class RoomGeneration: MonoBehaviour
         collectorController.Coordinates = parentTile.GetComponent<Tile>().Coordinates;
         collectorController.Direction = direction;
         collectorController.Collector = collector;
-        collectorController.CalculateVisibleCoords();
+        if(!isBoss)
+        {
+            collectorController.CalculateVisibleCoords();
+        }
+        collectorController.SnapToDirection();
         _collectorController = collectorController;
+    }
+
+    public void GenerateBoss(GameObject parentTile, string direction, Collector collector)
+    {
+
     }
 
     public void PlacePlayerAtCoords(Vector2Int coords, int direction)

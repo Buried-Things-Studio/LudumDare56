@@ -16,7 +16,6 @@ public class CollectorController : MonoBehaviour
 
     public void CalculateVisibleCoords()
     {
-        SnapToDirection();
         if(Direction == "0")
         {
             for(int i = Coordinates.y + 1; i < 9; i++)
