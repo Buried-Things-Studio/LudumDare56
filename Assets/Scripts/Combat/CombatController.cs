@@ -445,6 +445,7 @@ public class CombatController : MonoBehaviour
 
             int winnings = 100 * OpponentData.GetCritters().Count;
             PlayerData.AddMoney(winnings);
+
             _viz.AddVisualStep(new WinningsStep(winnings));
 
             return true;

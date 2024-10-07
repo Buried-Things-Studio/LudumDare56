@@ -144,6 +144,8 @@ public class PlayerController : MonoBehaviour
                     if(GlobalUI.TextBox.IsSelectingYes)
                     {
                         FloorController.PlayerData.RemoveMoney(cost);
+                        MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
+                        moneyCanvasController.SetMoney(FloorController.PlayerData.GetMoney());
                         FloorController.PlayerData.AddItem(item);
                         tile.ShopItem = null;
                         tileObject.GetComponent<ShopTileController>().ScrollParent.SetActive(false);
@@ -161,6 +163,8 @@ public class PlayerController : MonoBehaviour
                     if(GlobalUI.TextBox.IsSelectingYes)
                     {
                         FloorController.PlayerData.RemoveMoney(cost);
+                        MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
+                        moneyCanvasController.SetMoney(FloorController.PlayerData.GetMoney());
                         FloorController.PlayerData.AddItem(item);
                         tile.ShopItem = null;
                         tileObject.GetComponent<ShopTileController>().NectarParent.SetActive(false);

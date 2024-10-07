@@ -2139,10 +2139,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4598860727953876249, guid: 6c247a67112d29946b35df8a8a218006,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7032162180071077255, guid: 6c247a67112d29946b35df8a8a218006,
         type: 3}
       propertyPath: m_Name
       value: MoneyCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032162180071077255, guid: 6c247a67112d29946b35df8a8a218006,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
