@@ -24,7 +24,7 @@ public class MasonJarObject : MonoBehaviour
             MyCritter = new BlackWidowSpider();
             */
 
-        float multiplier = Mathf.Pow(2, 5);
+        float multiplier = Mathf.Pow(2, 3);
         Color HDRColor = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
         HDRColor = new Color(HDRColor.r * multiplier, HDRColor.g * multiplier, HDRColor.b * multiplier, 1);
 

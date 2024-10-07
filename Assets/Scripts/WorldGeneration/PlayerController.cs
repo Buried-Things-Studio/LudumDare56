@@ -15,11 +15,11 @@ public class PlayerController : MonoBehaviour
     public CollectorController CollectorController;
     public EncounterController EncounterController;
     public int Direction = 0;
+    public bool IsInvisibleToEncounters;
     private bool _isMoving; 
     private bool _newTileChecks; 
     private bool _checkContinuedMovement;
     private bool _isMovementBlockedByUI;
-    private bool _isStarterChosen;
     private bool _checkNewMovement = true;
     private List<string> _keyPressPriorityOrder = new List<string>();
     public FloorController FloorController;
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
         Tile tile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront).GetComponent<Tile>();
         TileType tileType = tile.Type;
 
-        if (tileType == TileType.Starter && !_isStarterChosen)
+        if (tileType == TileType.Starter && !EncounterController.IsStarterChosen)
         {
             StartCoroutine(TryChooseStarter(tile.Starter));
         }
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
         if (GlobalUI.TextBox.IsSelectingYes)
         {
-            _isStarterChosen = true;
+            EncounterController.IsStarterChosen = true;
             FloorController.PlayerData.AddCritter(starter); //hello new friend! TODO: block/unblock door
         }
 
@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
         Tile tile = tileObject.GetComponent<Tile>();
 
-        if (tile.Type == TileType.Door && !_isStarterChosen)
+        if (tile.Type == TileType.Door && !EncounterController.IsStarterChosen)
         {
             return false;
         }
@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour
         MapState mapState = new MapState(Map, CurrentRoom.Coordinates, CurrentCoords, Direction);
 
         // trainer check
-        if (CollectorController != null)
+        if (CollectorController != null && !IsInvisibleToEncounters)
         {
             if (!CollectorController.Collector.HasBeenDefeated && CollectorController.VisibleCoords.Contains(CurrentCoords))
             {
@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour
         Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
 
         // grass check 
-        if (currentTile.Type == TileType.Grass)
+        if (currentTile.Type == TileType.Grass && !IsInvisibleToEncounters)
         {
             ////Grass particle effect
             //_grassParticleSystem.Play();

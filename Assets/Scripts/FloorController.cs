@@ -96,6 +96,12 @@ public class FloorController : MonoBehaviour
     }
 
 
+    public int GetCurrentLevel()
+    {
+        return _currentLevel;
+    }
+
+
     private void InitializeLevel()
     {
         _currentLevel++;

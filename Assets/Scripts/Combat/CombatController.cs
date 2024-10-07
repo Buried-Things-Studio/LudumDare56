@@ -46,6 +46,7 @@ public class CombatController : MonoBehaviour
     private IEnumerator InitializeTurn()
     {
         ClearTurnData();
+        PlayerData.ClearDeadCritters();
         yield return StartCoroutine(GetNewActiveCritters());
         DetermineStartingCritter();
         PopulateParticipant();
@@ -364,7 +365,7 @@ public class CombatController : MonoBehaviour
             
             List<Critter> crittersReceivingExp = State.NpcCritter.Participants
                 .Select(participantGuid => PlayerData.GetCritters().Find(teamCritter => teamCritter.GUID == participantGuid))
-                .Where(critter => critter.CurrentHealth > 0)
+                .Where(critter => critter != null && critter.CurrentHealth > 0)
                 .ToList();
             
             foreach (Critter critter in crittersReceivingExp)
@@ -405,8 +406,6 @@ public class CombatController : MonoBehaviour
     {
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
 
-        PlayerData.ClearDeadCritters();
-        
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
 
         while (!sceneLoading.isDone)

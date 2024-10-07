@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class SimulateCombat : MonoBehaviour
 {
-    [SerializeField] private bool _isForcingCombat;
-    private bool _hasActivated;
-
-
-    private void Start()
+    private void Update()
     {
-        if (_isForcingCombat && !_hasActivated)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _hasActivated = true;
             StartCoroutine(StartCombat());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GameObject.FindObjectOfType<EncounterController>().IsStarterChosen = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            PlayerController pc = GameObject.FindObjectOfType<PlayerController>();
+            pc.IsInvisibleToEncounters = !pc.IsInvisibleToEncounters;
         }
     }
 
