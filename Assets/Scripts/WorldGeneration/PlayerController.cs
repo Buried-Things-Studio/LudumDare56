@@ -76,6 +76,12 @@ public class PlayerController : MonoBehaviour
     {
         Vector2Int coordsInFront = GetTargetCoords("forward");
         Tile tile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront).GetComponent<Tile>();
+
+        if (tile == null)
+        {
+            return;
+        }
+
         TileType tileType = tile.Type;
 
         if (tileType == TileType.Starter && FloorController.GetCurrentLevel() == 1 && !EncounterController.IsStarterChosen)

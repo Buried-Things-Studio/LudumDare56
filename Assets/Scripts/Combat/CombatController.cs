@@ -195,7 +195,14 @@ public class CombatController : MonoBehaviour
 
         if (priorityMove == null)
         {
-            isWildCatchAttempt = ExecuteBattleAction(priorityMoveID);
+            if (priorityMoveID == MoveID.TriedItsBest)
+            {
+                TryExecuteMove(priorityCritter, new TriedItsBest(), State.IsPlayerPriority);
+            }
+            else
+            {
+                isWildCatchAttempt = ExecuteBattleAction(priorityMoveID);
+            }
         }
         else
         {
@@ -213,7 +220,14 @@ public class CombatController : MonoBehaviour
         {
             if (nonPriorityMove == null)
             {
-                ExecuteBattleAction(nonPriorityMoveID);
+                if (priorityMoveID == MoveID.TriedItsBest)
+                {
+                    TryExecuteMove(priorityCritter, new TriedItsBest(), State.IsPlayerPriority);
+                }
+                else
+                {
+                    ExecuteBattleAction(nonPriorityMoveID);
+                }
             }
             else
             {
@@ -337,9 +351,16 @@ public class CombatController : MonoBehaviour
             }
         }
 
-        _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name));
+        if (move.ID != MoveID.TriedItsBest)
+        {
+            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name));
+        }
+        else
+        {
+            _viz.AddVisualStep(new TriedItsBestStep(user.Name));
+        }
         
-        if (!move.IsTargeted || UnityEngine.Random.Range(0, 100) < move.Accuracy)
+        if (move.ID == MoveID.TriedItsBest || !move.IsTargeted || UnityEngine.Random.Range(0, 100) < move.Accuracy)
         {
             List<CombatVisualStep> steps = move.ExecuteMove(State, isPlayerUser);
             _viz.AddVisualSteps(steps);

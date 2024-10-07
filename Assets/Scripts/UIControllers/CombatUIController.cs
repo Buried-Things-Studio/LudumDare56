@@ -209,7 +209,14 @@ public class CombatUIController : MonoBehaviour
 
         if (selection == BattleOption.Move)
         {
-            StartPlayerMoveChoice();
+            if (_combatController.State.PlayerCritter.IsOutOfUses())
+            {
+                SetPlayerTriedItsBest();
+            }
+            else
+            {
+                StartPlayerMoveChoice();
+            }
         }
         else if (selection == BattleOption.Bugs)
         {
@@ -221,6 +228,13 @@ public class CombatUIController : MonoBehaviour
         }
 
         return true;
+    }
+
+
+    public void SetPlayerTriedItsBest()
+    {
+        _combatController.SetPlayerMove(MoveID.TriedItsBest);
+        FinishInteraction();
     }
 
 
@@ -238,8 +252,6 @@ public class CombatUIController : MonoBehaviour
     private IEnumerator MoveOptionsInteraction()
     {
         yield return new WaitForEndOfFrame();
-        
-        //TODO: handle no PP on any move
         
         bool isSelected = false;
         

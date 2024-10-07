@@ -36,6 +36,25 @@ public class DoMoveStep : CombatVisualStep
 }
 
 
+public class TriedItsBestStep : CombatVisualStep
+{
+    public string UserName;
+
+
+    public TriedItsBestStep(string userName)
+    {
+        UserName = userName;
+    }
+
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{UserName} tried its best...";
+    }
+}
+
+
+
 public class CritterSquishedStep : CombatVisualStep
 {
     public string Name;

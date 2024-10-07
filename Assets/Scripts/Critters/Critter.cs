@@ -187,6 +187,20 @@ public class Critter
     }
 
 
+    public bool IsOutOfUses()
+    {
+        foreach (Move move in Moves)
+        {
+            if (move.CurrentUses > 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     public List<CombatVisualStep> IncreaseExp(int exp)
     {
         List<CombatVisualStep> steps = new List<CombatVisualStep>();

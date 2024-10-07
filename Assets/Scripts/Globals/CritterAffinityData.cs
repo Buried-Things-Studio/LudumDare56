@@ -7,6 +7,10 @@ public static class CritterAffinityData
 {
     private static List<CritterAffinityProperties> _properties = new List<CritterAffinityProperties>(){
         new CritterAffinityProperties(
+            CritterAffinity.None,
+            new Color32(0xFF, 0xFF, 0xFF, 0xFF) //#FFFFFFFF
+        ),
+        new CritterAffinityProperties(
             CritterAffinity.Ant,
             new Color32(0xBA, 0x4A, 0x39, 0xFF) //#BA4A39FF
         ),
