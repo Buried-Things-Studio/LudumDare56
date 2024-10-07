@@ -9,6 +9,7 @@ public class FloorController : MonoBehaviour
     [SerializeField] private EncounterController Encounters;
     public RoomGeneration RoomGen;
     public Player PlayerData;
+    public static FloorController SingleFloorController;
     public bool IsActivated = false;
     
     private int _currentLevel = 0;
@@ -41,10 +42,22 @@ public class FloorController : MonoBehaviour
 
     private void Awake()
     {
-        if(IsActivated)
+        if (SingleFloorController == null)
+        {
+            SingleFloorController = this;
+        }
+        else if (SingleFloorController != this)
+        {
+            GameObject.Destroy(this.gameObject);
+
+            return;
+        }
+        
+        if (IsActivated)
         {
             return;
         }
+
         IsActivated = true;
         Debug.Log("FloorController AWAKE running");
         GameObject.DontDestroyOnLoad(this.gameObject);

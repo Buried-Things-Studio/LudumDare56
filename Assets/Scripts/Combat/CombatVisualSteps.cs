@@ -375,7 +375,7 @@ public class WinningsStep : CombatVisualStep
     public int Winnings;
 
 
-    public MoveAccuracyCheckFailureStep(int winnings)
+    public WinningsStep(int winnings)
     {
         Winnings = winnings;
     }
