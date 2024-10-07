@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public RoomGeneration RoomGeneration;
     public CollectorController CollectorController;
     public EncounterController EncounterController;
-    private int _direction = 0;
+    public int Direction = 0;
     private bool _isMoving; 
     private bool _newTileChecks; 
     private bool _checkContinuedMovement;
@@ -60,26 +60,26 @@ public class PlayerController : MonoBehaviour
     private Vector2Int GetTargetCoords(string direction)
     {
         Vector2Int targetCoords = new Vector2Int();
-        if((direction == "forward" && _direction == 0) || (direction == "backward" && _direction == 2))
+        if((direction == "forward" && Direction == 0) || (direction == "backward" && Direction == 2))
         {
             targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y + 1);
         }
-        if((direction == "forward" && _direction == 2) || (direction == "backward" && _direction == 0))
+        if((direction == "forward" && Direction == 2) || (direction == "backward" && Direction == 0))
         {
             targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y - 1);
         }
-        if((direction == "forward" && _direction == 1) || (direction == "backward" && _direction == 3))
+        if((direction == "forward" && Direction == 1) || (direction == "backward" && Direction == 3))
         {
             targetCoords = new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y);
         }
-        if((direction == "forward" && _direction == 3) || (direction == "backward" && _direction == 1))
+        if((direction == "forward" && Direction == 3) || (direction == "backward" && Direction == 1))
         {
             targetCoords = new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y);
         }
         return targetCoords;
     }
 
-    private void AttemptMove(Tile currentTile, Vector2Int targetCoords)
+    private void AttemptMove(Tile currentTile, Vector2Int targetCoords, string direction)
     {
         if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
         {
@@ -88,23 +88,28 @@ public class PlayerController : MonoBehaviour
         else if(currentTile.Type == TileType.Door)
         {
             Vector2Int newRoomCoords = CurrentCoords; 
-            if(_direction == 0)
+            if((Direction == 0 && direction == "forward") || (Direction == 2 && direction == "backward"))
             {
                 newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x, CurrentRoom.Coordinates.y + 1);
             }
-            if(_direction == 1)
+            if((Direction == 1 && direction == "forward") || (Direction == 3 && direction == "backward"))
             {
                 newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x + 1, CurrentRoom.Coordinates.y);
             }
-            if(_direction == 2)
+            if((Direction == 2 && direction == "forward") || (Direction == 0 && direction == "backward"))
             {
                 newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x, CurrentRoom.Coordinates.y - 1);
             }
-            if(_direction == 3)
+            if((Direction == 3 && direction == "forward") || (Direction == 1 && direction == "backward"))
             {
                 newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x - 1, CurrentRoom.Coordinates.y);
             }
-            RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords);
+            int faceIntoNewRoom = Direction;
+            if(direction == "backward")
+            {
+                faceIntoNewRoom = (Direction + 2) % 4;
+            }
+            RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords, faceIntoNewRoom);
         }
     }
 
@@ -113,11 +118,11 @@ public class PlayerController : MonoBehaviour
         Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
         if(Input.GetKeyDown("up"))
         {
-            AttemptMove(currentTile, GetTargetCoords("forward"));
+            AttemptMove(currentTile, GetTargetCoords("forward"), "forward");
         }
         else if(Input.GetKeyDown("down"))
         {
-            AttemptMove(currentTile, GetTargetCoords("backward"));
+            AttemptMove(currentTile, GetTargetCoords("backward"), "backward");
         }
         else if(Input.GetKeyDown("right"))
         {
@@ -143,11 +148,11 @@ public class PlayerController : MonoBehaviour
             Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
             if(_topPriorityKey == "up")
             {
-                AttemptMove(currentTile, GetTargetCoords("forward"));
+                AttemptMove(currentTile, GetTargetCoords("forward"), "forward");
             }
             if(_topPriorityKey == "down")
             {
-                AttemptMove(currentTile, GetTargetCoords("backward"));
+                AttemptMove(currentTile, GetTargetCoords("backward"), "backward");
             }
             if(_topPriorityKey == "left")
             {
@@ -250,19 +255,19 @@ public class PlayerController : MonoBehaviour
         _isMoving = true;
         float angle = direction == 1 ? 90f : -90;
         float currentDirection = 0f; 
-        if(_direction == 0)
+        if(Direction == 0)
         {
             currentDirection = 0f;
         }
-        else if(_direction == 1)
+        else if(Direction == 1)
         {
             currentDirection = 90f; 
         }
-        else if(_direction == 2)
+        else if(Direction == 2)
         {
             currentDirection = 180f; 
         }
-        else if(_direction == 3)
+        else if(Direction == 3)
         {
             currentDirection = 270f;
         }
@@ -279,10 +284,33 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0f, target, 0f));
         int targetDegrees = (int)target;
         int newDirection = targetDegrees/90; 
-        _direction = (newDirection + 4) % 4;
-        Debug.Log("Direction = " + _direction.ToString());
+        Direction = (newDirection + 4) % 4;
+        Debug.Log("Direction = " + Direction.ToString());
         _isMoving = false;
         _checkContinuedMovement = true;
 	}
+
+    public void SnapToDirection()
+    {
+        float targetDirection = 0f; 
+        if(Direction == 0)
+        {
+            targetDirection = 0f;
+        }
+        else if(Direction == 1)
+        {
+            targetDirection = 90f; 
+        }
+        else if(Direction == 2)
+        {
+            targetDirection = 180f; 
+        }
+        else if(Direction == 3)
+        {
+            targetDirection = 270f;
+        }
+
+        transform.rotation = Quaternion.Euler(new Vector3(0f, targetDirection, 0f));
+    }
 
 }
