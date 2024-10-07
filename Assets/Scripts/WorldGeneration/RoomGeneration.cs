@@ -50,6 +50,7 @@ public class RoomGeneration: MonoBehaviour
         _currentRoom = _allRooms.Find(room => room.Type == RoomType.Start);
         DisplayCurrentRoom();
         GeneratePlayer();
+        _miniMapController = GameObject.FindObjectOfType<MiniMapController>();
         _miniMapController.Map = _allRooms;
         _miniMapController.UpdateMap();
     }
@@ -580,4 +581,11 @@ public class RoomGeneration: MonoBehaviour
         }
         return adjRoom.Type;
     }
+
+    public void GoToNewLevel()
+    {
+        _floorController.IncrementLevel();
+    }
+
+    
 }

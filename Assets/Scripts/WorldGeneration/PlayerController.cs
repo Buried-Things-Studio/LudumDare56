@@ -173,6 +173,10 @@ public class PlayerController : MonoBehaviour
             {
                 _grassParticleSystem.Play();
             }
+            if(targetTile.Type == TileType.Exit && CollectorController.Collector.HasBeenDefeated)
+            {
+                RoomGeneration.GoToNewLevel();
+            }
 
             MoveToNewTile(targetCoords);
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class FloorController : MonoBehaviour
@@ -12,8 +13,9 @@ public class FloorController : MonoBehaviour
     public static FloorController SingleFloorController;
     public bool IsActivated = false;
     public MapState MapState;
+    public int LastMapGeneratedLevel = 1;
     
-    private int _currentLevel = 0;
+    private int _currentLevel = 1;
     private List<Vector2Int> _wildEncounterLevelRanges = new List<Vector2Int>(){
         new Vector2Int(0, 0),
         new Vector2Int(1, 2),
@@ -51,7 +53,18 @@ public class FloorController : MonoBehaviour
         }
         else if (SingleFloorController != this)
         {
-            SingleFloorController.RoomGen.GenerateMapFromMapState(SingleFloorController.MapState);
+            bool doesMapExist = SingleFloorController.LastMapGeneratedLevel == SingleFloorController._currentLevel;
+
+            Debug.Log("Does map exist  = " +  doesMapExist.ToString());
+
+            if(doesMapExist){
+                SingleFloorController.RoomGen.GenerateMapFromMapState(SingleFloorController.MapState);
+            }
+            else {
+                SingleFloorController.InitializeLevel();
+            }
+
+
             Debug.Log("Not the original, destroying ... ");
 
             GameObject.Destroy(this.gameObject);
@@ -104,7 +117,7 @@ public class FloorController : MonoBehaviour
 
     private void InitializeLevel()
     {
-        _currentLevel++;
+        LastMapGeneratedLevel = _currentLevel;
 
         //int randomAffinityIndex = UnityEngine.Random.Range(1, Enum.GetNames(typeof(CritterAffinity)).Length);
         int randomAffinityIndex = 2; //TODO: make random again
@@ -119,4 +132,11 @@ public class FloorController : MonoBehaviour
 
         RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this);
     }
+
+    public void IncrementLevel()
+    {
+        _currentLevel ++; 
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
+    }
+
 }
