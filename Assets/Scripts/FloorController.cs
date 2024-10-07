@@ -46,9 +46,13 @@ public class FloorController : MonoBehaviour
         Encounters.PlayerData = PlayerData;
 
         //TODO: remove!----------
-        Critter starter = new Bumblebee();
-        starter.SetStartingLevel(2);
+        Critter starter = new BulletAnt();
+        starter.SetStartingLevel(10);
         PlayerData.AddCritter(starter);
+
+        Critter boye = new Bumblebee();
+        boye.SetStartingLevel(2);
+        PlayerData.AddCritter(boye);
 
         Critter boi = new MonarchButterfly();
         boi.SetStartingLevel(3);

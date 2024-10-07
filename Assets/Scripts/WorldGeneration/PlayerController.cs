@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
         // trainer check
         if (CollectorController != null)
         {
-            if (CollectorController.VisibleCoords.Contains(CurrentCoords))
+            if (!CollectorController.Collector.HasBeenDefeated && CollectorController.VisibleCoords.Contains(CurrentCoords))
             {
                 _newTileChecks = false;
                 StartCoroutine(TurnTowardsTrainer());
@@ -363,7 +363,7 @@ public class PlayerController : MonoBehaviour
         _checkContinuedMovement = false;
         _checkNewMovement = false;
         
-        CollectorController.MoveToPlayer(CurrentCoords);
+        CollectorController.MoveToPlayer(CurrentCoords, EncounterController);
     }
 
 }

@@ -180,6 +180,7 @@ public class CombatController : MonoBehaviour
 
         bool isNonPriorityDead = false;
         bool isWildCatchAttempt = false;
+        bool isEndingCombat = false;
 
         if (priorityMove == null)
         {
@@ -191,7 +192,7 @@ public class CombatController : MonoBehaviour
 
             if (CheckDeath())
             {
-                ExecuteDeath();
+                isEndingCombat = ExecuteDeath();
                 
                 isNonPriorityDead = true;
             }
@@ -209,12 +210,12 @@ public class CombatController : MonoBehaviour
 
                 if (CheckDeath())
                 {
-                    ExecuteDeath();
+                    isEndingCombat = isEndingCombat || ExecuteDeath();
                 }
             }
         }
 
-        if (isWildCatchAttempt)
+        if (isWildCatchAttempt || isEndingCombat)
         {
             StartCoroutine(GoToMainGame());
         }
@@ -222,7 +223,6 @@ public class CombatController : MonoBehaviour
         {
             StartCoroutine(ShowTurn());
         }
-
     }
 
 
@@ -354,7 +354,7 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private void ExecuteDeath()
+    private bool ExecuteDeath()
     {
         if (State.NpcCritter.CurrentHealth <= 0)
         {
@@ -375,17 +375,23 @@ public class CombatController : MonoBehaviour
         if (!PlayerData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
             //TODO: go to game over
-            StartCoroutine(GoToMainGame());
+            //StartCoroutine(GoToMainGame());
+            return true;
         }
         else if (OpponentData != null && !OpponentData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
             //TODO: go to win
-            StartCoroutine(GoToMainGame());
+            //StartCoroutine(GoToMainGame());
+            return true;
+
         }
-        else if (State.NpcCritter.CurrentHealth <= 0)
+        else if (OpponentData == null && State.NpcCritter.CurrentHealth <= 0)
         {
-            StartCoroutine(GoToMainGame());
+            //StartCoroutine(GoToMainGame());
+            return true;
         }
+
+        return false;
     }
 
 

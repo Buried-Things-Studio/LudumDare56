@@ -250,7 +250,7 @@ public class ApplyStatusEffectStep : CombatVisualStep
 
         if (StatusType == StatusEffectType.Confuse) //TODO: add future statuses
         {
-
+            statusName = "confused!";
         }
         else
         {
