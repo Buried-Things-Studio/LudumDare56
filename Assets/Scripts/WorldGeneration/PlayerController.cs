@@ -31,10 +31,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem _grassParticleSystem;
 
     [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
     [SerializeField] private AudioClip _descendClip;
     [SerializeField] private AudioClip[] _grassSteps;
     [SerializeField] private AudioClip[] _dirtSteps;
-    [SerializeField] private GameObject _oneShotGO;
 
 
     public void Update()

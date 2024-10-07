@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3564126019921758117
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2290,7 +2290,13 @@ MonoBehaviour:
   _itemOptionsObject: {fileID: 4436120135644958978}
   _bugMenu: {fileID: 0}
   _bugMenuObject: {fileID: 0}
+  _book: {fileID: 0}
   _bookObject: {fileID: 0}
+  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
+    type: 3}
+  _navigateClip: {fileID: 8300000, guid: f266bd9cbac0a0c4495b54b22bb435bd, type: 3}
+  _selectClip: {fileID: 8300000, guid: 6b80e443f5d151a4fa379bdfc183c462, type: 3}
+  _backOutClip: {fileID: 8300000, guid: 2b392d4e5c92df74a8f01868b6dcfdb1, type: 3}
 --- !u!1 &8921073283605043018
 GameObject:
   m_ObjectHideFlags: 0
@@ -2396,7 +2402,7 @@ PrefabInstance:
     - target: {fileID: 1213665616118966344, guid: 9d812d12fee3f6e4396f768862534b4d,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2040381610203074149, guid: 9d812d12fee3f6e4396f768862534b4d,
         type: 3}
