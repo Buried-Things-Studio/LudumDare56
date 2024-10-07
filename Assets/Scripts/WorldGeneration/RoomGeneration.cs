@@ -468,6 +468,9 @@ public class RoomGeneration: MonoBehaviour
         playerController.FloorController = _floorController;
         playerController.EncounterController = _encounterController;
         playerController.CollectorController = _collectorController;
+
+        OverworldMenu menu = GameObject.FindObjectOfType<OverworldMenu>();
+        menu.GetComponentsInScene(_floorController.PlayerData, playerController);
     }
 
     public void GenerateTrainer(GameObject parentTile, string direction, Collector collector, bool isBoss)
@@ -510,6 +513,9 @@ public class RoomGeneration: MonoBehaviour
         playerController.Direction = direction;
         playerController.SnapToDirection();
         _miniMapController.UpdateMap();
+
+        OverworldMenu menu = GameObject.FindObjectOfType<OverworldMenu>();
+        menu.GetComponentsInScene(_floorController.PlayerData, playerController);
     }
 
     public void PlacePlayerInNewRoom(Vector2Int coords, int direction)
@@ -549,6 +555,9 @@ public class RoomGeneration: MonoBehaviour
         playerController.Direction = direction;
         playerController.SnapToDirection();
         _miniMapController.UpdateMap();
+
+        OverworldMenu menu = GameObject.FindObjectOfType<OverworldMenu>();
+        menu.GetComponentsInScene(_floorController.PlayerData, playerController);
     }
 
 

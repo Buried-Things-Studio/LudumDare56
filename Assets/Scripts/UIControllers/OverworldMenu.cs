@@ -32,10 +32,13 @@ public class OverworldMenu : MonoBehaviour
     private PlayerController _playerController;
 
 
-    public void GetComponentsInScene()
+    public void GetComponentsInScene(Player player, PlayerController playerController)
     {
-        _player = GameObject.FindObjectOfType<FloorController>().PlayerData;
-        _playerController = GameObject.FindObjectOfType<PlayerController>();
+        // _player = GameObject.FindObjectOfType<FloorController>().PlayerData;
+        // _playerController = GameObject.FindObjectOfType<PlayerController>();
+
+        _player = player;
+        _playerController = playerController;
     }
     
     

@@ -60,7 +60,7 @@ public class FloorController : MonoBehaviour
             if (doesMapExist)
             {
                 SingleFloorController.RoomGen.GenerateMapFromMapState(SingleFloorController.MapState);
-                GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
+                //GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
             }
             else
             {
@@ -146,7 +146,7 @@ public class FloorController : MonoBehaviour
         }
 
         RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this);
-        GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
+        //GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
     }
 
 
