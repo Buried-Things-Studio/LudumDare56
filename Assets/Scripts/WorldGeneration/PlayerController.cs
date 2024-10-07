@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     //Anim
     [SerializeField] private Transform _meshTransform;
     [SerializeField] private AnimationCurve _bounceCurve;
+    [SerializeField] private ParticleSystem _grassParticleSystem;
 
 
     public void Update()
@@ -83,8 +84,15 @@ public class PlayerController : MonoBehaviour
 
     private void AttemptMove(Tile currentTile, Vector2Int targetCoords, string direction)
     {
+
         if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
         {
+            Tile targetTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == targetCoords).GetComponent<Tile>();
+            if (targetTile.Type == TileType.Grass)
+            {
+                _grassParticleSystem.Play();
+            }
+
             MoveToNewTile(targetCoords);
         }
         else if(currentTile.Type == TileType.Door)
@@ -199,6 +207,9 @@ public class PlayerController : MonoBehaviour
         // grass check 
         if (currentTile.Type == TileType.Grass)
         {
+            ////Grass particle effect
+            //_grassParticleSystem.Play();
+
             if (EncounterController.CheckRandomEncounter(false))
             {
                 FloorController.MapState = mapState;
