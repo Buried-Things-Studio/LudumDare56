@@ -238,7 +238,12 @@ public class RoomGeneration: MonoBehaviour
             MoveManual moveManual= new MoveManual();
             moveManual.SetRandomMove();
             room.ShopItems.Add(moveManual);
-
+        }
+        else if(room.Type == RoomType.Treasure)
+        {
+            MoveManual moveManual = new MoveManual();
+            moveManual.SetRandomMove();
+            room.Treasure = moveManual;
         }
     }
 
@@ -348,6 +353,7 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Treasure;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
+                    tileObject.GetComponent<Tile>().Treasure = _currentRoom.Treasure;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "S0"
