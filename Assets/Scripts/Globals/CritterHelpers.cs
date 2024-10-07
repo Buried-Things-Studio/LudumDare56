@@ -179,7 +179,7 @@ public static class CritterHelpers
         };
 
         GoodDefences[CritterAffinity.Ant] = new List<CritterAffinity>(){
-            CritterAffinity.Caterpillar,
+            CritterAffinity.Butterfly,
             CritterAffinity.Mollusc,
         };
         
@@ -205,12 +205,12 @@ public static class CritterHelpers
             CritterAffinity.Mollusc,
         };
 
-        //CATERPILLAR (-1)
-        BadDefences[CritterAffinity.Caterpillar] = new List<CritterAffinity>(){
+        //Butterfly (-1)
+        BadDefences[CritterAffinity.Butterfly] = new List<CritterAffinity>(){
 
         };
         
-        GoodDefences[CritterAffinity.Caterpillar] = new List<CritterAffinity>(){
+        GoodDefences[CritterAffinity.Butterfly] = new List<CritterAffinity>(){
 
         };
 
@@ -220,14 +220,14 @@ public static class CritterHelpers
         };
         
         GoodDefences[CritterAffinity.Mollusc] = new List<CritterAffinity>(){
-            CritterAffinity.Caterpillar, //remove for 0 on both caterpillar and mollusc?
+            CritterAffinity.Butterfly, //remove for 0 on both Butterfly and mollusc?
             CritterAffinity.Mollusc,
             CritterAffinity.Spider,
         };
 
         //SPIDER (0)
         BadDefences[CritterAffinity.Spider] = new List<CritterAffinity>(){
-            CritterAffinity.Caterpillar,
+            CritterAffinity.Butterfly,
             CritterAffinity.Mollusc,
         };
         

@@ -46,15 +46,20 @@ public class FloorController : MonoBehaviour
             return;
         }
         IsActivated = true;
+        Debug.Log("FloorController AWAKE running");
         GameObject.DontDestroyOnLoad(this.gameObject);
         
         PlayerData = new Player();
         Encounters.PlayerData = PlayerData;
 
         //TODO: remove!----------
-        Critter starter = new Bumblebee();
+        Critter starter = new BulletAnt();
         starter.SetStartingLevel(10);
         PlayerData.AddCritter(starter);
+
+        Critter boye = new Bumblebee();
+        boye.SetStartingLevel(10);
+        PlayerData.AddCritter(boye);
 
         Critter boi = new MonarchButterfly();
         boi.SetStartingLevel(10);

@@ -52,6 +52,7 @@ public class RoomGeneration: MonoBehaviour
 
     public void GenerateMapFromMapState(MapState mapState)
     {
+        Debug.Log("Generating Map from MapState");
         _allRooms = mapState.Map;
         _currentRoom = _allRooms.Find(room => room.Coordinates == mapState.PlayerRoom);
         DisplayCurrentRoom();

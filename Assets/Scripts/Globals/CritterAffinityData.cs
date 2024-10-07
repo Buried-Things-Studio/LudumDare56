@@ -19,7 +19,7 @@ public static class CritterAffinityData
             new Color32(0x0D, 0x0C, 0x7B, 0xFF) //#0D0C7BFF
         ),
         new CritterAffinityProperties(
-            CritterAffinity.Caterpillar,
+            CritterAffinity.Butterfly,
             new Color32(0x7A, 0xDE, 0x98, 0xFF) //#7ADE98FF
         ),
         new CritterAffinityProperties(

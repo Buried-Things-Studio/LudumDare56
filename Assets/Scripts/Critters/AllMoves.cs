@@ -66,7 +66,7 @@ public class Dazzle : Move
         Name = "Dazzle";
         Description = "The user's beauty dazzles and confuses their opponent.";
         ID = MoveID.Dazzle;
-        Affinity = CritterAffinity.Caterpillar;
+        Affinity = CritterAffinity.Butterfly;
         IsTargeted = true;
         Accuracy = 50;
         MaxUses = 10;
@@ -277,7 +277,7 @@ public class WingStrike : Move
         Name = "Wing Strike";
         Description = "The user strikes the opponent with their wings.";
         ID = MoveID.WingStrike;
-        Affinity = CritterAffinity.Caterpillar;
+        Affinity = CritterAffinity.Butterfly;
         IsSharp = false;
         IsTargeted = true;
         BasePower = 35;

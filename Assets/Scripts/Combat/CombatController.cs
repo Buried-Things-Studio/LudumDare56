@@ -181,10 +181,12 @@ public class CombatController : MonoBehaviour
         }
 
         bool isNonPriorityDead = false;
+        bool isWildCatchAttempt = false;
+        bool isEndingCombat = false;
 
         if (priorityMove == null)
         {
-            ExecuteBattleAction(priorityMoveID);
+            isWildCatchAttempt = ExecuteBattleAction(priorityMoveID);
         }
         else
         {
@@ -192,13 +194,13 @@ public class CombatController : MonoBehaviour
 
             if (CheckDeath())
             {
-                ExecuteDeath();
+                isEndingCombat = ExecuteDeath();
                 
                 isNonPriorityDead = true;
             }
         }
 
-        if (!isNonPriorityDead)
+        if (!isNonPriorityDead && !isWildCatchAttempt)
         {
             if (nonPriorityMove == null)
             {
@@ -210,12 +212,19 @@ public class CombatController : MonoBehaviour
 
                 if (CheckDeath())
                 {
-                    ExecuteDeath();
+                    isEndingCombat = isEndingCombat || ExecuteDeath();
                 }
             }
         }
 
-        StartCoroutine(ShowTurn());
+        if (isWildCatchAttempt || isEndingCombat)
+        {
+            StartCoroutine(GoToMainGame());
+        }
+        else
+        {
+            StartCoroutine(ShowTurn());
+        }
     }
 
 
@@ -227,7 +236,7 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private void ExecuteBattleAction(MoveID ID)
+    private bool ExecuteBattleAction(MoveID ID)
     {
         if (ID == MoveID.SwitchActive)
         {
@@ -235,16 +244,18 @@ public class CombatController : MonoBehaviour
         }
         else if (ID == MoveID.ThrowMasonJar)
         {
-            PlayerThrowMasonJar();
+            return PlayerThrowMasonJar();
         }
         else if (ID == MoveID.UseHealItem)
         {
             PlayerUseHealItem();
         }
+
+        return false;
     }
 
 
-    private void PlayerThrowMasonJar()
+    private bool PlayerThrowMasonJar()
     {
         PlayerData.RemoveItemFromInventory(ItemType.MasonJar);
         
@@ -253,7 +264,26 @@ public class CombatController : MonoBehaviour
             && PlayerData.GetCritters().Count < CritterHelpers.MaxTeamSize
             && State.NpcCritter.CurrentHealth <= CritterHelpers.GetCatchHealthThreshold(State.NpcCritter);
         
-        //TODO: do catch
+        if (OpponentData != null)
+        {
+            _viz.AddVisualStep(new TryCatchCollectorCritterStep());
+        }
+        else if (PlayerData.GetCritters().Count >= CritterHelpers.MaxTeamSize)
+        {
+            _viz.AddVisualStep(new TryCatchTooFullCritterStep());
+        }
+        {
+            _viz.AddVisualStep(new TryCatchStep(State.NpcCritter.Name, isCatchSuccessful));
+        }
+
+        if (isCatchSuccessful)
+        {
+            PlayerData.AddCritter(State.NpcCritter);
+            State.NpcCritter.RestoreAllHealth();
+            State.NpcCritter.RestoreAllMoveUses();
+        }
+
+        return OpponentData == null;
     }
 
 
@@ -326,7 +356,7 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private void ExecuteDeath()
+    private bool ExecuteDeath()
     {
         if (State.NpcCritter.CurrentHealth <= 0)
         {
@@ -347,17 +377,23 @@ public class CombatController : MonoBehaviour
         if (!PlayerData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
             //TODO: go to game over
-            StartCoroutine(GoToMainGame());
+            //StartCoroutine(GoToMainGame());
+            return true;
         }
         else if (OpponentData != null && !OpponentData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
             //TODO: go to win
-            StartCoroutine(GoToMainGame());
+            //StartCoroutine(GoToMainGame());
+            return true;
+
         }
-        else if (State.NpcCritter.CurrentHealth <= 0)
+        else if (OpponentData == null && State.NpcCritter.CurrentHealth <= 0)
         {
-            StartCoroutine(GoToMainGame());
+            //StartCoroutine(GoToMainGame());
+            return true;
         }
+
+        return false;
     }
 
 

@@ -6,12 +6,14 @@ using UnityEngine;
 public class SimulateCombat : MonoBehaviour
 {
     [SerializeField] private bool _isForcingCombat;
+    private bool _hasActivated;
 
 
     private void Start()
     {
-        if (_isForcingCombat)
+        if (_isForcingCombat && !_hasActivated)
         {
+            _hasActivated = true;
             StartCoroutine(StartCombat());
         }
     }
@@ -22,7 +24,7 @@ public class SimulateCombat : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         BulletAnt ant = new BulletAnt();
-        ant.SetStartingLevel(10);
+        ant.SetStartingLevel(1);
 
         StartCoroutine(GameObject.FindObjectOfType<EncounterController>().DoCombat(ant));
     }

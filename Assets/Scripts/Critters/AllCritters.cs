@@ -223,7 +223,7 @@ public class MonarchButterfly : Critter
     public MonarchButterfly()
     {
         Name = "Monarch Butterfly";
-        Affinities.Add(CritterAffinity.Caterpillar);
+        Affinities.Add(CritterAffinity.Butterfly);
         Moves.Add(new WingStrike(){UserGUID = GUID});
         Moves.Add(new Dazzle(){UserGUID = GUID});
 
