@@ -30,6 +30,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AnimationCurve _bounceCurve;
     [SerializeField] private ParticleSystem _grassParticleSystem;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip _descendClip;
+    [SerializeField] private AudioClip[] _grassSteps;
+    [SerializeField] private AudioClip[] _dirtSteps;
+    [SerializeField] private GameObject _oneShotGO;
+
 
     public void Update()
     {
@@ -400,10 +406,22 @@ public class PlayerController : MonoBehaviour
             if (targetTile.Type == TileType.Grass)
             {
                 _grassParticleSystem.Play();
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _grassSteps[Random.Range(0, _grassSteps.Length)];
+                osc.PlayWithVariance();
             }
             if(targetTile.Type == TileType.Exit && CollectorController.Collector.HasBeenDefeated)
             {
                 RoomGeneration.GoToNewLevel();
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _descendClip;
+                osc.PlayWithVariance();
+            }
+            else
+            {
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _dirtSteps[Random.Range(0, _dirtSteps.Length)];
+                osc.PlayWithVariance();
             }
 
             MoveToNewTile(targetCoords);

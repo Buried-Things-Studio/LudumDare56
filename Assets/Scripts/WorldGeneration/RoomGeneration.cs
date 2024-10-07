@@ -515,6 +515,7 @@ public class RoomGeneration: MonoBehaviour
         }
 
         //Run my walls and doors code
+        _wallsOrDoorsController.gameObject.SetActive(true);
         _wallsOrDoorsController.Generate();
     }
 
@@ -706,8 +707,14 @@ public class RoomGeneration: MonoBehaviour
 
     public void GoToNewLevel()
     {
-        _floorController.IncrementLevel();
+        StartCoroutine(WaitToDescend());
     }
 
     
+    private IEnumerator WaitToDescend()
+    {
+        yield return new WaitForSeconds(0.4f);
+
+        _floorController.IncrementLevel();
+    }
 }

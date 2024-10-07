@@ -19,6 +19,7 @@ public class EncounterController : MonoBehaviour
     [Header("Animation")]
     public Animator PixelAnimator;
     public Animator ExclaimAnimator;
+    public GameObject _wallsAndDoorsGO;
 
 
     public void SetAvailableCrittersOnFloor(Vector2Int levelRange)
@@ -78,6 +79,8 @@ public class EncounterController : MonoBehaviour
             yield return null;
         }
 
+        _wallsAndDoorsGO.SetActive(false);
+
         Debug.Log("looking for combat controller");
 
         CombatController combatController = GameObject.FindObjectOfType<CombatController>();
@@ -107,6 +110,8 @@ public class EncounterController : MonoBehaviour
         {
             yield return null;
         }
+
+        _wallsAndDoorsGO.SetActive(false);
 
         CombatController combatController = GameObject.FindObjectOfType<CombatController>();
 
