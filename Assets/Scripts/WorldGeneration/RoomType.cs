@@ -4,5 +4,6 @@ public enum RoomType{
     Start, 
     Shop, 
     Hospital, 
-    Treasure
+    Treasure, 
+    None
 }

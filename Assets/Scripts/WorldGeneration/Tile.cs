@@ -7,4 +7,5 @@ public class Tile : MonoBehaviour
     public Vector2Int Coordinates;
     public TileType Type;
     public bool IsWalkable;
+    public RoomType ConnectingRoom = RoomType.None; 
 }
