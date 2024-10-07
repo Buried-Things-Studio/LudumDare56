@@ -12,6 +12,7 @@ public class BugOption : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _critterHealthNumbersTMP;
     [SerializeField] private Image _critterHealthFillImageTMP;
     [SerializeField] private Image _critterAffinityColorFadeImage;
+    [SerializeField] private Image _critterProfileImage;
     [SerializeField] private GameObject _selection;
     private Critter _critter;
 
@@ -25,6 +26,7 @@ public class BugOption : MonoBehaviour
         _critterHealthNumbersTMP.text = $"<mspace=14>{critter.CurrentHealth}/{critter.MaxHealth}";
         _critterHealthFillImageTMP.fillAmount = (float)critter.CurrentHealth / (float)critter.MaxHealth;
         _critterAffinityColorFadeImage.color = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
+        _critterProfileImage.sprite = PictureHelpers.GetProfilePicture(critter);
 
         //TODO: picture
     }
