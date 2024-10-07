@@ -37,7 +37,7 @@ public class FloorController : MonoBehaviour
     private CritterAffinity _levelBossAffinity;
 
 
-    private void Start()
+    private void Awake()
     {
         Encounters = new EncounterController();
 
