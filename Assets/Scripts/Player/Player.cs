@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -66,6 +67,12 @@ public class Player
     public List<Critter> GetCritters()
     {
         return _critters;
+    }
+
+
+    public void ClearDeadCritters()
+    {
+        _critters = _critters.Where(critter => critter.CurrentHealth > 0).ToList();
     }
 
 

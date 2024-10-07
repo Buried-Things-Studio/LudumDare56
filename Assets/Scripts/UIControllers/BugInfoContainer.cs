@@ -14,25 +14,63 @@ public class BugInfoContainer : MonoBehaviour
     [SerializeField] Image _healthBarFillImage;
     [SerializeField] Image _affinityColorFadeImage;
 
+    [SerializeField] RectTransform _catchThresholdBarRT;
+    [SerializeField] Image _catchThresholdBarImage;
+    [SerializeField] TextMeshProUGUI _catchThresholdBarTMP;
 
-    public void PopulateBugData(Critter critter)
+    private Color _catchThresholdInactiveColor = new Color32(0x48, 0x48, 0x48, 0xFF); //#484848FF
+    private Color _catchThresholdActiveColor = new Color32(0x2C, 0x96, 0x3E, 0xFF); //#2C963EFF
+    private float _maxCatchThresholdX = 332; //this is just eyeballed
+    private bool _isPlayerCritter;
+
+
+    public void PopulateBugData(Critter critter, bool isPlayerCritter)
     {
+        _isPlayerCritter = isPlayerCritter;
+        
         _bugNameTMP.text = critter.Name;
         _levelTMP.text = $"<size=18>Lv </size><mspace=24>{critter.Level}";
         _affinityColorFadeImage.color = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
 
         _healthNumbersTMP.text = $"<mspace=14>{critter.CurrentHealth}/{critter.MaxHealth}";
         _healthBarFillImage.fillAmount = (float)critter.CurrentHealth / (float)critter.MaxHealth;
+
+        if (_isPlayerCritter)
+        {
+            _catchThresholdBarImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            _catchThresholdBarImage.gameObject.SetActive(true);
+            
+            _catchThresholdBarRT.anchoredPosition = new Vector2(_maxCatchThresholdX * CritterHelpers.GetCatchHealthThresholdFraction(critter), _catchThresholdBarRT.anchoredPosition.y);
+            bool isCatchable = critter.CurrentHealth <= CritterHelpers.GetCatchHealthThreshold(critter);
+            _catchThresholdBarImage.color = isCatchable ? _catchThresholdActiveColor : _catchThresholdInactiveColor;
+            _catchThresholdBarTMP.color = isCatchable ? _catchThresholdActiveColor : _catchThresholdInactiveColor;
+        }
     }
 
 
-    public void AnimateHealthBarChange(int healthBefore, int healthAfter, int maxHealth)
+    public void AnimateHealthBarChange(int level, int healthBefore, int healthAfter, int maxHealth)
     {
-        StartCoroutine(AnimateHealthBar(healthBefore, healthAfter, maxHealth));
+        StartCoroutine(AnimateHealthBar(level, healthBefore, healthAfter, maxHealth));
     }
 
 
-    public IEnumerator AnimateHealthBar(int healthBefore, int healthAfter, int maxHealth)
+    private void UpdateCatchThresholdColor(int currentHealth, int maxHealth, int level)
+    {
+        if (_isPlayerCritter)
+        {
+            return;
+        }
+        
+        bool isCatchable = currentHealth <= CritterHelpers.GetCatchHealthThreshold(maxHealth, level);
+        _catchThresholdBarImage.color = isCatchable ? _catchThresholdActiveColor : _catchThresholdInactiveColor;
+        _catchThresholdBarTMP.color = isCatchable ? _catchThresholdActiveColor : _catchThresholdInactiveColor;
+    }
+
+
+    public IEnumerator AnimateHealthBar(int level, int healthBefore, int healthAfter, int maxHealth)
     {
         //Debug.Log($"Animating health bar: hp from {healthBefore} > {healthAfter} with max {maxHealth}");
         
@@ -57,7 +95,7 @@ public class BugInfoContainer : MonoBehaviour
 
             _healthNumbersTMP.text = $"<mspace=14>{displayedHealth}/{maxHealth}";
             _healthBarFillImage.fillAmount = displayedDecimalHealth / (float)maxHealth;
-            //Debug.Log($"{_healthBarFillImage.fillAmount} = {displayedDecimalHealth} / {maxHealth}");
+            UpdateCatchThresholdColor(displayedHealth, maxHealth, level);
 
             yield return null;
         }

@@ -24,7 +24,7 @@ public class SimulateCombat : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         BulletAnt ant = new BulletAnt();
-        ant.SetStartingLevel(1);
+        ant.SetStartingLevel(5);
 
         StartCoroutine(GameObject.FindObjectOfType<EncounterController>().DoCombat(ant));
     }

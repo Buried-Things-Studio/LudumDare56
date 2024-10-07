@@ -294,7 +294,7 @@ public class CombatController : MonoBehaviour
         healTarget.IncreaseHealth(30);
 
         _viz.AddVisualStep(new HealMessageStep(healTarget.Name, healTarget.CurrentHealth - startingHealth));
-        _viz.AddVisualStep(new HealthChangeStep(true, startingHealth, healTarget.CurrentHealth, healTarget.MaxHealth));
+        _viz.AddVisualStep(new HealthChangeStep(true, healTarget.Level, startingHealth, healTarget.CurrentHealth, healTarget.MaxHealth));
     }
 
 
@@ -320,7 +320,7 @@ public class CombatController : MonoBehaviour
             if (!isNoLongerConfused && UnityEngine.Random.Range(0, 2) == 0)
             {
                 _viz.AddVisualStep(new ConfuseCheckFailureStep(user.Name));
-                FailConfusionCheck(user);
+                FailConfusionCheck(user, isPlayerUser);
 
                 return;
             }
@@ -342,9 +342,11 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private void FailConfusionCheck(Critter critter)
+    private void FailConfusionCheck(Critter critter, bool isPlayerCritter)
     {
+        int startingHealth = critter.CurrentHealth;
         critter.DealDamage(CritterHelpers.GetConfusionDamage(critter));
+        _viz.AddVisualStep(new HealthChangeStep(isPlayerCritter, critter.Level, startingHealth, critter.CurrentHealth, critter.MaxHealth));
     }
 
 
@@ -383,8 +385,9 @@ public class CombatController : MonoBehaviour
             //TODO: go to win
             //StartCoroutine(GoToMainGame());
 
-            PlayerData.AddMoney(100 * OpponentData.GetCritters().Count);
-            
+            int winnings = 100 * OpponentData.GetCritters().Count;
+            PlayerData.AddMoney(winnings);
+            _viz.AddVisualStep(new WinningsStep(winnings));
 
             return true;
         }
@@ -401,9 +404,10 @@ public class CombatController : MonoBehaviour
     private IEnumerator GoToMainGame()
     {
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
+
+        PlayerData.ClearDeadCritters();
         
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
-
 
         while (!sceneLoading.isDone)
         {

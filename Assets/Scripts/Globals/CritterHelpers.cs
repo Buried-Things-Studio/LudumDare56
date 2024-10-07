@@ -44,19 +44,28 @@ public static class CritterHelpers
         int baseDamage = move.BasePower / 5;
         float sameAffinityBonus = user.Affinities.Contains(move.Affinity) ? 1.5f : 1f;
         float statRatio = 0f;
+        int logAttackValue = 0;
+        int logDefenseValue = 0;
 
         if (move.IsSharp)
         {
             statRatio = (float)GetEffectiveSharpAttack(user) / (float)Mathf.Max(1, GetEffectiveSharpDefense(opponent));
+            logAttackValue = GetEffectiveSharpAttack(user);
+            logDefenseValue = GetEffectiveSharpDefense(opponent);
         }
         else
         {
             statRatio = (float)GetEffectiveBluntAttack(user) / (float)Mathf.Max(1, GetEffectiveBluntDefense(opponent));
+            logAttackValue = GetEffectiveBluntAttack(user);
+            logDefenseValue = GetEffectiveBluntDefense(opponent);
         }
 
         damageMultiplier = GetDamageMultiplier(opponent.Affinities, move.Affinity);
+        int totalDamage = Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * (damageMultiplier / 4f));
+        
+        Debug.Log($"DAMAGE CALCULATION FROM {user.Name} to {opponent.Name}. DAMAGE = {totalDamage} --> Base damage {baseDamage} * STAB {sameAffinityBonus} * att:def {logAttackValue}:{logDefenseValue} = {statRatio} * effectiveness {damageMultiplier / 4f}");
 
-        return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * (damageMultiplier / 4f));
+        return totalDamage;
     }
 
 
@@ -167,6 +176,18 @@ public static class CritterHelpers
     public static int GetCatchHealthThreshold(Critter critter)
     {
         return Mathf.Max(1, Mathf.FloorToInt(critter.MaxHealth * ((11 - critter.Level) * 0.05f)));
+    }
+
+
+    public static int GetCatchHealthThreshold(int maxHealth, int level)
+    {
+        return Mathf.Max(1, Mathf.FloorToInt(maxHealth * ((11 - level) * 0.05f)));
+    }
+
+
+    public static float GetCatchHealthThresholdFraction(Critter critter)
+    {
+        return (11 - critter.Level) * 0.05f;
     }
 
 

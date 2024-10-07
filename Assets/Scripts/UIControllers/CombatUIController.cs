@@ -33,8 +33,8 @@ public class CombatUIController : MonoBehaviour
         VisualSteps = new CombatVisualSteps();
         _combatController = combatController;
         _player = player;
-        _playerBugInfoContainer.PopulateBugData(playerCritter);
-        _npcBugInfoContainer.PopulateBugData(npcCritter);
+        _playerBugInfoContainer.PopulateBugData(playerCritter, true);
+        _npcBugInfoContainer.PopulateBugData(npcCritter, false);
 
         SetInactiveAllMenus();
         _battleOptionsObject.SetActive(true);
@@ -45,13 +45,13 @@ public class CombatUIController : MonoBehaviour
 
     public void UpdatePlayerBugData(Critter critter)
     {
-        _playerBugInfoContainer.PopulateBugData(critter);
+        _playerBugInfoContainer.PopulateBugData(critter, true);
     }
 
 
     public void UpdateNpcBugData(Critter critter)
     {
-        _npcBugInfoContainer.PopulateBugData(critter);
+        _npcBugInfoContainer.PopulateBugData(critter, false);
     }
 
 
@@ -79,11 +79,11 @@ public class CombatUIController : MonoBehaviour
 
                 if (castStep.IsPlayerCritter)
                 {
-                    yield return StartCoroutine(_playerBugInfoContainer.AnimateHealthBar(castStep.StartingHealth, castStep.TargetHealth, castStep.MaxHealth));
+                    yield return StartCoroutine(_playerBugInfoContainer.AnimateHealthBar(castStep.Level, castStep.StartingHealth, castStep.TargetHealth, castStep.MaxHealth));
                 }
                 else
                 {
-                    yield return StartCoroutine(_npcBugInfoContainer.AnimateHealthBar(castStep.StartingHealth, castStep.TargetHealth, castStep.MaxHealth));
+                    yield return StartCoroutine(_npcBugInfoContainer.AnimateHealthBar(castStep.Level, castStep.StartingHealth, castStep.TargetHealth, castStep.MaxHealth));
                 }
 
                 yield return new WaitForSeconds(_delayBetweenSteps);
@@ -99,7 +99,7 @@ public class CombatUIController : MonoBehaviour
             {
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
 
-                _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter); //this might not be the critter that levelled, but there's no harm with a repopulate
+                _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter, true); //this might not be the critter that levelled, but there's no harm with a repopulate
             }
             else
             {

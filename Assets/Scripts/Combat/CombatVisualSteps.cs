@@ -167,15 +167,17 @@ public class HealMessageStep : CombatVisualStep
 public class HealthChangeStep : CombatVisualStep
 {
     public bool IsPlayerCritter;
+    public int Level;
     public int StartingHealth;
     public int TargetHealth;
     public int MaxHealth;
     public int DamageMultiplier;
 
 
-    public HealthChangeStep(bool isPlayerCritter, int startingHealth, int targetHealth, int maxHealth, int damageMultiplier = 4)
+    public HealthChangeStep(bool isPlayerCritter, int level, int startingHealth, int targetHealth, int maxHealth, int damageMultiplier = 4)
     {
         IsPlayerCritter = isPlayerCritter;
+        Level = level;
         StartingHealth = startingHealth;
         TargetHealth = targetHealth;
         MaxHealth = maxHealth;
@@ -250,7 +252,7 @@ public class ApplyStatusEffectStep : CombatVisualStep
 
         if (StatusType == StatusEffectType.Confuse) //TODO: add future statuses
         {
-            statusName = "confused!";
+            statusName = "confused";
         }
         else
         {
@@ -383,6 +385,6 @@ public class WinningsStep : CombatVisualStep
 
     public override string GetPopulatedMessage()
     {
-        return $"Won £{Winnings}!";
+        return $"Won {Winnings} coins!";
     }
 }
