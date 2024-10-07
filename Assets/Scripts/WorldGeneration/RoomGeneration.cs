@@ -40,6 +40,8 @@ public class RoomGeneration: MonoBehaviour
         _encounterController = encounterController;
         _map = _mapGeneration.SafeGenerateMainPath();
         _floorController = floorController;
+        MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
+        moneyCanvasController.SetMoney(_floorController.PlayerData.GetMoney());
         if(_map == null)
         {
             Debug.Log("Map generation failed too many times. No map generated");
@@ -267,6 +269,8 @@ public class RoomGeneration: MonoBehaviour
 
     public void DisplayCurrentRoom()
     {
+        MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
+        moneyCanvasController.SetMoney(_floorController.PlayerData.GetMoney());
         _floorTiles.Clear();
         string collectorPosition = "-1";
 
