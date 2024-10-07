@@ -55,6 +55,8 @@ public static class CritterHelpers
         }
 
         damageMultiplier = GetDamageMultiplier(opponent.Affinities, move.Affinity);
+        
+        Debug.Log($"DAMAGE CALCULATION FROM {user.Name} to {opponent.Name}. ")
 
         return Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * (damageMultiplier / 4f));
     }

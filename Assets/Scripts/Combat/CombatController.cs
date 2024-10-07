@@ -322,7 +322,7 @@ public class CombatController : MonoBehaviour
             if (!isNoLongerConfused && UnityEngine.Random.Range(0, 2) == 0)
             {
                 _viz.AddVisualStep(new ConfuseCheckFailureStep(user.Name));
-                FailConfusionCheck(user);
+                FailConfusionCheck(user, isPlayerUser);
 
                 return;
             }
@@ -344,9 +344,11 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private void FailConfusionCheck(Critter critter)
+    private void FailConfusionCheck(Critter critter, bool isPlayerCritter)
     {
+        int startingHealth = critter.CurrentHealth;
         critter.DealDamage(CritterHelpers.GetConfusionDamage(critter));
+        _viz.AddVisualStep(new HealthChangeStep(isPlayerCritter, startingHealth, critter.CurrentHealth, critter.MaxHealth));
     }
 
 
