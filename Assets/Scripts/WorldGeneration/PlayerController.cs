@@ -180,6 +180,8 @@ public class PlayerController : MonoBehaviour
         _checkContinuedMovement = false;
         _checkNewMovement = false;
 
+        MapState mapState = new MapState(Map, CurrentRoom.Coordinates, CurrentCoords, Direction);
+
         // trainer check
         if (CollectorController != null)
         {
@@ -196,7 +198,7 @@ public class PlayerController : MonoBehaviour
         // grass check 
         if (currentTile.Type == TileType.Grass)
         {
-            if (EncounterController.CheckRandomEncounter())
+            if (EncounterController.CheckRandomEncounter(false, mapState))
             {
                 _newTileChecks = false;
 
@@ -362,8 +364,10 @@ public class PlayerController : MonoBehaviour
         
         _checkContinuedMovement = false;
         _checkNewMovement = false;
+
+        MapState mapState = new MapState(Map, CurrentRoom.Coordinates, CurrentCoords, Direction);
         
-        CollectorController.MoveToPlayer(CurrentCoords, EncounterController);
+        CollectorController.MoveToPlayer(CurrentCoords, EncounterController, mapState);
     }
 
 }

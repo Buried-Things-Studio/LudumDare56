@@ -49,10 +49,10 @@ public class CollectorController : MonoBehaviour
         }
     }
 
-    public void MoveToPlayer(Vector2Int playerCoords, EncounterController encounterController)
+    public void MoveToPlayer(Vector2Int playerCoords, EncounterController encounterController, MapState mapState)
     {
         Debug.Log("Moving to player");
-        StartCoroutine(SlideToPlayer(playerCoords, encounterController));
+        StartCoroutine(SlideToPlayer(playerCoords, encounterController, mapState));
     }
 
 
@@ -90,7 +90,7 @@ public class CollectorController : MonoBehaviour
         return closerAdjCoords;
     }
 
-    private IEnumerator SlideToPlayer(Vector2Int playerCoords, EncounterController encounterController)
+    private IEnumerator SlideToPlayer(Vector2Int playerCoords, EncounterController encounterController, MapState mapState)
     {
         while(CalculateManhattanDistance(Coordinates, playerCoords) > 1)
         {
@@ -112,7 +112,7 @@ public class CollectorController : MonoBehaviour
 
         yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You there, battle my bugs!"));
 
-        encounterController.StartCollectorCombat(Collector);
+        encounterController.StartCollectorCombat(Collector, mapState);
         
         yield return null;
     }
