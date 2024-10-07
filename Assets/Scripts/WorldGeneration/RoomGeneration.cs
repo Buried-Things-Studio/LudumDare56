@@ -404,7 +404,7 @@ public class RoomGeneration: MonoBehaviour
         _collectorController = collectorController;
     }
 
-    public void PlacePlayerInNewRoom(Vector2Int coords)
+    public void PlacePlayerInNewRoom(Vector2Int coords, int direction)
     {
         Vector2Int newCoords = new Vector2Int(0, 0);
         if(coords == new Vector2Int(4, 8))
@@ -437,11 +437,13 @@ public class RoomGeneration: MonoBehaviour
         playerController.RoomGeneration = this;
         playerController.EncounterController = _encounterController;
         playerController.CollectorController = _collectorController;
+        playerController.Direction = direction;
+        playerController.SnapToDirection();
         _miniMapController.UpdateMap();
     }
 
 
-    public void MoveRooms(Vector2Int newRoomCoords, Vector2Int currentTileCoords)
+    public void MoveRooms(Vector2Int newRoomCoords, Vector2Int currentTileCoords, int direction)
     {
         foreach(GameObject tile in _floorTiles)
         {
@@ -452,7 +454,7 @@ public class RoomGeneration: MonoBehaviour
         Debug.Log(_currentRoom == null);
         _player.GetComponent<PlayerController>().CurrentRoom = _currentRoom;
         DisplayCurrentRoom();
-        PlacePlayerInNewRoom(currentTileCoords);
+        PlacePlayerInNewRoom(currentTileCoords, direction);
     }
 
 

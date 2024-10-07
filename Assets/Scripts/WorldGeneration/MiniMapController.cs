@@ -47,7 +47,7 @@ public class MiniMapController : MonoBehaviour
                 if(Map.Exists(room => room.Coordinates == new Vector2Int(x, z)))
                 {
                     Room room = Map.Find(room => room.Coordinates == new Vector2Int(x, z));
-                    if(room.Explored)
+                    if(room.AdjacentToExplored)
                     {
                         if(room.Type == RoomType.Normal)
                         {
@@ -103,12 +103,6 @@ public class MiniMapController : MonoBehaviour
                                 icon.GetComponent<Image>().color = transparentColor;
                             }                        
                         }
-                    }
-                    else if(room.AdjacentToExplored)
-                    {
-                        GameObject icon = Instantiate(_unknownRoomIcon, _mapLayoutGroup.transform);
-                        icons.Add(icon);
-                        icon.GetComponent<Image>().color = transparentColor;
                     }
                     else
                     {
