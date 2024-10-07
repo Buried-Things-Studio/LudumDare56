@@ -426,6 +426,7 @@ public class RoomGeneration: MonoBehaviour
         }
 
         //Run my walls and doors code
+        _wallsOrDoorsController.gameObject.SetActive(true);
         _wallsOrDoorsController.Generate();
     }
 
