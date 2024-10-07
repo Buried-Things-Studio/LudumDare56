@@ -16,6 +16,7 @@ public class Room
     public List<Item> RewardItems = new List<Item>();
     public List<Critter> StarterPicks = new List<Critter>();
     public Collector Boss; 
+    public bool HospitalAlreadyUsed = false;
 
     public Room(RoomType type, Vector2Int coords, List<List<string>> layout)
     {

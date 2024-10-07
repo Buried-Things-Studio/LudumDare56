@@ -73,6 +73,39 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(InteractWithBoss());
         }
+        if(tileType == tileType.Hospital)
+        {
+            StartCoroutine(InteractWithHospital());
+        }
+        if(tileType == tileType.Shop)
+        {
+            StartCoroutine(InteractWithShop());
+        }
+    }
+
+    private IEnumerator InteractWithShop()
+    {
+        
+    }
+
+    private IEnumerator InteractWithHospital()
+    {
+        _isMovementBlockedByUI = true;
+        if(CurrentRoom.HospitalAlreadyUsed)
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Oh no! Hospitals can only be used once and you've already visited this hospital."));
+            _isMovementBlockedByUI= false;
+        }
+        else
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Hospitals can either heal your bugs or restore their attack uses. You can only do one. Do you want to heal your bugs?"));
+
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Okay, so you want to restore your bugs attack uses?"));
+
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Then why are you wasting my time? Humph."));
+
+        }
+
     }
 
     private IEnumerator InteractWithBoss()
