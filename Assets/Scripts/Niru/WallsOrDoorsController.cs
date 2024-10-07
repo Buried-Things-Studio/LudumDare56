@@ -9,7 +9,20 @@ public class WallsOrDoorsController : MonoBehaviour
 
     public void Generate()
     {
-        foreach(WallOrDoor w in _wallOrDoors)
+        StartCoroutine(Wait());
+    }
+
+
+    private IEnumerator Wait()
+    {
+        foreach (WallOrDoor w in _wallOrDoors)
+        {
+            w.transform.localScale = Vector3.zero;
+        }
+
+        yield return null;
+
+        foreach (WallOrDoor w in _wallOrDoors)
         {
             w.CheckForDoors();
         }

@@ -406,6 +406,9 @@ public class CombatController : MonoBehaviour
     {
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
 
+        GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
+        yield return new WaitForSeconds(0.5f);
+
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
 
         while (!sceneLoading.isDone)
