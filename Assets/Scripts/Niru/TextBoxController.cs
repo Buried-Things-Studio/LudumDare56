@@ -182,7 +182,7 @@ public class TextBoxController : MonoBehaviour
     }
 
 
-    public IEnumerator ShowStarterChoice(string starterName)
+    public IEnumerator ShowStarterChoice(Critter starter)
     {
         ChangeShowState(true);
         _mainTMP.text = $"Would you like to take the {starter.Name}?";
