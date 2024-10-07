@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     private void AttemptMoveUp(Tile currentTile)
     {
         Vector2Int targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y +1);
-        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords))
+        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
         {
             MoveToNewTile(targetCoords);
         }
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     private void AttemptMoveDown(Tile currentTile)
     {
         Vector2Int targetCoords = new Vector2Int(CurrentCoords.x, CurrentCoords.y -1);
-        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords))
+        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
         {
 
             MoveToNewTile(targetCoords);
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
     private void AttemptMoveRight(Tile currentTile)
     {
         Vector2Int targetCoords = new Vector2Int(CurrentCoords.x + 1, CurrentCoords.y);
-        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords))
+        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
         {
             MoveToNewTile(targetCoords);
         }
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     private void AttemptMoveLeft(Tile currentTile)
     {
         Vector2Int targetCoords = new Vector2Int(CurrentCoords.x - 1, CurrentCoords.y);
-        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords))
+        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
         {
             MoveToNewTile(targetCoords);
         }

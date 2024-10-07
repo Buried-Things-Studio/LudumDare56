@@ -27,13 +27,18 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private GameObject _collectorPrefab;
     [SerializeField] private MapGeneration _mapGeneration;
+    [SerializeField] private MiniMapController _miniMapController;
     private int _collectorsPerFloor = 3;
 
 
     public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController)
     {
         _encounterController = encounterController;
-        _map = _mapGeneration.GenerateMainPath();
+        _map = _mapGeneration.SafeGenerateMainPath();
+        if(_map == null)
+        {
+            Debug.Log("Map generation failed too many times. No map generated");
+        }
 
         _allRooms = GenerateRoomData(_map, collectorLevelRange, teamSizeRange, bossAffinity);
         GenerateCollectors(collectorLevelRange, teamSizeRange);
@@ -41,6 +46,39 @@ public class RoomGeneration: MonoBehaviour
         _currentRoom = _allRooms.Find(room => room.Type == RoomType.Start);
         DisplayCurrentRoom();
         GeneratePlayer();
+        _miniMapController.Map = _allRooms;
+        _miniMapController.UpdateMap();
+    }
+
+    private List<Room> GetAdjacentRooms(Room room)
+    {
+        Vector2Int coord = room.Coordinates;
+        List<Vector2Int> adjCoords = new List<Vector2Int>(){
+            new Vector2Int(coord.x, coord.y + 1),
+            new Vector2Int(coord.x + 1, coord.y),
+            new Vector2Int(coord.x, coord.y - 1),
+            new Vector2Int(coord.x - 1, coord.y),
+        };
+
+        List<Room> adjRooms = new List<Room>();
+
+        foreach(Vector2Int adjCoord in adjCoords)
+        {
+            if(_allRooms.Exists(room => room.Coordinates == adjCoord))
+            {
+                adjRooms.Add(_allRooms.Find(room => room.Coordinates == adjCoord));
+            }
+        }
+        return adjRooms;
+    }
+
+    private void MarkAdjacentRooms(Room currentRoom)
+    {
+        List<Room> adjRooms = GetAdjacentRooms(currentRoom);
+        foreach(Room room in adjRooms)
+        {
+            room.AdjacentToExplored = true;
+        }
     }
 
 
@@ -110,29 +148,29 @@ public class RoomGeneration: MonoBehaviour
 
         if(adjacencies[0])
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[0][7] == "D" && room[0][8] == "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[0][4] == "D").ToList();
         }
         else
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[0][7] != "D" && room[0][8] != "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[0][4] != "D").ToList();
         }
 
         if(adjacencies[1])
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[4][15] == "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[4][8] == "D").ToList();
         }
         else
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[4][15] != "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[4][8] != "D").ToList();
         }
 
         if(adjacencies[2])
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[8][7] == "D" && room[8][8] == "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[8][4] == "D").ToList();
         }
         else
         {
-            usableRoomLayouts = usableRoomLayouts.Where(room => room[8][7] != "D" && room[8][8] != "D").ToList();
+            usableRoomLayouts = usableRoomLayouts.Where(room => room[8][4] != "D").ToList();
         }
 
         if(adjacencies[3])
@@ -202,7 +240,14 @@ public class RoomGeneration: MonoBehaviour
         string collectorPosition = "-1";
         if(_currentRoom.Collectors.Count > 0)
         {
-            collectorPosition = UnityEngine.Random.Range(0,3).ToString();
+            if(_currentRoom.Collectors[0].position == "-1")
+            {
+                collectorPosition = UnityEngine.Random.Range(0,3).ToString();
+                _currentRoom.Collectors[0].position = collectorPosition;
+            }
+            else{
+                collectorPosition = _currentRoom.Collectors[0].position;
+            }
         }
         else 
         {
@@ -212,78 +257,87 @@ public class RoomGeneration: MonoBehaviour
 
         for(int i = 0; i < 9; i ++)
         {
-            for(int j = 0; j < 16; j ++)
+            for(int j = 0; j < 9; j ++)
             {
                 if(_currentRoom.Layout[i][j] == "N")
                 {
                     GameObject randomNormalTile = _normalTilePrefabs[UnityEngine.Random.Range(0, _normalTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Normal;
+                    tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "G")
                 {
                     GameObject randomGrassTile = _grassTilePrefabs[UnityEngine.Random.Range(0, _grassTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomGrassTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomGrassTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Grass;
+                    tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);                
                 }
                 if(_currentRoom.Layout[i][j] == "D")
                 {
                     GameObject randomDoorTile = _doorTilePrefabs[UnityEngine.Random.Range(0, _doorTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomDoorTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomDoorTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Door;
+                    tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "B")
                 {
                     GameObject randomBossTile = _bossTilePrefabs[UnityEngine.Random.Range(0, _bossTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomBossTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomBossTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Boss;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "E")
                 {
                     GameObject randomExitTile = _exitTilePrefabs[UnityEngine.Random.Range(0, _exitTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomExitTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomExitTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Exit;
+                    tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "M")
                 {
                     GameObject randomTreasureTile = _treasureTilePrefabs[UnityEngine.Random.Range(0, _treasureTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomTreasureTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomTreasureTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Treasure;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "S")
                 {
                     GameObject randomShopTile = _shopTilePrefabs[UnityEngine.Random.Range(0, _shopTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomShopTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomShopTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Shop;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "H")
                 {
                     GameObject randomHospitalTile = _hospitalTilePrefabs[UnityEngine.Random.Range(0, _hospitalTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomHospitalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomHospitalTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Hospital;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "R")
                 {
                     GameObject randomStarterTile = _starterTilePrefabs[UnityEngine.Random.Range(0, _starterTilePrefabs.Count)];
-                    GameObject tileObject = GameObject.Instantiate(randomStarterTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                    GameObject tileObject = GameObject.Instantiate(randomStarterTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Starter;
+                    tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "0" 
@@ -293,19 +347,21 @@ public class RoomGeneration: MonoBehaviour
                 {
                     if(_currentRoom.Layout[i][j] == collectorPosition)
                     {
-                        GameObject randomTrainerTile = _trainerTilePrefabs[UnityEngine.Random.Range(0, _trainerTilePrefabs.Count)];
-                        GameObject tileObject = GameObject.Instantiate(randomTrainerTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                        GameObject randomTrainerTile = _grassTilePrefabs[UnityEngine.Random.Range(0, _grassTilePrefabs.Count)];
+                        GameObject tileObject = GameObject.Instantiate(randomTrainerTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                         tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                         tileObject.GetComponent<Tile>().Type = TileType.Trainer;
+                        tileObject.GetComponent<Tile>().IsWalkable = false;
                         _floorTiles.Add(tileObject);
                         GenerateTrainer(tileObject, _currentRoom.Layout[i][j], _currentRoom.Collectors[0]);
                     }
                     else 
                     {
                         GameObject randomNormalTile = _normalTilePrefabs[UnityEngine.Random.Range(0, _normalTilePrefabs.Count)];
-                        GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 8-i, 0f), Quaternion.identity);
+                        GameObject tileObject = GameObject.Instantiate(randomNormalTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                         tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                         tileObject.GetComponent<Tile>().Type = TileType.Normal;
+                        tileObject.GetComponent<Tile>().IsWalkable = true;
                         _floorTiles.Add(tileObject);
                     }
                 }
@@ -326,6 +382,9 @@ public class RoomGeneration: MonoBehaviour
         playerController.CurrentCoords = _floorTiles[72].GetComponent<Tile>().Coordinates;
         Debug.Log("Setting current coords to " + _floorTiles[72].GetComponent<Tile>().Coordinates.ToString());
         playerController.CurrentRoom = _currentRoom;
+        _currentRoom.Explored = true;
+        MarkAdjacentRooms(_currentRoom);
+        SetContainsPlayer(_currentRoom);
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
@@ -348,27 +407,19 @@ public class RoomGeneration: MonoBehaviour
     public void PlacePlayerInNewRoom(Vector2Int coords)
     {
         Vector2Int newCoords = new Vector2Int(0, 0);
-        if(coords == new Vector2Int(8, 8))
+        if(coords == new Vector2Int(4, 8))
         {
-            newCoords = new Vector2Int(8, 0);
+            newCoords = new Vector2Int(4, 0);
         }
-        if(coords == new Vector2Int(7, 8))
+        if(coords == new Vector2Int(4, 0))
         {
-            newCoords = new Vector2Int(7, 0);
-        }
-        if(coords == new Vector2Int(8, 0))
-        {
-            newCoords = new Vector2Int(8, 8);
-        }
-        if(coords == new Vector2Int(7, 0))
-        {
-            newCoords = new Vector2Int(7, 8);
+            newCoords = new Vector2Int(4, 8);
         }
         if(coords == new Vector2Int(0, 4))
         {
-            newCoords = new Vector2Int(15, 4);
+            newCoords = new Vector2Int(8, 4);
         }
-        if(coords == new Vector2Int(15, 4))
+        if(coords == new Vector2Int(8, 4))
         {
             newCoords = new Vector2Int(0, 4);
         }
@@ -378,11 +429,15 @@ public class RoomGeneration: MonoBehaviour
         PlayerController playerController = _player.GetComponent<PlayerController>();
         playerController.CurrentCoords = newCoords;
         playerController.CurrentRoom = _currentRoom;
+        _currentRoom.Explored = true;
+        MarkAdjacentRooms(_currentRoom);
+        SetContainsPlayer(_currentRoom);
         playerController.RoomTiles = _floorTiles;
         playerController.Map = _allRooms;
         playerController.RoomGeneration = this;
         playerController.EncounterController = _encounterController;
         playerController.CollectorController = _collectorController;
+        _miniMapController.UpdateMap();
     }
 
 
@@ -414,5 +469,14 @@ public class RoomGeneration: MonoBehaviour
             randomCritter.SetStartingLevel(1);
             startRoom.StarterPicks.Add(randomCritter);
         }
+    }
+
+    public void SetContainsPlayer(Room roomContainingPlayer)
+    {
+        foreach(Room room in _allRooms)
+        {
+            room.ContainsPlayer = false;
+        }
+        roomContainingPlayer.ContainsPlayer = true;
     }
 }

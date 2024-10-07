@@ -16,7 +16,23 @@ public class MapGeneration: MonoBehaviour
     [SerializeField] private GameObject _treasureRoomPrefab;
 
 
-    public Dictionary<Vector2Int, RoomType> GenerateMainPath()
+    public Dictionary<Vector2Int, RoomType> SafeGenerateMainPath()
+    {
+        int tryCount = 0; 
+        while(tryCount < 100)
+        {
+            Debug.Log("Try count = " + tryCount.ToString());
+            tryCount ++;
+            try{
+                return GenerateMainPath();
+            }
+            catch{
+                Debug.Log("Generate Main Path failure, retrying...");
+            }
+        }
+        return null;
+    }
+    private Dictionary<Vector2Int, RoomType> GenerateMainPath()
     {
         Dictionary<Vector2Int, RoomType> map = new Dictionary<Vector2Int, RoomType>();
         map.Add(new Vector2Int(0, 0), RoomType.Start);
@@ -148,27 +164,27 @@ public class MapGeneration: MonoBehaviour
         {
             if(kvp.Value == RoomType.Start)
             {
-                GameObject.Instantiate(_startRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_startRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Normal)
             {
-                GameObject.Instantiate(_normalRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_normalRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Boss)
             {
-                GameObject.Instantiate(_bossRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_bossRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Shop)
             {
-                GameObject.Instantiate(_shopRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_shopRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Treasure)
             {
-                GameObject.Instantiate(_treasureRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_treasureRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
             if(kvp.Value == RoomType.Hospital)
             {
-                GameObject.Instantiate(_hospitalRoomPrefab, new Vector3(kvp.Key.x, kvp.Key.y, 0f), Quaternion.identity);
+                GameObject.Instantiate(_hospitalRoomPrefab, new Vector3(kvp.Key.x, 0f, kvp.Key.y), Quaternion.identity);
             }
         }
         
