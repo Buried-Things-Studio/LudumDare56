@@ -404,11 +404,12 @@ public class CombatController : MonoBehaviour
     private IEnumerator GoToMainGame()
     {
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
+
+        PlayerData.ClearDeadCritters();
         
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
 
         RoomGeneration roomGeneration = GameObject.FindObjectOfType<RoomGeneration>();
-
 
         while (!sceneLoading.isDone)
         {
