@@ -152,13 +152,13 @@ public class PlayerController : MonoBehaviour
             {
                 AttemptMove(currentTile, GetTargetCoords("backward"));
             }
-            if(_topPriorityKey == "right")
-            {
-                StartCoroutine(SmoothRotate(1));
-            }
             if(_topPriorityKey == "left")
             {
                 StartCoroutine(SmoothRotate(3));
+            }
+            if(_topPriorityKey == "right")
+            {
+                StartCoroutine(SmoothRotate(1));
             }
         }
         else
@@ -255,6 +255,9 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator SmoothRotate(int direction) 
 	{	
+        _checkNewMovement = false;
+        _checkContinuedMovement = false;
+        _isMoving = true;
         float angle = direction == 1 ? 90f : -90;
         float currentDirection = 0f; 
         if(_direction == 0)
@@ -275,7 +278,7 @@ public class PlayerController : MonoBehaviour
         }
         float target = currentDirection + angle;
         float elapsedTime = 0f;
-        float timeToMove = 0.15f;
+        float timeToMove = 0.3f;
 
         while (elapsedTime < timeToMove)
         {
