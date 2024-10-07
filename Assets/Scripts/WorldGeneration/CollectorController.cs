@@ -16,6 +16,7 @@ public class CollectorController : MonoBehaviour
 
     public void CalculateVisibleCoords()
     {
+        SnapToDirection();
         if(Direction == "0")
         {
             for(int i = Coordinates.y + 1; i < 9; i++)
@@ -133,5 +134,28 @@ public class CollectorController : MonoBehaviour
         _meshTransform.localPosition = meshStartPos;
 
         transform.position = endPosition;
+    }
+
+    public void SnapToDirection()
+    {
+        float targetDirection = 0f; 
+        if(Direction == "0")
+        {
+            targetDirection = 0f;
+        }
+        else if(Direction == "1")
+        {
+            targetDirection = 90f; 
+        }
+        else if(Direction == "2")
+        {
+            targetDirection = 180f; 
+        }
+        else if(Direction == "3")
+        {
+            targetDirection = 270f;
+        }
+
+        transform.rotation = Quaternion.Euler(new Vector3(0f, targetDirection, 0f));
     }
 }
