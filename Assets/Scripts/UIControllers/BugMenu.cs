@@ -18,6 +18,7 @@ public class BugMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _expTMP;
     [SerializeField] private Image _healthBarFillImage;
     [SerializeField] private Image _expBarFillImage;
+    [SerializeField] private Image _typeIconImage;
 
     [SerializeField] private TextMeshProUGUI _bluntAttackStatTMP;
     [SerializeField] private TextMeshProUGUI _sharpAttackStatTMP;
@@ -74,6 +75,9 @@ public class BugMenu : MonoBehaviour
         }
 
         Critter selectedCritter = _bugOptions[_currentSelectedIndex].GetCritter();
+
+        _typeIconImage.sprite = PictureHelpers.GetBugAffinityPicture(selectedCritter);
+        _typeIconImage.color = CritterAffinityData.GetAffinityColor(selectedCritter.Affinities[0]);
 
         _nameTMP.text = selectedCritter.Name;
         _levelTMP.text = $"<size=20>lv </size>{selectedCritter.Level}";

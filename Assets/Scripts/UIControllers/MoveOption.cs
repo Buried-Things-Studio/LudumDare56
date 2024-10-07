@@ -24,6 +24,7 @@ public class MoveOption : MonoBehaviour
         _usesTMP.text = $"{move.CurrentUses}/{move.MaxUses}";
 
         _spikesImage.color = CritterAffinityData.GetAffinityColor(move.Affinity);
+        _typeIcon.sprite = PictureHelpers.GetMoveAffinityPicture(move);
         _backgroundFadeImage.color = CritterAffinityData.GetAffinityColor(move.Affinity);
     }
 
