@@ -52,7 +52,7 @@ public class Bonk : Move
         opponent.DealDamage(damage);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(!isPlayerUser, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }
@@ -109,7 +109,7 @@ public class HoneyDrink : Move
         user.IncreaseHealth(20);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(isPlayerUser, startingHealth, user.CurrentHealth, user.MaxHealth));
+        steps.Add(new HealthChangeStep(isPlayerUser, user.Level, startingHealth, user.CurrentHealth, user.MaxHealth));
 
         return steps;
     }
@@ -201,7 +201,7 @@ public class ShellBump : Move
         opponent.DealDamage(damage);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(!isPlayerUser, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }
@@ -235,7 +235,7 @@ public class Snip : Move
         opponent.DealDamage(damage);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(!isPlayerUser, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }
@@ -297,7 +297,7 @@ public class WingStrike : Move
         opponent.DealDamage(damage);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(!isPlayerUser, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }

@@ -179,6 +179,18 @@ public static class CritterHelpers
     }
 
 
+    public static int GetCatchHealthThreshold(int maxHealth, int level)
+    {
+        return Mathf.Max(1, Mathf.FloorToInt(maxHealth * ((11 - level) * 0.05f)));
+    }
+
+
+    public static float GetCatchHealthThresholdFraction(Critter critter)
+    {
+        return (11 - critter.Level) * 0.05f;
+    }
+
+
     private static void PopulateAffinityTable()
     {
         //ANT (0)

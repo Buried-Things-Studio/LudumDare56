@@ -296,7 +296,7 @@ public class CombatController : MonoBehaviour
         healTarget.IncreaseHealth(30);
 
         _viz.AddVisualStep(new HealMessageStep(healTarget.Name, healTarget.CurrentHealth - startingHealth));
-        _viz.AddVisualStep(new HealthChangeStep(true, startingHealth, healTarget.CurrentHealth, healTarget.MaxHealth));
+        _viz.AddVisualStep(new HealthChangeStep(true, healTarget.Level, startingHealth, healTarget.CurrentHealth, healTarget.MaxHealth));
     }
 
 
@@ -348,7 +348,7 @@ public class CombatController : MonoBehaviour
     {
         int startingHealth = critter.CurrentHealth;
         critter.DealDamage(CritterHelpers.GetConfusionDamage(critter));
-        _viz.AddVisualStep(new HealthChangeStep(isPlayerCritter, startingHealth, critter.CurrentHealth, critter.MaxHealth));
+        _viz.AddVisualStep(new HealthChangeStep(isPlayerCritter, critter.Level, startingHealth, critter.CurrentHealth, critter.MaxHealth));
     }
 
 

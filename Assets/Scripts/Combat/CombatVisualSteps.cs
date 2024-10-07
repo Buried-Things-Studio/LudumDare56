@@ -167,15 +167,17 @@ public class HealMessageStep : CombatVisualStep
 public class HealthChangeStep : CombatVisualStep
 {
     public bool IsPlayerCritter;
+    public int Level;
     public int StartingHealth;
     public int TargetHealth;
     public int MaxHealth;
     public int DamageMultiplier;
 
 
-    public HealthChangeStep(bool isPlayerCritter, int startingHealth, int targetHealth, int maxHealth, int damageMultiplier = 4)
+    public HealthChangeStep(bool isPlayerCritter, int level, int startingHealth, int targetHealth, int maxHealth, int damageMultiplier = 4)
     {
         IsPlayerCritter = isPlayerCritter;
+        Level = level;
         StartingHealth = startingHealth;
         TargetHealth = targetHealth;
         MaxHealth = maxHealth;
