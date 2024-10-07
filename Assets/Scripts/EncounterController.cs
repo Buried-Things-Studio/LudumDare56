@@ -14,6 +14,7 @@ public class EncounterController : MonoBehaviour
     private int _critterTypesAvailablePerFloor = 5;
     private List<Type> _critterTypesAvailableOnFloor = new List<Type>();
     private Vector2Int _wildEncounterLevelRange;
+    public bool IsStarterChosen;
 
 
     public void SetAvailableCrittersOnFloor(Vector2Int levelRange)

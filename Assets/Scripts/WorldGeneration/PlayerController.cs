@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     private bool _newTileChecks; 
     private bool _checkContinuedMovement;
     private bool _isMovementBlockedByUI;
-    private bool _isStarterChosen;
     private bool _checkNewMovement = true;
     private List<string> _keyPressPriorityOrder = new List<string>();
     public FloorController FloorController;
@@ -65,7 +64,7 @@ public class PlayerController : MonoBehaviour
         Tile tile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront).GetComponent<Tile>();
         TileType tileType = tile.Type;
 
-        if (tileType == TileType.Starter && !_isStarterChosen)
+        if (tileType == TileType.Starter && !EncounterController.IsStarterChosen)
         {
             StartCoroutine(TryChooseStarter(tile.Starter));
         }
@@ -80,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
         if (GlobalUI.TextBox.IsSelectingYes)
         {
-            _isStarterChosen = true;
+            EncounterController.IsStarterChosen = true;
             FloorController.PlayerData.AddCritter(starter); //hello new friend! TODO: block/unblock door
         }
 
@@ -133,7 +132,7 @@ public class PlayerController : MonoBehaviour
 
         Tile tile = tileObject.GetComponent<Tile>();
 
-        if (tile.Type == TileType.Door && !_isStarterChosen)
+        if (tile.Type == TileType.Door && !EncounterController.IsStarterChosen)
         {
             return false;
         }

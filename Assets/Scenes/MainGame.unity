@@ -647,7 +647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5107c9a4e691d964687406324cf225b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isForcingCombat: 1
+  _isForcingCombat: 0
 --- !u!114 &616055259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,6 +660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b9fa96fbe44a6409edcc410e54f8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStarterChosen: 0
 --- !u!1001 &817355586
 PrefabInstance:
   m_ObjectHideFlags: 0
