@@ -312,6 +312,57 @@ MonoBehaviour:
   _hospitalDoorway: {fileID: 5036396923930770064}
   _treasureDoorway: {fileID: 8490968702914523453}
   _bossDoorway: {fileID: 3480594300613830905}
+  _scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5882775
+      value: 1
+      inSlope: 4.1135063
+      outSlope: -6.641251
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.059508704
+      outWeight: 0.25044426
+    - serializedVersion: 3
+      time: 0.83562034
+      value: 1
+      inSlope: 5.752084
+      outSlope: -5.3092475
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.23848541
+      outWeight: 0.34525776
+    - serializedVersion: 3
+      time: 0.9490023
+      value: 1
+      inSlope: 8.174478
+      outSlope: -4.92502
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.35064918
+      outWeight: 0.60000074
+    - serializedVersion: 3
+      time: 0.9991455
+      value: 1
+      inSlope: 6.435078
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.5301476
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8490968702914523453
 GameObject:
   m_ObjectHideFlags: 0

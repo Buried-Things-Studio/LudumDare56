@@ -16,6 +16,10 @@ public class EncounterController : MonoBehaviour
     private Vector2Int _wildEncounterLevelRange;
     public bool IsStarterChosen;
 
+    [Header("Animation")]
+    public Animator PixelAnimator;
+    public Animator ExclaimAnimator;
+
 
     public void SetAvailableCrittersOnFloor(Vector2Int levelRange)
     {
@@ -60,8 +64,12 @@ public class EncounterController : MonoBehaviour
 
     public IEnumerator DoCombat(Critter opponent)
     {
-        //TODO
         //Pixel dissolve and musical sting
+        ExclaimAnimator.SetTrigger("Exclaim");
+        yield return new WaitForSeconds(0.8f);
+        PixelAnimator = GameObject.Find("PixelVolume").GetComponent<Animator>();
+        PixelAnimator.SetTrigger("Dissolve");
+        yield return new WaitForSeconds(0.5f);
 
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
 
@@ -88,8 +96,10 @@ public class EncounterController : MonoBehaviour
 
     public IEnumerator DoCollectorCombat(Collector collector)
     {
-        //TODO
         //Pixel dissolve and musical sting
+        PixelAnimator = GameObject.Find("PixelVolume").GetComponent<Animator>();
+        PixelAnimator.SetTrigger("Dissolve");
+        yield return new WaitForSeconds(0.5f);
 
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
 
@@ -111,4 +121,7 @@ public class EncounterController : MonoBehaviour
 
         yield return null;
     }
+
+
+
 }

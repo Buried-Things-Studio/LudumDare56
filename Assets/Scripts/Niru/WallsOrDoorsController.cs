@@ -15,6 +15,11 @@ public class WallsOrDoorsController : MonoBehaviour
 
     private IEnumerator Wait()
     {
+        foreach (WallOrDoor w in _wallOrDoors)
+        {
+            w.transform.localScale = Vector3.zero;
+        }
+
         yield return null;
 
         foreach (WallOrDoor w in _wallOrDoors)

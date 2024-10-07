@@ -6,6 +6,7 @@ using System.Linq;
 
 public class MiniMapController : MonoBehaviour
 {
+    [SerializeField] private RectTransform _myRT;
     public List<Room> Map; 
     public float PixelWidth = 300f;
     private int _lowestX; 
@@ -20,6 +21,28 @@ public class MiniMapController : MonoBehaviour
     [SerializeField] private GameObject _noRoomIcon; 
     private List<GameObject> icons = new List<GameObject>();
     private Color transparentColor = new Color(1f, 1f, 1f, 0.25f);
+
+
+    public void Spin(float targetRotation)
+    {
+        StopAllCoroutines();
+        StartCoroutine(SpinToRotation(targetRotation));
+    }
+
+
+    private IEnumerator SpinToRotation(float targetRotation)
+    {
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / 0.3f;
+
+            _myRT.localRotation = Quaternion.Lerp(_myRT.localRotation, Quaternion.Euler(Vector3.forward * targetRotation), t);
+
+            yield return null;
+        }
+    }
+
 
     public void UpdateMap()
     {
