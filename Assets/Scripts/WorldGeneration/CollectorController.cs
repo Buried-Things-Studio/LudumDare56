@@ -10,6 +10,10 @@ public class CollectorController : MonoBehaviour
     public List<Vector2Int> VisibleCoords = new List<Vector2Int>();
     public List<GameObject> RoomTiles = new List<GameObject>();
 
+    //Anim
+    [SerializeField] private Transform _meshTransform;
+    [SerializeField] private AnimationCurve _bounceCurve;
+
     public void CalculateVisibleCoords()
     {
         if(Direction == "0")
@@ -113,12 +117,21 @@ public class CollectorController : MonoBehaviour
         float elapsedTime = 0f;
         float timeToMove = 0.15f;
 
-        while(elapsedTime < timeToMove)
+        Vector3 meshStartPos = _meshTransform.localPosition;
+
+        while (elapsedTime < timeToMove)
         {
-            transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / timeToMove));
             elapsedTime += Time.deltaTime;
+
+            transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / timeToMove));
+
+            _meshTransform.localPosition = meshStartPos + Vector3.up * _bounceCurve.Evaluate((elapsedTime / 15) * 100);
+
             yield return null;
         }
+
+        _meshTransform.localPosition = meshStartPos;
+
         transform.position = endPosition;
     }
 }
