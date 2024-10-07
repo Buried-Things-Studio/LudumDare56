@@ -179,10 +179,11 @@ public class CombatController : MonoBehaviour
         }
 
         bool isNonPriorityDead = false;
+        bool isWildCatchAttempt = false;
 
         if (priorityMove == null)
         {
-            ExecuteBattleAction(priorityMoveID);
+            isWildCatchAttempt = ExecuteBattleAction(priorityMoveID);
         }
         else
         {
@@ -196,7 +197,7 @@ public class CombatController : MonoBehaviour
             }
         }
 
-        if (!isNonPriorityDead)
+        if (!isNonPriorityDead && !isWildCatchAttempt)
         {
             if (nonPriorityMove == null)
             {
@@ -213,7 +214,15 @@ public class CombatController : MonoBehaviour
             }
         }
 
-        StartCoroutine(ShowTurn());
+        if (isWildCatchAttempt)
+        {
+            StartCoroutine(GoToMainGame());
+        }
+        else
+        {
+            StartCoroutine(ShowTurn());
+        }
+
     }
 
 
@@ -225,7 +234,7 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private void ExecuteBattleAction(MoveID ID)
+    private bool ExecuteBattleAction(MoveID ID)
     {
         if (ID == MoveID.SwitchActive)
         {
@@ -233,16 +242,18 @@ public class CombatController : MonoBehaviour
         }
         else if (ID == MoveID.ThrowMasonJar)
         {
-            PlayerThrowMasonJar();
+            return PlayerThrowMasonJar();
         }
         else if (ID == MoveID.UseHealItem)
         {
             PlayerUseHealItem();
         }
+
+        return false;
     }
 
 
-    private void PlayerThrowMasonJar()
+    private bool PlayerThrowMasonJar()
     {
         PlayerData.RemoveItemFromInventory(ItemType.MasonJar);
         
@@ -251,7 +262,26 @@ public class CombatController : MonoBehaviour
             && PlayerData.GetCritters().Count < CritterHelpers.MaxTeamSize
             && State.NpcCritter.CurrentHealth <= CritterHelpers.GetCatchHealthThreshold(State.NpcCritter);
         
-        //TODO: do catch
+        if (OpponentData != null)
+        {
+            _viz.AddVisualStep(new TryCatchCollectorCritterStep());
+        }
+        else if (PlayerData.GetCritters().Count >= CritterHelpers.MaxTeamSize)
+        {
+            _viz.AddVisualStep(new TryCatchTooFullCritterStep());
+        }
+        {
+            _viz.AddVisualStep(new TryCatchStep(State.NpcCritter.Name, isCatchSuccessful));
+        }
+
+        if (isCatchSuccessful)
+        {
+            PlayerData.AddCritter(State.NpcCritter);
+            State.NpcCritter.RestoreAllHealth();
+            State.NpcCritter.RestoreAllMoveUses();
+        }
+
+        return OpponentData == null;
     }
 
 

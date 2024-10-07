@@ -222,6 +222,21 @@ public class Critter
     }
 
 
+    public void RestoreAllHealth()
+    {
+        CurrentHealth = MaxHealth;
+    }
+
+
+    public void RestoreAllMoveUses()
+    {
+        foreach (Move move in Moves)
+        {
+            move.CurrentUses = move.MaxUses;
+        }
+    }
+
+
     public int IncreaseHealth(int increaseAmount)
     {
         int healthBeforeHeal = CurrentHealth;
@@ -327,7 +342,7 @@ public enum CritterAffinity
     Ant,
     Bee,
     Beetle,
-    Caterpillar,
+    Butterfly,
     Mollusc,
     Spider
 }
