@@ -8,6 +8,7 @@ public class BananaSlug : Critter
     public BananaSlug()
     {
         Name = "Banana Slug";
+        Lore = "Grimy and shiny she will soak you in her slime. To the ground you will return, decaying before your time.";
         Affinities.Add(CritterAffinity.Mollusc);
         Moves.Add(new Smother(){UserGUID = GUID});
         Moves.Add(new MysteriousSlime(){UserGUID = GUID});
@@ -39,6 +40,7 @@ public class BlackWidowSpider : Critter
     public BlackWidowSpider()
     {
         Name = "Black Widow Spider";
+        Lore = "The reputation precedes her. None dare come nearer. Evil avoids her. All fear the killer.";
         Affinities.Add(CritterAffinity.Spider);
         Moves.Add(new WebTrap(){UserGUID = GUID});
         Moves.Add(new Snip(){UserGUID = GUID});
@@ -70,6 +72,7 @@ public class BulletAnt : Critter
     public BulletAnt()
     {
         Name = "Bullet Ant";
+        Lore = "Methodical, relentless, he is known and he’s ferocious. Silence follows where he goes, his sting beyond atrocious. On fire yet frozen - he paralyses his opponents.";
         Affinities.Add(CritterAffinity.Ant);
         Moves.Add(new Snip(){UserGUID = GUID});
 
@@ -131,6 +134,7 @@ public class FireAnt : Critter
     public FireAnt()
     {
         Name = "Fire Ant";
+        Lore = "Hear the sirens, beware the fire. Feel his wrath, flee his ire. Gardens will burn, and bugs collapse. They still hope to escape, perhaps.";
         Affinities.Add(CritterAffinity.Ant);
         Moves.Add(new Snip(){UserGUID = GUID});
 
@@ -161,6 +165,7 @@ public class GardenSnail : Critter
     public GardenSnail()
     {
         Name = "Garden Snail";
+        Lore = "He’ll be there - guaranteed. As sure as sure can be. There’s something they say about slow and steady. To win this race he’s willing to slaughter.";
         Affinities.Add(CritterAffinity.Mollusc);
         Moves.Add(new Smother(){UserGUID = GUID});
         Moves.Add(new MysteriousSlime(){UserGUID = GUID});
@@ -193,6 +198,7 @@ public class GhostAnt : Critter
     public GhostAnt()
     {
         Name = "Ghost Ant";
+        Lore = "Unseen little threat sowing havoc where they go. What harm can they cause? It is not for you to know. ’Til you’re falling apart though you never felt the blow.";
         Affinities.Add(CritterAffinity.Ant);
         Moves.Add(new Snip(){UserGUID = GUID});
 
@@ -218,11 +224,12 @@ public class GhostAnt : Critter
 }
 
 
-public class GreyFieldSnail : Critter
+public class GreyFieldSlug : Critter
 {
-    public GreyFieldSnail()
+    public GreyFieldSlug()
     {
-        Name = "Grey Field Snail";
+        Name = "Grey Field Slug";
+        Lore = "“Disgusting”, they say, “revolting, unnecessary.” Rejection is her origin story, and everyone is her enemy. Revenge on her mind, a chip on her shoulder, she’ll come out at night, she’s ready to murder.";
         Affinities.Add(CritterAffinity.Mollusc);
         Moves.Add(new Smother(){UserGUID = GUID});
         Moves.Add(new MysteriousSlime(){UserGUID = GUID});
@@ -254,6 +261,7 @@ public class HawaiianSmilingSpider : Critter
     public HawaiianSmilingSpider()
     {
         Name = "Hawaiian Smiling Spider";
+        Lore = "Some like the good life... the slow pace... smiles on a baby’s face - but when backed into a corner and thrust into the ring, good men go to war; spiders learn to sting.";
         Affinities.Add(CritterAffinity.Spider);
         Moves.Add(new MenacingGrin(){UserGUID = GUID});
         Moves.Add(new Snip(){UserGUID = GUID});
@@ -285,6 +293,7 @@ public class HerculesBeetle : Critter
     public HerculesBeetle()
     {
         Name = "Hercules Beetle";
+        Lore = "With his legendary name, this beetle casts a shadow. He has strength like no other, and his enemies, they cower.";
         Affinities.Add(CritterAffinity.Beetle);
         Moves.Add(new ShellBump(){UserGUID = GUID});
         Moves.Add(new Carapace(){UserGUID = GUID});
@@ -316,6 +325,7 @@ public class Honeybee : Critter
     public Honeybee()
     {
         Name = "Honeybee";
+        Lore = "Sweeter than sweet and forever jolly. He never wished to join the rally. But he must pay for his Queen’s folly - and he’ll fight to the death for family.";
         Affinities.Add(CritterAffinity.Bee);
         Moves.Add(new Bonk(){UserGUID = GUID});
         Moves.Add(new HoneyDrink(){UserGUID = GUID});
@@ -378,6 +388,7 @@ public class IoMoth : Critter
     public IoMoth()
     {
         Name = "Io Moth";
+        Lore = "Blink twice if you see how this moth seeks to deceive you. Beware, steer clear or death will ensue! Venomous to the touch - every single hair will sting you.";
         Affinities.Add(CritterAffinity.Butterfly);
         Moves.Add(new WingStrike(){UserGUID = GUID});
         Moves.Add(new Dazzle(){UserGUID = GUID});
@@ -409,6 +420,7 @@ public class LeptopomaSnail : Critter
     public LeptopomaSnail()
     {
         Name = "Leptopoma";
+        Lore = "Mesmerising beauty, and no natural animosity - how can a snail get by without ferocity? She breaks no sweat and asserts no effort. She seeks to make peace - she tries - bless her.";
         Affinities.Add(CritterAffinity.Mollusc);
         Moves.Add(new Smother(){UserGUID = GUID});
         Moves.Add(new MysteriousSlime(){UserGUID = GUID});
@@ -435,11 +447,12 @@ public class LeptopomaSnail : Critter
 }
 
 
-public class KerrySnail : Critter
+public class KerrySlug : Critter
 {
-    public KerrySnail()
+    public KerrySlug()
     {
-        Name = "Kerry Snail";
+        Name = "Kerry Slug";
+        Lore = "Esta é Espanhola e Portuguesa! Quem é que sabia? Esta quer calma e quer uma sabedoria. Que pena, porque hoje, esquece, népia - hoje so há luta e só temos lutaria!";
         Affinities.Add(CritterAffinity.Mollusc);
         Moves.Add(new Smother(){UserGUID = GUID});
         Moves.Add(new MysteriousSlime(){UserGUID = GUID});
@@ -471,6 +484,7 @@ public class Ladybird : Critter
     public Ladybird()
     {
         Name = "Ladybird";
+        Lore = "Graceful, demure, she is mindful of her demeanour. You let down your defenses and she gets a little meaner. Beloved by all, but be careful she’s quite the eater.";
         Affinities.Add(CritterAffinity.Beetle);
         Moves.Add(new ShellBump(){UserGUID = GUID});
         Moves.Add(new Carapace(){UserGUID = GUID});
@@ -502,6 +516,7 @@ public class LimeButterfly : Critter
     public LimeButterfly()
     {
         Name = "Lime Butterfly";
+        Lore = "She’s got a week to live and hell is her next stop. She’ll take a hundred companions before her name is forgot.";
         Affinities.Add(CritterAffinity.Butterfly);
         Moves.Add(new WingStrike(){UserGUID = GUID});
         Moves.Add(new Dazzle(){UserGUID = GUID});
@@ -528,11 +543,12 @@ public class LimeButterfly : Critter
 }
 
 
-public class MammothButterfly : Critter
+public class MammothMoth : Critter
 {
-    public MammothButterfly()
+    public MammothMoth()
     {
-        Name = "Mammoth Butterfly";
+        Name = "Mammoth Moth";
+        Lore = "What was that?! Did you spot... a snake upon this moth? Well you better be gone, don’t test your luck on this one.";
         Affinities.Add(CritterAffinity.Butterfly);
         Moves.Add(new WingStrike(){UserGUID = GUID});
         Moves.Add(new Dazzle(){UserGUID = GUID});
@@ -564,6 +580,7 @@ public class MonarchButterfly : Critter
     public MonarchButterfly()
     {
         Name = "Monarch Butterfly";
+        Lore = "An icon of of the trade. Can’t forget the face, won’t forget the name. With beautiful wings the colour of flame, it’s the high and mighty Monarch Butterfly.";
         Affinities.Add(CritterAffinity.Butterfly);
         Moves.Add(new WingStrike(){UserGUID = GUID});
         Moves.Add(new Dazzle(){UserGUID = GUID});
@@ -595,6 +612,7 @@ public class PandaAnt : Critter
     public PandaAnt()
     {
         Name = "Panda Ant";
+        Lore = "Not a panda nor an ant - what else is he hiding? Friendless and aloof, forever solitary. A wingless wasp but never sedentary. Destroying lives wherever he goes wandering.";
         Affinities.Add(CritterAffinity.Bee);
         Moves.Add(new Bonk(){UserGUID = GUID});
         Moves.Add(new HoneyDrink(){UserGUID = GUID});
@@ -626,6 +644,7 @@ public class PotatoBeetle : Critter
     public PotatoBeetle()
     {
         Name = "Potato Beetle";
+        Lore = "Ten stripes, ten spears, ten reasons to fear. A threat? You bet! Guard your kids and guard your pets. She’ll come to collect.";
         Affinities.Add(CritterAffinity.Beetle);
         Moves.Add(new ShellBump(){UserGUID = GUID});
         Moves.Add(new Carapace(){UserGUID = GUID});
@@ -657,6 +676,7 @@ public class RhinoBeetle : Critter
     public RhinoBeetle()
     {
         Name = "Rhino Beetle";
+        Lore = "Strength without a trade, for his speed is never compromised. Staring down this opponent you will know your demise.";
         Affinities.Add(CritterAffinity.Beetle);
         Moves.Add(new ShellBump(){UserGUID = GUID});
         Moves.Add(new Carapace(){UserGUID = GUID});
@@ -714,6 +734,38 @@ public class RhinoBeetle : Critter
 // }
 
 
+public class TarantulaHawkWasp : Critter
+{
+    public TarantulaHawkWasp()
+    {
+        Name = "Tarantula Hawk Wasp";
+        Lore = "Looking up at a beast that looms so much bigger strikes no terror in this special creature, she smiles to herself and cracks out her stinger, rubbing her legs she whispers, “dinner”.";
+        Affinities.Add(CritterAffinity.Bee);
+        Moves.Add(new Bonk(){UserGUID = GUID});
+        Moves.Add(new HoneyDrink(){UserGUID = GUID});
+
+        MaxHealth = 12;
+        CurrentHealth = 12;
+        HealthLevelIncrease = new Vector2Int(1, 4);
+
+        MaxSpeed = 8;
+        SpeedLevelIncrease = new Vector2Int(1, 5);
+
+        MaxSharpAttack = 15;
+        SharpAttackLevelIncrease = new Vector2Int(3, 6);
+
+        MaxSharpDefense = 2;
+        SharpDefenseLevelIncrease = new Vector2Int(1, 2);
+
+        MaxBluntAttack = 2;
+        BluntAttackLevelIncrease = new Vector2Int(1, 2);
+
+        MaxBluntDefense = 2;
+        BluntDefenseLevelIncrease = new Vector2Int(1, 2);
+    }
+}
+
+
 // public class Wasp : Critter
 // {
 //     public Wasp()
@@ -750,6 +802,7 @@ public class YellowjacketWasp : Critter
     public YellowjacketWasp()
     {
         Name = "Yellowjacket Wasp";
+        Lore = "She hates for the sake of hate. She’s desperate to retaliate.She loathes the world and drips with malice. Her only pleasure, is at her leisure, spewing venom and drilling talons";
         Affinities.Add(CritterAffinity.Bee);
         Moves.Add(new Bonk(){UserGUID = GUID});
         Moves.Add(new HoneyDrink(){UserGUID = GUID});

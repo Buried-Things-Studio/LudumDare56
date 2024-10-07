@@ -92,11 +92,6 @@ public class FloorController : MonoBehaviour
         starter.SetStartingLevel(10);
         PlayerData.AddCritter(starter);
 
-        foreach (Move move in starter.Moves)
-        {
-            move.CurrentUses = 0;
-        }
-
         Critter boye = new Honeybee();
         boye.SetStartingLevel(10);
         PlayerData.AddCritter(boye);
@@ -136,8 +131,7 @@ public class FloorController : MonoBehaviour
     {
         LastMapGeneratedLevel = _currentLevel;
 
-        //int randomAffinityIndex = UnityEngine.Random.Range(1, Enum.GetNames(typeof(CritterAffinity)).Length);
-        int randomAffinityIndex = 2; //TODO: make random again
+        int randomAffinityIndex = UnityEngine.Random.Range(1, Enum.GetNames(typeof(CritterAffinity)).Length);
         _levelBossAffinity = (CritterAffinity)randomAffinityIndex;
 
         Encounters.SetAvailableCrittersOnFloor(_wildEncounterLevelRanges[_currentLevel]);

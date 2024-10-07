@@ -95,11 +95,57 @@ public class CombatUIController : MonoBehaviour
                     yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(castStep.GetPopulatedMessage()));
                 }
             }
-            else if (step.GetType() == typeof(LevelGainStep) || step.GetType() == typeof(ChangeActiveStep)) //TODO: does not account for npc switching!
+            else if (step.GetType() == typeof(LevelGainStep) || step.GetType() == typeof(ChangeActiveStep))
             {
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
 
                 _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter, false); //this might not be the critter that levelled, but there's no harm with a repopulate
+            }
+            else if (step.GetType() == typeof(DoMoveStep))
+            {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
+
+                DoMoveStep moveStep = (DoMoveStep)step;
+
+                if (moveStep.IsAnimatingPlayerHit)
+                {
+                    _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
+                    _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+                }
+                else
+                {
+                    _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
+                    _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+                }
+
+                yield return new WaitForSeconds(0.75f);
+            }
+            else if (step.GetType() == typeof(TriedItsBestStep))
+            {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
+
+                TriedItsBestStep moveStep = (TriedItsBestStep)step;
+
+                if (moveStep.IsAnimatingPlayerHit)
+                {
+                    _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
+                    _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+                }
+                else
+                {
+                    _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
+                    _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+                }
+
+                yield return new WaitForSeconds(0.75f);
+            }
+            else if (step.GetType() == typeof(CritterSquishedStep))
+            {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
+                
+                _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Squish");
+
+                yield return new WaitForSeconds(0.5f);
             }
             else
             {

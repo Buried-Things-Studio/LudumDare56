@@ -106,8 +106,8 @@ public class BugMenu : MonoBehaviour
             _moveDetails[i].PopulateMove(selectedCritter.Moves[i]);
         }
 
-        //_abilityNameTMP = $"<#000000>ABILITY:  <#ffffff>ABILITY NAME";
-        //_abilityDescriptionTMP = $"";
+        _abilityNameTMP.text = $"<#000000FF>DESCRIPTION:";
+        _abilityDescriptionTMP.text = selectedCritter.Lore;
     }
 
 
