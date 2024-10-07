@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+
 public class PlayerController : MonoBehaviour
 {
     public Vector2Int CurrentCoords;
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private bool _isMoving; 
     private bool _newTileChecks; 
     private bool _checkContinuedMovement;
+    private bool _isMovementBlockedByUI;
+    private bool _isStarterChosen;
     private bool _checkNewMovement = true;
     private List<string> _keyPressPriorityOrder = new List<string>();
     public FloorController FloorController;
@@ -24,19 +27,25 @@ public class PlayerController : MonoBehaviour
     //Anim
     [SerializeField] private Transform _meshTransform;
     [SerializeField] private AnimationCurve _bounceCurve;
+    [SerializeField] private ParticleSystem _grassParticleSystem;
 
 
     public void Update()
     {
         CheckPressedKeys();
 
-        if(_isMoving)
+        if (_isMoving || _isMovementBlockedByUI)
         {
             return;
         }
         else if (_newTileChecks)
         {
             CheckForEncounters();
+        }
+
+        if ((_checkContinuedMovement || _checkNewMovement) && Input.GetKeyDown(Controls.OverworldInteractKey))
+        {
+            CheckInteraction();
         }
 
         if (_checkContinuedMovement)
@@ -49,6 +58,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    private void CheckInteraction()
+    {
+        Vector2Int coordsInFront = GetTargetCoords("forward");
+        Tile tile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront).GetComponent<Tile>();
+        TileType tileType = tile.Type;
+
+        if (tileType == TileType.Starter && !_isStarterChosen)
+        {
+            StartCoroutine(TryChooseStarter(tile.Starter));
+        }
+    }
+
+
+    private IEnumerator TryChooseStarter(Critter starter)
+    {
+        _isMovementBlockedByUI = true;
+        
+        yield return StartCoroutine(GlobalUI.TextBox.ShowStarterChoice(starter.Name));
+
+        if (GlobalUI.TextBox.IsSelectingYes)
+        {
+            _isStarterChosen = true;
+            FloorController.PlayerData.AddCritter(starter); //hello new friend! TODO: block/unblock door
+        }
+
+        _isMovementBlockedByUI = false;
+    }
+
+
     private void MoveToNewTile(Vector2Int targetCoords)
     {
         _checkContinuedMovement = false;
@@ -58,6 +97,7 @@ public class PlayerController : MonoBehaviour
         CurrentCoords = targetCoords;
         StartCoroutine(SmoothMove(transform.position, tile.transform.position));
     }
+
 
     private Vector2Int GetTargetCoords(string direction)
     {
@@ -81,36 +121,67 @@ public class PlayerController : MonoBehaviour
         return targetCoords;
     }
 
+
+    private bool CheckTileWalkable(Vector2Int targetCoords)
+    {
+        GameObject tileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == targetCoords);
+        
+        if (tileObject == null)
+        {
+            return false;
+        }
+
+        Tile tile = tileObject.GetComponent<Tile>();
+
+        if (tile.Type == TileType.Door && !_isStarterChosen)
+        {
+            return false;
+        }
+
+        return tile.IsWalkable;
+    }
+
+
     private void AttemptMove(Tile currentTile, Vector2Int targetCoords, string direction)
     {
-        if(RoomTiles.Exists(tile => tile.GetComponent<Tile>().Coordinates == targetCoords && tile.GetComponent<Tile>().IsWalkable))
+        if (CheckTileWalkable(targetCoords))
         {
+            Tile targetTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == targetCoords).GetComponent<Tile>();
+            if (targetTile.Type == TileType.Grass)
+            {
+                _grassParticleSystem.Play();
+            }
+
             MoveToNewTile(targetCoords);
         }
-        else if(currentTile.Type == TileType.Door)
+        else if (currentTile.Type == TileType.Door)
         {
             Vector2Int newRoomCoords = CurrentCoords; 
-            if((Direction == 0 && direction == "forward") || (Direction == 2 && direction == "backward"))
+            
+            if ((Direction == 0 && direction == "forward") || (Direction == 2 && direction == "backward"))
             {
                 newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x, CurrentRoom.Coordinates.y + 1);
             }
-            if((Direction == 1 && direction == "forward") || (Direction == 3 && direction == "backward"))
+            if ((Direction == 1 && direction == "forward") || (Direction == 3 && direction == "backward"))
             {
                 newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x + 1, CurrentRoom.Coordinates.y);
             }
-            if((Direction == 2 && direction == "forward") || (Direction == 0 && direction == "backward"))
+            if ((Direction == 2 && direction == "forward") || (Direction == 0 && direction == "backward"))
             {
                 newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x, CurrentRoom.Coordinates.y - 1);
             }
-            if((Direction == 3 && direction == "forward") || (Direction == 1 && direction == "backward"))
+            if ((Direction == 3 && direction == "forward") || (Direction == 1 && direction == "backward"))
             {
                 newRoomCoords = new Vector2Int(CurrentRoom.Coordinates.x - 1, CurrentRoom.Coordinates.y);
             }
+
             int faceIntoNewRoom = Direction;
-            if(direction == "backward")
+
+            if (direction == "backward")
             {
                 faceIntoNewRoom = (Direction + 2) % 4;
             }
+
             RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords, faceIntoNewRoom);
         }
     }
@@ -199,6 +270,9 @@ public class PlayerController : MonoBehaviour
         // grass check 
         if (currentTile.Type == TileType.Grass)
         {
+            ////Grass particle effect
+            //_grassParticleSystem.Play();
+
             if (EncounterController.CheckRandomEncounter(false))
             {
                 FloorController.MapState = mapState;

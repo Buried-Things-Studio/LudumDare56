@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class MasonJarObject : MonoBehaviour
 {
-    public Critter MyCritter;
     [SerializeField] private GameObject _bugInJarGO;
 
 
-    private void Start()
+    public void Glow(Critter critter)
     {
         //Testing
         /*
@@ -25,15 +24,10 @@ public class MasonJarObject : MonoBehaviour
             MyCritter = new BlackWidowSpider();
             */
 
-        if (MyCritter != null)
-        {
-            _bugInJarGO.SetActive(true);
+        float multiplier = Mathf.Pow(2, 5);
+        Color HDRColor = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
+        HDRColor = new Color(HDRColor.r * multiplier, HDRColor.g * multiplier, HDRColor.b * multiplier, 1);
 
-            float multiplier = Mathf.Pow(2, 5);
-            Color HDRColor = CritterAffinityData.GetAffinityColor(MyCritter.Affinities[0]);
-            HDRColor = new Color(HDRColor.r * multiplier, HDRColor.g * multiplier, HDRColor.b * multiplier, 1);
-
-            _bugInJarGO.GetComponent<Renderer>().material.SetColor("_EmissionColor", HDRColor);
-        }
+        _bugInJarGO.GetComponent<Renderer>().material.SetColor("_EmissionColor", HDRColor);
     }
 }
