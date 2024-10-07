@@ -51,7 +51,7 @@ public class CombatController : MonoBehaviour
     private void InitializeMeshes()
     {
         GameObject playerPrefab = Resources.Load<GameObject>("Bugs/" + State.PlayerCritter.Name.Replace(" ", "")) as GameObject;
-        GameObject npcPrefab = Resources.Load<GameObject>("Bugs/" + State.PlayerCritter.Name.Replace(" ", "")) as GameObject;
+        GameObject npcPrefab = Resources.Load<GameObject>("Bugs/" + State.NpcCritter.Name.Replace(" ", "")) as GameObject;
 
         PlayerMesh = Instantiate(playerPrefab);
         PlayerMesh.transform.SetParent(_playerMeshParent);
@@ -434,21 +434,20 @@ public class CombatController : MonoBehaviour
 
         if (!PlayerData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
-            //TODO: go to game over
-            //StartCoroutine(GoToMainGame());
-            return true;
+            StartCoroutine(GoToLose());
+
+            return false;
         }
         else if (OpponentData != null && !OpponentData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
-            //TODO: go to win
-            //StartCoroutine(GoToMainGame());
+            StartCoroutine(GoToWin());
 
             int winnings = 100 * OpponentData.GetCritters().Count;
             PlayerData.AddMoney(winnings);
 
             _viz.AddVisualStep(new WinningsStep(winnings));
 
-            return true;
+            return false;
         }
         else if (OpponentData == null && State.NpcCritter.CurrentHealth <= 0)
         {
@@ -457,6 +456,38 @@ public class CombatController : MonoBehaviour
         }
 
         return false;
+    }
+
+
+    private IEnumerator GoToWin()
+    {
+        yield return StartCoroutine(_viz.ExecuteVisualSteps());
+
+        GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
+        yield return new WaitForSeconds(0.5f);
+
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("WinGame");
+
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
+        }
+    }
+
+
+    private IEnumerator GoToLose()
+    {
+        yield return StartCoroutine(_viz.ExecuteVisualSteps());
+
+        GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
+        yield return new WaitForSeconds(0.5f);
+
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("LoseGame");
+
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
+        }
     }
 
 
