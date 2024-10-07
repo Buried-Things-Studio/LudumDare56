@@ -13,11 +13,14 @@ public enum MoveID
     UseHealItem,
     
     Bonk,
+    Carapace,
     Dazzle,
     HoneyDrink,
     MenacingGrin,
+    MysteriousSlime,
     RollDung,
     ShellBump,
+    Smother,
     Snip,
     Stinger, 
     WebTrap,
@@ -54,6 +57,51 @@ public class Bonk : Move
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
         steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
+        return steps;
+    }
+}
+
+
+public class Carapace : Move
+{
+    public Carapace()
+    {
+        Name = "Carapace";
+        Description = "The user hardens their exoskeleton for a boost in sharp or blunt defense.";
+        ID = MoveID.Carapace;
+        Affinity = CritterAffinity.Beetle;
+        IsTargeted = false;
+        Accuracy = 100;
+        MaxUses = 10;
+        CurrentUses = 10;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
+        bool isSharp = UnityEngine.Random.Range(0, 2) == 0;
+
+        if (isSharp)
+        {
+            user.ChangeSharpDefenseStage(1);
+        }
+        else
+        {
+            user.ChangeBluntDefenseStage(1);
+        }
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+
+        if (isSharp)
+        {
+            steps.Add(new ChangeStatStageStep(user.Name, "sharp def", 1));
+        }
+        else
+        {
+            steps.Add(new ChangeStatStageStep(user.Name, "blunt def", 1));
+        }
+        
         return steps;
     }
 }
@@ -146,6 +194,37 @@ public class MenacingGrin : Move
 }
 
 
+public class MysteriousSlime : Move
+{
+    public MysteriousSlime()
+    {
+        Name = "Mysterious Slime";
+        Description = "The user covers their opponent in an unknown compound, lowering speed and sharp attack.";
+        ID = MoveID.MysteriousSlime;
+        Affinity = CritterAffinity.Mollusc;
+        IsSharp = false;
+        IsTargeted = true;
+        Accuracy = 90;
+        MaxUses = 15;
+        CurrentUses = 15;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
+        opponent.ChangeBluntAttackStage(-1);
+        opponent.ChangeSpeedStage(-1);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new ChangeStatStageStep(opponent.Name, "blunt att", -1));
+        steps.Add(new ChangeStatStageStep(opponent.Name, "speed", -1));
+
+        return steps;
+    }
+}
+
+
 public class RollDung : Move
 {
     public RollDung()
@@ -188,6 +267,40 @@ public class ShellBump : Move
         Accuracy = 95;
         MaxUses = 20;
         CurrentUses = 20;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
+
+        int startingHealth = opponent.CurrentHealth;
+        int damageMultiplier;
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
+        opponent.DealDamage(damage);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+
+        return steps;
+    }
+}
+
+
+public class Smother : Move
+{
+    public Smother()
+    {
+        Name = "Smother";
+        Description = "The user smothers with a full body embrace.";
+        ID = MoveID.Smother;
+        Affinity = CritterAffinity.Mollusc;
+        IsSharp = false;
+        IsTargeted = true;
+        BasePower = 40;
+        Accuracy = 100;
+        MaxUses = 15;
+        CurrentUses = 15;
     }
 
 
@@ -282,8 +395,8 @@ public class WingStrike : Move
         IsTargeted = true;
         BasePower = 35;
         Accuracy = 80;
-        MaxUses = 10;
-        CurrentUses = 10;
+        MaxUses = 15;
+        CurrentUses = 15;
     }
 
 
