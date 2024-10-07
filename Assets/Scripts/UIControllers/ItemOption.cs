@@ -17,8 +17,17 @@ public class ItemOption : MonoBehaviour
     public void PopulateItemDetails(Item item)
     {
         _item = item;
+
+        if (item.ID == ItemType.MoveManual)
+        {
+            MoveManual moveManual = (MoveManual)item;
+            _itemNameTMP.text = $"Scroll: {moveManual.TeachableMove.Name}";
+        }
+        else
+        {
+            _itemNameTMP.text = item.Name;
+        }
         
-        _itemNameTMP.text = item.Name;
         _itemCountTMP.text = item.OwnedCount.ToString();
         //TODO: item icon
     }
