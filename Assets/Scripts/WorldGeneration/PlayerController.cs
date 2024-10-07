@@ -69,6 +69,28 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(TryChooseStarter(tile.Starter));
         }
+        if(tileType == TileType.Boss)
+        {
+            StartCoroutine(InteractWithBoss());
+        }
+    }
+
+    private IEnumerator InteractWithBoss()
+    {
+        _isMovementBlockedByUI= true;
+
+        if(CurrentRoom.Boss.HasBeenDefeated)
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Your bugs really have some bite! Good luck with the next floor."));
+            _isMovementBlockedByUI= false;
+        }
+        else  {
+            MapState mapState = new MapState(Map, CurrentRoom.Coordinates, CurrentCoords, Direction);
+            FloorController.MapState = mapState;
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("So you think you're ready to face me?"));
+            CollectorController.StartBossFight(EncounterController);
+
+        }
     }
 
 
@@ -150,6 +172,10 @@ public class PlayerController : MonoBehaviour
             if (targetTile.Type == TileType.Grass)
             {
                 _grassParticleSystem.Play();
+            }
+            if(targetTile.Type == TileType.Exit && CollectorController.Collector.HasBeenDefeated)
+            {
+                RoomGeneration.GoToNewLevel();
             }
 
             MoveToNewTile(targetCoords);

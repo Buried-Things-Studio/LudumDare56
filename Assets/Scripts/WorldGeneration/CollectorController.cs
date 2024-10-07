@@ -16,7 +16,6 @@ public class CollectorController : MonoBehaviour
 
     public void CalculateVisibleCoords()
     {
-        SnapToDirection();
         if(Direction == "0")
         {
             for(int i = Coordinates.y + 1; i < 9; i++)
@@ -116,6 +115,12 @@ public class CollectorController : MonoBehaviour
         encounterController.StartCollectorCombat(Collector);
         
         yield return null;
+    }
+
+    public void StartBossFight(EncounterController encounterController)
+    {
+        Collector.HasBeenDefeated = true;
+        encounterController.StartCollectorCombat(Collector);
     }
 
 
