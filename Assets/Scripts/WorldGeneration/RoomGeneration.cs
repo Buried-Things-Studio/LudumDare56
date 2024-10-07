@@ -388,6 +388,10 @@ public class RoomGeneration: MonoBehaviour
                         tileObject.GetComponent<Tile>().IsWalkable = false;
                         _floorTiles.Add(tileObject);
                         GenerateTrainer(tileObject, _currentRoom.Layout[i][j], _currentRoom.Collectors[0], false);
+                        if(_collectorController.Collector.Coords != new Vector2Int(-100, -100))
+                        {
+                            tileObject.GetComponent<Tile>().IsWalkable = true;
+                        }
                     }
                     else 
                     {
