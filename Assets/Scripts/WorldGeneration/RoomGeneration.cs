@@ -354,6 +354,14 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().Type = TileType.Treasure;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
                     tileObject.GetComponent<Tile>().Treasure = _currentRoom.Treasure;
+                    if(_currentRoom.Treasure == null)
+                    {
+                        tileObject.GetComponent<TreasureTileController>().ScrollParent.SetActive(false);
+                    }
+                    else
+                    {
+                        tileObject.GetComponent<TreasureTileController>().ScrollParent.SetActive(true);
+                    }
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "S0"
@@ -371,6 +379,32 @@ public class RoomGeneration: MonoBehaviour
                     string number = tileCode == "S0" ? "0" : tileCode == "S1" ? "1" : tileCode == "S2" ? "2" : "3";
                     int numb  = int.Parse(number);
                     Debug.Log("Setting shop item" + _currentRoom.ShopItems[numb].Name);
+                    Item item = _currentRoom.ShopItems[numb];
+                    ShopTileController shopTileController = tileObject.GetComponent<ShopTileController>();
+                    if(item == null)
+                    {
+                        shopTileController.NectarParent.SetActive(false);
+                        shopTileController.ScrollParent.SetActive(false);
+                        shopTileController.MasonJarParent.SetActive(false);
+                    }
+                    else if(item.ID == ItemType.MoveManual)
+                    {
+                        shopTileController.NectarParent.SetActive(false);
+                        shopTileController.ScrollParent.SetActive(true);
+                        shopTileController.MasonJarParent.SetActive(false);
+                    }
+                    else if(item.ID == ItemType.Nectar)
+                    {
+                        shopTileController.NectarParent.SetActive(true);
+                        shopTileController.ScrollParent.SetActive(false);
+                        shopTileController.MasonJarParent.SetActive(false);
+                    }
+                    else if(item.ID == ItemType.MasonJar)
+                    {
+                        shopTileController.NectarParent.SetActive(false);
+                        shopTileController.ScrollParent.SetActive(false);
+                        shopTileController.MasonJarParent.SetActive(true);
+                    }
                     tileObject.GetComponent<Tile>().ShopItem = _currentRoom.ShopItems[numb];
                 }
                 if(_currentRoom.Layout[i][j] == "H")
@@ -389,21 +423,35 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Starter;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
+                    StarterTileController starterTileController = tileObject.GetComponent<StarterTileController>();
                     if(_floorController.GetCurrentLevel() == 1)
                     {
                         tileObject.GetComponent<Tile>().Starter = _starters[starterTileIndex];
                         if (_encounterController.IsStarterChosen)
                         {
+                            starterTileController.MasonJarParent.SetActive(false);
+                            starterTileController.ScrollParent.SetActive(false);
                             tileObject.GetComponentInChildren<MasonJarObject>().DestroyJar();
                         }
                         else
                         {
+                            starterTileController.MasonJarParent.SetActive(true);
+                            starterTileController.ScrollParent.SetActive(false);
                             tileObject.GetComponentInChildren<MasonJarObject>().Glow(_starters[starterTileIndex]);
                         }
                     }
                     else
                     {
                         tileObject.GetComponent<Tile>().Reward = _rewards[starterTileIndex];
+                        if(_rewards[starterTileIndex] == null)
+                        {
+                            starterTileController.MasonJarParent.SetActive(false);
+                            starterTileController.ScrollParent.SetActive(false);
+                        }
+                        else{
+                            starterTileController.MasonJarParent.SetActive(false);
+                            starterTileController.ScrollParent.SetActive(true);
+                        }
                     }
 
 

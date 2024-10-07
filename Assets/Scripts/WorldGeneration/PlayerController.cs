@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
     private void CheckInteraction()
     {
         Vector2Int coordsInFront = GetTargetCoords("forward");
+        GameObject tileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront);
         Tile tile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront).GetComponent<Tile>();
 
         if (tile == null)
@@ -90,7 +91,7 @@ public class PlayerController : MonoBehaviour
         }
         if(tileType == TileType.Starter && FloorController.GetCurrentLevel() > 1 )
         {
-            StartCoroutine(TryChooseReward(tile.Reward));
+            StartCoroutine(TryChooseReward(tile.Reward, tileObject));
         }
         if(tileType == TileType.Boss)
         {
@@ -102,15 +103,15 @@ public class PlayerController : MonoBehaviour
         }
         if(tileType == TileType.Shop)
         {
-            StartCoroutine(InteractWithShop(tile));
+            StartCoroutine(InteractWithShop(tile, tileObject));
         }
         if(tileType == TileType.Treasure)
         {
-            StartCoroutine(InteractWithTreasure());
+            StartCoroutine(InteractWithTreasure(tileObject));
         }
     }
 
-    private IEnumerator InteractWithShop(Tile tile)
+    private IEnumerator InteractWithShop(Tile tile, GameObject tileObject)
     {
         _isMovementBlockedByUI = true;
         if(tile.ShopItem == null)
@@ -145,6 +146,7 @@ public class PlayerController : MonoBehaviour
                         FloorController.PlayerData.RemoveMoney(cost);
                         FloorController.PlayerData.AddItem(item);
                         tile.ShopItem = null;
+                        tileObject.GetComponent<ShopTileController>().ScrollParent.SetActive(false);
                         yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
                         _isMovementBlockedByUI= false;
                     }
@@ -161,6 +163,9 @@ public class PlayerController : MonoBehaviour
                         FloorController.PlayerData.RemoveMoney(cost);
                         FloorController.PlayerData.AddItem(item);
                         tile.ShopItem = null;
+                        tileObject.GetComponent<ShopTileController>().NectarParent.SetActive(false);
+                        tileObject.GetComponent<ShopTileController>().MasonJarParent.SetActive(false);
+
                         yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
                         _isMovementBlockedByUI= false;
                     }
@@ -176,7 +181,7 @@ public class PlayerController : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator InteractWithTreasure()
+    private IEnumerator InteractWithTreasure(GameObject tileObject)
     {
         _isMovementBlockedByUI = true;
         if(CurrentRoom.Treasure == null)
@@ -191,6 +196,7 @@ public class PlayerController : MonoBehaviour
             {
                 FloorController.PlayerData.AddItemToInventory(CurrentRoom.Treasure);
                 CurrentRoom.Treasure = null;
+                tileObject.GetComponent<TreasureTileController>().ScrollParent.SetActive(false);
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Use it wisely!"));
                 _isMovementBlockedByUI= false;
             }
@@ -257,9 +263,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator TryChooseReward(MoveManual reward)
+    private IEnumerator TryChooseReward(MoveManual reward, GameObject tileObject)
     {
         _isMovementBlockedByUI = true;
+        StarterTileController starterTileController = tileObject.GetComponent<StarterTileController>();
         if(reward == null)
         {
             yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You've already chosen a reward for fighting the last boss. Look out for more rewards on the next level!"));
@@ -271,10 +278,12 @@ public class PlayerController : MonoBehaviour
             {
                 FloorController.PlayerData.AddItemToInventory(reward);
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You can now teach the move to a bug of your choice."));
-                List<Tile> starterTiles = RoomTiles.Where(tile => tile.GetComponent<Tile>().Type == TileType.Starter).Select(tile => tile.GetComponent<Tile>()).ToList();
-                foreach(Tile tile in starterTiles)
+                List<GameObject> starterTiles = RoomTiles.Where(tile => tile.GetComponent<Tile>().Type == TileType.Starter).ToList();
+                foreach(GameObject tile in starterTiles)
                 {
-                    tile.Reward = null;
+                    tile.GetComponent<Tile>().Reward = null;
+                    tile.GetComponent<StarterTileController>().MasonJarParent.SetActive(false);
+                    tile.GetComponent<StarterTileController>().ScrollParent.SetActive(false);
                 }
                 _isMovementBlockedByUI= false;
             }

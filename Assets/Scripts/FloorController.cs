@@ -161,5 +161,4 @@ public class FloorController : MonoBehaviour
         _currentLevel++; 
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
     }
-
 }

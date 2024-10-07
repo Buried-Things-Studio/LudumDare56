@@ -13,4 +13,5 @@ public class Tile : MonoBehaviour
     public Item ShopItem;
     public MoveManual Treasure;
     public RoomType ConnectingRoom = RoomType.None; 
+    
 }
