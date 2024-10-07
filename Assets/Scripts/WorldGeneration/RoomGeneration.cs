@@ -345,6 +345,16 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().Type = TileType.Exit;
                     tileObject.GetComponent<Tile>().IsWalkable = true;
                     _floorTiles.Add(tileObject);
+                    if(_currentRoom.Boss.HasBeenDefeated)
+                    {
+                        tileObject.GetComponent<ExitTileController>().OpenTrapDoor.SetActive(true);
+                        tileObject.GetComponent<ExitTileController>().ClosedTrapDoor.SetActive(false);
+                    }
+                    else
+                    {
+                        tileObject.GetComponent<ExitTileController>().OpenTrapDoor.SetActive(false);
+                        tileObject.GetComponent<ExitTileController>().ClosedTrapDoor.SetActive(true);
+                    }
                 }
                 if(_currentRoom.Layout[i][j] == "M")
                 {
