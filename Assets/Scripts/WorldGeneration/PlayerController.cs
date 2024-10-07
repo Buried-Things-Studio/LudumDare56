@@ -186,8 +186,7 @@ public class PlayerController : MonoBehaviour
             if (CollectorController.VisibleCoords.Contains(CurrentCoords))
             {
                 _newTileChecks = false;
-                CollectorController.MoveToPlayer(CurrentCoords);
-
+                StartCoroutine(TurnTowardsTrainer());
                 return;
             }
         }
@@ -321,6 +320,50 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.rotation = Quaternion.Euler(new Vector3(0f, targetDirection, 0f));
+    }
+
+    private IEnumerator TurnTowardsTrainer()
+    {
+        int desiredDirection = 0;
+        Vector2Int trainerCoords = CollectorController.Coordinates;
+        if(CurrentCoords.x == trainerCoords.x && CurrentCoords.y < trainerCoords.y)
+        {
+            desiredDirection = 0;
+        }
+        if(CurrentCoords.x == trainerCoords.x && CurrentCoords.y > trainerCoords.y)
+        {
+            desiredDirection = 2;
+        }
+        if(CurrentCoords.x < trainerCoords.x && CurrentCoords.y == trainerCoords.y)
+        {
+            desiredDirection = 1;
+        }
+        if(CurrentCoords.x > trainerCoords.x && CurrentCoords.y == trainerCoords.y)
+        {
+            desiredDirection = 3;
+        }
+
+        int offset = desiredDirection - Direction; 
+        offset = (offset + 4) % 4;
+
+        if(offset == 3)
+        {
+            yield return StartCoroutine(SmoothRotate(3));
+        }
+        if(offset == 1)
+        {
+            yield return StartCoroutine(SmoothRotate(1));
+        }
+        if(offset == 2)
+        {
+            yield return StartCoroutine(SmoothRotate(3));
+            yield return StartCoroutine(SmoothRotate(3));
+        }
+        
+        _checkContinuedMovement = false;
+        _checkNewMovement = false;
+        
+        CollectorController.MoveToPlayer(CurrentCoords);
     }
 
 }
