@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,14 @@ public class Player
         }
 
         return null; //should never be hit
+    }
+
+
+    public void SetActiveCritter(Guid guid)
+    {
+        Critter newActiveCritter = _critters.Find(critter => critter.GUID == guid);
+        _critters.Remove(newActiveCritter);
+        _critters.Insert(0, newActiveCritter);
     }
 
 

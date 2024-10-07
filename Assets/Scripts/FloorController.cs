@@ -46,17 +46,17 @@ public class FloorController : MonoBehaviour
         Encounters.PlayerData = PlayerData;
 
         //TODO: remove!----------
-        Critter starter = new BulletAnt();
-        starter.SetStartingLevel(5);
+        Critter starter = new Bumblebee();
+        starter.SetStartingLevel(2);
         PlayerData.AddCritter(starter);
 
         Critter boi = new MonarchButterfly();
         boi.SetStartingLevel(3);
         PlayerData.AddCritter(boi);
 
-        PlayerData.AddItemToInventory(new MasonJar());
-        PlayerData.AddItemToInventory(new MasonJar());
-        PlayerData.AddItemToInventory(new MasonJar());
+        // PlayerData.AddItemToInventory(new MasonJar());
+        // PlayerData.AddItemToInventory(new MasonJar());
+        // PlayerData.AddItemToInventory(new MasonJar());
         //--------------
 
         InitializeLevel();

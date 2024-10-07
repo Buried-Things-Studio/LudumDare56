@@ -19,5 +19,5 @@ public abstract class Move
     public int CurrentUses;
 
 
-    public abstract List<CombatVisualStep> ExecuteMove(CombatState state);
+    public abstract List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser);
 }

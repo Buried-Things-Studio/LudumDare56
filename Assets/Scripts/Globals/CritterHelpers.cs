@@ -37,10 +37,10 @@ public static class CritterHelpers
     }
 
 
-    public static int GetDamage(CombatState state, Move move, out int damageMultiplier)
+    public static int GetDamage(CombatState state, Move move, bool isPlayerUser, out int damageMultiplier)
     {
-        Critter user = state.GetUserFromGUID(move.UserGUID);
-        Critter opponent = state.GetOpponentFromGUID(move.UserGUID);
+        Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
         int baseDamage = move.BasePower / 5;
         float sameAffinityBonus = user.Affinities.Contains(move.Affinity) ? 1.5f : 1f;
         float statRatio = 0f;

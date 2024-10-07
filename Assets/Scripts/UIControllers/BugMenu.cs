@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,6 +30,7 @@ public class BugMenu : MonoBehaviour
 
     [SerializeField] private List<MoveDetails> _moveDetails;
 
+    public Guid SelectedCritterGuid = Guid.Empty;
     private List<GameObject> _selections = new List<GameObject>();
     private List<BugOption> _bugOptions = new List<BugOption>();
     private int _currentSelectedIndex;
@@ -107,7 +110,24 @@ public class BugMenu : MonoBehaviour
     }
 
 
-    public IEnumerator PlayerInteraction()
+    public IEnumerator PlayerInteraction(BugMenuContext context)
+    {
+        if (context == BugMenuContext.ChooseActiveWithoutCommit)
+        {
+            yield return StartCoroutine(ChooseActiveInteraction(false));
+        }
+        else if (context == BugMenuContext.ForceChooseActive)
+        {
+            yield return StartCoroutine(ChooseActiveInteraction(true));
+        }
+        else if (context == BugMenuContext.SwapToActiveSlot)
+        {
+            yield return StartCoroutine(ChooseActiveInteraction(false));
+        }
+    }
+
+
+    public IEnumerator ChooseActiveInteraction(bool isForcingChoice)
     {
         yield return new WaitForEndOfFrame();
 
@@ -123,17 +143,32 @@ public class BugMenu : MonoBehaviour
             {
                 MoveSelection(false);
             }
-            // else if (Input.GetKeyDown(Controls.MenuSelectKey))
-            // {
-            //     isSelected = TrySelectMoveOption();
-            // }
-            else if (Input.GetKeyDown(Controls.MenuBackKey))
+            else if (Input.GetKeyDown(Controls.MenuSelectKey))
             {
+                Critter selectedCritter = _bugOptions[_currentSelectedIndex].GetCritter();
+
+                if (selectedCritter.CurrentHealth > 0)
+                {
+                    SelectedCritterGuid = selectedCritter.GUID;
+                    isClosing = true;
+                }
+            }
+            else if (!isForcingChoice && Input.GetKeyDown(Controls.MenuBackKey))
+            {
+                SelectedCritterGuid = Guid.Empty;
                 isClosing = true;
-                //StartPlayerBattleActionChoice();
             }
 
             yield return null;
         }
     }
+}
+
+
+public enum BugMenuContext
+{
+    None,
+    SwapToActiveSlot,
+    ChooseActiveWithoutCommit,
+    ForceChooseActive
 }

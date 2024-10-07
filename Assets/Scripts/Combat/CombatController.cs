@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class CombatState
@@ -16,24 +17,6 @@ public class CombatState
 
     public Guid PlayerSelectedHealItemTarget;
     public Guid PlayerSelectedSwitchActiveGUID;
-
-
-    public Critter GetUserFromGUID(Guid GUID)
-    {
-        return PlayerCritter.GUID == GUID ? PlayerCritter : NpcCritter;
-    }
-
-
-    public Critter GetOpponentFromGUID(Guid GUID)
-    {
-        return PlayerCritter.GUID == GUID ? NpcCritter : PlayerCritter;
-    }
-
-
-    public bool IsUserPlayer(Guid GUID)
-    {
-        return PlayerCritter.GUID == GUID;
-    }
 }
 
 
@@ -55,19 +38,65 @@ public class CombatController : MonoBehaviour
         State.PlayerCritter.ResetTemporaryStats();
         State.NpcCritter.ResetTemporaryStats();
 
-        InitializeTurn();
-
         _viz.InitializeCombatUI(this, playerData, State.PlayerCritter, State.NpcCritter);
-        _viz.StartPlayerBattleActionChoice();
+        StartCoroutine(InitializeTurn());
     }
 
 
-    private void InitializeTurn()
+    private IEnumerator InitializeTurn()
     {
         ClearTurnData();
+        yield return StartCoroutine(GetNewActiveCritters());
         DetermineStartingCritter();
         PopulateParticipant();
         PickNpcMove();
+        _viz.StartPlayerBattleActionChoice();
+
+        yield return null;
+    }
+
+
+    private IEnumerator GetNewActiveCritters()
+    {
+        if (State.PlayerCritter.CurrentHealth <= 0)
+        {
+            yield return StartCoroutine(_viz.ChooseNewCritter());
+
+            State.PlayerCritter = PlayerData.GetActiveCritter();
+            string critterName = State.PlayerCritter.Name;
+            string article =
+                State.PlayerCritter.Name.StartsWith("A")
+                || State.PlayerCritter.Name.StartsWith("E")
+                || State.PlayerCritter.Name.StartsWith("I")
+                || State.PlayerCritter.Name.StartsWith("O")
+                || State.PlayerCritter.Name.StartsWith("U")
+                ? "an"
+                : "a";
+
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"Let's try {article} {critterName}!"));
+
+            _viz.UpdatePlayerBugData(State.PlayerCritter);
+        }
+
+        if (OpponentData != null && State.NpcCritter.CurrentHealth <= 0)
+        {
+            State.NpcCritter = OpponentData.GetActiveCritter();
+            string critterName = State.NpcCritter.Name;
+            string article =
+                State.PlayerCritter.Name.StartsWith("A")
+                || State.PlayerCritter.Name.StartsWith("E")
+                || State.PlayerCritter.Name.StartsWith("I")
+                || State.PlayerCritter.Name.StartsWith("O")
+                || State.PlayerCritter.Name.StartsWith("U")
+                ? "an"
+                : "a";
+
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"The opponent releases {article} {critterName}!"));
+
+            _viz.UpdateNpcBugData(State.NpcCritter);
+        }
+
+        yield return null;
     }
 
 
@@ -128,6 +157,27 @@ public class CombatController : MonoBehaviour
         Move priorityMove = priorityCritter.Moves.Find(move => move.ID == priorityMoveID);
         Move nonPriorityMove = nonPriorityCritter.Moves.Find(move => move.ID == nonPriorityMoveID);
 
+        if (State.PlayerSelectedMoveID == MoveID.SwitchActive || State.PlayerSelectedMoveID == MoveID.ThrowMasonJar || State.PlayerSelectedMoveID == MoveID.UseHealItem)
+        {
+            State.IsPlayerPriority = true;
+            priorityCritter = State.PlayerCritter;
+            nonPriorityCritter = State.NpcCritter;
+            priorityMoveID = State.PlayerSelectedMoveID;
+            priorityMove = null;
+            nonPriorityMoveID = State.NpcSelectedMoveID;
+            nonPriorityMove = State.NpcCritter.Moves.Find(move => move.ID == nonPriorityMoveID);
+        }
+        else if (State.NpcSelectedMoveID == MoveID.SwitchActive || State.NpcSelectedMoveID == MoveID.UseHealItem)
+        {
+            State.IsPlayerPriority = false;
+            priorityCritter = State.NpcCritter;
+            nonPriorityCritter = State.PlayerCritter;
+            priorityMoveID = State.NpcSelectedMoveID;
+            priorityMove = null;
+            nonPriorityMoveID = State.PlayerSelectedMoveID;
+            nonPriorityMove = State.PlayerCritter.Moves.Find(move => move.ID == nonPriorityMoveID);
+        }
+
         bool isNonPriorityDead = false;
 
         if (priorityMove == null)
@@ -136,7 +186,7 @@ public class CombatController : MonoBehaviour
         }
         else
         {
-            TryExecuteMove(priorityCritter, priorityMove);
+            TryExecuteMove(priorityCritter, priorityMove, State.IsPlayerPriority);
 
             if (CheckDeath())
             {
@@ -154,7 +204,7 @@ public class CombatController : MonoBehaviour
             }
             else
             {
-                TryExecuteMove(nonPriorityCritter, nonPriorityMove);
+                TryExecuteMove(nonPriorityCritter, nonPriorityMove, !State.IsPlayerPriority);
 
                 if (CheckDeath())
                 {
@@ -163,7 +213,15 @@ public class CombatController : MonoBehaviour
             }
         }
 
-        InitializeTurn();
+        StartCoroutine(ShowTurn());
+    }
+
+
+    private IEnumerator ShowTurn()
+    {
+        yield return StartCoroutine(_viz.ExecuteVisualSteps());
+        
+        StartCoroutine(InitializeTurn());
     }
 
 
@@ -202,13 +260,16 @@ public class CombatController : MonoBehaviour
     private void PlayerSwitchActive()
     {
         State.PlayerCritter.ResetTemporaryStats();
-        State.PlayerCritter = PlayerData.GetCritters().Find(critter => critter.GUID == State.PlayerSelectedSwitchActiveGUID);
+        PlayerData.SetActiveCritter(State.PlayerSelectedSwitchActiveGUID);
+        State.PlayerCritter = PlayerData.GetActiveCritter();
 
         PopulateParticipant();
+
+        _viz.AddVisualStep(new ChangeActiveStep(State.PlayerCritter.Name));
     }
 
 
-    private void TryExecuteMove(Critter user, Move move)
+    private void TryExecuteMove(Critter user, Move move, bool isPlayerUser)
     {
         if (user.StatusEffects.Exists(status => status.StatusType == StatusEffectType.Confuse))
         {
@@ -224,11 +285,11 @@ public class CombatController : MonoBehaviour
             }
         }
 
+        _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name));
         
         if (!move.IsTargeted || UnityEngine.Random.Range(0, 100) < move.Accuracy)
         {
-            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name));
-            List<CombatVisualStep> steps = move.ExecuteMove(State);
+            List<CombatVisualStep> steps = move.ExecuteMove(State, isPlayerUser);
             _viz.AddVisualSteps(steps);
         }
         else
@@ -256,6 +317,8 @@ public class CombatController : MonoBehaviour
     {
         if (State.NpcCritter.CurrentHealth <= 0)
         {
+            _viz.AddVisualStep(new CritterSquishedStep(State.NpcCritter.Name));
+            
             List<Critter> crittersReceivingExp = State.NpcCritter.Participants
                 .Select(participantGuid => PlayerData.GetCritters().Find(teamCritter => teamCritter.GUID == participantGuid))
                 .Where(critter => critter.CurrentHealth > 0)
@@ -263,21 +326,37 @@ public class CombatController : MonoBehaviour
             
             foreach (Critter critter in crittersReceivingExp)
             {
-                critter.IncreaseExp(State.NpcCritter.Level * 100 / crittersReceivingExp.Count);
+                List<CombatVisualStep> expSteps = critter.IncreaseExp(State.NpcCritter.Level * 100 / crittersReceivingExp.Count);
+                _viz.AddVisualSteps(expSteps);
             }
         }
 
         if (!PlayerData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
             //TODO: go to game over
+            StartCoroutine(GoToMainGame());
         }
         else if (OpponentData != null && !OpponentData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
             //TODO: go to win
+            StartCoroutine(GoToMainGame());
         }
         else if (State.NpcCritter.CurrentHealth <= 0)
         {
-            //TODO: go to win
+            StartCoroutine(GoToMainGame());
+        }
+    }
+
+
+    private IEnumerator GoToMainGame()
+    {
+        yield return StartCoroutine(_viz.ExecuteVisualSteps());
+        
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
+
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
         }
     }
 }

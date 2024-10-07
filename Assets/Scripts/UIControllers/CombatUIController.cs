@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,10 +24,12 @@ public class CombatUIController : MonoBehaviour
     public CombatVisualSteps VisualSteps;
     private Player _player;
     private CombatController _combatController;
+    private float _delayBetweenSteps = 0.5f;
 
 
     public void InitializeCombatUI(CombatController combatController, Player player, Critter playerCritter, Critter npcCritter)
     {
+        VisualSteps = new CombatVisualSteps();
         _combatController = combatController;
         _player = player;
         _playerBugInfoContainer.PopulateBugData(playerCritter);
@@ -36,6 +39,18 @@ public class CombatUIController : MonoBehaviour
         _battleOptionsObject.SetActive(true);
         _battleOptions.SetSelectedIndexToMove();
         _battleOptionsObject.SetActive(false);
+    }
+
+
+    public void UpdatePlayerBugData(Critter critter)
+    {
+        _playerBugInfoContainer.PopulateBugData(critter);
+    }
+
+
+    public void UpdateNpcBugData(Critter critter)
+    {
+        _npcBugInfoContainer.PopulateBugData(critter);
     }
 
 
@@ -51,9 +66,49 @@ public class CombatUIController : MonoBehaviour
     }
 
 
-    public void ExecuteVisualSteps()
+    public IEnumerator ExecuteVisualSteps()
     {
+        foreach (CombatVisualStep step in VisualSteps.CurrentSteps)
+        {
+            Debug.Log($"Step is {step.GetType()}");
+            
+            if (step.GetType() == typeof(HealthChangeStep))
+            {
+                HealthChangeStep castStep = (HealthChangeStep)step;
 
+                if (castStep.IsPlayerCritter)
+                {
+                    yield return StartCoroutine(_playerBugInfoContainer.AnimateHealthBar(castStep.StartingHealth, castStep.TargetHealth, castStep.MaxHealth));
+                }
+                else
+                {
+                    yield return StartCoroutine(_npcBugInfoContainer.AnimateHealthBar(castStep.StartingHealth, castStep.TargetHealth, castStep.MaxHealth));
+                }
+
+                yield return new WaitForSeconds(_delayBetweenSteps);
+
+                Debug.Log($"damage multiplier is {castStep.DamageMultiplier}");
+
+                if (castStep.DamageMultiplier != 4)
+                {
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(castStep.GetPopulatedMessage()));
+                }
+            }
+            else if (step.GetType() == typeof(LevelGainStep) || step.GetType() == typeof(ChangeActiveStep)) //TODO: does not account for npc switching!
+            {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
+
+                _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter); //this might not be the critter that levelled, but there's no harm with a repopulate
+            }
+            else
+            {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
+            }
+        }
+
+        VisualSteps.CurrentSteps.Clear();
+
+        yield return null;
     }
 
 
@@ -69,6 +124,31 @@ public class CombatUIController : MonoBehaviour
         _moveOptionsObject.SetActive(false);
         _itemOptionsObject.SetActive(false);
         _bugMenuObject.SetActive(false);
+    }
+
+
+    public IEnumerator ChooseNewCritter()
+    {
+        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Choose a new bug..."));
+
+        yield return StartCoroutine(PlayerChooseActiveBugInteraction());
+
+        SetInactiveAllMenus();
+
+        yield return null;
+    }
+
+
+    private IEnumerator PlayerChooseActiveBugInteraction()
+    {
+        SetInactiveAllMenus();
+        _bugMenuObject.SetActive(true);
+        _bugMenu.PopulateCritters(_player.GetCritters());
+        _bugMenu.ShowCurrentSelection();
+        
+        yield return StartCoroutine(_bugMenu.PlayerInteraction(BugMenuContext.ForceChooseActive));
+
+        _player.SetActiveCritter(_bugMenu.SelectedCritterGuid);
     }
 
 
@@ -101,6 +181,15 @@ public class CombatUIController : MonoBehaviour
             else if (Input.GetKeyDown(Controls.MenuSelectKey))
             {
                 isSelected = TrySelectBattleOption();
+
+                if (!isSelected)
+                {
+                    _battleOptionsObject.SetActive(false);
+
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You have no combat items!"));
+
+                    _battleOptionsObject.SetActive(true);
+                }
             }
 
             yield return null;
@@ -138,7 +227,7 @@ public class CombatUIController : MonoBehaviour
     {
         SetInactiveAllMenus();
         _moveOptionsObject.SetActive(true);
-        _moveOptions.PopulateMoves(_player.GetActiveCritter());
+        _moveOptions.PopulateMoves(_combatController.State.PlayerCritter);
         _moveOptions.ShowCurrentSelection();
 
         StartCoroutine(MoveOptionsInteraction());
@@ -181,7 +270,7 @@ public class CombatUIController : MonoBehaviour
     private bool TrySelectMoveOption()
     {
         MoveID selectedMoveID = _moveOptions.GetSelectedMove();
-        Move selectedMove = _player.GetActiveCritter().Moves.Find(move => move.ID == selectedMoveID);
+        Move selectedMove = _combatController.State.PlayerCritter.Moves.Find(move => move.ID == selectedMoveID);
 
         if (selectedMove.CurrentUses <= 0)
         {
@@ -208,9 +297,24 @@ public class CombatUIController : MonoBehaviour
 
     private IEnumerator BugMenuInteraction()
     {
-        yield return StartCoroutine(_bugMenu.PlayerInteraction());
+        yield return StartCoroutine(_bugMenu.PlayerInteraction(BugMenuContext.ChooseActiveWithoutCommit));
 
-        StartPlayerBattleActionChoice(); //TODO: handle menu choices
+        Guid selectedGuid = _bugMenu.SelectedCritterGuid;
+
+        Debug.Log($"{selectedGuid} // {_combatController.State.PlayerCritter.GUID}");
+
+        if (selectedGuid == Guid.Empty || selectedGuid == _combatController.State.PlayerCritter.GUID)
+        {
+            Debug.Log("No active chosen");
+            StartPlayerBattleActionChoice();
+        }
+        else
+        {
+            Debug.Log("Choosing to change active!");
+            _combatController.State.PlayerSelectedSwitchActiveGUID = selectedGuid;
+            _combatController.SetPlayerMove(MoveID.SwitchActive);
+            FinishInteraction();
+        }
     }
 
 
@@ -256,11 +360,13 @@ public class CombatUIController : MonoBehaviour
                     if (selectedItem == ItemType.MasonJar)
                     {
                         _combatController.SetPlayerMove(MoveID.ThrowMasonJar);
+                        FinishInteraction();
                     }
                     else if (selectedItem == ItemType.Nectar)
                     {
                         _combatController.State.PlayerSelectedHealItemTarget = _player.GetCritters()[0].GUID; //TODO: give the player choice here
                         _combatController.SetPlayerMove(MoveID.UseHealItem);
+                        FinishInteraction();
                     }
                 }
 
@@ -274,5 +380,4 @@ public class CombatUIController : MonoBehaviour
             yield return null;
         }
     }
-
 }

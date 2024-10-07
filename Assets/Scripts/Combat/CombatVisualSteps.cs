@@ -36,19 +36,129 @@ public class DoMoveStep : CombatVisualStep
 }
 
 
+public class CritterSquishedStep : CombatVisualStep
+{
+    public string Name;
+
+
+    public CritterSquishedStep(string name)
+    {
+        Name = name;
+    }
+
+
+    public override string GetPopulatedMessage()
+    {
+        List<string> messages = new List<string>(){
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was squished",
+            "was beaten to a pulp",
+            "is now just a splat on the ground",
+            "won't be coming back! ever",
+            "is unequivalocally dead",
+        };
+        
+        return $"{Name} {messages[UnityEngine.Random.Range(0, messages.Count)]}!";
+    }
+}
+
+
+public class ExpGainStep : CombatVisualStep
+{
+    public string Name;
+    public int ExpGained;
+
+
+    public ExpGainStep(string name, int expGained)
+    {
+        Name = name;
+        ExpGained = expGained;
+    }
+
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} gained {ExpGained} EXP!";
+    }
+}
+
+
+public class LevelGainStep : CombatVisualStep
+{
+    public string Name;
+    public int LevelReached;
+
+
+    public LevelGainStep(string name, int levelReached)
+    {
+        Name = name;
+        LevelReached = levelReached;
+    }
+
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} reached level {LevelReached}!";
+    }
+}
+
+
+public class ChangeActiveStep : CombatVisualStep
+{
+    public string Name;
+    
+    
+    public ChangeActiveStep(string name)
+    {
+        Name = name;
+    }
+
+
+    public override string GetPopulatedMessage()
+    {
+        return $"Swapping to {Name}!";
+    }
+}
+
+
 public class HealthChangeStep : CombatVisualStep
 {
     public bool IsPlayerCritter;
     public int StartingHealth;
     public int TargetHealth;
+    public int MaxHealth;
     public int DamageMultiplier;
 
 
-    public HealthChangeStep(bool isPlayerCritter, int startingHealth, int targetHealth, int damageMultiplier = 4)
+    public HealthChangeStep(bool isPlayerCritter, int startingHealth, int targetHealth, int maxHealth, int damageMultiplier = 4)
     {
         IsPlayerCritter = isPlayerCritter;
         StartingHealth = startingHealth;
         TargetHealth = targetHealth;
+        MaxHealth = maxHealth;
         DamageMultiplier = damageMultiplier;
     }
 

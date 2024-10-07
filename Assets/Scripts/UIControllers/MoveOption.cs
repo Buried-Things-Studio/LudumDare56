@@ -12,6 +12,7 @@ public class MoveOption : MonoBehaviour
     [SerializeField] private Image _typeIcon;
     [SerializeField] private Image _spikesImage;
     [SerializeField] private Image _backgroundFadeImage;
+    [SerializeField] GameObject _selection;
     private Move _move;
 
 
@@ -24,6 +25,12 @@ public class MoveOption : MonoBehaviour
 
         _spikesImage.color = CritterAffinityData.GetAffinityColor(move.Affinity);
         _backgroundFadeImage.color = CritterAffinityData.GetAffinityColor(move.Affinity);
+    }
+
+
+    public GameObject GetSelection()
+    {
+        return _selection;
     }
 
 

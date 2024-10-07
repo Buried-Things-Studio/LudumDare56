@@ -56,7 +56,7 @@ public class EncounterController : MonoBehaviour
     }
 
 
-    private IEnumerator DoCombat(Critter opponent)
+    public IEnumerator DoCombat(Critter opponent)
     {
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
 

@@ -8,7 +8,7 @@ using UnityEngine;
 public class Critter
 {
     public string Name;
-    public Guid GUID;
+    public Guid GUID = Guid.NewGuid();
     public List<CritterAffinity> Affinities = new List<CritterAffinity>();
     public List<Move> Moves = new List<Move>();
     public List<Guid> Participants = new List<Guid>();
@@ -89,8 +89,11 @@ public class Critter
     }
 
 
-    public void IncreaseExp(int exp)
+    public List<CombatVisualStep> IncreaseExp(int exp)
     {
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new ExpGainStep(Name, exp));
+        
         int remainingExpToApply = exp;
 
         while (remainingExpToApply > 0)
@@ -113,8 +116,11 @@ public class Critter
             {
                 remainingExpToApply -= expToNextLevel;
                 IncreaseLevel();
+                steps.Add(new LevelGainStep(Name, Level));
             }
         }
+
+        return steps;
     }
 
 

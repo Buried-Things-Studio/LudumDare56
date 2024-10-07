@@ -7,14 +7,13 @@ using UnityEngine;
 public class MoveOptions : MonoBehaviour
 {
     [SerializeField] private List<MoveOption> _moveOptions;
-    [SerializeField] private List<GameObject> _selections;
+    [SerializeField] private List<GameObject> _selections = new List<GameObject>();
 
     [SerializeField] private TextMeshProUGUI _moveDescriptionTMP;
     [SerializeField] private TextMeshProUGUI _bluntSharpTMP;
     [SerializeField] private TextMeshProUGUI _movePowerTMP;
 
     private int _currentSelectedIndex = 0;
-    private int _selectionCount;
     
     
     public void PopulateMoves(Critter critter)
@@ -31,10 +30,10 @@ public class MoveOptions : MonoBehaviour
             }
 
             option.gameObject.SetActive(true);
+            _selections.Add(option.GetSelection());
             option.PopulateMove(critter.Moves[i]);
         }
 
-        _selectionCount = critter.Moves.Count;
         ShowCurrentSelection();
     }
 
@@ -58,7 +57,7 @@ public class MoveOptions : MonoBehaviour
     public void MoveSelection(bool isMovingUp)
     {
         _currentSelectedIndex += isMovingUp ? -1 : 1;
-        _currentSelectedIndex = (_currentSelectedIndex + _selectionCount) % _selectionCount;
+        _currentSelectedIndex = (_currentSelectedIndex + _selections.Count) % _selections.Count;
         ShowCurrentSelection();
     }
 

@@ -42,17 +42,17 @@ public class Bonk : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
 
         int startingHealth = opponent.CurrentHealth;
         int damageMultiplier;
-        int damage = CritterHelpers.GetDamage(state, this, out damageMultiplier);
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
         opponent.DealDamage(damage);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(state.IsUserPlayer(UserGUID), startingHealth, opponent.CurrentHealth, damageMultiplier));
+        steps.Add(new HealthChangeStep(!isPlayerUser, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }
@@ -74,9 +74,9 @@ public class Dazzle : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
         bool isSuccess = opponent.SetStatusEffect(StatusEffectType.Confuse);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
@@ -102,14 +102,14 @@ public class HoneyDrink : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter user = state.GetUserFromGUID(UserGUID);
+        Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
         int startingHealth = user.CurrentHealth;
         user.IncreaseHealth(20);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(state.IsUserPlayer(UserGUID), startingHealth, user.CurrentHealth));
+        steps.Add(new HealthChangeStep(isPlayerUser, startingHealth, user.CurrentHealth, user.MaxHealth));
 
         return steps;
     }
@@ -131,9 +131,9 @@ public class MenacingGrin : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
         opponent.ChangeBluntAttackStage(-1);
         opponent.ChangeSharpAttackStage(-1);
 
@@ -161,10 +161,15 @@ public class RollDung : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter user = state.GetUserFromGUID(UserGUID);
+        Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
         user.ChangeSpeedStage(1);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new ChangeStatStageStep(user.Name, "speed", 1));
+
+        return steps;
     }
 }
 
@@ -186,17 +191,17 @@ public class ShellBump : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
 
         int startingHealth = opponent.CurrentHealth;
         int damageMultiplier;
-        int damage = CritterHelpers.GetDamage(state, this, out damageMultiplier);
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
         opponent.DealDamage(damage);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(state.IsUserPlayer(UserGUID), startingHealth, opponent.CurrentHealth, damageMultiplier));
+        steps.Add(new HealthChangeStep(!isPlayerUser, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }
@@ -220,17 +225,17 @@ public class Snip : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
 
         int startingHealth = opponent.CurrentHealth;
         int damageMultiplier;
-        int damage = CritterHelpers.GetDamage(state, this, out damageMultiplier);
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
         opponent.DealDamage(damage);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(state.IsUserPlayer(UserGUID), startingHealth, opponent.CurrentHealth, damageMultiplier));
+        steps.Add(new HealthChangeStep(!isPlayerUser, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }
@@ -252,10 +257,15 @@ public class WebTrap : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
         opponent.ChangeSpeedStage(-1);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new ChangeStatStageStep(opponent.Name, "speed", -1));
+
+        return steps;
     }
 }
 
@@ -277,17 +287,17 @@ public class WingStrike : Move
     }
 
 
-    public override List<CombatVisualStep> ExecuteMove(CombatState state)
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
     {
-        Critter opponent = state.GetOpponentFromGUID(UserGUID);
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
 
         int startingHealth = opponent.CurrentHealth;
         int damageMultiplier;
-        int damage = CritterHelpers.GetDamage(state, this, out damageMultiplier);
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
         opponent.DealDamage(damage);
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
-        steps.Add(new HealthChangeStep(state.IsUserPlayer(UserGUID), startingHealth, opponent.CurrentHealth, damageMultiplier));
+        steps.Add(new HealthChangeStep(!isPlayerUser, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }
