@@ -79,14 +79,53 @@ public class PlayerController : MonoBehaviour
         }
         if(tileType == TileType.Shop)
         {
-            StartCoroutine(InteractWithShop());
+            StartCoroutine(InteractWithShop(tile));
         }
     }
 
-    private IEnumerator InteractWithShop()
+    private IEnumerator InteractWithShop(Tile tile)
     {
+        _isMovementBlockedByUI = true;
+        if(tile.ShopItem == null)
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Nothing more to buy here."));
+            _isMovementBlockedByUI = true;
+        }
+        else{
+            int coins = FloorController.PlayerData.GetMoney();
+            Item item = tile.ShopItem;
+            int cost = item.Price;
+            if(cost > coins)
+            {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"This {tile.ShopItem.Name} costs {cost}. Come back when you have enough coins if you would like to buy it."));
+                _isMovementBlockedByUI = false;
+            }
+            else{
+                if(item.ID == ItemType.MoveManual)
+                {
+                    //dislpay move and ask here 
+                    _isMovementBlockedByUI = false;
+                }
+                else{
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice($"This {tile.ShopItem.Name} costs {cost}. Would you like to buy it?"));
+                    if(GlobalUI.TextBox.IsSelectingYes)
+                    {
+                        FloorController.PlayerData.RemoveMoney(cost);
+                        FloorController.PlayerData.AddItem(item);
+                        tile.ShopItem = null;
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                        _isMovementBlockedByUI= false;
+                    }
+                    else
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Have a look around, maybe there's something else that will take your fancy."));
+
+                    }
+                    _isMovementBlockedByUI = false;
+                }
+            }
+        }
         yield return null;
-        
     }
 
     private IEnumerator InteractWithHospital()

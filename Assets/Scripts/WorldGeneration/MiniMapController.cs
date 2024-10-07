@@ -50,10 +50,6 @@ public class MiniMapController : MonoBehaviour
         int maxDimension = Mathf.Max(mapDimensions.x, mapDimensions.y);    
         float squareDimension = PixelWidth/(maxDimension+1);  
         _mapLayoutGroup.cellSize = new Vector2(squareDimension, squareDimension);
-        Debug.Log("Lowest x = " + _lowestX.ToString());
-        Debug.Log("x dims = " + mapDimensions.x.ToString());
-        Debug.Log("Lowest z = " + _lowestZ.ToString());
-        Debug.Log("z dims = " + mapDimensions.y.ToString());
         _mapLayoutGroup.constraintCount = mapDimensions.x + 1;
 
         foreach(GameObject icon in icons)
@@ -66,7 +62,6 @@ public class MiniMapController : MonoBehaviour
         {
             for(int z = _lowestZ; z < _lowestZ + mapDimensions.y + 1; z++)
             {
-                Debug.Log("X = " + x.ToString() + ". Z = " + z.ToString());
                 if(Map.Exists(room => room.Coordinates == new Vector2Int(x, z)))
                 {
                     Room room = Map.Find(room => room.Coordinates == new Vector2Int(x, z));

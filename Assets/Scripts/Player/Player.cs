@@ -87,10 +87,25 @@ public class Player
         return _items;
     }
 
+    public void AddItem(Item itemToAdd)
+    {
+        _items.Add(itemToAdd);
+    }
+
 
     public void AddMoney(int moneyToAdd)
     {
         _money += moneyToAdd;
+    }
+
+    public void RemoveMoney(int moneyToRemove)
+    {
+        _money -= moneyToRemove;
+    }
+
+    public int GetMoney()
+    {
+        return _money;
     }
 
 

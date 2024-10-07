@@ -234,8 +234,9 @@ public class RoomGeneration: MonoBehaviour
             room.ShopItems.Add(new MasonJar());
             room.ShopItems.Add(new Nectar());
             room.ShopItems.Add(new Nectar());
-            MoveManual moveManual= new MoveManual()
-            room.ShopItems
+            MoveManual moveManual= new MoveManual();
+            moveManual.SetRandomMove();
+            room.ShopItems.Add(moveManual);
 
         }
     }
@@ -348,14 +349,22 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
                 }
-                if(_currentRoom.Layout[i][j] == "S")
+                if(_currentRoom.Layout[i][j] == "S0"
+                    || _currentRoom.Layout[i][j] == "S1"
+                    || _currentRoom.Layout[i][j] == "S2"
+                    || _currentRoom.Layout[i][j] == "S3")
                 {
+                    string tileCode = _currentRoom.Layout[i][j];
                     GameObject randomShopTile = _shopTilePrefabs[UnityEngine.Random.Range(0, _shopTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomShopTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Shop;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
                     _floorTiles.Add(tileObject);
+                    string number = tileCode == "S0" ? "0" : tileCode == "S1" ? "1" : tileCode == "S2" ? "2" : "3";
+                    int numb  = int.Parse(number);
+                    Debug.Log("Setting shop item" + _currentRoom.ShopItems[numb].Name);
+                    tileObject.GetComponent<Tile>().ShopItem = _currentRoom.ShopItems[numb];
                 }
                 if(_currentRoom.Layout[i][j] == "H")
                 {
