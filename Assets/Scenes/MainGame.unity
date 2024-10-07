@@ -564,6 +564,7 @@ MonoBehaviour:
   Encounters: {fileID: 616055259}
   RoomGen: {fileID: 616055257}
   IsActivated: 0
+  LastMapGeneratedLevel: 1
 --- !u!114 &616055256
 MonoBehaviour:
   m_ObjectHideFlags: 0

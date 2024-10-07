@@ -68,7 +68,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 40
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: 1
@@ -266,6 +266,7 @@ MonoBehaviour:
   CollectorController: {fileID: 0}
   EncounterController: {fileID: 0}
   Direction: 0
+  IsInvisibleToEncounters: 0
   FloorController: {fileID: 0}
   _meshTransform: {fileID: 7888108524713367114}
   _bounceCurve:
