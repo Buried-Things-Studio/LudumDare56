@@ -20,12 +20,16 @@ public class DoMoveStep : CombatVisualStep
 {
     public string UserName;
     public string MoveName;
+    public bool IsAnimatingPlayerHit;
+    public bool IsAnimatingNpcHit;
 
 
-    public DoMoveStep(string userName, string moveName)
+    public DoMoveStep(string userName, string moveName, bool isAnimatingPlayerHit = false, bool isAnimatingNpcHit = false)
     {
         UserName = userName;
         MoveName = moveName;
+        IsAnimatingPlayerHit = isAnimatingPlayerHit;
+        IsAnimatingNpcHit = isAnimatingNpcHit;
     }
 
 
@@ -39,11 +43,15 @@ public class DoMoveStep : CombatVisualStep
 public class TriedItsBestStep : CombatVisualStep
 {
     public string UserName;
+    public bool IsAnimatingPlayerHit;
+    public bool IsAnimatingNpcHit;
 
 
-    public TriedItsBestStep(string userName)
+    public TriedItsBestStep(string userName, bool isAnimatingPlayerHit = false, bool isAnimatingNpcHit = false)
     {
         UserName = userName;
+        IsAnimatingPlayerHit = isAnimatingPlayerHit;
+        IsAnimatingNpcHit = isAnimatingNpcHit;
     }
 
 

@@ -273,6 +273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43628fd29d42ce149b09884d3f95dd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerMeshParent: {fileID: 5620140552766833437}
+  _npcMeshParent: {fileID: 1554798819}
   _viz: {fileID: 45792851}
 --- !u!1 &76285087
 GameObject:
@@ -2478,6 +2480,11 @@ PrefabInstance:
     - target: {fileID: 1596306372800671307, guid: 3c44654c87e6b3f4c9a886f962d84acc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2765535688059644150, guid: 3c44654c87e6b3f4c9a886f962d84acc,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4848,6 +4855,11 @@ PrefabInstance:
     - target: {fileID: 1596306372800671307, guid: 3c44654c87e6b3f4c9a886f962d84acc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2765535688059644150, guid: 3c44654c87e6b3f4c9a886f962d84acc,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

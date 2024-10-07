@@ -24,6 +24,8 @@ public class CombatController : MonoBehaviour
 {
     [SerializeField] private Transform _playerMeshParent;
     [SerializeField] private Transform _npcMeshParent;
+    public GameObject PlayerMesh;
+    public GameObject NpcMesh;
     [SerializeField] private CombatUIController _viz;
     
     public Player PlayerData;
@@ -48,7 +50,18 @@ public class CombatController : MonoBehaviour
 
     private void InitializeMeshes()
     {
-        //GameObject playerMesh = GameObject.Instantiate()
+        GameObject playerPrefab = Resources.Load<GameObject>("Bugs/" + State.PlayerCritter.Name.Replace(" ", "")) as GameObject;
+        GameObject npcPrefab = Resources.Load<GameObject>("Bugs/" + State.PlayerCritter.Name.Replace(" ", "")) as GameObject;
+
+        PlayerMesh = Instantiate(playerPrefab);
+        PlayerMesh.transform.SetParent(_playerMeshParent);
+        PlayerMesh.transform.localPosition = Vector3.zero;
+        PlayerMesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+        NpcMesh = Instantiate(npcPrefab);
+        NpcMesh.transform.SetParent(_npcMeshParent);
+        NpcMesh.transform.localPosition = Vector3.zero;
+        NpcMesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
 
@@ -70,6 +83,10 @@ public class CombatController : MonoBehaviour
     {
         if (State.PlayerCritter.CurrentHealth <= 0)
         {
+            PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Squish");
+
+            yield return new WaitForSeconds(0.5f);
+            
             yield return StartCoroutine(_viz.ChooseNewCritter());
 
             State.PlayerCritter = PlayerData.GetActiveCritter();
@@ -362,11 +379,11 @@ public class CombatController : MonoBehaviour
 
         if (move.ID != MoveID.TriedItsBest)
         {
-            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name));
+            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name, isPlayerUser, !isPlayerUser));
         }
         else
         {
-            _viz.AddVisualStep(new TriedItsBestStep(user.Name));
+            _viz.AddVisualStep(new TriedItsBestStep(user.Name, isPlayerUser, !isPlayerUser));
         }
         
         if (move.ID == MoveID.TriedItsBest || !move.IsTargeted || UnityEngine.Random.Range(0, 100) < move.Accuracy)
