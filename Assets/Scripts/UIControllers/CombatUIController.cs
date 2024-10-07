@@ -202,7 +202,7 @@ public class CombatUIController : MonoBehaviour
     {
         BattleOption selection = _battleOptions.GetSelectionBattleOption();
 
-        if (selection == BattleOption.Item && _player.GetItems().Count == 0)
+        if (selection == BattleOption.Item && _player.GetBattleItems().Count == 0)
         {
             return false;
         }
@@ -323,7 +323,7 @@ public class CombatUIController : MonoBehaviour
     {
         SetInactiveAllMenus();
         _itemOptionsObject.SetActive(true);
-        _itemOptions.PopulateItems(_player.GetItems());
+        _itemOptions.PopulateItems(_player.GetBattleItems());
         _itemOptions.ShowCurrentSelection();
 
         StartCoroutine(ItemOptionsInteraction());
