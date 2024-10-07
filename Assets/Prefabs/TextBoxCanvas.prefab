@@ -1695,6 +1695,13 @@ MonoBehaviour:
   _canvasGroup: {fileID: 2219916663851671242}
   _mainTMP: {fileID: 5695422645933401076}
   _moveOnTab: {fileID: 3113209515621502020}
+  _choiceTab: {fileID: 4448601882321576939}
+  _imageTab: {fileID: 6743507655152001440}
+  _imageTabImage: {fileID: 2842387978078787970}
+  _choiceSelections:
+  - {fileID: 6959603687286466288}
+  - {fileID: 2716239642774661633}
+  isSelectingYes: 0
 --- !u!225 &2219916663851671242
 CanvasGroup:
   m_ObjectHideFlags: 0

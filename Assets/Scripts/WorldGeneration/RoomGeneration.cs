@@ -30,6 +30,7 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private MiniMapController _miniMapController;
     private FloorController _floorController; 
     private int _collectorsPerFloor = 3;
+    private List<Critter> _starters = new List<Critter>();
 
 
     public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController, FloorController floorController)
@@ -253,7 +254,8 @@ public class RoomGeneration: MonoBehaviour
     {
         _floorTiles.Clear();
         string collectorPosition = "-1";
-        if(_currentRoom.Collectors.Count > 0)
+
+        if (_currentRoom.Collectors.Count > 0)
         {
             if(_currentRoom.Collectors[0].position == "-1")
             {
@@ -268,7 +270,10 @@ public class RoomGeneration: MonoBehaviour
         {
             _collectorController = null;
         }
+
         Debug.Log("collectorPosition = " + collectorPosition.ToString());
+
+        int starterTileIndex = 0;
 
         for(int i = 0; i < 9; i ++)
         {
@@ -350,10 +355,13 @@ public class RoomGeneration: MonoBehaviour
                 {
                     GameObject randomStarterTile = _starterTilePrefabs[UnityEngine.Random.Range(0, _starterTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomStarterTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
+                    tileObject.GetComponentInChildren<MasonJarObject>().Glow(_starters[starterTileIndex]);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Starter;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
+                    tileObject.GetComponent<Tile>().Starter = _starters[starterTileIndex];
                     _floorTiles.Add(tileObject);
+                    starterTileIndex++;
                 }
                 if(_currentRoom.Layout[i][j] == "0" 
                 || _currentRoom.Layout[i][j] == "1" 
@@ -504,7 +512,6 @@ public class RoomGeneration: MonoBehaviour
 
     public void GenerateStarterCritters()
     {
-        Room startRoom = _allRooms.Find(room => room.Type == RoomType.Start);
         List<Type> availableCritterTypes = MasterCollection.GetAllCritterTypes();
 
         for (int i = 0; i < 3; i++)
@@ -513,10 +520,11 @@ public class RoomGeneration: MonoBehaviour
             availableCritterTypes.Remove(randomCritterType);
 
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
-            randomCritter.SetStartingLevel(1);
-            startRoom.StarterPicks.Add(randomCritter);
+            randomCritter.SetStartingLevel(2);
+            _starters.Add(randomCritter);
         }
     }
+
 
     public void SetContainsPlayer(Room roomContainingPlayer)
     {
