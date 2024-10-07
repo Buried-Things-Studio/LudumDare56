@@ -45,7 +45,7 @@ public class MoveManual : Item
     
     public MoveManual()
     {
-        Name = "Move Manual";
+        Name = "Move Scroll";
         ID = ItemType.MoveManual;
         Price = 2000;
     }

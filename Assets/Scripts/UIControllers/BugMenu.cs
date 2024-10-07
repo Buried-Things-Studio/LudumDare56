@@ -129,6 +129,10 @@ public class BugMenu : MonoBehaviour
         {
             yield return StartCoroutine(ChooseActiveInteraction(false));
         }
+        else if (context == BugMenuContext.TeachMoveWithoutCommit)
+        {
+            yield return StartCoroutine(ChooseMoveTeach(false));
+        }
     }
 
 
@@ -168,6 +172,44 @@ public class BugMenu : MonoBehaviour
             yield return null;
         }
     }
+
+
+    public IEnumerator ChooseMoveTeach(bool isForcingChoice)
+    {
+        yield return new WaitForEndOfFrame();
+
+        bool isClosing = false;
+        SelectedCritterGuid = Guid.Empty;
+        
+        while (!isClosing)
+        {
+            if (Input.GetKeyDown(Controls.MenuUpKey))
+            {
+                MoveSelection(true);
+            }
+            else if (Input.GetKeyDown(Controls.MenuDownKey))
+            {
+                MoveSelection(false);
+            }
+            else if (Input.GetKeyDown(Controls.MenuSelectKey))
+            {
+                Critter selectedCritter = _bugOptions[_currentSelectedIndex].GetCritter();
+
+                if (selectedCritter.CurrentHealth > 0 && selectedCritter.Moves.Count < 4)
+                {
+                    SelectedCritterGuid = selectedCritter.GUID;
+                    isClosing = true;
+                }
+            }
+            else if (!isForcingChoice && Input.GetKeyDown(Controls.MenuBackKey))
+            {
+                SelectedCritterGuid = Guid.Empty;
+                isClosing = true;
+            }
+
+            yield return null;
+        }
+    }
 }
 
 
@@ -176,5 +218,6 @@ public enum BugMenuContext
     None,
     SwapToActiveSlot,
     ChooseActiveWithoutCommit,
-    ForceChooseActive
+    ForceChooseActive,
+    TeachMoveWithoutCommit
 }

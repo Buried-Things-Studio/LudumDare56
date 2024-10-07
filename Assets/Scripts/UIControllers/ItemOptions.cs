@@ -72,4 +72,10 @@ public class ItemOptions : MonoBehaviour
     {
         return _itemOptions[_currentSelectedIndex].GetItem().ID;
     }
+
+
+    public Item GetSelectedItem()
+    {
+        return _itemOptions[_currentSelectedIndex].GetItem();
+    }
 }
