@@ -31,10 +31,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem _grassParticleSystem;
 
     [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
     [SerializeField] private AudioClip _descendClip;
     [SerializeField] private AudioClip[] _grassSteps;
     [SerializeField] private AudioClip[] _dirtSteps;
-    [SerializeField] private GameObject _oneShotGO;
 
 
     public void Update()
@@ -337,6 +337,12 @@ public class PlayerController : MonoBehaviour
                     
                     mjo.DestroyJar();
                 }
+
+                GameObject tileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Type == TileType.Door);
+                tileObject.GetComponent<DoorTileController>().NorthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().EastDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().SouthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().WestDoorBlock.SetActive(false);
             }
         }
 

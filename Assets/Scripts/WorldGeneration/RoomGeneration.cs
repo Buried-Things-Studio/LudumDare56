@@ -40,8 +40,6 @@ public class RoomGeneration: MonoBehaviour
         _encounterController = encounterController;
         _map = _mapGeneration.SafeGenerateMainPath();
         _floorController = floorController;
-        MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
-        moneyCanvasController.SetMoney(_floorController.PlayerData.GetMoney());
         if(_map == null)
         {
             Debug.Log("Map generation failed too many times. No map generated");
@@ -323,7 +321,7 @@ public class RoomGeneration: MonoBehaviour
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Door;
                     tileObject.GetComponent<Tile>().IsWalkable = true;
-                    tileObject.GetComponent<Tile>().ConnectingRoom = GetConnectingRoom(new Vector2Int(j, 8-i));
+                    tileObject.GetComponent<Tile>().ConnectingRoom = GetConnectingRoom(new Vector2Int(j, 8-i), tileObject);
                     _floorTiles.Add(tileObject);
                 }
                 if(_currentRoom.Layout[i][j] == "B0"
@@ -445,7 +443,6 @@ public class RoomGeneration: MonoBehaviour
                         {
                             starterTileController.MasonJarParent.SetActive(false);
                             starterTileController.ScrollParent.SetActive(false);
-                            tileObject.GetComponentInChildren<MasonJarObject>().DestroyJar();
                         }
                         else
                         {
@@ -682,25 +679,54 @@ public class RoomGeneration: MonoBehaviour
         roomContainingPlayer.ContainsPlayer = true;
     }
 
-    private RoomType GetConnectingRoom(Vector2Int tileCoords)
+    private RoomType GetConnectingRoom(Vector2Int tileCoords, GameObject tileObject)
     {
         Debug.Log(tileCoords.ToString());
         Room adjRoom = null;
         if(tileCoords == new Vector2Int(0,4))
         {
             adjRoom = _allRooms.Find(room => room.Coordinates == new Vector2Int(_currentRoom.Coordinates.x - 1, _currentRoom.Coordinates.y));
+            if(_floorController.GetCurrentLevel() == 1 && !_floorController.Encounters.IsStarterChosen)
+            {
+                tileObject.GetComponent<DoorTileController>().NorthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().EastDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().SouthDoorBlock.SetActive(true);
+                tileObject.GetComponent<DoorTileController>().WestDoorBlock.SetActive(false);
+            }
+
         }
         if(tileCoords == new Vector2Int(8,4))
         {
             adjRoom = _allRooms.Find(room => room.Coordinates == new Vector2Int(_currentRoom.Coordinates.x + 1, _currentRoom.Coordinates.y));
+            if(_floorController.GetCurrentLevel() == 1 && !_floorController.Encounters.IsStarterChosen)
+            {
+                tileObject.GetComponent<DoorTileController>().NorthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().EastDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().SouthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().WestDoorBlock.SetActive(true);
+            }
         }
-                if(tileCoords == new Vector2Int(4,0))
+        if(tileCoords == new Vector2Int(4,0))
         {
             adjRoom = _allRooms.Find(room => room.Coordinates == new Vector2Int(_currentRoom.Coordinates.x, _currentRoom.Coordinates.y - 1));
+            if(_floorController.GetCurrentLevel() == 1 && !_floorController.Encounters.IsStarterChosen)
+            {
+                tileObject.GetComponent<DoorTileController>().NorthDoorBlock.SetActive(true);
+                tileObject.GetComponent<DoorTileController>().EastDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().SouthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().WestDoorBlock.SetActive(false);
+            }
         }
-                if(tileCoords == new Vector2Int(4,8))
+        if(tileCoords == new Vector2Int(4,8))
         {
             adjRoom = _allRooms.Find(room => room.Coordinates == new Vector2Int(_currentRoom.Coordinates.x, _currentRoom.Coordinates.y + 1));
+            if(_floorController.GetCurrentLevel() == 1 && !_floorController.Encounters.IsStarterChosen)
+            {
+                tileObject.GetComponent<DoorTileController>().NorthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().EastDoorBlock.SetActive(true);
+                tileObject.GetComponent<DoorTileController>().SouthDoorBlock.SetActive(false);
+                tileObject.GetComponent<DoorTileController>().WestDoorBlock.SetActive(false);
+            }
         }
         return adjRoom.Type;
     }
