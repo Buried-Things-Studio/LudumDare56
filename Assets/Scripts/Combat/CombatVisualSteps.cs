@@ -269,7 +269,7 @@ public class ApplyStatusEffectStep : CombatVisualStep
     {
         string statusName = "";
 
-        if (StatusType == StatusEffectType.Confuse) //TODO: add future statuses
+        if (StatusType == StatusEffectType.Confuse)
         {
             statusName = "confused";
         }

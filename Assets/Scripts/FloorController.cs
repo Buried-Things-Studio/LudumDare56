@@ -136,8 +136,7 @@ public class FloorController : MonoBehaviour
     {
         LastMapGeneratedLevel = _currentLevel;
 
-        //int randomAffinityIndex = UnityEngine.Random.Range(1, Enum.GetNames(typeof(CritterAffinity)).Length);
-        int randomAffinityIndex = 2; //TODO: make random again
+        int randomAffinityIndex = UnityEngine.Random.Range(1, Enum.GetNames(typeof(CritterAffinity)).Length);
         _levelBossAffinity = (CritterAffinity)randomAffinityIndex;
 
         Encounters.SetAvailableCrittersOnFloor(_wildEncounterLevelRanges[_currentLevel]);

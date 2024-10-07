@@ -27,8 +27,6 @@ public class BugOption : MonoBehaviour
         _critterHealthFillImageTMP.fillAmount = (float)critter.CurrentHealth / (float)critter.MaxHealth;
         _critterAffinityColorFadeImage.color = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
         _critterProfileImage.sprite = PictureHelpers.GetProfilePicture(critter);
-
-        //TODO: picture
     }
 
 

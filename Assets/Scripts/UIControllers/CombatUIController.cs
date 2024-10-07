@@ -95,7 +95,7 @@ public class CombatUIController : MonoBehaviour
                     yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(castStep.GetPopulatedMessage()));
                 }
             }
-            else if (step.GetType() == typeof(LevelGainStep) || step.GetType() == typeof(ChangeActiveStep)) //TODO: does not account for npc switching!
+            else if (step.GetType() == typeof(LevelGainStep) || step.GetType() == typeof(ChangeActiveStep))
             {
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
 
