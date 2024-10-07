@@ -23,7 +23,8 @@ public class OverworldMenu : MonoBehaviour
 
     [SerializeField] private BugMenu _bugMenu;
     [SerializeField] private GameObject _bugMenuObject;
-    
+
+    [SerializeField] private Book _book;
     [SerializeField] private GameObject _bookObject;
     
     private bool _isMenuOpen;
@@ -66,7 +67,7 @@ public class OverworldMenu : MonoBehaviour
         _menuOptionsObject.SetActive(false);
         _itemOptionsObject.SetActive(false);
         _bugMenuObject.SetActive(false);
-        //_bookObject.SetActive(false);
+        _bookObject.SetActive(false);
     }
 
 
@@ -145,7 +146,7 @@ public class OverworldMenu : MonoBehaviour
         }
         else if (translatedSelection == MenuOption.Book)
         {
-            //StartPlayerItemChoice();
+            StartBook();
         }
 
         return true;
@@ -278,6 +279,25 @@ public class OverworldMenu : MonoBehaviour
             Debug.Log("Choosing to change active!");
             _player.SetActiveCritter(selectedGuid);
         }
+
+        StartPlayerMenuActionChoice();
+
+        yield return null;
+    }
+
+
+    private void StartBook()
+    {
+        SetInactiveAllMenus();
+        _bookObject.SetActive(true);
+
+        StartCoroutine(BookInteraction());
+    }
+
+
+    private IEnumerator BookInteraction()
+    {
+        yield return StartCoroutine(_book.HoldBookOpen());
 
         StartPlayerMenuActionChoice();
 

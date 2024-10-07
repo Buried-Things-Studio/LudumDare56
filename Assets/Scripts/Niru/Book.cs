@@ -2,10 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Book : MonoBehaviour
 {
     [SerializeField] private GameObject[] _pages;
     private int _currentPage;
+
+
+    public IEnumerator HoldBookOpen()
+    {
+        while (!Input.GetKeyDown(Controls.MenuBackKey))
+        {
+            yield return null;
+        }
+        
+        yield return null;
+    }
 
 
     void Update()

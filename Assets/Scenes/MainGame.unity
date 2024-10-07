@@ -2272,6 +2272,24 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bac7f74eebdff449b0cc4b2a1aedd8d, type: 3}
+--- !u!1 &981513215517791302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5113729544848138098, guid: 9bac7f74eebdff449b0cc4b2a1aedd8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 981513215517791301}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &981513215517791303 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3264437695014137825, guid: 9bac7f74eebdff449b0cc4b2a1aedd8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 981513215517791301}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981513215517791302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24637f49da9f4b5459ebfdafdf71bdaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4045794988267593914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2435,9 +2453,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7019993855673468795, guid: a03ca4b384ff018409c957d5f71a79f5,
         type: 3}
+      propertyPath: _book
+      value: 
+      objectReference: {fileID: 981513215517791303}
+    - target: {fileID: 7019993855673468795, guid: a03ca4b384ff018409c957d5f71a79f5,
+        type: 3}
       propertyPath: _bugMenu
       value: 
       objectReference: {fileID: 23720578}
+    - target: {fileID: 7019993855673468795, guid: a03ca4b384ff018409c957d5f71a79f5,
+        type: 3}
+      propertyPath: _bookObject
+      value: 
+      objectReference: {fileID: 981513215517791302}
     - target: {fileID: 7019993855673468795, guid: a03ca4b384ff018409c957d5f71a79f5,
         type: 3}
       propertyPath: _bugMenuObject
