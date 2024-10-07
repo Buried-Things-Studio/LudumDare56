@@ -137,8 +137,18 @@ public class CombatController : MonoBehaviour
 
     private void PickNpcMove()
     {
-        List<Move> npcMoves = State.NpcCritter.Moves;
-        State.NpcSelectedMoveID = npcMoves[UnityEngine.Random.Range(0, npcMoves.Count)].ID;
+        if (OpponentData == null)
+        {
+            State.NpcSelectedMoveID = NpcLogic.GetWildMoveChoice(State).ID;
+        }
+        else if (OpponentData.IsBoss())
+        {
+            State.NpcSelectedMoveID = NpcLogic.GetBossMoveChoice(State).ID;
+        }
+        else
+        {
+            State.NpcSelectedMoveID = NpcLogic.GetCollectorMoveChoice(State).ID;
+        }
     }
 
 
