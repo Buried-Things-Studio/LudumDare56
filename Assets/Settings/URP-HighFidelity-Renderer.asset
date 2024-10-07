@@ -1,22 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8042822024499808747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca2e8d1c8fb13a4abc7116bfb2ef274, type: 3}
-  m_Name: DitherFx
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  _event: 600
-  _pass: {fileID: 3328117011438052424}
-  _blitShader: {fileID: 4800000, guid: c17132b1f77d20942aa75f8429c0f8bc, type: 3}
---- !u!114 &-6826795932670038379
+--- !u!114 &-8731974746194886840
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,7 +45,23 @@ MonoBehaviour:
   _palette:
     enabled: 0
     value: {fileID: 0}
---- !u!114 &-5965574556816501503
+--- !u!114 &-8042822024499808747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca2e8d1c8fb13a4abc7116bfb2ef274, type: 3}
+  m_Name: DitherFx
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  _event: 600
+  _pass: {fileID: 3328117011438052424}
+  _blitShader: {fileID: 4800000, guid: c17132b1f77d20942aa75f8429c0f8bc, type: 3}
+--- !u!114 &-5427253171153915886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   _event: 550
-  _pass: {fileID: -6826795932670038379}
+  _pass: {fileID: -8731974746194886840}
   _blitShader: {fileID: 4800000, guid: c17132b1f77d20942aa75f8429c0f8bc, type: 3}
 --- !u!114 &-3007677470565220605
 MonoBehaviour:
@@ -241,10 +241,10 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -1878332245247344467}
   - {fileID: -1753543286561009129}
-  - {fileID: -5965574556816501503}
+  - {fileID: -5427253171153915886}
   - {fileID: -3007677470565220605}
   - {fileID: -8042822024499808747}
-  m_RendererFeatureMap: adc0de57c6d2eee5179242eaab29aae70115d82b8c0536ad03bf03a0469542d61536003efb276290
+  m_RendererFeatureMap: adc0de57c6d2eee5179242eaab29aae7123042e3fe85aeb403bf03a0469542d61536003efb276290
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}

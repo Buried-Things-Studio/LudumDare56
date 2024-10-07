@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class MoveOptions : MonoBehaviour
@@ -9,9 +10,13 @@ public class MoveOptions : MonoBehaviour
     [SerializeField] private List<MoveOption> _moveOptions;
     [SerializeField] private List<GameObject> _selections = new List<GameObject>();
 
+    [SerializeField] private Image _descriptionTypeIcon;
+
     [SerializeField] private TextMeshProUGUI _moveDescriptionTMP;
     [SerializeField] private TextMeshProUGUI _bluntSharpTMP;
     [SerializeField] private TextMeshProUGUI _movePowerTMP;
+    [SerializeField] private TextMeshProUGUI _accuracyTMP;
+
 
     private int _currentSelectedIndex = 0;
     
@@ -57,6 +62,12 @@ public class MoveOptions : MonoBehaviour
         _bluntSharpTMP.text = selectedMove.IsSharp ? "SHARP" : "BLUNT";
         _bluntSharpTMP.text = selectedMove.BasePower > 0 ? _bluntSharpTMP.text : "--";
         _movePowerTMP.text = selectedMove.BasePower > 0 ? selectedMove.BasePower.ToString() : "--";
+
+        _accuracyTMP.text = selectedMove.Accuracy.ToString() + "%";
+
+        _descriptionTypeIcon.sprite = PictureHelpers.GetMoveAffinityPicture(selectedMove);
+        _descriptionTypeIcon.color = CritterAffinityData.GetAffinityColor(selectedMove.Affinity);
+
         //TODO: blunt/sharp icon
     }
 

@@ -104,6 +104,10 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(InteractWithShop(tile));
         }
+        if(tileType == TileType.Treasure)
+        {
+            StartCoroutine(InteractWithTreasure());
+        }
     }
 
     private IEnumerator InteractWithShop(Tile tile)
@@ -170,6 +174,35 @@ public class PlayerController : MonoBehaviour
             }
         }
         yield return null;
+    }
+
+    private IEnumerator InteractWithTreasure()
+    {
+        _isMovementBlockedByUI = true;
+        if(CurrentRoom.Treasure == null)
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You've already picked up the treasure for this floor. Look out for a new move on the next floor!"));
+            _isMovementBlockedByUI = false;
+        }
+        else
+        {
+            yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(CurrentRoom.Treasure.TeachableMove, "Oooh a new bug move! Would you like to take this move?"));
+            if(GlobalUI.TextBox.IsSelectingYes)
+            {
+                FloorController.PlayerData.AddItemToInventory(CurrentRoom.Treasure);
+                CurrentRoom.Treasure = null;
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Use it wisely!"));
+                _isMovementBlockedByUI= false;
+            }
+            else
+            {
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Your loss!"));
+                _isMovementBlockedByUI= false;
+            }
+
+
+        }
+
     }
 
     private IEnumerator InteractWithHospital()
