@@ -92,10 +92,6 @@ public class FloorController : MonoBehaviour
         starter.SetStartingLevel(10);
         PlayerData.AddCritter(starter);
 
-        Critter boye = new Bumblebee();
-        boye.SetStartingLevel(10);
-        PlayerData.AddCritter(boye);
-
         Critter boi = new MonarchButterfly();
         boi.SetStartingLevel(10);
         PlayerData.AddCritter(boi);
@@ -150,5 +146,4 @@ public class FloorController : MonoBehaviour
         _currentLevel++; 
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
     }
-
 }

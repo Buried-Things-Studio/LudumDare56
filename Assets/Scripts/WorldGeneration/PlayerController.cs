@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
     private void CheckInteraction()
     {
         Vector2Int coordsInFront = GetTargetCoords("forward");
+        GameObject tileObject = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront);
         Tile tile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == coordsInFront).GetComponent<Tile>();
         TileType tileType = tile.Type;
 
@@ -96,7 +97,7 @@ public class PlayerController : MonoBehaviour
         }
         if(tileType == TileType.Shop)
         {
-            StartCoroutine(InteractWithShop(tile));
+            StartCoroutine(InteractWithShop(tile, tileObject));
         }
         if(tileType == TileType.Treasure)
         {
@@ -104,7 +105,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator InteractWithShop(Tile tile)
+    private IEnumerator InteractWithShop(Tile tile, GameObject tileObject)
     {
         _isMovementBlockedByUI = true;
         if(tile.ShopItem == null)
@@ -139,6 +140,7 @@ public class PlayerController : MonoBehaviour
                         FloorController.PlayerData.RemoveMoney(cost);
                         FloorController.PlayerData.AddItem(item);
                         tile.ShopItem = null;
+                        tileObject.GetComponent<ShopTileController>().ScrollParent.SetActive(false);
                         yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
                         _isMovementBlockedByUI= false;
                     }
@@ -155,6 +157,9 @@ public class PlayerController : MonoBehaviour
                         FloorController.PlayerData.RemoveMoney(cost);
                         FloorController.PlayerData.AddItem(item);
                         tile.ShopItem = null;
+                        tileObject.GetComponent<ShopTileController>().NectarParent.SetActive(false);
+                        tileObject.GetComponent<ShopTileController>().MasonJarParent.SetActive(false);
+
                         yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
                         _isMovementBlockedByUI= false;
                     }

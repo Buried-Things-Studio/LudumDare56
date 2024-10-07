@@ -371,6 +371,32 @@ public class RoomGeneration: MonoBehaviour
                     string number = tileCode == "S0" ? "0" : tileCode == "S1" ? "1" : tileCode == "S2" ? "2" : "3";
                     int numb  = int.Parse(number);
                     Debug.Log("Setting shop item" + _currentRoom.ShopItems[numb].Name);
+                    Item item = _currentRoom.ShopItems[numb];
+                    ShopTileController shopTileController = tileObject.GetComponent<ShopTileController>();
+                    if(item == null)
+                    {
+                        shopTileController.NectarParent.SetActive(false);
+                        shopTileController.ScrollParent.SetActive(false);
+                        shopTileController.MasonJarParent.SetActive(false);
+                    }
+                    else if(item.ID == ItemType.MoveManual)
+                    {
+                        shopTileController.NectarParent.SetActive(false);
+                        shopTileController.ScrollParent.SetActive(true);
+                        shopTileController.MasonJarParent.SetActive(false);
+                    }
+                    else if(item.ID == ItemType.Nectar)
+                    {
+                        shopTileController.NectarParent.SetActive(true);
+                        shopTileController.ScrollParent.SetActive(false);
+                        shopTileController.MasonJarParent.SetActive(false);
+                    }
+                    else if(item.ID == ItemType.MasonJar)
+                    {
+                        shopTileController.NectarParent.SetActive(false);
+                        shopTileController.ScrollParent.SetActive(false);
+                        shopTileController.MasonJarParent.SetActive(true);
+                    }
                     tileObject.GetComponent<Tile>().ShopItem = _currentRoom.ShopItems[numb];
                 }
                 if(_currentRoom.Layout[i][j] == "H")
