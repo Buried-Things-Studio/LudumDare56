@@ -14,7 +14,7 @@ public abstract class Move
     public int BasePower;
     public bool IsTargeted;
     public bool IsSharp;
-    public int Accuracy = 100; //TODO: may need to track if a targeted move?
+    public int Accuracy = 100;
     public int MaxUses;
     public int CurrentUses;
 

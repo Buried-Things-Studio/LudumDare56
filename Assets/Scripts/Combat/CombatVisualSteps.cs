@@ -250,7 +250,7 @@ public class ApplyStatusEffectStep : CombatVisualStep
 
         if (StatusType == StatusEffectType.Confuse) //TODO: add future statuses
         {
-
+            statusName = "confused!";
         }
         else
         {
@@ -314,5 +314,57 @@ public class MoveAccuracyCheckFailureStep : CombatVisualStep
     public override string GetPopulatedMessage()
     {
         return $"{Name} missed!";
+    }
+}
+
+
+public class TryCatchStep : CombatVisualStep
+{
+    public string Name;
+    public bool IsSuccess;
+
+
+    public TryCatchStep(string name, bool isSuccess)
+    {
+        Name = name;
+        IsSuccess = isSuccess;
+    }
+
+
+    public override string GetPopulatedMessage()
+    {
+        return IsSuccess ? $"You caught the {Name}!" : $"You didn't catch the {Name}... It fled in panic!";
+    }
+}
+
+
+public class TryCatchCollectorCritterStep : CombatVisualStep
+{
+    public override string GetPopulatedMessage()
+    {
+        List<string> messages = new List<string>(){
+            "The opponent is angry you tried. That was uncool!",
+            "The opponent swipes the jar out of the air!",
+            "The opponent smashes your jar!",
+            "You successfully catch the bug... But the opponent just opens the jar!",
+            "That's not yours!",
+        };
+        
+        return $"{messages[UnityEngine.Random.Range(0, messages.Count)]}";
+    }
+}
+
+
+public class TryCatchTooFullCritterStep : CombatVisualStep
+{
+    public override string GetPopulatedMessage()
+    {
+        List<string> messages = new List<string>(){
+            "You try to catch it... But your team is full!",
+            "You throw a jar... But you have no space to bring this with you!",
+            "Don't you think you have enough bugs?"
+        };
+        
+        return $"{messages[UnityEngine.Random.Range(0, messages.Count)]}";
     }
 }

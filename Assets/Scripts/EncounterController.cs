@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 
@@ -65,9 +66,41 @@ public class EncounterController : MonoBehaviour
             yield return null;
         }
 
+        Debug.Log("looking for combat controller");
+
         CombatController combatController = GameObject.FindObjectOfType<CombatController>();
 
         combatController.SetupCombat(PlayerData, null, opponent);
+
+        yield return null;
+    }
+
+
+    public void StartCollectorCombat(Collector collector)
+    {
+        StartCoroutine(DoCollectorCombat(collector));
+    }
+
+
+    public IEnumerator DoCollectorCombat(Collector collector)
+    {
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
+
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
+        }
+
+        CombatController combatController = GameObject.FindObjectOfType<CombatController>();
+
+        Debug.Log($"This collector has {collector.GetCritters().Count} bugs");
+
+        foreach (Critter critter in collector.GetCritters())
+        {
+            Debug.Log($"The collector has a {critter.Name}");
+        }
+
+        combatController.SetupCombat(PlayerData, collector, null);
 
         yield return null;
     }
