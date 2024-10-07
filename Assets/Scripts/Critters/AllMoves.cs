@@ -14,7 +14,9 @@ public enum MoveID
     
     Bonk,
     Carapace,
+    Careen,
     Dazzle,
+    EnvenomedBite,
     HoneyDrink,
     MenacingGrin,
     MysteriousSlime,
@@ -22,7 +24,9 @@ public enum MoveID
     ShellBump,
     Smother,
     Snip,
-    Stinger, 
+    SpringTrap,
+    Stinger,
+    ToxicTouch,
     WebTrap,
     WingStrike,
 }
@@ -107,6 +111,40 @@ public class Carapace : Move
 }
 
 
+public class Careen : Move
+{
+    public Careen()
+    {
+        Name = "Careen";
+        Description = "The user charges headfirst into the opponent at top speed.";
+        ID = MoveID.Careen;
+        Affinity = CritterAffinity.Beetle;
+        IsSharp = false;
+        IsTargeted = true;
+        BasePower = 95;
+        Accuracy = 70;
+        MaxUses = 5;
+        CurrentUses = 5;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
+
+        int startingHealth = opponent.CurrentHealth;
+        int damageMultiplier;
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
+        opponent.DealDamage(damage);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+
+        return steps;
+    }
+}
+
+
 public class Dazzle : Move
 {
     public Dazzle()
@@ -129,6 +167,40 @@ public class Dazzle : Move
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
         steps.Add(new ApplyStatusEffectStep(opponent.Name, StatusEffectType.Confuse, isSuccess));
+
+        return steps;
+    }
+}
+
+
+public class EnvenomedBite : Move
+{
+    public EnvenomedBite()
+    {
+        Name = "Envenomed Bite";
+        Description = "A vicious bite with a venomous sting.";
+        ID = MoveID.EnvenomedBite;
+        Affinity = CritterAffinity.Ant;
+        IsSharp = true;
+        IsTargeted = true;
+        BasePower = 80;
+        Accuracy = 90;
+        MaxUses = 5;
+        CurrentUses = 5;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
+
+        int startingHealth = opponent.CurrentHealth;
+        int damageMultiplier;
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
+        opponent.DealDamage(damage);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
 
         return steps;
     }
@@ -335,6 +407,108 @@ public class Snip : Move
         Accuracy = 100;
         MaxUses = 20;
         CurrentUses = 20;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
+
+        int startingHealth = opponent.CurrentHealth;
+        int damageMultiplier;
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
+        opponent.DealDamage(damage);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+
+        return steps;
+    }
+}
+
+
+public class SpringTrap : Move
+{
+    public SpringTrap()
+    {
+        Name = "Spring Trap";
+        Description = "The user pounces at its unsuspecting prey.";
+        ID = MoveID.SpringTrap;
+        Affinity = CritterAffinity.Spider;
+        IsSharp = true;
+        IsTargeted = true;
+        BasePower = 85;
+        Accuracy = 90;
+        MaxUses = 5;
+        CurrentUses = 5;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
+
+        int startingHealth = opponent.CurrentHealth;
+        int damageMultiplier;
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
+        opponent.DealDamage(damage);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+
+        return steps;
+    }
+}
+
+
+public class Stinger : Move
+{
+    public Stinger()
+    {
+        Name = "Stinger";
+        Description = "The user stabs with a painful stinger.";
+        ID = MoveID.Stinger;
+        Affinity = CritterAffinity.Bee;
+        IsSharp = true;
+        IsTargeted = true;
+        BasePower = 70;
+        Accuracy = 90;
+        MaxUses = 5;
+        CurrentUses = 5;
+    }
+
+
+    public override List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser)
+    {
+        Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
+
+        int startingHealth = opponent.CurrentHealth;
+        int damageMultiplier;
+        int damage = CritterHelpers.GetDamage(state, this, isPlayerUser, out damageMultiplier);
+        opponent.DealDamage(damage);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+        steps.Add(new HealthChangeStep(!isPlayerUser, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth, damageMultiplier));
+
+        return steps;
+    }
+}
+
+
+public class ToxicTouch : Move
+{
+    public ToxicTouch()
+    {
+        Name = "Toxic Touch";
+        Description = "The user secretes highly toxic compounds.";
+        ID = MoveID.ToxicTouch;
+        Affinity = CritterAffinity.Mollusc;
+        IsSharp = false;
+        IsTargeted = true;
+        BasePower = 85;
+        Accuracy = 95;
+        MaxUses = 5;
+        CurrentUses = 5;
     }
 
 
