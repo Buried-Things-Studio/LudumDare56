@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MasonJarObject : MonoBehaviour
 {
+    [SerializeField] private GameObject _jarGO;
     [SerializeField] private GameObject _bugInJarGO;
 
 
@@ -29,5 +30,11 @@ public class MasonJarObject : MonoBehaviour
         HDRColor = new Color(HDRColor.r * multiplier, HDRColor.g * multiplier, HDRColor.b * multiplier, 1);
 
         _bugInJarGO.GetComponent<Renderer>().material.SetColor("_EmissionColor", HDRColor);
+    }
+
+
+    public void DestroyJar()
+    {
+        GameObject.Destroy(_jarGO);
     }
 }
