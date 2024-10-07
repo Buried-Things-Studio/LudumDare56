@@ -78,6 +78,44 @@ public class TextBoxController : MonoBehaviour
     }
 
 
+    public IEnumerator ShowYesNoChoice(string message)
+    {
+        ChangeShowState(true);
+        _mainTMP.text = message;
+        DisableAllTabs();
+        _choiceTab.SetActive(true);
+        _currentSelectedIndex = 0;
+        ShowCurrentSelection();
+
+        yield return new WaitForEndOfFrame();
+
+        bool isSelected = false;
+
+        while (!isSelected)
+        {
+            if (Input.GetKeyDown(Controls.MenuLeftKey) || Input.GetKeyDown(Controls.MenuUpKey))
+            {
+                MoveSelection(true);
+            }
+            else if (Input.GetKeyDown(Controls.MenuRightKey) || Input.GetKeyDown(Controls.MenuDownKey))
+            {
+                MoveSelection(false);
+            }
+            else if (Input.GetKeyDown(Controls.MenuSelectKey))
+            {
+                IsSelectingYes = _currentSelectedIndex == 0;
+                isSelected = true;
+            }
+            
+            yield return null;
+        }
+
+        ChangeShowState(false);
+
+        yield return null;
+    }
+
+
     public IEnumerator ShowStarterChoice(string starterName)
     {
         ChangeShowState(true);

@@ -34,6 +34,12 @@ public class Collector
     }
 
 
+    public bool IsBoss()
+    {
+        return _isBoss;
+    }
+
+
     public List<Critter> GetCritters()
     {
         return _critters;
