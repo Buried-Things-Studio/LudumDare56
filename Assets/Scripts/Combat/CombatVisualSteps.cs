@@ -144,6 +144,26 @@ public class ChangeActiveStep : CombatVisualStep
 }
 
 
+public class HealMessageStep : CombatVisualStep
+{
+    public string Name;
+    public int HealAmount;
+    
+    
+    public HealMessageStep(string name, int healAmount)
+    {
+        Name = name;
+        HealAmount = healAmount;
+    }
+
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} healed for {HealAmount}!";
+    }
+}
+
+
 public class HealthChangeStep : CombatVisualStep
 {
     public bool IsPlayerCritter;

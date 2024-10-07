@@ -30,7 +30,7 @@ public class Nectar : Item
     public Nectar()
     {
         Name = "Healing Nectar";
-        Description = "Restore your bugs' vitality with this sweet nectar. heals XX hp.";
+        Description = "Restore your bugs' vitality with this sweet nectar. heals 30 hp.";
         ID = ItemType.Nectar;
         Price = 200;
     }

@@ -51,6 +51,18 @@ public class Player
     }
 
 
+    public void RemoveItemFromInventory(ItemType itemType)
+    {
+        Item existingItem = _items.Find(ownedItem => ownedItem.ID == itemType);
+        existingItem.OwnedCount--;
+
+        if (existingItem.OwnedCount <= 0)
+        {
+            _items.Remove(existingItem);
+        }
+    }
+
+
     public List<Critter> GetCritters()
     {
         return _critters;

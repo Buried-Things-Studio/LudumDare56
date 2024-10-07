@@ -132,6 +132,7 @@ public class BugMenu : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         bool isClosing = false;
+        SelectedCritterGuid = Guid.Empty;
         
         while (!isClosing)
         {

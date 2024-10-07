@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -356,7 +357,7 @@ public class CombatUIController : MonoBehaviour
                 else
                 {
                     isSelected = true;
-
+                    
                     if (selectedItem == ItemType.MasonJar)
                     {
                         _combatController.SetPlayerMove(MoveID.ThrowMasonJar);
@@ -364,9 +365,18 @@ public class CombatUIController : MonoBehaviour
                     }
                     else if (selectedItem == ItemType.Nectar)
                     {
-                        _combatController.State.PlayerSelectedHealItemTarget = _player.GetCritters()[0].GUID; //TODO: give the player choice here
-                        _combatController.SetPlayerMove(MoveID.UseHealItem);
-                        FinishInteraction();
+                        yield return StartCoroutine(ChooseHealInteraction());
+
+                        if (_bugMenu.SelectedCritterGuid != Guid.Empty)
+                        {
+                            _combatController.State.PlayerSelectedHealItemTarget = _bugMenu.SelectedCritterGuid;
+                            _combatController.SetPlayerMove(MoveID.UseHealItem);
+                            FinishInteraction();
+                        }
+                        else
+                        {
+                            StartPlayerItemChoice();
+                        }
                     }
                 }
 
@@ -379,5 +389,16 @@ public class CombatUIController : MonoBehaviour
 
             yield return null;
         }
+    }
+
+
+    private IEnumerator ChooseHealInteraction()
+    {
+        SetInactiveAllMenus();
+        _bugMenuObject.SetActive(true);
+        _bugMenu.PopulateCritters(_player.GetCritters());
+        _bugMenu.ShowCurrentSelection();
+        
+        yield return StartCoroutine(_bugMenu.PlayerInteraction(BugMenuContext.ChooseActiveWithoutCommit));
     }
 }

@@ -54,9 +54,12 @@ public class FloorController : MonoBehaviour
         boi.SetStartingLevel(3);
         PlayerData.AddCritter(boi);
 
-        // PlayerData.AddItemToInventory(new MasonJar());
-        // PlayerData.AddItemToInventory(new MasonJar());
-        // PlayerData.AddItemToInventory(new MasonJar());
+        PlayerData.AddItemToInventory(new MasonJar());
+        PlayerData.AddItemToInventory(new MasonJar());
+        PlayerData.AddItemToInventory(new MasonJar());
+        PlayerData.AddItemToInventory(new Nectar());
+        PlayerData.AddItemToInventory(new Nectar());
+        PlayerData.AddItemToInventory(new Nectar());
         //--------------
 
         InitializeLevel();

@@ -244,16 +244,27 @@ public class CombatController : MonoBehaviour
 
     private void PlayerThrowMasonJar()
     {
+        PlayerData.RemoveItemFromInventory(ItemType.MasonJar);
+        
         bool isCatchSuccessful =
             OpponentData == null
             && PlayerData.GetCritters().Count < CritterHelpers.MaxTeamSize
             && State.NpcCritter.CurrentHealth <= CritterHelpers.GetCatchHealthThreshold(State.NpcCritter);
+        
+        //TODO: do catch
     }
 
 
     private void PlayerUseHealItem()
     {
-        //TODO: HEAL
+        PlayerData.RemoveItemFromInventory(ItemType.Nectar);
+        Critter healTarget = PlayerData.GetCritters().Find(critter => critter.GUID == State.PlayerSelectedHealItemTarget);
+
+        int startingHealth = healTarget.CurrentHealth;
+        healTarget.IncreaseHealth(30);
+
+        _viz.AddVisualStep(new HealMessageStep(healTarget.Name, healTarget.CurrentHealth - startingHealth));
+        _viz.AddVisualStep(new HealthChangeStep(true, startingHealth, healTarget.CurrentHealth, healTarget.MaxHealth));
     }
 
 
