@@ -102,6 +102,32 @@ public class CombatController : MonoBehaviour
 
             yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"Let's try {article} {critterName}!"));
 
+            Debug.Log("Change active step switch animation...");
+                    
+            PlayerMeshParent.transform.parent.parent.GetComponent<Animator>().SetTrigger("Back");
+
+            Debug.Log("Set Back, now waiting...");
+
+            yield return new WaitForSeconds(0.5f);
+
+            Debug.Log("Setting Out");
+
+            GameObject newPrefab = Resources.Load<GameObject>("Bugs/" + State.PlayerCritter.Name.Replace(" ", "")) as GameObject;
+
+            GameObject.Destroy(PlayerMesh);
+
+            yield return new WaitForEndOfFrame();
+
+            PlayerMesh = GameObject.Instantiate(newPrefab);
+            PlayerMesh.transform.SetParent(PlayerMeshParent);
+            PlayerMesh.transform.localPosition = Vector3.zero;
+            PlayerMesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            PlayerMesh.transform.localScale = Vector3.one;
+
+            PlayerMeshParent.transform.parent.parent.GetComponent<Animator>().SetTrigger("Out");
+
+            yield return new WaitForSeconds(1f);
+
             _viz.UpdatePlayerBugData(State.PlayerCritter);
         }
 
@@ -119,6 +145,32 @@ public class CombatController : MonoBehaviour
                 : "a";
 
             yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"The opponent releases {article} {critterName}!"));
+
+            Debug.Log("Change active step switch animation...");
+                    
+            NpcMeshParent.transform.parent.parent.GetComponent<Animator>().SetTrigger("Back");
+
+            Debug.Log("Set Back, now waiting...");
+
+            yield return new WaitForSeconds(0.5f);
+
+            Debug.Log("Setting Out");
+
+            GameObject newPrefab = Resources.Load<GameObject>("Bugs/" + State.NpcCritter.Name.Replace(" ", "")) as GameObject;
+
+            GameObject.Destroy(NpcMesh);
+
+            yield return new WaitForEndOfFrame();
+
+            NpcMesh = GameObject.Instantiate(newPrefab);
+            NpcMesh.transform.SetParent(NpcMeshParent);
+            NpcMesh.transform.localPosition = Vector3.zero;
+            NpcMesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            NpcMesh.transform.localScale = Vector3.one;
+
+            NpcMeshParent.transform.parent.parent.GetComponent<Animator>().SetTrigger("Out");
+
+            yield return new WaitForSeconds(1f);
 
             _viz.UpdateNpcBugData(State.NpcCritter);
         }
