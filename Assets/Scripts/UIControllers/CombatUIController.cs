@@ -27,6 +27,15 @@ public class CombatUIController : MonoBehaviour
     private CombatController _combatController;
     private float _delayBetweenSteps = 0.5f;
 
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _navigateClip;
+    [SerializeField] private AudioClip _selectClip;
+    [SerializeField] private AudioClip _backOutClip;
+    [SerializeField] private AudioClip _failClip;
+    [SerializeField] private AudioClip _squishClip;
+    [SerializeField] private AudioClip[] _bluntHitClips;
+
 
     public void InitializeCombatUI(CombatController combatController, Player player, Critter playerCritter, Critter npcCritter)
     {
@@ -151,11 +160,19 @@ public class CombatUIController : MonoBehaviour
                 {
                     _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
                     _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+
+                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                    osc.MyClip = _bluntHitClips[UnityEngine.Random.Range(0, _bluntHitClips.Length)];
+                    osc.PlayWithVariance();
                 }
                 else
                 {
                     _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
                     _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+
+                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                    osc.MyClip = _bluntHitClips[UnityEngine.Random.Range(0, _bluntHitClips.Length)];
+                    osc.PlayWithVariance();
                 }
 
                 yield return new WaitForSeconds(0.75f);
@@ -170,11 +187,19 @@ public class CombatUIController : MonoBehaviour
                 {
                     _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
                     _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+
+                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                    osc.MyClip = _bluntHitClips[UnityEngine.Random.Range(0, _bluntHitClips.Length)];
+                    osc.PlayWithVariance();
                 }
                 else
                 {
                     _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
                     _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+
+                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                    osc.MyClip = _bluntHitClips[UnityEngine.Random.Range(0, _bluntHitClips.Length)];
+                    osc.PlayWithVariance();
                 }
 
                 yield return new WaitForSeconds(0.75f);
@@ -184,6 +209,10 @@ public class CombatUIController : MonoBehaviour
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
                 
                 _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Squish");
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _squishClip;
+                osc.Play();
 
                 yield return new WaitForSeconds(0.5f);
             }
@@ -293,6 +322,10 @@ public class CombatUIController : MonoBehaviour
             return false;
         }
 
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _selectClip;
+        osc.Play();
+
         if (selection == BattleOption.Move)
         {
             if (_combatController.State.PlayerCritter.IsOutOfUses())
@@ -359,6 +392,10 @@ public class CombatUIController : MonoBehaviour
             {
                 isSelected = true;
                 StartPlayerBattleActionChoice();
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _backOutClip;
+                osc.Play();
             }
 
             yield return null;
@@ -370,6 +407,10 @@ public class CombatUIController : MonoBehaviour
     {
         MoveID selectedMoveID = _moveOptions.GetSelectedMove();
         Move selectedMove = _combatController.State.PlayerCritter.Moves.Find(move => move.ID == selectedMoveID);
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _selectClip;
+        osc.Play();
 
         if (selectedMove.CurrentUses <= 0)
         {
@@ -454,6 +495,10 @@ public class CombatUIController : MonoBehaviour
                 }
                 else
                 {
+                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                    osc.MyClip = _selectClip;
+                    osc.Play();
+
                     isSelected = true;
                     
                     if (selectedItem == ItemType.MasonJar)
@@ -483,6 +528,10 @@ public class CombatUIController : MonoBehaviour
             {
                 isSelected = true;
                 StartPlayerBattleActionChoice();
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _backOutClip;
+                osc.Play();
             }
 
             yield return null;

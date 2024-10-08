@@ -36,6 +36,13 @@ public class BugMenu : MonoBehaviour
     private List<BugOption> _bugOptions = new List<BugOption>();
     private int _currentSelectedIndex;
 
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _navigateClip;
+    [SerializeField] private AudioClip _selectClip;
+    [SerializeField] private AudioClip _backOutClip;
+    [SerializeField] private AudioClip _teachMoveClip;
+
 
     public void PopulateCritters(List<Critter> critters)
     {
@@ -113,6 +120,10 @@ public class BugMenu : MonoBehaviour
 
     public void MoveSelection(bool isMovingUp)
     {
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _navigateClip;
+        osc.Play();
+
         _currentSelectedIndex += isMovingUp ? -1 : 1;
         _currentSelectedIndex = (_currentSelectedIndex + _selections.Count) % _selections.Count;
         ShowCurrentSelection();
@@ -165,10 +176,18 @@ public class BugMenu : MonoBehaviour
                 {
                     SelectedCritterGuid = selectedCritter.GUID;
                     isClosing = true;
+
+                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                    osc.MyClip = _selectClip;
+                    osc.Play();
                 }
             }
             else if (!isForcingChoice && Input.GetKeyDown(Controls.MenuBackKey))
             {
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _backOutClip;
+                osc.Play();
+
                 SelectedCritterGuid = Guid.Empty;
                 isClosing = true;
             }
@@ -204,11 +223,19 @@ public class BugMenu : MonoBehaviour
                     SelectedCritterGuid = selectedCritter.GUID;
                     isClosing = true;
                 }
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _teachMoveClip;
+                osc.Play();
             }
             else if (!isForcingChoice && Input.GetKeyDown(Controls.MenuBackKey))
             {
                 SelectedCritterGuid = Guid.Empty;
                 isClosing = true;
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _backOutClip;
+                osc.Play();
             }
 
             yield return null;

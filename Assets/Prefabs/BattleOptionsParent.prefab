@@ -1561,6 +1561,11 @@ MonoBehaviour:
   - {fileID: 2182717400591426079}
   - {fileID: 5058005594515371044}
   - {fileID: 2935943161867406970}
+  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
+    type: 3}
+  _navigateClip: {fileID: 8300000, guid: bfde249b249e86e4b8d9a8d807dfb26a, type: 3}
+  _selectClip: {fileID: 8300000, guid: 6b80e443f5d151a4fa379bdfc183c462, type: 3}
+  _backOutClip: {fileID: 8300000, guid: 2b392d4e5c92df74a8f01868b6dcfdb1, type: 3}
 --- !u!1 &6627626694794979570
 GameObject:
   m_ObjectHideFlags: 0

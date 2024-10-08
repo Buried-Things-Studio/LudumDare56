@@ -19,8 +19,12 @@ public class MoveOptions : MonoBehaviour
 
 
     private int _currentSelectedIndex = 0;
-    
-    
+
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _navigateClip;
+
+
     public void PopulateMoves(Critter critter)
     {
         _selections.Clear();
@@ -77,6 +81,10 @@ public class MoveOptions : MonoBehaviour
         _currentSelectedIndex += isMovingUp ? -1 : 1;
         _currentSelectedIndex = (_currentSelectedIndex + _selections.Count) % _selections.Count;
         ShowCurrentSelection();
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _navigateClip;
+        osc.Play();
     }
 
 

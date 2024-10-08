@@ -421,7 +421,7 @@ public class PlayerController : MonoBehaviour
                 RoomGeneration.GoToNewLevel();
                 OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
                 osc.MyClip = _descendClip;
-                osc.PlayWithVariance();
+                osc.Play();
             }
             else
             {

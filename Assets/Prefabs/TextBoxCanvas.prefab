@@ -101,7 +101,6 @@ GameObject:
   - component: {fileID: 653030048079824013}
   - component: {fileID: 9110026190445149658}
   - component: {fileID: 1612063871764680166}
-  - component: {fileID: 6177792784701013760}
   m_Layer: 5
   m_Name: TextBoxBG
   m_TagString: Untagged
@@ -167,27 +166,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 10
---- !u!95 &6177792784701013760
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1144844472155538136}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9160e55b0b1a7e840bf37b4e8cf75109, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1320078966289069043
 GameObject:
   m_ObjectHideFlags: 0

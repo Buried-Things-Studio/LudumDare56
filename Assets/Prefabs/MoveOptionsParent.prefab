@@ -181,6 +181,9 @@ MonoBehaviour:
   _bluntSharpTMP: {fileID: 2592246661305033584}
   _movePowerTMP: {fileID: 7220588743525617520}
   _accuracyTMP: {fileID: 1156595761310957753}
+  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
+    type: 3}
+  _navigateClip: {fileID: 8300000, guid: bfde249b249e86e4b8d9a8d807dfb26a, type: 3}
 --- !u!1001 &509225713154970134
 PrefabInstance:
   m_ObjectHideFlags: 0

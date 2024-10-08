@@ -15,6 +15,12 @@ public class ItemOptions : MonoBehaviour
     private List<ItemOption> _itemOptions = new List<ItemOption>();
     private int _currentSelectedIndex;
 
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _navigateClip;
+    [SerializeField] private AudioClip _selectClip;
+    [SerializeField] private AudioClip _backOutClip;
+
 
     public void PopulateItems(List<Item> items)
     {
@@ -62,6 +68,10 @@ public class ItemOptions : MonoBehaviour
 
     public void MoveSelection(bool isMovingUp)
     {
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _navigateClip;
+        osc.Play();
+
         _currentSelectedIndex += isMovingUp ? -1 : 1;
         _currentSelectedIndex = (_currentSelectedIndex + _selections.Count) % _selections.Count;
         ShowCurrentSelection();
