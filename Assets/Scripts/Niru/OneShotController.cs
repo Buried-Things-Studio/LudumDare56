@@ -9,7 +9,7 @@ public class OneShotController : MonoBehaviour
 
     public void PlayWithVariance()
     {
-        float i = Random.Range(0.92f, 1.08f);
+        float i = Random.Range(0.9f, 1.1f);
         _mySource.clip = MyClip;
         _mySource.pitch = i;
         _mySource.Play();

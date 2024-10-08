@@ -597,7 +597,7 @@ MonoBehaviour:
 
 
     If you enter an ancounter with
-    a bug and wnat to capture it, you will first have to take its HP below the <b>catch
+    a bug and want to capture it, you will first have to take its HP below the <b>catch
     threshold</b>.
 
 
@@ -2184,7 +2184,7 @@ MonoBehaviour:
   - {fileID: 7688292445888136087}
   _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
     type: 3}
-  _pageTurnClip: {fileID: 8300000, guid: da2b46d2a6d1e6549ae3bb694023e344, type: 3}
+  _pageTurnClip: {fileID: 8300000, guid: 0abf0ec95d3c78c468fd5dc6e58bc536, type: 3}
   _backOutClip: {fileID: 8300000, guid: b9f37b49f7b9ed34c98519ce772d6b53, type: 3}
 --- !u!82 &3360978979720995434
 AudioSource:
@@ -2196,7 +2196,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5ddb9f06746bc494f93144fabc135170, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 75327aacef2d27c44978494a568f5de7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

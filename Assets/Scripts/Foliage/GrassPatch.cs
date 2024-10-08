@@ -6,11 +6,13 @@ public class GrassPatch : MonoBehaviour
 {
     [SerializeField] private GameObject _grassBladeGO;
     [SerializeField] private Transform _splats;
+    [SerializeField] private AnimationCurve _scaleCurve;
 
 
     void Start()
     {
         MakeGrass();
+        StartCoroutine(ScaleIn());
     }
 
 
@@ -39,5 +41,23 @@ public class GrassPatch : MonoBehaviour
 
             blade.transform.localPosition = new Vector3(Random.Range(-0.47f, 0.47f), 0, zAdd * flip);
         }
+    }
+
+
+    private IEnumerator ScaleIn()
+    {
+        float randomSpeed = Random.Range(0.5f, 0.9f);
+
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / randomSpeed;
+
+            transform.localScale = Vector3.one * _scaleCurve.Evaluate(t);
+
+            yield return null;
+        }
+
+        transform.localScale = Vector3.one;
     }
 }

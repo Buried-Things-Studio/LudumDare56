@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
+
 public class CombatState
 {
     public Critter PlayerCritter;
@@ -35,6 +36,11 @@ public class CombatController : MonoBehaviour
     private bool _isChangingScene;
     
     
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _whooshClip;
+
+
     public void SetupCombat(Player playerData, Collector opponentData, Critter npcCritter)
     {
         PlayerData = playerData;
@@ -122,7 +128,7 @@ public class CombatController : MonoBehaviour
 
             GameObject.Destroy(PlayerMesh);
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
 
             PlayerMesh = GameObject.Instantiate(newPrefab);
             PlayerMesh.transform.SetParent(PlayerMeshParent);
@@ -170,7 +176,7 @@ public class CombatController : MonoBehaviour
 
             GameObject.Destroy(NpcMesh);
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
 
             NpcMesh = GameObject.Instantiate(newPrefab);
             NpcMesh.transform.SetParent(NpcMeshParent);
@@ -565,6 +571,10 @@ public class CombatController : MonoBehaviour
         _isChangingScene = true;
         
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _whooshClip;
+        osc.Play();
 
         GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
         yield return new WaitForSeconds(0.5f);

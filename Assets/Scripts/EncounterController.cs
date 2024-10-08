@@ -24,6 +24,7 @@ public class EncounterController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private GameObject _oneShotGO;
     [SerializeField] private AudioClip _alertClip;
+    [SerializeField] private AudioClip combatTransitionClip;
 
 
     public void SetAvailableCrittersOnFloor(Vector2Int levelRange)
@@ -81,6 +82,10 @@ public class EncounterController : MonoBehaviour
         PixelAnimator = GameObject.Find("PixelVolume").GetComponent<Animator>();
         PixelAnimator.SetTrigger("Dissolve");
 
+        OneShotController osc2 = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = combatTransitionClip;
+        osc.Play();
+
         yield return new WaitForSeconds(0.5f);
 
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
@@ -113,6 +118,10 @@ public class EncounterController : MonoBehaviour
         //Pixel dissolve and musical sting
         PixelAnimator = GameObject.Find("PixelVolume").GetComponent<Animator>();
         PixelAnimator.SetTrigger("Dissolve");
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = combatTransitionClip;
+        osc.Play();
 
         yield return new WaitForSeconds(0.5f);
 

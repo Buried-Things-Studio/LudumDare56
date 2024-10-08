@@ -10,6 +10,7 @@ public enum MenuOption
     Bugs,
     Item,
     Book,
+    Quit,
 }
 
 
@@ -26,7 +27,10 @@ public class OverworldMenu : MonoBehaviour
 
     [SerializeField] private Book _book;
     [SerializeField] private GameObject _bookObject;
-    
+
+    [SerializeField] private Quit _quit;
+    [SerializeField] private GameObject _quitObject;
+
     private bool _isMenuOpen;
     private bool _isMenuClosing;
     private Player _player;
@@ -38,6 +42,7 @@ public class OverworldMenu : MonoBehaviour
     [SerializeField] private AudioClip _selectClip;
     [SerializeField] private AudioClip _backOutClip;
     [SerializeField] private AudioClip _failClip;
+    [SerializeField] private AudioClip _menuOpenClip;
 
 
     public void GetComponentsInScene(Player player, PlayerController playerController)
@@ -58,6 +63,10 @@ public class OverworldMenu : MonoBehaviour
             _playerController.SetOverworldMenuUIBlock(true);
             
             StartPlayerMenuActionChoice();
+
+            OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+            osc.MyClip = _menuOpenClip;
+            osc.Play();
         }
 
         if (_isMenuOpen && _isMenuClosing)
@@ -75,6 +84,7 @@ public class OverworldMenu : MonoBehaviour
         _itemOptionsObject.SetActive(false);
         _bugMenuObject.SetActive(false);
         _bookObject.SetActive(false);
+        _quitObject.SetActive(false);
     }
 
 
@@ -94,7 +104,7 @@ public class OverworldMenu : MonoBehaviour
         _menuOptionsObject.SetActive(true);
         _menuOptions.ShowCurrentSelection();
         
-        yield return new WaitForEndOfFrame();
+        yield return null;
         
         bool isSelected = false;
         
@@ -124,7 +134,7 @@ public class OverworldMenu : MonoBehaviour
                 {
                     _menuOptionsObject.SetActive(false);
 
-                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You have no items!"));
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You haven't got any!"));
 
                     _menuOptionsObject.SetActive(true);
                 }
@@ -155,6 +165,11 @@ public class OverworldMenu : MonoBehaviour
             return false;
         }
 
+        if (translatedSelection == MenuOption.Bugs && _player.GetCritters().Count == 0)
+        {
+            return false;
+        }
+
         if (translatedSelection == MenuOption.Item)
         {
             StartPlayerItemChoice();
@@ -166,6 +181,10 @@ public class OverworldMenu : MonoBehaviour
         else if (translatedSelection == MenuOption.Book)
         {
             StartBook();
+        }
+        else if (translatedSelection == MenuOption.Quit)
+        {
+            StartQuit();
         }
 
         OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
@@ -189,7 +208,7 @@ public class OverworldMenu : MonoBehaviour
 
     private IEnumerator ItemOptionsInteraction()
     {
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         bool isSelected = false;
         
@@ -334,9 +353,28 @@ public class OverworldMenu : MonoBehaviour
     }
 
 
+    private void StartQuit()
+    {
+        SetInactiveAllMenus();
+        _quitObject.SetActive(true);
+
+        StartCoroutine(QuitInteraction());
+    }
+
+
     private IEnumerator BookInteraction()
     {
         yield return StartCoroutine(_book.HoldBookOpen());
+
+        StartPlayerMenuActionChoice();
+
+        yield return null;
+    }
+
+
+    private IEnumerator QuitInteraction()
+    {
+        yield return StartCoroutine(_quit.HoldMenuOpen());
 
         StartPlayerMenuActionChoice();
 

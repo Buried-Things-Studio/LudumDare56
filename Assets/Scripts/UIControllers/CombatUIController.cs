@@ -144,7 +144,7 @@ public class CombatUIController : MonoBehaviour
 
                     GameObject.Destroy(_combatController.PlayerMesh);
 
-                    yield return new WaitForEndOfFrame();
+                    yield return null;
 
                     _combatController.PlayerMesh = GameObject.Instantiate(newPrefab);
                     _combatController.PlayerMesh.transform.SetParent(_combatController.PlayerMeshParent);
@@ -288,7 +288,7 @@ public class CombatUIController : MonoBehaviour
 
     private IEnumerator BattleOptionsInteraction()
     {
-        yield return new WaitForEndOfFrame();
+        yield return null;
         
         bool isSelected = false;
         
@@ -378,7 +378,7 @@ public class CombatUIController : MonoBehaviour
 
     private IEnumerator MoveOptionsInteraction()
     {
-        yield return new WaitForEndOfFrame();
+        yield return null;
         
         bool isSelected = false;
         
@@ -479,7 +479,7 @@ public class CombatUIController : MonoBehaviour
 
     private IEnumerator ItemOptionsInteraction()
     {
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         bool isSelected = false;
         
