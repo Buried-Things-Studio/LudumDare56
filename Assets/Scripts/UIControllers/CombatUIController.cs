@@ -86,7 +86,7 @@ public class CombatUIController : MonoBehaviour
     {
         foreach (CombatVisualStep step in VisualSteps.CurrentSteps)
         {
-            Debug.Log($"Step is {step.GetType()}");
+            //Debug.Log($"Step is {step.GetType()}");
             
             if (step.GetType() == typeof(HealthChangeStep))
             {

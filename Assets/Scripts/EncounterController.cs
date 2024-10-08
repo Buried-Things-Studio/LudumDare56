@@ -21,6 +21,10 @@ public class EncounterController : MonoBehaviour
     public Animator ExclaimAnimator;
     public GameObject _wallsAndDoorsGO;
 
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _alertClip;
+
 
     public void SetAvailableCrittersOnFloor(Vector2Int levelRange)
     {
@@ -67,9 +71,16 @@ public class EncounterController : MonoBehaviour
     {
         //Pixel dissolve and musical sting
         ExclaimAnimator.SetTrigger("Exclaim");
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _alertClip;
+        osc.Play();
+
         yield return new WaitForSeconds(0.8f);
+
         PixelAnimator = GameObject.Find("PixelVolume").GetComponent<Animator>();
         PixelAnimator.SetTrigger("Dissolve");
+
         yield return new WaitForSeconds(0.5f);
 
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
@@ -102,6 +113,7 @@ public class EncounterController : MonoBehaviour
         //Pixel dissolve and musical sting
         PixelAnimator = GameObject.Find("PixelVolume").GetComponent<Animator>();
         PixelAnimator.SetTrigger("Dissolve");
+
         yield return new WaitForSeconds(0.5f);
 
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("Combat");
