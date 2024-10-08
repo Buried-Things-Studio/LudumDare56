@@ -57,12 +57,18 @@ public class CombatUIController : MonoBehaviour
 
     public void AddVisualStep(CombatVisualStep step)
     {
+        Debug.Log($"Adding visual step of type {step.GetType()}");
         VisualSteps.CurrentSteps.Add(step);
     }
 
 
     public void AddVisualSteps(List<CombatVisualStep> steps)
     {
+        foreach (CombatVisualStep step in steps)
+        {
+            Debug.Log($"Adding visual step of type {step.GetType()} as part of step block");
+        }
+
         VisualSteps.CurrentSteps.AddRange(steps);
     }
 
