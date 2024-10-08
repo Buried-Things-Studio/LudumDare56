@@ -100,6 +100,36 @@ public class CombatUIController : MonoBehaviour
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
 
                 _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter, false); //this might not be the critter that levelled, but there's no harm with a repopulate
+            
+                if (step.GetType() == typeof(ChangeActiveStep))
+                {
+                    Debug.Log("Change active step switch animation...");
+                    
+                    _combatController.PlayerMeshParent.transform.parent.parent.GetComponent<Animator>().SetTrigger("Back");
+
+                    Debug.Log("Set Back, now waiting...");
+
+                    yield return new WaitForSeconds(0.5f);
+
+                    Debug.Log("Setting Out");
+
+                    ChangeActiveStep activeStep = (ChangeActiveStep)step;
+                    GameObject newPrefab = Resources.Load<GameObject>("Bugs/" + activeStep.NewCritter.Name.Replace(" ", "")) as GameObject;
+
+                    GameObject.Destroy(_combatController.PlayerMesh);
+
+                    yield return new WaitForEndOfFrame();
+
+                    _combatController.PlayerMesh = GameObject.Instantiate(newPrefab);
+                    _combatController.PlayerMesh.transform.SetParent(_combatController.PlayerMeshParent);
+                    _combatController.PlayerMesh.transform.localPosition = Vector3.zero;
+                    _combatController.PlayerMesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                    _combatController.PlayerMesh.transform.localScale = Vector3.one;
+
+                    _combatController.PlayerMeshParent.transform.parent.parent.GetComponent<Animator>().SetTrigger("Out");
+
+                    yield return new WaitForSeconds(1f);
+                }
             }
             else if (step.GetType() == typeof(DoMoveStep))
             {
