@@ -1223,6 +1223,9 @@ MonoBehaviour:
   PixelAnimator: {fileID: 0}
   ExclaimAnimator: {fileID: 2116297220}
   _wallsAndDoorsGO: {fileID: 677100137}
+  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
+    type: 3}
+  _alertClip: {fileID: 8300000, guid: e72dc5a6a69c4ab40b2d2b3ecea370bf, type: 3}
 --- !u!1 &677100137 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4650793528883908216, guid: 5ba41707f19522044bf83812fc2ead71,

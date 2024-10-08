@@ -7,21 +7,10 @@ public class GrassPatch : MonoBehaviour
     [SerializeField] private GameObject _grassBladeGO;
     [SerializeField] private Transform _splats;
 
-    [SerializeField] private bool _debugSwitch;
 
     void Start()
     {
         MakeGrass();
-    }
-
-
-    void Update()
-    {
-        if (_debugSwitch)
-        {
-            MakeGrass();
-            _debugSwitch = false;
-        }
     }
 
 

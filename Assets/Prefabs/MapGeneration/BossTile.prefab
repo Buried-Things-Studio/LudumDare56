@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e78c9cb305099ec4f9dfb1a12de67ebd, type: 2}
+  - {fileID: 2100000, guid: 70f3742d13e61e8418411da6318a5b93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,6 +121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Coordinates: {x: 0, y: 0}
   Type: 0
+  IsWalkable: 0
+  ConnectingRoom: 6
 --- !u!114 &4102656803913479830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,3 +137,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Coordinates: {x: 0, y: 0}
   Type: 0
+  IsWalkable: 0
+  ConnectingRoom: 6
