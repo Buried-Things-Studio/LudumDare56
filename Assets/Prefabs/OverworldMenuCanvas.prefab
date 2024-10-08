@@ -107,6 +107,11 @@ MonoBehaviour:
   - {fileID: 6643063152105910382}
   - {fileID: 4329902613698631388}
   - {fileID: 1301386725187842944}
+  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
+    type: 3}
+  _navigateClip: {fileID: 8300000, guid: bfde249b249e86e4b8d9a8d807dfb26a, type: 3}
+  _selectClip: {fileID: 8300000, guid: 6b80e443f5d151a4fa379bdfc183c462, type: 3}
+  _backOutClip: {fileID: 8300000, guid: 2b392d4e5c92df74a8f01868b6dcfdb1, type: 3}
 --- !u!1 &964599288280370826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2294,9 +2299,10 @@ MonoBehaviour:
   _bookObject: {fileID: 0}
   _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
     type: 3}
-  _navigateClip: {fileID: 8300000, guid: f266bd9cbac0a0c4495b54b22bb435bd, type: 3}
+  _navigateClip: {fileID: 8300000, guid: bfde249b249e86e4b8d9a8d807dfb26a, type: 3}
   _selectClip: {fileID: 8300000, guid: 6b80e443f5d151a4fa379bdfc183c462, type: 3}
   _backOutClip: {fileID: 8300000, guid: 2b392d4e5c92df74a8f01868b6dcfdb1, type: 3}
+  _failClip: {fileID: 8300000, guid: d5f86e426f2e37745a5d6ceb59ce3f16, type: 3}
 --- !u!1 &8921073283605043018
 GameObject:
   m_ObjectHideFlags: 0

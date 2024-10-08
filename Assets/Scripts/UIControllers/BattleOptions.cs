@@ -8,6 +8,11 @@ public class BattleOptions : MonoBehaviour
     [SerializeField] private List<GameObject> _selections;
     private int _currentSelectedIndex = 0;
 
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _navigateClip;
+    [SerializeField] private AudioClip _selectClip;
+    [SerializeField] private AudioClip _backOutClip;
 
     public void SetSelectedIndexToMove()
     {
@@ -29,6 +34,10 @@ public class BattleOptions : MonoBehaviour
         _currentSelectedIndex += isMovingUp ? -1 : 1;
         _currentSelectedIndex = (_currentSelectedIndex + _selections.Count) % _selections.Count;
         ShowCurrentSelection();
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _navigateClip;
+        osc.Play();
     }
 
 

@@ -37,6 +37,7 @@ public class OverworldMenu : MonoBehaviour
     [SerializeField] private AudioClip _navigateClip;
     [SerializeField] private AudioClip _selectClip;
     [SerializeField] private AudioClip _backOutClip;
+    [SerializeField] private AudioClip _failClip;
 
 
     public void GetComponentsInScene(Player player, PlayerController playerController)
@@ -209,6 +210,10 @@ public class OverworldMenu : MonoBehaviour
                 if (selectedItem == ItemType.MasonJar)
                 {
                     //do nothing
+
+                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                    osc.MyClip = _failClip;
+                    osc.Play();
                 }
                 else
                 {
@@ -225,6 +230,10 @@ public class OverworldMenu : MonoBehaviour
                             _player.RemoveItemFromInventory(ItemType.Nectar);
                         }
 
+                        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                        osc.MyClip = _selectClip;
+                        osc.Play();
+
                         StartPlayerMenuActionChoice();
                     }
 
@@ -236,7 +245,11 @@ public class OverworldMenu : MonoBehaviour
                         {
                             _player.TeachMoveToCritter((MoveManual)_itemOptions.GetSelectedItem(), _bugMenu.SelectedCritterGuid);
                         }
-                        
+
+                        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                        osc.MyClip = _selectClip;
+                        osc.Play();
+
                         StartPlayerMenuActionChoice();
                     }
                 }
@@ -246,6 +259,10 @@ public class OverworldMenu : MonoBehaviour
             {
                 isSelected = true;
                 StartPlayerMenuActionChoice();
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _backOutClip;
+                osc.Play();
             }
 
             yield return null;
