@@ -88,33 +88,33 @@ public class FloorController : MonoBehaviour
         Encounters.PlayerData = PlayerData;
 
         //TODO: remove!----------
-        Critter starter = new BulletAnt();
-        starter.SetStartingLevel(10);
-        PlayerData.AddCritter(starter);
+        // Critter starter = new BulletAnt();
+        // starter.SetStartingLevel(10);
+        // PlayerData.AddCritter(starter);
 
-        Critter boye = new Honeybee();
-        boye.SetStartingLevel(10);
-        PlayerData.AddCritter(boye);
+        // Critter boye = new Honeybee();
+        // boye.SetStartingLevel(10);
+        // PlayerData.AddCritter(boye);
 
-        Critter boi = new MonarchButterfly();
-        boi.SetStartingLevel(10);
-        PlayerData.AddCritter(boi);
+        // Critter boi = new MonarchButterfly();
+        // boi.SetStartingLevel(10);
+        // PlayerData.AddCritter(boi);
 
-        PlayerData.AddItemToInventory(new MasonJar());
-        PlayerData.AddItemToInventory(new MasonJar());
-        PlayerData.AddItemToInventory(new MasonJar());
-        PlayerData.AddItemToInventory(new Nectar());
-        PlayerData.AddItemToInventory(new Nectar());
-        PlayerData.AddItemToInventory(new Nectar());
-        MoveManual newMoveManual = new MoveManual();
-        newMoveManual.SetRandomMove();
-        PlayerData.AddItemToInventory(newMoveManual);
-        newMoveManual = new MoveManual();
-        newMoveManual.SetRandomMove();
-        PlayerData.AddItemToInventory(newMoveManual);
-        newMoveManual = new MoveManual();
-        newMoveManual.SetRandomMove();
-        PlayerData.AddItemToInventory(newMoveManual);
+        // PlayerData.AddItemToInventory(new MasonJar());
+        // PlayerData.AddItemToInventory(new MasonJar());
+        // PlayerData.AddItemToInventory(new MasonJar());
+        // PlayerData.AddItemToInventory(new Nectar());
+        // PlayerData.AddItemToInventory(new Nectar());
+        // PlayerData.AddItemToInventory(new Nectar());
+        // MoveManual newMoveManual = new MoveManual();
+        // newMoveManual.SetRandomMove();
+        // PlayerData.AddItemToInventory(newMoveManual);
+        // newMoveManual = new MoveManual();
+        // newMoveManual.SetRandomMove();
+        // PlayerData.AddItemToInventory(newMoveManual);
+        // newMoveManual = new MoveManual();
+        // newMoveManual.SetRandomMove();
+        // PlayerData.AddItemToInventory(newMoveManual);
         //--------------
 
         InitializeLevel();
