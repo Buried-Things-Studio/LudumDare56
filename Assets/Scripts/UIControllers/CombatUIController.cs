@@ -109,7 +109,11 @@ public class CombatUIController : MonoBehaviour
 
                     Debug.Log("Set Back, now waiting...");
 
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.4f);
+
+                    _combatController.PlayerMeshParent.GetComponent<Animator>().SetTrigger("Idle");
+
+                    yield return new WaitForSeconds(0.1f);
 
                     Debug.Log("Setting Out");
 

@@ -108,7 +108,11 @@ public class CombatController : MonoBehaviour
 
             Debug.Log("Set Back, now waiting...");
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.4f);
+
+            PlayerMeshParent.GetComponent<Animator>().SetTrigger("Idle");
+
+            yield return new WaitForSeconds(0.1f);
 
             Debug.Log("Setting Out");
 
@@ -152,7 +156,11 @@ public class CombatController : MonoBehaviour
 
             Debug.Log("Set Back, now waiting...");
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.4f);
+
+            NpcMeshParent.GetComponent<Animator>().SetTrigger("Idle");
+
+            yield return new WaitForSeconds(0.1f);
 
             Debug.Log("Setting Out");
 
