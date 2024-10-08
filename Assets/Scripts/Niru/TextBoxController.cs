@@ -21,6 +21,11 @@ public class TextBoxController : MonoBehaviour
     public bool IsSelectingYes = false;
     private int _currentSelectedIndex = 0;
 
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip _popInClip;
+    [SerializeField] private AudioClip _popOutClip;
+
 
     public void Start()
     {
@@ -31,6 +36,10 @@ public class TextBoxController : MonoBehaviour
     private void ChangeShowState(bool isShowing)
     {
         _canvasGroup.alpha = isShowing ? 1 : 0;
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = isShowing ? _popInClip : _popOutClip;
+        osc.Play();
     }
 
 
@@ -50,7 +59,7 @@ public class TextBoxController : MonoBehaviour
         DisableAllTabs();
         _moveOnTab.SetActive(true);
 
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         while (
             !Input.GetKeyDown(Controls.MenuSelectKey)
@@ -73,7 +82,7 @@ public class TextBoxController : MonoBehaviour
         _moveTab.SetActive(true);
         _moveDetails.PopulateMove(move);
 
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         while (
             !Input.GetKeyDown(Controls.MenuSelectKey)
@@ -98,7 +107,7 @@ public class TextBoxController : MonoBehaviour
         _moveTab.SetActive(true);
         _moveDetails.PopulateMove(move);
 
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         bool isSelected = false;
 
@@ -153,7 +162,7 @@ public class TextBoxController : MonoBehaviour
         _currentSelectedIndex = 0;
         ShowCurrentSelection();
 
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         bool isSelected = false;
 
@@ -194,7 +203,7 @@ public class TextBoxController : MonoBehaviour
         _imageTab.SetActive(true);
         _imageTabImage.sprite = PictureHelpers.GetProfilePicture(starter);
 
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         bool isSelected = false;
 

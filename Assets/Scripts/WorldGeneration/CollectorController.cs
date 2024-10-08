@@ -14,6 +14,10 @@ public class CollectorController : MonoBehaviour
     [SerializeField] private Transform _meshTransform;
     [SerializeField] private AnimationCurve _bounceCurve;
 
+    [Header("Audio")]
+    [SerializeField] private GameObject _oneShotGO;
+    [SerializeField] private AudioClip[] _stepClips;
+
     public void CalculateVisibleCoords()
     {
         if(Direction == "0")
@@ -130,6 +134,10 @@ public class CollectorController : MonoBehaviour
         float timeToMove = 0.15f;
 
         Vector3 meshStartPos = _meshTransform.localPosition;
+
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _stepClips[Random.Range(0, _stepClips.Length)];
+        osc.PlayWithVariance();
 
         while (elapsedTime < timeToMove)
         {

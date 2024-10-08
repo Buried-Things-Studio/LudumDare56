@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class BattleOptions : MonoBehaviour
@@ -13,6 +14,23 @@ public class BattleOptions : MonoBehaviour
     [SerializeField] private AudioClip _navigateClip;
     [SerializeField] private AudioClip _selectClip;
     [SerializeField] private AudioClip _backOutClip;
+
+    [SerializeField] private CanvasGroup _coinsCG;
+
+
+    private void OnEnable()
+    {
+        if (_coinsCG)
+            _coinsCG.alpha = 1;
+    }
+
+
+    private void OnDisable()
+    {
+        if (_coinsCG)
+            _coinsCG.alpha = 0;
+    }
+
 
     public void SetSelectedIndexToMove()
     {
@@ -53,4 +71,5 @@ public enum BattleOption
     Move,
     Bugs,
     Item,
+    Quit,
 }

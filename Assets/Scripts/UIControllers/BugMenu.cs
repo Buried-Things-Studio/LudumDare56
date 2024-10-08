@@ -199,7 +199,7 @@ public class BugMenu : MonoBehaviour
 
     public IEnumerator ChooseMoveTeach(bool isForcingChoice)
     {
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         bool isClosing = false;
         SelectedCritterGuid = Guid.Empty;

@@ -27,7 +27,7 @@ public class SimulateCombat : MonoBehaviour
 
     private IEnumerator StartCombat()
     {
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         BulletAnt ant = new BulletAnt();
         ant.SetStartingLevel(5);

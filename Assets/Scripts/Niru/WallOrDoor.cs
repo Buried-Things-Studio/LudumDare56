@@ -87,10 +87,12 @@ public class WallOrDoor : MonoBehaviour
 
     private IEnumerator ScaleIn()
     {
+        float randomSpeed = Random.Range(0.5f, 0.9f);
+
         float t = 0;
         while (t < 1)
         {
-            t += Time.deltaTime / 0.7f;
+            t += Time.deltaTime / randomSpeed;
 
             transform.localScale = Vector3.one * _scaleCurve.Evaluate(t);
 
