@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private List<string> _keyPressPriorityOrder = new List<string>();
     public FloorController FloorController;
 
-    //Anim
+    [Header("Anim")]
     [SerializeField] private Transform _meshTransform;
     [SerializeField] private AnimationCurve _bounceCurve;
     [SerializeField] private ParticleSystem _grassParticleSystem;
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip _descendClip;
     [SerializeField] private AudioClip[] _grassSteps;
     [SerializeField] private AudioClip[] _dirtSteps;
+    [SerializeField] private AudioClip _doorClip;
 
 
     public void Update()
@@ -218,7 +219,6 @@ public class PlayerController : MonoBehaviour
 
 
         }
-
     }
 
     private IEnumerator InteractWithHospital()
@@ -303,7 +303,6 @@ public class PlayerController : MonoBehaviour
 
             }
         }
-
     }
 
 
@@ -459,6 +458,10 @@ public class PlayerController : MonoBehaviour
             {
                 faceIntoNewRoom = (Direction + 2) % 4;
             }
+
+            OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+            osc.MyClip = _doorClip;
+            osc.PlayWithVariance();
 
             RoomGeneration.MoveRooms(newRoomCoords, CurrentCoords, faceIntoNewRoom);
         }

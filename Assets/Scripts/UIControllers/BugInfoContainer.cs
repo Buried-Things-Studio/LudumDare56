@@ -13,6 +13,8 @@ public class BugInfoContainer : MonoBehaviour
     [SerializeField] TextMeshProUGUI _healthNumbersTMP;
     [SerializeField] Image _healthBarFillImage;
     [SerializeField] Image _affinityColorFadeImage;
+    [SerializeField] private Image _typeIconImage;
+
 
     [SerializeField] RectTransform _catchThresholdBarRT;
     [SerializeField] Image _catchThresholdBarImage;
@@ -29,11 +31,14 @@ public class BugInfoContainer : MonoBehaviour
         _isWildCritter = isWildCritter;
         
         _bugNameTMP.text = critter.Name;
-        _levelTMP.text = $"<size=18>Lv </size><mspace=24>{critter.Level}";
+        _levelTMP.text = $"<size=18>Lv </size><mspace=16>{critter.Level}";
         _affinityColorFadeImage.color = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
 
         _healthNumbersTMP.text = $"<mspace=14>{critter.CurrentHealth}/{critter.MaxHealth}";
         _healthBarFillImage.fillAmount = (float)critter.CurrentHealth / (float)critter.MaxHealth;
+
+        _typeIconImage.sprite = PictureHelpers.GetBugAffinityPicture(critter);
+        _typeIconImage.color = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
 
         if (!_isWildCritter)
         {

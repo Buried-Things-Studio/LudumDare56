@@ -1705,6 +1705,10 @@ MonoBehaviour:
   - {fileID: 6959603687286466288}
   - {fileID: 2716239642774661633}
   IsSelectingYes: 0
+  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
+    type: 3}
+  _popInClip: {fileID: 8300000, guid: 8804c5a7ec8575446b1c46ad8040a3a4, type: 3}
+  _popOutClip: {fileID: 8300000, guid: 837d75bb6cd21dd478b92002a469530f, type: 3}
 --- !u!225 &2219916663851671242
 CanvasGroup:
   m_ObjectHideFlags: 0

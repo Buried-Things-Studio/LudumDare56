@@ -29,7 +29,7 @@ public class WinLoseController : MonoBehaviour
             GameObject.Destroy(floorCon.gameObject);
         }
         
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         SceneManager.LoadScene("MainGame");
     }

@@ -303,6 +303,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _grassParticleSystem: {fileID: 8004829363031532819}
+  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
+    type: 3}
   _descendClip: {fileID: 8300000, guid: bae11d786068429469398f8cb7a4fbc4, type: 3}
   _grassSteps:
   - {fileID: 8300000, guid: a390d7febd7bf2a48957b9d2a7ff2971, type: 3}
@@ -319,8 +321,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 763c25aa3e8d18040a7c136c9b003ed9, type: 3}
   - {fileID: 8300000, guid: b256920903db3e74099b449138d564be, type: 3}
   - {fileID: 8300000, guid: 1eec05903385300448f7f3986670981b, type: 3}
-  _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
-    type: 3}
+  _doorClip: {fileID: 8300000, guid: 6b97efbefb874ff4bb65c9cdd668615c, type: 3}
 --- !u!1001 &4515284559220327275
 PrefabInstance:
   m_ObjectHideFlags: 0
