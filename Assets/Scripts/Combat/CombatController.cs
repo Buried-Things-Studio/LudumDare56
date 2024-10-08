@@ -500,12 +500,12 @@ public class CombatController : MonoBehaviour
         }
         else if (OpponentData != null && !OpponentData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
-            StartCoroutine(GoToWin());
-
             int winnings = 100 * OpponentData.GetCritters().Count;
             PlayerData.AddMoney(winnings);
 
             _viz.AddVisualStep(new WinningsStep(winnings));
+
+            StartCoroutine(GoToMainGame());
 
             return false;
         }
