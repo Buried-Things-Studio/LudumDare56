@@ -31,6 +31,8 @@ public class CombatController : MonoBehaviour
     public Player PlayerData;
     public Collector OpponentData;
     public CombatState State = new CombatState();
+
+    private bool _isChangingScene;
     
     
     public void SetupCombat(Player playerData, Collector opponentData, Critter npcCritter)
@@ -339,9 +341,12 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator ShowTurn()
     {
-        yield return StartCoroutine(_viz.ExecuteVisualSteps());
-        
-        StartCoroutine(InitializeTurn());
+        if (!_isChangingScene)
+        {
+            yield return StartCoroutine(_viz.ExecuteVisualSteps());
+            
+            StartCoroutine(InitializeTurn());
+        }
     }
 
 
@@ -521,6 +526,8 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator GoToWin()
     {
+        _isChangingScene = true;
+        
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
 
         GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
@@ -537,6 +544,8 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator GoToLose()
     {
+        _isChangingScene = true;
+        
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
 
         GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
@@ -553,6 +562,8 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator GoToMainGame()
     {
+        _isChangingScene = true;
+        
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
 
         GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");

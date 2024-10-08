@@ -53,7 +53,12 @@ public class MoveManual : Item
 
     public void SetRandomMove()
     {
+        
         List<Type> moveTypes = MasterCollection.GetAllMoveTypes();
+        Debug.Log($"moves before taking out Tried Its Best: {moveTypes.Count}");
+        moveTypes.Remove(typeof(TriedItsBest));
+        Debug.Log($"moves after taking out Tried Its Best: {moveTypes.Count}");
+
         Move move = Activator.CreateInstance(moveTypes[UnityEngine.Random.Range(0, moveTypes.Count)]) as Move;
 
         SetTeachableMove(move);

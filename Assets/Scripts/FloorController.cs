@@ -86,6 +86,9 @@ public class FloorController : MonoBehaviour
         
         PlayerData = new Player();
         Encounters.PlayerData = PlayerData;
+        PlayerData.AddItemToInventory(new MasonJar());
+        PlayerData.AddItemToInventory(new Nectar());
+
 
         //TODO: remove!----------
         // Critter starter = new BulletAnt();

@@ -78,12 +78,19 @@ public class CombatUIController : MonoBehaviour
             Debug.Log($"Adding visual step of type {step.GetType()} as part of step block");
         }
 
+        if (steps.Count == 0)
+        {
+            Debug.Log("Tried to add step block to CurrentSteps, but block was empty");
+        }
+
         VisualSteps.CurrentSteps.AddRange(steps);
     }
 
 
     public IEnumerator ExecuteVisualSteps()
     {
+        Debug.Log("STARTING VISUAL STEPS!");
+        
         foreach (CombatVisualStep step in VisualSteps.CurrentSteps)
         {
             //Debug.Log($"Step is {step.GetType()}");
@@ -222,6 +229,7 @@ public class CombatUIController : MonoBehaviour
             }
         }
 
+        Debug.Log("Clearing Current Steps...");
         VisualSteps.CurrentSteps.Clear();
 
         yield return null;
