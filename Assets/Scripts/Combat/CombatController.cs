@@ -22,8 +22,8 @@ public class CombatState
 
 public class CombatController : MonoBehaviour
 {
-    [SerializeField] private Transform _playerMeshParent;
-    [SerializeField] private Transform _npcMeshParent;
+    public Transform PlayerMeshParent;
+    public Transform NpcMeshParent;
     public GameObject PlayerMesh;
     public GameObject NpcMesh;
     [SerializeField] private CombatUIController _viz;
@@ -51,15 +51,15 @@ public class CombatController : MonoBehaviour
     private void InitializeMeshes()
     {
         GameObject playerPrefab = Resources.Load<GameObject>("Bugs/" + State.PlayerCritter.Name.Replace(" ", "")) as GameObject;
-        GameObject npcPrefab = Resources.Load<GameObject>("Bugs/" + State.PlayerCritter.Name.Replace(" ", "")) as GameObject;
+        GameObject npcPrefab = Resources.Load<GameObject>("Bugs/" + State.NpcCritter.Name.Replace(" ", "")) as GameObject;
 
-        PlayerMesh = Instantiate(playerPrefab);
-        PlayerMesh.transform.SetParent(_playerMeshParent);
+        PlayerMesh = GameObject.Instantiate(playerPrefab);
+        PlayerMesh.transform.SetParent(PlayerMeshParent);
         PlayerMesh.transform.localPosition = Vector3.zero;
         PlayerMesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
-        NpcMesh = Instantiate(npcPrefab);
-        NpcMesh.transform.SetParent(_npcMeshParent);
+        NpcMesh = GameObject.Instantiate(npcPrefab);
+        NpcMesh.transform.SetParent(NpcMeshParent);
         NpcMesh.transform.localPosition = Vector3.zero;
         NpcMesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
@@ -357,7 +357,7 @@ public class CombatController : MonoBehaviour
 
         PopulateParticipant();
 
-        _viz.AddVisualStep(new ChangeActiveStep(State.PlayerCritter.Name));
+        _viz.AddVisualStep(new ChangeActiveStep(State.PlayerCritter, State.PlayerCritter.Name));
     }
 
 
@@ -434,21 +434,20 @@ public class CombatController : MonoBehaviour
 
         if (!PlayerData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
-            //TODO: go to game over
-            //StartCoroutine(GoToMainGame());
-            return true;
+            StartCoroutine(GoToLose());
+
+            return false;
         }
         else if (OpponentData != null && !OpponentData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
-            //TODO: go to win
-            //StartCoroutine(GoToMainGame());
+            StartCoroutine(GoToWin());
 
             int winnings = 100 * OpponentData.GetCritters().Count;
             PlayerData.AddMoney(winnings);
 
             _viz.AddVisualStep(new WinningsStep(winnings));
 
-            return true;
+            return false;
         }
         else if (OpponentData == null && State.NpcCritter.CurrentHealth <= 0)
         {
@@ -457,6 +456,38 @@ public class CombatController : MonoBehaviour
         }
 
         return false;
+    }
+
+
+    private IEnumerator GoToWin()
+    {
+        yield return StartCoroutine(_viz.ExecuteVisualSteps());
+
+        GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
+        yield return new WaitForSeconds(0.5f);
+
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("WinGame");
+
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
+        }
+    }
+
+
+    private IEnumerator GoToLose()
+    {
+        yield return StartCoroutine(_viz.ExecuteVisualSteps());
+
+        GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
+        yield return new WaitForSeconds(0.5f);
+
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("LoseGame");
+
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
+        }
     }
 
 

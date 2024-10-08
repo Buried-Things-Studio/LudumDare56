@@ -156,10 +156,12 @@ public class LevelGainStep : CombatVisualStep
 public class ChangeActiveStep : CombatVisualStep
 {
     public string Name;
+    public Critter NewCritter;
     
     
-    public ChangeActiveStep(string name)
+    public ChangeActiveStep(Critter newCritter, string name)
     {
+        NewCritter = newCritter;
         Name = name;
     }
 
