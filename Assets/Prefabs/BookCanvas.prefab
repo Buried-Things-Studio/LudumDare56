@@ -140,14 +140,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<i>So\u2026 you have come. Brave of you to venture here. For fame, I suppose\u2026
-    many try every year.\n\nWell if you must have your go, heed this warning my dear:
-    keep your wits about you and keep your head clear.\n\nThere are many Bugs around,
-    I can\u2019t say when they\u2019ll appear. Explore the dungeon as you go, and
-    secrets will become clear.\n\nZones come one after the other, if you get lost,
-    never fear; you will always have this Book, and to that you may adhere.\n\nIt
-    won\u2019t do to rush ahead if you want to beat the Final Collector - but be
-    careful out there, it won\u2019t do to tarry either.\n</i>\n"
+  m_text: "<i>So, Collector - you have come. Brave of you to venture here. For fame
+    or maybe glory\u2026 many try every year.\n\nIf you truly seek this challenge,
+    heed this warning my dear: keep your wits about you and keep your head clear.\n\nThere
+    are creatures lurking in these depths, no doubt they'll soon appear. Explore
+    the dungeon thoroughly, and keep your allies near\n\nFive mazelike floors await
+    you, if you get lost, never fear; you will always have this Book, and to that
+    you may adhere.\n\nIt won\u2019t do to rush ahead, prepare well to survive -
+    but be conscious of your resources to make it out...\n\nAlive.\n</i>\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb47eeb6d2e6dd6428819de715542ad0, type: 2}
   m_sharedMaterial: {fileID: 4998805371265380848, guid: fb47eeb6d2e6dd6428819de715542ad0,
@@ -597,7 +597,7 @@ MonoBehaviour:
 
 
     If you enter an ancounter with
-    a bug and want to capture it, you will first have to take its HP below the <b>catch
+    a Bug and want to capture it, you will first have to take its HP below the <b>catch
     threshold</b>.
 
 
@@ -605,7 +605,7 @@ MonoBehaviour:
     can use it to capture the bug!
 
 
-    You can have up to 5 bugs at a time, try
+    You can have up to 5 Bugs at a time, try
     and get a nice variety of <b>Affinities</b> to aid you in different fights.
 
 
@@ -1098,28 +1098,28 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Every move has the following:
+  m_text: 'Every Move has the following:
 
 
     <b>Affinity</b> - which governs the
-    effectiveness of the move against different target Affinities.
+    effectiveness of the Move against different target Affinities.
 
 
     <b>Base
-    Power</b> - which indicates the strength of the move before modifiers.
+    Power</b> - which indicates the strength of the Move before modifiers.
 
 
     <b>Accuracy</b>
-    - which is a percentage chance for the move to connect.
+    - which is a percentage chance for the Move to connect.
 
 
     <b>Blunt</b> or
-    <b>Sharp</b> indicator - which tells you which of your bugs attack stats will
-    be used to calculate damage from this move.
+    <b>Sharp</b> indicator - which tells you which of your Bug''s attack stats will
+    be used to calculate damage from this Move.
 
 
     <b>Uses</b> - which is how
-    many times this move can be used.'
+    many times this Move can be used.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb47eeb6d2e6dd6428819de715542ad0, type: 2}
   m_sharedMaterial: {fileID: 4998805371265380848, guid: fb47eeb6d2e6dd6428819de715542ad0,
@@ -1255,9 +1255,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<size=38><b>GUIDE</b></size>\n\nYou will need to use all available tools,
-    and learn a lot about your surroundings in order to conquer <b>Bug Land</b>.\n\nBugs
+    and learn a lot about your surroundings in order to conquer <b>Dungeon Crawlers</b>.\n\nBugs
     can level up and gain <b>Exp</b>, which will help you get stronger. Different
-    bugs level up in different ways, so learn their strengths and weaknesses!\n\nAround
+    Bugs level up in different ways, so learn their strengths and weaknesses!\n\nAround
     the land you will find other Collectors. They can be dangerous, but defeating
     them will earn you money you can use at shop!\n\nIf you find a <b>Move Scroll</b>
     on your travels, use it to teach one of your bugs a new Move! \n\n<i>HINT</i>
@@ -1814,11 +1814,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '
+  m_text: '<b><size=38>DUNGEON CRAWLERS</size></b>
 
-    <b><size=38>DUNGEON CRAWLERS</size></b> is a roguelike creature
-    collector. Capture a party of bugs and defeat the Collector Guardians that guard
-    the exits to the floor.
+    is a roguelike creature collector.
+    Capture a party of bugs and defeat the Collector Guardians that guard the exits
+    to the floor.
 
 
     Make it past the fifth floor to emerge victorious.
@@ -1876,7 +1876,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 6
   m_wordSpacing: 8
@@ -2584,8 +2584,8 @@ MonoBehaviour:
 
 
     Every Bug has different stats that govern how strong
-    their Blunt and Sharp moves are, as well as how much they resist Blunt and Sharp
-    moves from enemies.'
+    their Blunt and Sharp Moves are, as well as how much they resist Blunt and Sharp
+    Moves from enemies.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb47eeb6d2e6dd6428819de715542ad0, type: 2}
   m_sharedMaterial: {fileID: 4998805371265380848, guid: fb47eeb6d2e6dd6428819de715542ad0,
@@ -2949,12 +2949,12 @@ MonoBehaviour:
 
 
     <b>Bugs</b> are your friends! Every
-    bug has an <b>Affinity</b>, and each bug can learn up to four moves - which have
+    Bug has an <b>Affinity</b>, and each bug can learn up to four Moves - which have
     their own Affinity as well!
 
 
     Different Affinities are effective against
-    one another.'
+    one another. Arrows indicate strength of attack.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb47eeb6d2e6dd6428819de715542ad0, type: 2}
   m_sharedMaterial: {fileID: 4998805371265380848, guid: fb47eeb6d2e6dd6428819de715542ad0,

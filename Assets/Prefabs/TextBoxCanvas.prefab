@@ -1709,6 +1709,7 @@ MonoBehaviour:
     type: 3}
   _popInClip: {fileID: 8300000, guid: 8804c5a7ec8575446b1c46ad8040a3a4, type: 3}
   _popOutClip: {fileID: 8300000, guid: 837d75bb6cd21dd478b92002a469530f, type: 3}
+  _navClip: {fileID: 8300000, guid: bfde249b249e86e4b8d9a8d807dfb26a, type: 3}
 --- !u!225 &2219916663851671242
 CanvasGroup:
   m_ObjectHideFlags: 0

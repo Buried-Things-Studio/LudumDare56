@@ -1574,6 +1574,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 616055254}
     m_Modifications:
+    - target: {fileID: 2219916663851671242, guid: d90b018307aa2374dbf92786bd71c380,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5695422645933401076, guid: d90b018307aa2374dbf92786bd71c380,
+        type: 3}
+      propertyPath: m_text
+      value: Cornu aspersum!
+      objectReference: {fileID: 0}
     - target: {fileID: 7212158184911566772, guid: d90b018307aa2374dbf92786bd71c380,
         type: 3}
       propertyPath: m_Name
