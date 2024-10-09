@@ -300,6 +300,7 @@ MonoBehaviour:
   _oneShotGO: {fileID: 1865309494870032084, guid: 5025260d8699c2443bb4217622b51a2b,
     type: 3}
   _whooshClip: {fileID: 8300000, guid: b8bdd55ec5f187a49a8098912ef32dfb, type: 3}
+  _squishClip: {fileID: 8300000, guid: f550c68af665b9545a47b5503bfc1a90, type: 3}
 --- !u!1 &76285087
 GameObject:
   m_ObjectHideFlags: 0

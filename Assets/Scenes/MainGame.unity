@@ -821,7 +821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &519132335
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -968,6 +968,34 @@ MonoBehaviour:
   _floorTMPs:
   - {fileID: 1206495206}
   - {fileID: 1357064442}
+  _floorMat: {fileID: 2100000, guid: 70f3742d13e61e8418411da6318a5b93, type: 2}
+  _grassMat: {fileID: 2100000, guid: 2deda3595b12fff419547a12245943e7, type: 2}
+  _splodgeMat: {fileID: 2100000, guid: 0ad961006d440a64fb302c0f1c488feb, type: 2}
+  _grassParticleMat: {fileID: 2100000, guid: 7c086192057ff7340a3668cd07c12a20, type: 2}
+  _floorColors:
+  - {r: 0.62352943, g: 0.39215687, b: 0.2901961, a: 1}
+  - {r: 0.62352943, g: 0.39215687, b: 0.2901961, a: 1}
+  - {r: 0.62352943, g: 0.39215687, b: 0.2901961, a: 1}
+  - {r: 0.62352943, g: 0.39215687, b: 0.2901961, a: 1}
+  - {r: 0.62352943, g: 0.39215687, b: 0.2901961, a: 1}
+  _grassColors:
+  - {r: 0.3019608, g: 0.54901963, b: 0.21568628, a: 1}
+  - {r: 0.83137256, g: 0.64705884, b: 0.34117648, a: 1}
+  - {r: 0.5738637, g: 0.6792453, b: 0.3492346, a: 1}
+  - {r: 0.8018868, g: 0.41996017, b: 0.34420612, a: 1}
+  - {r: 0.46226418, g: 0.29729077, b: 0.22459063, a: 1}
+  _splodgeColors:
+  - {r: 0.546163, g: 0.6509434, b: 0.3285422, a: 1}
+  - {r: 0.7176471, g: 0.52156866, b: 0.23921569, a: 1}
+  - {r: 0.43137255, g: 0.58431375, b: 0.20784314, a: 1}
+  - {r: 0.6792453, g: 0.38137463, b: 0.34282663, a: 1}
+  - {r: 0.2830189, g: 0.21853864, b: 0.19090424, a: 1}
+  _skyboxMaterials:
+  - {fileID: 2100000, guid: 420b0854351384c42a5d8f152a0ffae0, type: 2}
+  - {fileID: 2100000, guid: 420b0854351384c42a5d8f152a0ffae0, type: 2}
+  - {fileID: 2100000, guid: 420b0854351384c42a5d8f152a0ffae0, type: 2}
+  - {fileID: 2100000, guid: 420b0854351384c42a5d8f152a0ffae0, type: 2}
+  - {fileID: 2100000, guid: 420b0854351384c42a5d8f152a0ffae0, type: 2}
 --- !u!114 &616055256
 MonoBehaviour:
   m_ObjectHideFlags: 0

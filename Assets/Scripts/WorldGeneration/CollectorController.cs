@@ -14,6 +14,8 @@ public class CollectorController : MonoBehaviour
     [SerializeField] private Transform _meshTransform;
     [SerializeField] private AnimationCurve _bounceCurve;
 
+    public bool HasChosenAppearance;
+
     [Header("Audio")]
     [SerializeField] private GameObject _oneShotGO;
     [SerializeField] private AudioClip[] _stepClips;
