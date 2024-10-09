@@ -498,7 +498,7 @@ public class CombatController : MonoBehaviour
             
             foreach (Critter critter in crittersReceivingExp)
             {
-                List<CombatVisualStep> expSteps = critter.IncreaseExp(State.NpcCritter.Level * 100 / crittersReceivingExp.Count);
+                List<CombatVisualStep> expSteps = critter.IncreaseExp(State.NpcCritter.Level * 250 / crittersReceivingExp.Count);
                 _viz.AddVisualSteps(expSteps);
             }
         }

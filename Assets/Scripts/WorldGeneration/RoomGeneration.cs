@@ -644,7 +644,14 @@ public class RoomGeneration: MonoBehaviour
 
     public void GenerateStarterCritters()
     {
-        List<Type> availableCritterTypes = MasterCollection.GetAllCritterTypes();
+        List<Type> availableCritterTypes = new List<Type>(){
+            typeof(GhostAnt),
+            typeof(Ladybird),
+            typeof(LimeButterfly),
+            typeof(HawaiianSmilingSpider),
+            typeof(Honeybee),
+            typeof(GreyFieldSlug),
+        };
 
         for (int i = 0; i < 3; i++)
         {

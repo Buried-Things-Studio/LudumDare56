@@ -83,7 +83,7 @@ public class Bonk : Move
         Affinity = CritterAffinity.Bee;
         IsSharp = false;
         IsTargeted = true;
-        BasePower = 20;
+        BasePower = 35;
         Accuracy = 95;
         MaxUses = 20;
         CurrentUses = 20;
@@ -253,7 +253,7 @@ public class HoneyDrink : Move
     public HoneyDrink()
     {
         Name = "Honey Drink";
-        Description = "The user drinks reinvigorating honey to heal 20hp.";
+        Description = "The user drinks reinvigorating honey to heal 25% hp.";
         ID = MoveID.HoneyDrink;
         Affinity = CritterAffinity.Bee;
         IsTargeted = false;
@@ -267,7 +267,7 @@ public class HoneyDrink : Move
     {
         Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
         int startingHealth = user.CurrentHealth;
-        user.IncreaseHealth(20);
+        user.IncreaseHealth(Mathf.CeilToInt(user.MaxHealth * 0.25f));
 
         List<CombatVisualStep> steps = new List<CombatVisualStep>();
         steps.Add(new HealthChangeStep(isPlayerUser, user.Level, startingHealth, user.CurrentHealth, user.MaxHealth));
