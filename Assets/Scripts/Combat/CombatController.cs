@@ -316,7 +316,7 @@ public class CombatController : MonoBehaviour
             {
                 if (priorityMoveID == MoveID.TriedItsBest)
                 {
-                    TryExecuteMove(priorityCritter, new TriedItsBest(), State.IsPlayerPriority);
+                    TryExecuteMove(nonPriorityCritter, new TriedItsBest(), State.IsPlayerPriority);
                 }
                 else
                 {
