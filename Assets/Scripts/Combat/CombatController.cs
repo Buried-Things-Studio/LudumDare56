@@ -33,6 +33,9 @@ public class CombatController : MonoBehaviour
     public Collector OpponentData;
     public CombatState State = new CombatState();
 
+    private bool _isChangingScene;
+    
+    
     [Header("Audio")]
     [SerializeField] private GameObject _oneShotGO;
     [SerializeField] private AudioClip _whooshClip;
@@ -344,9 +347,12 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator ShowTurn()
     {
-        yield return StartCoroutine(_viz.ExecuteVisualSteps());
-        
-        StartCoroutine(InitializeTurn());
+        if (!_isChangingScene)
+        {
+            yield return StartCoroutine(_viz.ExecuteVisualSteps());
+            
+            StartCoroutine(InitializeTurn());
+        }
     }
 
 
@@ -444,7 +450,7 @@ public class CombatController : MonoBehaviour
 
         if (move.ID != MoveID.TriedItsBest)
         {
-            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name, isPlayerUser, !isPlayerUser));
+            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name, move.BasePower > 0, isPlayerUser, !isPlayerUser, !move.IsSharp));
         }
         else
         {
@@ -526,6 +532,8 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator GoToWin()
     {
+        _isChangingScene = true;
+        
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
 
         GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
@@ -542,6 +550,8 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator GoToLose()
     {
+        _isChangingScene = true;
+        
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
 
         GameObject.Find("PixelVolume").GetComponent<Animator>().SetTrigger("Dissolve");
@@ -558,6 +568,8 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator GoToMainGame()
     {
+        _isChangingScene = true;
+        
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
 
         OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();

@@ -35,6 +35,7 @@ public class CombatUIController : MonoBehaviour
     [SerializeField] private AudioClip _failClip;
     [SerializeField] private AudioClip _squishClip;
     [SerializeField] private AudioClip[] _bluntHitClips;
+    [SerializeField] private AudioClip[] _sharpHitClips;
 
 
     public void InitializeCombatUI(CombatController combatController, Player player, Critter playerCritter, Critter npcCritter)
@@ -78,12 +79,19 @@ public class CombatUIController : MonoBehaviour
             Debug.Log($"Adding visual step of type {step.GetType()} as part of step block");
         }
 
+        if (steps.Count == 0)
+        {
+            Debug.Log("Tried to add step block to CurrentSteps, but block was empty");
+        }
+
         VisualSteps.CurrentSteps.AddRange(steps);
     }
 
 
     public IEnumerator ExecuteVisualSteps()
     {
+        Debug.Log("STARTING VISUAL STEPS!");
+        
         foreach (CombatVisualStep step in VisualSteps.CurrentSteps)
         {
             //Debug.Log($"Step is {step.GetType()}");
@@ -156,23 +164,30 @@ public class CombatUIController : MonoBehaviour
 
                 DoMoveStep moveStep = (DoMoveStep)step;
 
-                if (moveStep.IsAnimatingPlayerHit)
+                if (moveStep.IsHitting)
                 {
-                    _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
-                    _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+                    if (moveStep.IsAnimatingPlayerHit)
+                    {
+                        _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
+                        _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
 
-                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
-                    osc.MyClip = _bluntHitClips[UnityEngine.Random.Range(0, _bluntHitClips.Length)];
-                    osc.PlayWithVariance();
+                        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                        osc.MyClip = moveStep.IsBlunt ? _bluntHitClips[UnityEngine.Random.Range(0, _bluntHitClips.Length)] : _sharpHitClips[UnityEngine.Random.Range(0, _sharpHitClips.Length)];
+                        osc.PlayWithVariance();
+                    }
+                    else
+                    {
+                        _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
+                        _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
+
+                        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                        osc.MyClip = moveStep.IsBlunt ? _bluntHitClips[UnityEngine.Random.Range(0, _bluntHitClips.Length)] : _sharpHitClips[UnityEngine.Random.Range(0, _sharpHitClips.Length)];
+                        osc.PlayWithVariance();
+                    }
                 }
                 else
                 {
-                    _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Attack");
-                    _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("TakeDamage");
-
-                    OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
-                    osc.MyClip = _bluntHitClips[UnityEngine.Random.Range(0, _bluntHitClips.Length)];
-                    osc.PlayWithVariance();
+                    //non-hit move
                 }
 
                 yield return new WaitForSeconds(0.75f);
@@ -222,6 +237,7 @@ public class CombatUIController : MonoBehaviour
             }
         }
 
+        Debug.Log("Clearing Current Steps...");
         VisualSteps.CurrentSteps.Clear();
 
         yield return null;

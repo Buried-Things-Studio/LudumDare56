@@ -652,7 +652,7 @@ public class RoomGeneration: MonoBehaviour
             availableCritterTypes.Remove(randomCritterType);
 
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
-            randomCritter.SetStartingLevel(2);
+            randomCritter.SetStartingLevel(3);
             _starters.Add(randomCritter);
         }
     }
