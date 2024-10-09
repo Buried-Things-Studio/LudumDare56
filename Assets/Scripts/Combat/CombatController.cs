@@ -292,6 +292,13 @@ public class CombatController : MonoBehaviour
             if (priorityMoveID == MoveID.TriedItsBest)
             {
                 TryExecuteMove(priorityCritter, new TriedItsBest(), State.IsPlayerPriority);
+
+                if (CheckDeath())
+                {
+                    isEndingCombat = ExecuteDeath();
+                    
+                    isNonPriorityDead = true;
+                }
             }
             else
             {
@@ -316,7 +323,12 @@ public class CombatController : MonoBehaviour
             {
                 if (priorityMoveID == MoveID.TriedItsBest)
                 {
-                    TryExecuteMove(nonPriorityCritter, new TriedItsBest(), State.IsPlayerPriority);
+                    TryExecuteMove(nonPriorityCritter, new TriedItsBest(), !State.IsPlayerPriority);
+
+                    if (CheckDeath())
+                    {
+                        isEndingCombat = isEndingCombat || ExecuteDeath();
+                    }
                 }
                 else
                 {
@@ -467,7 +479,8 @@ public class CombatController : MonoBehaviour
             _viz.AddVisualStep(new MoveAccuracyCheckFailureStep(user.Name));
         }
 
-        move.CurrentUses--;
+        //move.CurrentUses--;
+        move.CurrentUses -= 100;
     }
 
 
