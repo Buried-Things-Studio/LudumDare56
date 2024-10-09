@@ -45,6 +45,15 @@ public class FloorController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI[] _floorTMPs;
 
+    [SerializeField] private Material _floorMat;
+    [SerializeField] private Material _grassMat;
+    [SerializeField] private Material _splodgeMat;
+    [SerializeField] private Material _grassParticleMat;
+    [SerializeField] private Color[] _floorColors;
+    [SerializeField] private Color[] _grassColors;
+    [SerializeField] private Color[] _splodgeColors;
+    [SerializeField] private Material[] _skyboxMaterials;
+
 
     private void Awake()
     {
@@ -94,9 +103,9 @@ public class FloorController : MonoBehaviour
 
 
         //TODO: remove!----------
-        // Critter starter = new BulletAnt();
-        // starter.SetStartingLevel(10);
-        // PlayerData.AddCritter(starter);
+        Critter starter = new BulletAnt();
+        starter.SetStartingLevel(10);
+        PlayerData.AddCritter(starter);
 
         // Critter boye = new Honeybee();
         // boye.SetStartingLevel(10);
@@ -135,6 +144,12 @@ public class FloorController : MonoBehaviour
 
     private void InitializeLevel()
     {
+        _floorMat.SetColor("_BaseColor", _floorColors[_currentLevel - 1]);
+        _grassMat.SetColor("_BaseColor", _grassColors[_currentLevel - 1]);
+        _grassParticleMat.SetColor("_BaseColor", _grassColors[_currentLevel - 1]);
+        _splodgeMat.SetColor("_BaseColor", _splodgeColors[_currentLevel - 1]);
+        //RenderSettings.skybox = _skyboxMaterials[_currentLevel - 1];
+
         LastMapGeneratedLevel = _currentLevel;
 
         int randomAffinityIndex = UnityEngine.Random.Range(1, Enum.GetNames(typeof(CritterAffinity)).Length);

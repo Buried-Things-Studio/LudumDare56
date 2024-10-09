@@ -18,14 +18,19 @@ public class TrainerViz : MonoBehaviour
 
     void Start()
     {
-        GameObject nose = _noses[Random.Range(0, _noses.Length)];
-        nose.SetActive(true);
-        _noseRenderer = nose.GetComponent<Renderer>();
+        if (GetComponentInParent<CollectorController>().HasChosenAppearance == false)
+        {
+            GameObject nose = _noses[Random.Range(0, _noses.Length)];
+            nose.SetActive(true);
+            _noseRenderer = nose.GetComponent<Renderer>();
 
-        _eyes[Random.Range(0, _eyes.Length)].SetActive(true);
+            _eyes[Random.Range(0, _eyes.Length)].SetActive(true);
 
-        _skinRenderer.material.SetColor("_BaseColor", _skinColors[Random.Range(0, _skinColors.Length)]);
-        _noseRenderer.material.SetColor("_BaseColor", _noseColors[Random.Range(0, _noseColors.Length)]);
-        _teeRenderer.material.SetColor("_BaseColor", _teeColors[Random.Range(0, _teeColors.Length)]);
+            _skinRenderer.material.SetColor("_BaseColor", _skinColors[Random.Range(0, _skinColors.Length)]);
+            _noseRenderer.material.SetColor("_BaseColor", _noseColors[Random.Range(0, _noseColors.Length)]);
+            _teeRenderer.material.SetColor("_BaseColor", _teeColors[Random.Range(0, _teeColors.Length)]);
+
+            GetComponentInParent<CollectorController>().HasChosenAppearance = true;
+        }
     }
 }

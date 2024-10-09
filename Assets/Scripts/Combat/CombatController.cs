@@ -39,6 +39,7 @@ public class CombatController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private GameObject _oneShotGO;
     [SerializeField] private AudioClip _whooshClip;
+    [SerializeField] private AudioClip _squishClip;
 
 
     public void SetupCombat(Player playerData, Collector opponentData, Critter npcCritter)
@@ -92,6 +93,10 @@ public class CombatController : MonoBehaviour
         if (State.PlayerCritter.CurrentHealth <= 0)
         {
             PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Squish");
+
+            OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+            osc.MyClip = _squishClip;
+            osc.Play();
 
             yield return new WaitForSeconds(0.5f);
             
