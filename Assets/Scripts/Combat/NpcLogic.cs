@@ -14,7 +14,7 @@ public static class NpcLogic
     
     public static Move GetWildMoveChoice(CombatState state)
     {
-        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter.Moves);
+        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter);
 
         if (npcMoves.Count == 0)
         {
@@ -27,7 +27,7 @@ public static class NpcLogic
 
     public static Move GetCollectorMoveChoice(CombatState state)
     {
-        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter.Moves);
+        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter);
 
         if (npcMoves.Count == 0)
         {
@@ -62,7 +62,7 @@ public static class NpcLogic
 
     public static Move GetBossMoveChoice(CombatState state)
     {
-        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter.Moves);
+        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter);
 
         if (npcMoves.Count == 0)
         {
