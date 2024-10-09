@@ -213,16 +213,17 @@ public class Critter
         {
             if (Level + 1 >= CritterHelpers.ExpToNextLevel.Count)
             {
-                Exp = remainingExpToApply;
+                Exp += remainingExpToApply;
+                remainingExpToApply = 0;
 
                 break;
             }
             
-            int expToNextLevel = CritterHelpers.ExpToNextLevel[Level];
+            int expToNextLevel = CritterHelpers.ExpToNextLevel[Level] - Exp;
 
             if (expToNextLevel > remainingExpToApply)
             {
-                Exp = remainingExpToApply;
+                Exp += remainingExpToApply;
                 remainingExpToApply = 0;
             }
             else
