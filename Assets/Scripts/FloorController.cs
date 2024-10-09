@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,6 +42,8 @@ public class FloorController : MonoBehaviour
         new Vector2Int(3, 5),
     };
     private CritterAffinity _levelBossAffinity;
+
+    [SerializeField] private TextMeshProUGUI[] _floorTMPs;
 
 
     private void Awake()
@@ -147,6 +150,10 @@ public class FloorController : MonoBehaviour
         {
             RoomGen.GenerateRewardMoves();
         }
+
+        _floorTMPs[0].text = ("FLOOR <size=60>" + _currentLevel.ToString());
+        _floorTMPs[1].text = ("FLOOR <size=60>" + _currentLevel.ToString());
+
 
         RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this);
         //GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
