@@ -21,6 +21,7 @@ public class MiniMapController : MonoBehaviour
     [SerializeField] private GameObject _noRoomIcon; 
     private List<GameObject> icons = new List<GameObject>();
     private Color transparentColor = new Color(1f, 1f, 1f, 0.25f);
+    private Color darkerColor = new Color(0.5f, 0.5f, 0.5f, 0.25f);
 
 
     public void Spin(float targetRotation)
@@ -73,7 +74,14 @@ public class MiniMapController : MonoBehaviour
                             icons.Add(icon);
                             if(!room.ContainsPlayer)
                             {
-                                icon.GetComponent<Image>().color = transparentColor;
+                                if(!room.Explored)
+                                {
+                                    icon.GetComponent<Image>().color = darkerColor;
+                                }
+                                else 
+                                {
+                                    icon.GetComponent<Image>().color = transparentColor;
+                                }
                             }
                         }
                         if(room.Type == RoomType.Shop)
@@ -82,8 +90,14 @@ public class MiniMapController : MonoBehaviour
                             icons.Add(icon);
                             if(!room.ContainsPlayer)
                             {
-                                icon.GetComponent<Image>().color = transparentColor;
-                            }
+                                if(!room.Explored)
+                                {
+                                    icon.GetComponent<Image>().color = darkerColor;
+                                }
+                                else 
+                                {
+                                    icon.GetComponent<Image>().color = transparentColor;
+                                }                            }
                         }
                         if(room.Type == RoomType.Treasure)
                         {
@@ -91,8 +105,14 @@ public class MiniMapController : MonoBehaviour
                             icons.Add(icon);
                             if(!room.ContainsPlayer)
                             {
-                                icon.GetComponent<Image>().color = transparentColor;
-                            }                        
+                                if(!room.Explored)
+                                {
+                                    icon.GetComponent<Image>().color = darkerColor;
+                                }
+                                else 
+                                {
+                                    icon.GetComponent<Image>().color = transparentColor;
+                                }                            }                        
                         }
                         if(room.Type == RoomType.Hospital)
                         {
@@ -100,8 +120,14 @@ public class MiniMapController : MonoBehaviour
                             icons.Add(icon);
                             if(!room.ContainsPlayer)
                             {
-                                icon.GetComponent<Image>().color = transparentColor;
-                            }                        
+                                if(!room.Explored)
+                                {
+                                    icon.GetComponent<Image>().color = darkerColor;
+                                }
+                                else 
+                                {
+                                    icon.GetComponent<Image>().color = transparentColor;
+                                }                            }                        
                         }
                         if(room.Type == RoomType.Boss)
                         {
@@ -109,8 +135,14 @@ public class MiniMapController : MonoBehaviour
                             icons.Add(icon);
                             if(!room.ContainsPlayer)
                             {
-                                icon.GetComponent<Image>().color = transparentColor;
-                            }                        
+                                if(!room.Explored)
+                                {
+                                    icon.GetComponent<Image>().color = darkerColor;
+                                }
+                                else 
+                                {
+                                    icon.GetComponent<Image>().color = transparentColor;
+                                }                            }                        
                         }
                         if(room.Type == RoomType.Start)
                         {
@@ -118,8 +150,14 @@ public class MiniMapController : MonoBehaviour
                             icons.Add(icon);
                             if(!room.ContainsPlayer)
                             {
-                                icon.GetComponent<Image>().color = transparentColor;
-                            }                        
+                                if(!room.Explored)
+                                {
+                                    icon.GetComponent<Image>().color = darkerColor;
+                                }
+                                else 
+                                {
+                                    icon.GetComponent<Image>().color = transparentColor;
+                                }                            }                        
                         }
                     }
                     else
