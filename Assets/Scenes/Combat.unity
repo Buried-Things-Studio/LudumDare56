@@ -260,6 +260,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e93ecd8fc0e24d04b88bf13eea9c74c5, type: 3}
   - {fileID: 8300000, guid: ec1b17e43d15c5342baaf6560b2adfe6, type: 3}
   - {fileID: 8300000, guid: b7426f62e3551ed44b3999d2d708fc81, type: 3}
+  _sharpHitClips:
+  - {fileID: 8300000, guid: 30e584d2e9e669444940c8149552bf34, type: 3}
+  - {fileID: 8300000, guid: 83934b6e8963a6f408369eb7728c6e89, type: 3}
+  - {fileID: 8300000, guid: 2a136249339915e4293e223f7bdf4ec9, type: 3}
 --- !u!4 &45792852
 Transform:
   m_ObjectHideFlags: 0

@@ -450,7 +450,7 @@ public class CombatController : MonoBehaviour
 
         if (move.ID != MoveID.TriedItsBest)
         {
-            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name, isPlayerUser, !isPlayerUser));
+            _viz.AddVisualStep(new DoMoveStep(user.Name, move.Name, move.BasePower > 0, isPlayerUser, !isPlayerUser, !move.IsSharp));
         }
         else
         {

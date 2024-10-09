@@ -22,14 +22,18 @@ public class DoMoveStep : CombatVisualStep
     public string MoveName;
     public bool IsAnimatingPlayerHit;
     public bool IsAnimatingNpcHit;
+    public bool IsBlunt;
+    public bool IsHitting;
 
 
-    public DoMoveStep(string userName, string moveName, bool isAnimatingPlayerHit = false, bool isAnimatingNpcHit = false)
+    public DoMoveStep(string userName, string moveName, bool isHitting, bool isAnimatingPlayerHit, bool isAnimatingNpcHit, bool isBlunt)
     {
         UserName = userName;
         MoveName = moveName;
         IsAnimatingPlayerHit = isAnimatingPlayerHit;
         IsAnimatingNpcHit = isAnimatingNpcHit;
+        IsBlunt = isBlunt;
+        IsHitting = isHitting;
     }
 
 
