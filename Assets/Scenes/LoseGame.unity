@@ -316,8 +316,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<#ffcc44>OH NO!</color>\n\n <#3dc67a>bugland</color> has bested you!\nall
-    of your bugs are dead.\n\n\n<size=40>press [space] to start over."
+  m_text: '<#ffcc44>NO BUGS REMAIN.</color>
+
+
+    THE DUNGEON HAS BESTED YOU.
+
+
+    <size=40><#555555>press
+    [space] to start over.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 42801e2699b9ec34fa727edaaab781db, type: 2}
   m_sharedMaterial: {fileID: 6479650917799005451, guid: 42801e2699b9ec34fa727edaaab781db,
@@ -452,7 +458,7 @@ GameObject:
   - component: {fileID: 1764187287}
   - component: {fileID: 1764187286}
   m_Layer: 5
-  m_Name: MoneyCanvas
+  m_Name: LoseCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,7 +525,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!224 &1764187289
 RectTransform:

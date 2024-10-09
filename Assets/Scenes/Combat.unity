@@ -253,6 +253,7 @@ MonoBehaviour:
   _backOutClip: {fileID: 8300000, guid: 2b392d4e5c92df74a8f01868b6dcfdb1, type: 3}
   _failClip: {fileID: 8300000, guid: d5f86e426f2e37745a5d6ceb59ce3f16, type: 3}
   _squishClip: {fileID: 8300000, guid: f550c68af665b9545a47b5503bfc1a90, type: 3}
+  _specialClip: {fileID: 8300000, guid: 3e068cc4d63cb3744821dece99ceeb79, type: 3}
   _bluntHitClips:
   - {fileID: 8300000, guid: 0ffc5ef34a97c7c4bb8963b24a7bee4e, type: 3}
   - {fileID: 8300000, guid: d0be2bb48e3377c469405cf98516e5c2, type: 3}
