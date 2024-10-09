@@ -153,7 +153,7 @@ public class BugMenu : MonoBehaviour
 
     public IEnumerator ChooseActiveInteraction(bool isForcingChoice)
     {
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         bool isClosing = false;
         SelectedCritterGuid = Guid.Empty;
