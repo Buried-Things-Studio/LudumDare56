@@ -12,6 +12,13 @@ public class Collector
     public string position = "-1";
     public Vector2Int Coords = new Vector2Int(-100, -100); 
 
+    // Viz values
+    public int NoseValue; 
+    public int EyeValue;
+    public int SkinColour; 
+    public int NoseColour; 
+    public int TeeColour;
+
 
 
     public Collector(bool isBoss, int teamSize, Vector2Int levelRange, List<CritterAffinity> availableAffinities)
@@ -31,6 +38,11 @@ public class Collector
             newCritter.SetStartingLevel(level);
             _critters.Add(newCritter);
         }
+        NoseValue = UnityEngine.Random.Range(0, 4);
+        EyeValue = UnityEngine.Random.Range(0, 5);
+        SkinColour = UnityEngine.Random.Range(0,4);
+        NoseColour = UnityEngine.Random.Range(0, 3);
+        TeeColour = UnityEngine.Random.Range(0, 5);
     }
 
 

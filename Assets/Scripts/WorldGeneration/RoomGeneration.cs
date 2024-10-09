@@ -544,6 +544,7 @@ public class RoomGeneration: MonoBehaviour
         GameObject trainer = GameObject.Instantiate(_collectorPrefab, parentTile.transform);
         trainer.transform.localPosition = Vector3.zero;
         CollectorController collectorController = trainer.GetComponent<CollectorController>();
+        TrainerViz trainerViz = trainer.GetComponentInChildren<TrainerViz>();
         collectorController.Coordinates = parentTile.GetComponent<Tile>().Coordinates;
         collectorController.Direction = direction;
         collectorController.Collector = collector;
@@ -553,6 +554,7 @@ public class RoomGeneration: MonoBehaviour
         }
         collectorController.SnapToDirection();
         _collectorController = collectorController;
+        trainerViz.DisplayCorrectAttributes(collector.NoseValue, collector.EyeValue, collector.SkinColour, collector.NoseColour, collector.TeeColour);
     }
 
     public void GenerateBoss(GameObject parentTile, string direction, Collector collector)
