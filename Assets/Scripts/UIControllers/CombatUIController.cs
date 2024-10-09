@@ -34,6 +34,7 @@ public class CombatUIController : MonoBehaviour
     [SerializeField] private AudioClip _backOutClip;
     [SerializeField] private AudioClip _failClip;
     [SerializeField] private AudioClip _squishClip;
+    [SerializeField] private AudioClip _specialClip;
     [SerializeField] private AudioClip[] _bluntHitClips;
     [SerializeField] private AudioClip[] _sharpHitClips;
 
@@ -187,7 +188,22 @@ public class CombatUIController : MonoBehaviour
                 }
                 else
                 {
-                    //non-hit move
+                    if (moveStep.IsAnimatingPlayerHit)
+                    {
+                        _combatController.PlayerMesh.GetComponentInParent<Animator>().SetTrigger("Special");
+
+                        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                        osc.MyClip = _specialClip;
+                        osc.PlayWithVariance();
+                    }
+                    else
+                    {
+                        _combatController.NpcMesh.GetComponentInParent<Animator>().SetTrigger("Special");
+
+                        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                        osc.MyClip = _specialClip;
+                        osc.PlayWithVariance();
+                    }
                 }
 
                 yield return new WaitForSeconds(0.75f);

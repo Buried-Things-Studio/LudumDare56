@@ -20,7 +20,7 @@ public class BananaSlug : Critter
         MaxSpeed = 2;
         SpeedLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpAttack = 1;
+        MaxSharpAttack = 2;
         SharpAttackLevelIncrease = new Vector2Int(1, 2);
 
         MaxSharpDefense = 4;
@@ -49,19 +49,19 @@ public class BlackWidowSpider : Critter
         CurrentHealth = 20;
         HealthLevelIncrease = new Vector2Int(2, 4);
 
-        MaxSpeed = 5;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpAttack = 10;
+        MaxSharpAttack = 6;
         SharpAttackLevelIncrease = new Vector2Int(4, 6);
 
-        MaxSharpDefense = 6;
+        MaxSharpDefense = 4;
         SharpDefenseLevelIncrease = new Vector2Int(3, 4);
 
-        MaxBluntAttack = 3;
+        MaxBluntAttack = 2;
         BluntAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxBluntDefense = 5;
+        MaxBluntDefense = 4;
         BluntDefenseLevelIncrease = new Vector2Int(3, 4);
     }
 }
@@ -80,19 +80,19 @@ public class BulletAnt : Critter
         CurrentHealth = 17;
         HealthLevelIncrease = new Vector2Int(2, 5);
 
-        MaxSpeed = 6;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpAttack = 14;
+        MaxSharpAttack = 5;
         SharpAttackLevelIncrease = new Vector2Int(4, 5);
 
-        MaxSharpDefense = 5;
+        MaxSharpDefense = 4;
         SharpDefenseLevelIncrease = new Vector2Int(2, 4);
 
-        MaxBluntAttack = 5;
+        MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntDefense = 5;
+        MaxBluntDefense = 4;
         BluntDefenseLevelIncrease = new Vector2Int(2, 4);
     }
 }
@@ -142,19 +142,19 @@ public class FireAnt : Critter
         CurrentHealth = 15;
         HealthLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSpeed = 7;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpAttack = 9;
+        MaxSharpAttack = 5;
         SharpAttackLevelIncrease = new Vector2Int(3, 5);
 
-        MaxSharpDefense = 7;
+        MaxSharpDefense = 4;
         SharpDefenseLevelIncrease = new Vector2Int(3, 4);
 
-        MaxBluntAttack = 7;
+        MaxBluntAttack = 4;
         BluntAttackLevelIncrease = new Vector2Int(2, 4);
 
-        MaxBluntDefense = 7;
+        MaxBluntDefense = 3;
         BluntDefenseLevelIncrease = new Vector2Int(2, 3);
     }
 }
@@ -177,16 +177,16 @@ public class GardenSnail : Critter
         MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(1, 3);
 
-        MaxSharpAttack = 2;
+        MaxSharpAttack = 4;
         SharpAttackLevelIncrease = new Vector2Int(1, 4);
 
-        MaxSharpDefense = 8;
+        MaxSharpDefense = 6;
         SharpDefenseLevelIncrease = new Vector2Int(2, 6);
 
         MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntDefense = 8;
+        MaxBluntDefense = 6;
         BluntDefenseLevelIncrease = new Vector2Int(3, 6);
     }
 }
@@ -206,19 +206,19 @@ public class GhostAnt : Critter
         CurrentHealth = 10;
         HealthLevelIncrease = new Vector2Int(1, 3);
 
-        MaxSpeed = 9;
+        MaxSpeed = 5;
         SpeedLevelIncrease = new Vector2Int(2, 5);
 
-        MaxSharpAttack = 6;
+        MaxSharpAttack = 4;
         SharpAttackLevelIncrease = new Vector2Int(2, 4);
 
-        MaxSharpDefense = 2;
+        MaxSharpDefense = 3;
         SharpDefenseLevelIncrease = new Vector2Int(1, 3);
 
-        MaxBluntAttack = 6;
+        MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(1, 3);
 
-        MaxBluntDefense = 2;
+        MaxBluntDefense = 3;
         BluntDefenseLevelIncrease = new Vector2Int(1, 3);
     }
 }
@@ -244,13 +244,13 @@ public class GreyFieldSlug : Critter
         MaxSharpAttack = 2;
         SharpAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpDefense = 4;
+        MaxSharpDefense = 3;
         SharpDefenseLevelIncrease = new Vector2Int(1, 3);
 
-        MaxBluntAttack = 2;
+        MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntDefense = 7;
+        MaxBluntDefense = 6;
         BluntDefenseLevelIncrease = new Vector2Int(3, 6);
     }
 }
@@ -270,19 +270,19 @@ public class HawaiianSmilingSpider : Critter
         CurrentHealth = 18;
         HealthLevelIncrease = new Vector2Int(1, 4);
 
-        MaxSpeed = 7;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpAttack = 8;
+        MaxSharpAttack = 4;
         SharpAttackLevelIncrease = new Vector2Int(3, 4);
 
-        MaxSharpDefense = 6;
+        MaxSharpDefense = 4;
         SharpDefenseLevelIncrease = new Vector2Int(3, 4);
 
-        MaxBluntAttack = 5;
+        MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntDefense = 6;
+        MaxBluntDefense = 4;
         BluntDefenseLevelIncrease = new Vector2Int(3, 4);
     }
 }
@@ -305,16 +305,16 @@ public class HerculesBeetle : Critter
         MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpAttack = 7;
+        MaxSharpAttack = 3;
         SharpAttackLevelIncrease = new Vector2Int(1, 3);
 
-        MaxSharpDefense = 8;
+        MaxSharpDefense = 4;
         SharpDefenseLevelIncrease = new Vector2Int(2, 4);
 
-        MaxBluntAttack = 10;
+        MaxBluntAttack = 5;
         BluntAttackLevelIncrease = new Vector2Int(3, 5);
 
-        MaxBluntDefense = 5;
+        MaxBluntDefense = 4;
         BluntDefenseLevelIncrease = new Vector2Int(1, 4);
     }
 }
@@ -334,19 +334,19 @@ public class Honeybee : Critter
         CurrentHealth = 20;
         HealthLevelIncrease = new Vector2Int(2, 4);
 
-        MaxSpeed = 5;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpAttack = 10;
+        MaxSharpAttack = 3;
         SharpAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpDefense = 5;
+        MaxSharpDefense = 3;
         SharpDefenseLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntAttack = 4;
+        MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntDefense = 5;
+        MaxBluntDefense = 3;
         BluntDefenseLevelIncrease = new Vector2Int(2, 3);
     }
 }
@@ -397,19 +397,19 @@ public class IoMoth : Critter
         CurrentHealth = 20;
         HealthLevelIncrease = new Vector2Int(1, 6);
 
-        MaxSpeed = 7;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(2, 5);
 
         MaxSharpAttack = 2;
         SharpAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpDefense = 6;
+        MaxSharpDefense = 5;
         SharpDefenseLevelIncrease = new Vector2Int(1, 5);
 
-        MaxBluntAttack = 5;
+        MaxBluntAttack = 6;
         BluntAttackLevelIncrease = new Vector2Int(1, 6);
 
-        MaxBluntDefense = 6;
+        MaxBluntDefense = 5;
         BluntDefenseLevelIncrease = new Vector2Int(1, 5);
     }
 }
@@ -429,19 +429,19 @@ public class LeptopomaSnail : Critter
         CurrentHealth = 20;
         HealthLevelIncrease = new Vector2Int(3, 8);
 
-        MaxSpeed = 1;
+        MaxSpeed = 2;
         SpeedLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpAttack = 1;
+        MaxSharpAttack = 2;
         SharpAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpDefense = 10;
+        MaxSharpDefense = 8;
         SharpDefenseLevelIncrease = new Vector2Int(3, 8);
 
-        MaxBluntAttack = 3;
+        MaxBluntAttack = 2;
         BluntAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxBluntDefense = 10;
+        MaxBluntDefense = 8;
         BluntDefenseLevelIncrease = new Vector2Int(5, 8);
     }
 }
@@ -493,16 +493,16 @@ public class Ladybird : Critter
         CurrentHealth = 18;
         HealthLevelIncrease = new Vector2Int(1, 5);
 
-        MaxSpeed = 4;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpAttack = 6;
+        MaxSharpAttack = 4;
         SharpAttackLevelIncrease = new Vector2Int(2, 4);
 
-        MaxSharpDefense = 7;
+        MaxSharpDefense = 4;
         SharpDefenseLevelIncrease = new Vector2Int(1, 4);
 
-        MaxBluntAttack = 5;
+        MaxBluntAttack = 4;
         BluntAttackLevelIncrease = new Vector2Int(1, 4);
 
         MaxBluntDefense = 4;
@@ -525,19 +525,19 @@ public class LimeButterfly : Critter
         CurrentHealth = 10;
         HealthLevelIncrease = new Vector2Int(1, 4);
 
-        MaxSpeed = 6;
+        MaxSpeed = 4;
         SpeedLevelIncrease = new Vector2Int(2, 4);
 
         MaxSharpAttack = 2;
         SharpAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpDefense = 4;
+        MaxSharpDefense = 3;
         SharpDefenseLevelIncrease = new Vector2Int(2, 3);
 
         MaxBluntAttack = 2;
         BluntAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxBluntDefense = 8;
+        MaxBluntDefense = 3;
         BluntDefenseLevelIncrease = new Vector2Int(1, 3);
     }
 }
@@ -557,20 +557,20 @@ public class MammothMoth : Critter
         CurrentHealth = 30;
         HealthLevelIncrease = new Vector2Int(3, 5);
 
-        MaxSpeed = 5;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(1, 3);
 
         MaxSharpAttack = 1;
         SharpAttackLevelIncrease = new Vector2Int(1, 1);
 
-        MaxSharpDefense = 7;
-        SharpDefenseLevelIncrease = new Vector2Int(2, 3);
+        MaxSharpDefense = 4;
+        SharpDefenseLevelIncrease = new Vector2Int(2, 4);
 
-        MaxBluntAttack = 6;
-        BluntAttackLevelIncrease = new Vector2Int(2, 3);
+        MaxBluntAttack = 4;
+        BluntAttackLevelIncrease = new Vector2Int(2, 4);
 
-        MaxBluntDefense = 7;
-        BluntDefenseLevelIncrease = new Vector2Int(2, 3);
+        MaxBluntDefense = 4;
+        BluntDefenseLevelIncrease = new Vector2Int(2, 4);
     }
 }
 
@@ -589,19 +589,19 @@ public class MonarchButterfly : Critter
         CurrentHealth = 16;
         HealthLevelIncrease = new Vector2Int(1, 4);
 
-        MaxSpeed = 8;
+        MaxSpeed = 5;
         SpeedLevelIncrease = new Vector2Int(3, 5);
 
-        MaxSharpAttack = 4;
+        MaxSharpAttack = 3;
         SharpAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpDefense = 5;
+        MaxSharpDefense = 3;
         SharpDefenseLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntAttack = 2;
+        MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(1, 3);
 
-        MaxBluntDefense = 8;
+        MaxBluntDefense = 3;
         BluntDefenseLevelIncrease = new Vector2Int(1, 3);
     }
 }
@@ -624,16 +624,16 @@ public class PandaAnt : Critter
         MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(1, 3);
 
-        MaxSharpAttack = 12;
+        MaxSharpAttack = 4;
         SharpAttackLevelIncrease = new Vector2Int(3, 4);
 
-        MaxSharpDefense = 5;
+        MaxSharpDefense = 4;
         SharpDefenseLevelIncrease = new Vector2Int(1, 4);
 
-        MaxBluntAttack = 3;
+        MaxBluntAttack = 4;
         BluntAttackLevelIncrease = new Vector2Int(2, 4);
 
-        MaxBluntDefense = 5;
+        MaxBluntDefense = 4;
         BluntDefenseLevelIncrease = new Vector2Int(2, 4);
     }
 }
@@ -653,19 +653,19 @@ public class PotatoBeetle : Critter
         CurrentHealth = 16;
         HealthLevelIncrease = new Vector2Int(3, 5);
 
-        MaxSpeed = 6;
+        MaxSpeed = 4;
         SpeedLevelIncrease = new Vector2Int(2, 4);
 
         MaxSharpAttack = 2;
         SharpAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpDefense = 10;
+        MaxSharpDefense = 4;
         SharpDefenseLevelIncrease = new Vector2Int(3, 4);
 
-        MaxBluntAttack = 6;
+        MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntDefense = 8;
+        MaxBluntDefense = 2;
         BluntDefenseLevelIncrease = new Vector2Int(1, 2);
     }
 }
@@ -688,16 +688,16 @@ public class RhinoBeetle : Critter
         MaxSpeed = 4;
         SpeedLevelIncrease = new Vector2Int(1, 4);
 
-        MaxSharpAttack = 5;
+        MaxSharpAttack = 2;
         SharpAttackLevelIncrease = new Vector2Int(1, 2);
 
-        MaxSharpDefense = 6;
+        MaxSharpDefense = 3;
         SharpDefenseLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntAttack = 12;
+        MaxBluntAttack = 5;
         BluntAttackLevelIncrease = new Vector2Int(2, 5);
 
-        MaxBluntDefense = 4;
+        MaxBluntDefense = 3;
         BluntDefenseLevelIncrease = new Vector2Int(2, 3);
     }
 }
@@ -748,10 +748,10 @@ public class TarantulaHawkWasp : Critter
         CurrentHealth = 12;
         HealthLevelIncrease = new Vector2Int(1, 4);
 
-        MaxSpeed = 8;
+        MaxSpeed = 5;
         SpeedLevelIncrease = new Vector2Int(1, 5);
 
-        MaxSharpAttack = 15;
+        MaxSharpAttack = 6;
         SharpAttackLevelIncrease = new Vector2Int(3, 6);
 
         MaxSharpDefense = 2;
@@ -811,19 +811,19 @@ public class YellowjacketWasp : Critter
         CurrentHealth = 16;
         HealthLevelIncrease = new Vector2Int(1, 4);
 
-        MaxSpeed = 7;
+        MaxSpeed = 3;
         SpeedLevelIncrease = new Vector2Int(2, 3);
 
-        MaxSharpAttack = 12;
+        MaxSharpAttack = 4;
         SharpAttackLevelIncrease = new Vector2Int(2, 4);
 
-        MaxSharpDefense = 4;
+        MaxSharpDefense = 3;
         SharpDefenseLevelIncrease = new Vector2Int(1, 3);
 
-        MaxBluntAttack = 2;
+        MaxBluntAttack = 3;
         BluntAttackLevelIncrease = new Vector2Int(2, 3);
 
-        MaxBluntDefense = 4;
+        MaxBluntDefense = 3;
         BluntDefenseLevelIncrease = new Vector2Int(1, 3);
     }
 }

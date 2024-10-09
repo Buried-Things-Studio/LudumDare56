@@ -25,6 +25,7 @@ public class TextBoxController : MonoBehaviour
     [SerializeField] private GameObject _oneShotGO;
     [SerializeField] private AudioClip _popInClip;
     [SerializeField] private AudioClip _popOutClip;
+    [SerializeField] private AudioClip _navClip;
 
 
     public void Start()
@@ -147,6 +148,10 @@ public class TextBoxController : MonoBehaviour
 
     private void MoveSelection(bool isMovingUp)
     {
+        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+        osc.MyClip = _navClip;
+        osc.Play();
+
         _currentSelectedIndex += isMovingUp ? -1 : 1;
         _currentSelectedIndex = (_currentSelectedIndex + _choiceSelections.Count) % _choiceSelections.Count;
         ShowCurrentSelection();

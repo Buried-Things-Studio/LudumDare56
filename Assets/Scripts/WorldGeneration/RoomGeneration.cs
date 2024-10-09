@@ -256,7 +256,7 @@ public class RoomGeneration: MonoBehaviour
         {
             int randomIndex = UnityEngine.Random.Range(1, availableRooms.Count);
             availableRooms[randomIndex].Collectors.Add(new Collector(false, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y+1), collectorLevelRange, null));
-            Debug.Log("Collector at " + availableRooms[i].Coordinates.ToString());
+            //Debug.Log("Collector at " + availableRooms[i].Coordinates.ToString());
             availableRooms.RemoveAt(i);
         }
 
