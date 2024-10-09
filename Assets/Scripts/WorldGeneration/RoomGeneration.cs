@@ -252,7 +252,7 @@ public class RoomGeneration: MonoBehaviour
     {
         List<Room> availableRooms = _allRooms.Where(room => room.Type == RoomType.Normal).ToList();
 
-        for (int i = 0; i < _floorController.GetCurrentLevel(); i++)
+        for (int i = 0; i < _floorController.GetCurrentLevel() + 1; i++)
         {
             int randomIndex = UnityEngine.Random.Range(1, availableRooms.Count);
             availableRooms[randomIndex].Collectors.Add(new Collector(false, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y+1), collectorLevelRange, null));

@@ -511,7 +511,7 @@ public class CombatController : MonoBehaviour
         }
         else if (OpponentData != null && !OpponentData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
-            int winnings = 100 * OpponentData.GetCritters().Count;
+            int winnings = 150 * OpponentData.GetCritters().Count;
             PlayerData.AddMoney(winnings);
 
             _viz.AddVisualStep(new WinningsStep(winnings));
