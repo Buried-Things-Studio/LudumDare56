@@ -6,18 +6,37 @@ using UnityEngine;
 
 public static class NpcLogic
 {
+    private static List<Move> GetMovesWithUsesRemaining(Critter user)
+    {
+        return user.Moves.Where(move => move.CurrentUses > 0).ToList();
+    }
+    
+    
     public static Move GetWildMoveChoice(CombatState state)
     {
-        List<Move> npcMoves = state.NpcCritter.Moves;
+        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter.Moves);
+
+        if (npcMoves.Count == 0)
+        {
+            return new TriedItsBest();
+        }
+
         return npcMoves[UnityEngine.Random.Range(0, npcMoves.Count)];
     }
 
 
     public static Move GetCollectorMoveChoice(CombatState state)
     {
+        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter.Moves);
+
+        if (npcMoves.Count == 0)
+        {
+            return new TriedItsBest();
+        }
+        
         List<Move> moveChoicesWeighted = new List<Move>();
 
-        foreach (Move move in state.NpcCritter.Moves)
+        foreach (Move move in npcMoves)
         {
             if (move.BasePower <= 0)
             {
@@ -43,7 +62,14 @@ public static class NpcLogic
 
     public static Move GetBossMoveChoice(CombatState state)
     {
-        List<Move> superEffectiveMoves = state.NpcCritter.Moves.Where(move => CritterHelpers.GetDamageMultiplier(state.PlayerCritter.Affinities, move.Affinity) >= 8).ToList();
+        List<Move> npcMoves = GetMovesWithUsesRemaining(state.NpcCritter.Moves);
+
+        if (npcMoves.Count == 0)
+        {
+            return new TriedItsBest();
+        }
+        
+        List<Move> superEffectiveMoves = npcMoves.Where(move => CritterHelpers.GetDamageMultiplier(state.PlayerCritter.Affinities, move.Affinity) >= 8).ToList();
         
         if (superEffectiveMoves.Count > 0)
         {
