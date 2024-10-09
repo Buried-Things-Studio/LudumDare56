@@ -479,8 +479,7 @@ public class CombatController : MonoBehaviour
             _viz.AddVisualStep(new MoveAccuracyCheckFailureStep(user.Name));
         }
 
-        //move.CurrentUses--;
-        move.CurrentUses -= 100;
+        move.CurrentUses--;
     }
 
 
