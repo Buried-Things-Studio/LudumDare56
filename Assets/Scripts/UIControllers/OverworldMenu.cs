@@ -57,6 +57,11 @@ public class OverworldMenu : MonoBehaviour
     
     private void Update()
     {
+        if (_playerController == null)
+        {
+            return;
+        }
+        
         if (!_isMenuOpen && _playerController.GetAbleToMove() && Input.GetKeyDown(Controls.OverworldMenuKey))
         {
             _isMenuOpen = true;

@@ -16,21 +16,17 @@ public class TrainerViz : MonoBehaviour
     [SerializeField] private Color[] _teeColors;
 
 
-    void Start()
+    public void DisplayCorrectAttributes(int noseValue, int eye, int skinColour, int noseColour, int teeColour)
     {
-        if (GetComponentInParent<CollectorController>().HasChosenAppearance == false)
-        {
-            GameObject nose = _noses[Random.Range(0, _noses.Length)];
-            nose.SetActive(true);
-            _noseRenderer = nose.GetComponent<Renderer>();
+        GameObject nose = _noses[noseValue];
+        nose.SetActive(true);
+        _noseRenderer = nose.GetComponent<Renderer>();
 
-            _eyes[Random.Range(0, _eyes.Length)].SetActive(true);
+        _eyes[eye].SetActive(true);
 
-            _skinRenderer.material.SetColor("_BaseColor", _skinColors[Random.Range(0, _skinColors.Length)]);
-            _noseRenderer.material.SetColor("_BaseColor", _noseColors[Random.Range(0, _noseColors.Length)]);
-            _teeRenderer.material.SetColor("_BaseColor", _teeColors[Random.Range(0, _teeColors.Length)]);
+        _skinRenderer.material.SetColor("_BaseColor", _skinColors[skinColour]);
+        _noseRenderer.material.SetColor("_BaseColor", _noseColors[noseColour]);
+        _teeRenderer.material.SetColor("_BaseColor", _teeColors[teeColour]);
 
-            GetComponentInParent<CollectorController>().HasChosenAppearance = true;
-        }
     }
 }
