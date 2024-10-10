@@ -12,7 +12,7 @@ public static class RoomLayouts
             new List<string>(){ "N", "N", "N", "G", "G", "N", "N", "G", "G"},
             new List<string>(){ "D", "N", "N", "G", "N", "N", "N", "G", "D"},
             new List<string>(){ "N", "N", "N", "N", "N", "N", "N", "G", "G"},
-            new List<string>(){ "N", "N", "N", "N", "1", "N", "G", "G", "G"},
+            new List<string>(){ "1", "N", "N", "N", "N", "N", "G", "G", "G"},
             new List<string>(){ "N", "N", "0", "N", "N", "G", "G", "G", "G"},
             new List<string>(){ "N", "N", "N", "N", "D", "G", "G", "G", "G"},
         },
