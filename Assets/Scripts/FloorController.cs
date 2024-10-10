@@ -178,6 +178,13 @@ public class FloorController : MonoBehaviour
     public void IncrementLevel()
     {
         _currentLevel++; 
-        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
+        if(_currentLevel <= 5)
+        {
+            AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("MainGame");
+        }
+        else
+        {
+            AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("WinGame");
+        }
     }
 }
