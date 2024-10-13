@@ -103,11 +103,11 @@ public class FloorController : MonoBehaviour
 
 
         //TODO: remove!----------
-        Critter starter = new BulletAnt();
-        starter.SetStartingLevel(1);
-        starter.Ability = new BugMuncher();
-        PlayerData.AddCritter(starter);
-        PlayerData.AddMoney(1000);
+        // Critter starter = new BulletAnt();
+        // starter.SetStartingLevel(1);
+        // starter.Ability = new BugMuncher();
+        // PlayerData.AddCritter(starter);
+        // PlayerData.AddMoney(1000);
 
         // Critter boye = new Honeybee();
         // boye.SetStartingLevel(10);
