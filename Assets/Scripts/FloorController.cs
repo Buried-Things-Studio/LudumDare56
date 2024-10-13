@@ -104,8 +104,8 @@ public class FloorController : MonoBehaviour
 
         //TODO: remove!----------
         Critter starter = new BulletAnt();
-        starter.SetStartingLevel(10);
-        starter.Ability = new TreasureOptions();
+        starter.SetStartingLevel(1);
+        starter.Ability = new BugMuncher();
         PlayerData.AddCritter(starter);
         PlayerData.AddMoney(1000);
 

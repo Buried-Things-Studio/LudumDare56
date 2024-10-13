@@ -12,6 +12,16 @@ public class None: Ability
     }
 }
 
+public class BugMuncher: Ability
+{
+    public BugMuncher()
+    {
+        Name = "Bug Muncher"; 
+        Description = "If this bug is active when a new bug is caught, it will eat the bug and level up one of its stats.";
+        ID = AbilityID.BugMuncher;
+    }
+}
+
 public class EmergencyMedPack: Ability
 {
     public EmergencyMedPack()

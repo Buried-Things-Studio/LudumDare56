@@ -339,7 +339,7 @@ public class CombatController : MonoBehaviour
             }
             else
             {
-                isWildCatchAttempt = ExecuteBattleAction(priorityMoveID);
+                isWildCatchAttempt = ExecuteBattleAction(priorityMoveID, priorityCritter);
             }
         }
         else
@@ -381,7 +381,7 @@ public class CombatController : MonoBehaviour
                 }
                 else
                 {
-                    ExecuteBattleAction(nonPriorityMoveID);
+                    ExecuteBattleAction(nonPriorityMoveID, nonPriorityCritter);
                 }
             }
             else
@@ -417,7 +417,7 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private bool ExecuteBattleAction(MoveID ID)
+    private bool ExecuteBattleAction(MoveID ID, Critter activeCritter)
     {
         if (ID == MoveID.SwitchActive)
         {
@@ -425,7 +425,7 @@ public class CombatController : MonoBehaviour
         }
         else if (ID == MoveID.ThrowMasonJar)
         {
-            return PlayerThrowMasonJar();
+            return PlayerThrowMasonJar(activeCritter);
         }
         else if (ID == MoveID.UseHealItem)
         {
@@ -436,7 +436,7 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private bool PlayerThrowMasonJar()
+    private bool PlayerThrowMasonJar(Critter activeCritter)
     {
         PlayerData.RemoveItemFromInventory(ItemType.MasonJar);
         
@@ -451,17 +451,40 @@ public class CombatController : MonoBehaviour
         }
         else if (PlayerData.GetCritters().Count >= CritterHelpers.MaxTeamSize)
         {
-            _viz.AddVisualStep(new TryCatchTooFullCritterStep());
+            if(activeCritter.Ability.ID == AbilityID.BugMuncher && State.NpcCritter.CurrentHealth <= CritterHelpers.GetCatchHealthThreshold(State.NpcCritter))
+            {
+                List<string> stats = CritterHelpers.GetAllCritterStats();
+                string statToIncrease = stats[UnityEngine.Random.Range(0, stats.Count)];
+                activeCritter.IncreaseSingleStat(statToIncrease);
+                _viz.AddVisualStep(new BugMuncherStep(activeCritter.Name, statToIncrease));
+
+            }
+            else 
+            {
+                _viz.AddVisualStep(new TryCatchTooFullCritterStep());
+            }
         }
+        else if(State.NpcCritter.CurrentHealth > CritterHelpers.GetCatchHealthThreshold(State.NpcCritter))
         {
             _viz.AddVisualStep(new TryCatchStep(State.NpcCritter.Name, isCatchSuccessful));
         }
 
         if (isCatchSuccessful)
         {
-            PlayerData.AddCritter(State.NpcCritter);
-            State.NpcCritter.RestoreAllHealth();
-            State.NpcCritter.RestoreAllMoveUses();
+            if(activeCritter.Ability.ID == AbilityID.BugMuncher)
+            {
+                List<string> stats = CritterHelpers.GetAllCritterStats();
+                string statToIncrease = stats[UnityEngine.Random.Range(0, stats.Count)];
+                activeCritter.IncreaseSingleStat(statToIncrease);
+                _viz.AddVisualStep(new BugMuncherStep(activeCritter.Name, statToIncrease));
+
+            }
+            else 
+            {
+                PlayerData.AddCritter(State.NpcCritter);
+                State.NpcCritter.RestoreAllHealth();
+                State.NpcCritter.RestoreAllMoveUses();
+            }
         }
 
         return OpponentData == null;

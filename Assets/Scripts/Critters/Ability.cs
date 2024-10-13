@@ -14,6 +14,7 @@ public class Ability
 public enum AbilityID
 {
     None,
+    BugMuncher,
     EmergencyMedPack,
     FlirtatiousCustomer,
     Hypochondriac,

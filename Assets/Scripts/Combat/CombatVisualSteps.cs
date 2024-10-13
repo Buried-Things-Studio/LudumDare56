@@ -436,6 +436,23 @@ public class TryCatchTooFullCritterStep : CombatVisualStep
     }
 }
 
+public class BugMuncherStep: CombatVisualStep
+{
+    public string Name;
+    public string Stat; 
+
+    public BugMuncherStep(string name, string stat)
+    {
+        Name = name; 
+        Stat = stat;
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} gobbled up the bug you were about to catch. It's {Stat} increased.";
+    }
+}
+
 
 public class WinningsStep : CombatVisualStep
 {

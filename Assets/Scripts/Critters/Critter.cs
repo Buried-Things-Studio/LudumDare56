@@ -188,6 +188,35 @@ public class Critter
         MaxBluntDefense += bluntDefenseIncrease;
     }
 
+    public void IncreaseSingleStat(string stat)
+    {
+        if(stat == "Sharp Attack")
+        {
+            int sharpAttackIncrease = UnityEngine.Random.Range(SharpAttackLevelIncrease.x, SharpAttackLevelIncrease.y + 1);
+            MaxSharpAttack += sharpAttackIncrease;
+        }
+        else if (stat == "Sharp Defense")
+        {
+            int sharpDefenseIncrease = UnityEngine.Random.Range(SharpDefenseLevelIncrease.x, SharpDefenseLevelIncrease.y + 1);
+            MaxSharpDefense += sharpDefenseIncrease;
+        }
+        else if (stat == "Blunt Attack")
+        {
+            int bluntAttackIncrease = UnityEngine.Random.Range(BluntAttackLevelIncrease.x, BluntAttackLevelIncrease.y + 1);
+            MaxBluntAttack += bluntAttackIncrease;
+        }
+        else if (stat == "Blunt Defense")
+        {
+            int bluntDefenseIncrease = UnityEngine.Random.Range(BluntDefenseLevelIncrease.x, BluntDefenseLevelIncrease.y + 1);
+            MaxBluntDefense += bluntDefenseIncrease;
+        }
+        else if (stat == "Speed")
+        {
+            int speedIncrease = UnityEngine.Random.Range(SpeedLevelIncrease.x, SpeedLevelIncrease.y + 1);
+            MaxSpeed += speedIncrease;
+        }
+    }
+
 
     public bool IsOutOfUses()
     {

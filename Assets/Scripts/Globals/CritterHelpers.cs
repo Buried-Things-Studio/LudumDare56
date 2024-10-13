@@ -256,4 +256,15 @@ public static class CritterHelpers
             CritterAffinity.Spider,
         };
     }
+
+    public static List<string> GetAllCritterStats()
+    {
+        return new List<string>(){
+            "Sharp Attack", 
+            "Sharp Defense", 
+            "Blunt Attack", 
+            "Blunt Defense", 
+            "Speed", 
+        };
+    }
 }
