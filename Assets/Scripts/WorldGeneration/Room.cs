@@ -14,7 +14,7 @@ public class Room
     public List<Item> ShopItems = new List<Item>();
     public List<Collector> Collectors = new List<Collector>();
     public List<Item> RewardItems = new List<Item>();
-    public MoveManual Treasure;
+    public List<MoveManual> Treasure = new List<MoveManual>();
     public List<Critter> StarterPicks = new List<Critter>();
     public Collector Boss; 
     public bool HospitalAlreadyUsed = false;

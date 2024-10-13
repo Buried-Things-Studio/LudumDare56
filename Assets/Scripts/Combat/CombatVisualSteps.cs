@@ -372,6 +372,38 @@ public class TryCatchStep : CombatVisualStep
     }
 }
 
+public class NoPPLossStep: CombatVisualStep
+{
+    public string Name;
+    public string Move; 
+
+    public NoPPLossStep(string name, string move)
+    {
+        Name = name;
+        Move = move;
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} didn't lose any uses on {Move}. What a rascal!";
+    }
+}
+
+public class FullHealStep: CombatVisualStep
+{
+    public string Name;
+    
+    public FullHealStep(string name)
+    {
+        Name = name;
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"You can't scare {Name}, they're fully healed and ready to go. ";
+    }
+}
+
 
 public class TryCatchCollectorCritterStep : CombatVisualStep
 {
@@ -401,6 +433,23 @@ public class TryCatchTooFullCritterStep : CombatVisualStep
         };
         
         return $"{messages[UnityEngine.Random.Range(0, messages.Count)]}";
+    }
+}
+
+public class BugMuncherStep: CombatVisualStep
+{
+    public string Name;
+    public string Stat; 
+
+    public BugMuncherStep(string name, string stat)
+    {
+        Name = name; 
+        Stat = stat;
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} gobbled up the bug you were about to catch. It's {Stat} increased.";
     }
 }
 

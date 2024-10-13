@@ -125,6 +125,13 @@ public class Player
         foreach (Critter critter in _critters)
         {
             critter.RestoreAllHealth();
+            if(critter.Ability.ID == AbilityID.Hypochondriac)
+            {
+                foreach (Move move in critter.Moves)
+                {
+                    move.CurrentUses = move.MaxUses;
+                }
+            }
         }
     }
 
@@ -136,6 +143,11 @@ public class Player
             foreach (Move move in critter.Moves)
             {
                 move.CurrentUses = move.MaxUses;
+            }
+
+            if(critter.Ability.ID == AbilityID.Hypochondriac)
+            {
+                critter.RestoreAllHealth();
             }
         }
     }
