@@ -121,6 +121,26 @@ public class PlayerController : MonoBehaviour
     private IEnumerator InteractWithShop(Tile tile, GameObject tileObject)
     {
         _isMovementBlockedByUI = true;
+        bool flirtatiousCustomer = false;
+        Critter flirtatiousCritter = null;
+        foreach(Critter critter in FloorController.PlayerData.GetCritters())
+        {
+            if(critter.Ability.ID == AbilityID.FlirtatiousCustomer)
+            {
+                flirtatiousCustomer = true;
+                flirtatiousCritter = critter;
+            }
+        }
+        bool privateMedicalInsurance = false;
+        Critter insuredCritter = null;
+        foreach(Critter critter in FloorController.PlayerData.GetCritters())
+        {
+            if(critter.Ability.ID == AbilityID.PrivateMedicalInsurance)
+            {
+                privateMedicalInsurance = true;
+                insuredCritter = critter;
+            }
+        }
         if(tile.ShopItem == null)
         {
             yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Nothing more to buy here."));
@@ -132,31 +152,74 @@ public class PlayerController : MonoBehaviour
             Item item = tile.ShopItem;
             Debug.Log(item.ID);
             int cost = item.Price;
-            if(cost > coins)
+            int adjustedCost = flirtatiousCustomer ? Mathf.RoundToInt(cost * 0.8f) : cost;
+            if(adjustedCost > coins)
             {
-                if(item.ID == ItemType.MoveManual)
+                if(flirtatiousCustomer)
                 {
-                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMoveMessage(((MoveManual)item).TeachableMove, $"{((MoveManual)item).TeachableMove.Name} costs <#eeaa00>{cost}</color>. Come back when you have enough coins if you would like to buy it."));
-                    _isMovementBlockedByUI = false;
+                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{flirtatiousCritter.Name} bats their eyelashes at the shopkeeper."));
+                    if(item.ID == ItemType.MoveManual)
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMoveMessage(((MoveManual)item).TeachableMove, $"{((MoveManual)item).TeachableMove.Name} normally costs <#eeaa00>{cost}</color>, but for you... I can bring it down to <#eeaa00>{adjustedCost}</color>. Come back when you have enough coins if you would like to buy it."));
+                        _isMovementBlockedByUI = false;
+                    }
+                    else{
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"This {tile.ShopItem.Name} normally costs <#eeaa00>{cost}</color>, but for you... I can bring it down to <#eeaa00>{adjustedCost}</color>. Come back when you have enough coins if you would like to buy it."));
+                        _isMovementBlockedByUI = false;
+                    }
+
                 }
-                else{
-                    yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"This {tile.ShopItem.Name} costs <#eeaa00>{cost}</color>. Come back when you have enough coins if you would like to buy it."));
-                    _isMovementBlockedByUI = false;
+                else 
+                {
+                    if(item.ID == ItemType.MoveManual)
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMoveMessage(((MoveManual)item).TeachableMove, $"{((MoveManual)item).TeachableMove.Name} costs <#eeaa00>{cost}</color>. Come back when you have enough coins if you would like to buy it."));
+                        _isMovementBlockedByUI = false;
+                    }
+                    else{
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"This {tile.ShopItem.Name} costs <#eeaa00>{cost}</color>. Come back when you have enough coins if you would like to buy it."));
+                        _isMovementBlockedByUI = false;
+                    }
                 }
             }
             else{
                 if(item.ID == ItemType.MoveManual)
                 {
-                    yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(((MoveManual)item).TeachableMove, $"{((MoveManual)item).TeachableMove.Name} costs <#eeaa00>{cost}</color>. Would you like to buy it?"));
+                    if(flirtatiousCustomer)
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{flirtatiousCritter.Name} tells a charming annecdote. The shopkeeper giggles."));
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(((MoveManual)item).TeachableMove, $"{((MoveManual)item).TeachableMove.Name} normally costs <#eeaa00>{cost}</color>, but for you... I can bring it down to <#eeaa00>{adjustedCost}</color>. Would you like to buy it?"));
+                    } 
+                    else 
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(((MoveManual)item).TeachableMove, $"{((MoveManual)item).TeachableMove.Name} costs <#eeaa00>{cost}</color>. Would you like to buy it?"));
+                    }
                     if(GlobalUI.TextBox.IsSelectingYes)
                     {
-                        FloorController.PlayerData.RemoveMoney(cost);
+                        FloorController.PlayerData.RemoveMoney(adjustedCost);
                         MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
                         moneyCanvasController.SetMoney(FloorController.PlayerData.GetMoney());
                         FloorController.PlayerData.AddItemToInventory(item);
-                        tile.ShopItem = null;
-                        tileObject.GetComponent<ShopTileController>().ScrollParent.SetActive(false);
-                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                        if(privateMedicalInsurance)
+                        {
+                            insuredCritter.RestoreAllHealth();
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{insuredCritter.Name} has fully healed."));
+                        }
+                        if(FloorController.PlayerData.GetCritters().Exists(critter => critter.Ability.ID == AbilityID.LoyaltyCard))
+                        {
+                            Critter critterWithLoyaltyCard = FloorController.PlayerData.GetCritters().Find(critter => critter.Ability.ID == AbilityID.LoyaltyCard);
+                            tileObject.GetComponent<ShopTileController>().ScrollParent.SetActive(false);
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                            tileObject.GetComponent<ShopTileController>().ScrollParent.SetActive(true);
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{critterWithLoyaltyCard.Name} flashes their loyalty card and the stock is immediately replenished."));
+
+                        }
+                        else 
+                        {
+                            tile.ShopItem = null;
+                            tileObject.GetComponent<ShopTileController>().ScrollParent.SetActive(false);
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                        }
                         _isMovementBlockedByUI= false;
                     }
                     else 
@@ -166,18 +229,51 @@ public class PlayerController : MonoBehaviour
                     _isMovementBlockedByUI= false;
                 }
                 else{
-                    yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice($"This {tile.ShopItem.Name} costs <#eeaa00>{cost}</color>. Would you like to buy it?"));
+                    if(flirtatiousCustomer)
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{flirtatiousCritter.Name} chirps sweetly."));
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice($"This {tile.ShopItem.Name} normally costs <#eeaa00>{cost}</color>, but for you... I can bring it down to <#eeaa00>{adjustedCost}</color>. Would you like to buy it?"));
+                    } 
+                    else 
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice($"This {tile.ShopItem.Name} costs <#eeaa00>{cost}</color>. Would you like to buy it?"));
+                    }
                     if(GlobalUI.TextBox.IsSelectingYes)
                     {
-                        FloorController.PlayerData.RemoveMoney(cost);
+                        FloorController.PlayerData.RemoveMoney(adjustedCost);
                         MoneyCanvasController moneyCanvasController = GameObject.FindObjectOfType<MoneyCanvasController>();
                         moneyCanvasController.SetMoney(FloorController.PlayerData.GetMoney());
                         FloorController.PlayerData.AddItemToInventory(item);
-                        tile.ShopItem = null;
-                        tileObject.GetComponent<ShopTileController>().NectarParent.SetActive(false);
-                        tileObject.GetComponent<ShopTileController>().MasonJarParent.SetActive(false);
+                        if(privateMedicalInsurance)
+                        {
+                            insuredCritter.RestoreAllHealth();
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{insuredCritter.Name} has fully healed."));
+                        }
+                        if(FloorController.PlayerData.GetCritters().Exists(critter => critter.Ability.ID == AbilityID.LoyaltyCard))
+                        {
+                            Critter critterWithLoyaltyCard = FloorController.PlayerData.GetCritters().Find(critter => critter.Ability.ID == AbilityID.LoyaltyCard);
+                            tileObject.GetComponent<ShopTileController>().NectarParent.SetActive(false);
+                            tileObject.GetComponent<ShopTileController>().MasonJarParent.SetActive(false);
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                            if(tile.ShopItem.ID == ItemType.MasonJar)
+                            {
+                                tileObject.GetComponent<ShopTileController>().MasonJarParent.SetActive(true);
+                            }
+                            else if(tile.ShopItem.ID == ItemType.Nectar)
+                            {
+                                tileObject.GetComponent<ShopTileController>().NectarParent.SetActive(true);
+                            }
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{critterWithLoyaltyCard.Name} flashes their loyalty card and the stock is immediately replenished."));
 
-                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                        }
+                        else 
+                        {
+                            tile.ShopItem = null;
+                            tileObject.GetComponent<ShopTileController>().NectarParent.SetActive(false);
+                            tileObject.GetComponent<ShopTileController>().MasonJarParent.SetActive(false);
+
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Thanks, come back again soon!"));
+                        }
                         _isMovementBlockedByUI= false;
                     }
                     else
@@ -194,20 +290,32 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator InteractWithTreasure(GameObject tileObject)
     {
+        Tile currentTile = tileObject.GetComponent<Tile>();
         _isMovementBlockedByUI = true;
-        if(CurrentRoom.Treasure == null)
+        if(CurrentRoom.Treasure[0] == null)
         {
             yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You've already picked up the treasure for this floor. Look out for a new move on the next floor!"));
             _isMovementBlockedByUI = false;
         }
         else
         {
-            yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(CurrentRoom.Treasure.TeachableMove, "Oooh a new bug move! Would you like to take this move?"));
+            yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(currentTile.Treasure.TeachableMove, "Oooh a new bug move! Would you like to take this move?"));
             if(GlobalUI.TextBox.IsSelectingYes)
             {
-                FloorController.PlayerData.AddItemToInventory(CurrentRoom.Treasure);
-                CurrentRoom.Treasure = null;
-                tileObject.GetComponent<TreasureTileController>().ScrollParent.SetActive(false);
+                FloorController.PlayerData.AddItemToInventory(currentTile.Treasure);
+                CurrentRoom.Treasure = new List<MoveManual>{null, null};
+                List<GameObject> treasureTileObjects = RoomTiles.Where(tileObject => tileObject.GetComponent<Tile>().Type == TileType.Treasure).ToList();
+                List<Tile> treasureTiles = new List<Tile>();
+                foreach(GameObject treasureTileObject in treasureTileObjects)
+                {
+                    treasureTileObject.GetComponent<TreasureTileController>().ScrollParent.SetActive(false);
+                    treasureTiles.Add(treasureTileObject.GetComponent<Tile>());
+                }
+                foreach(Tile treasureTile in treasureTiles)
+                {
+                    treasureTile.Treasure = null;
+                }
+
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Use it wisely!"));
                 _isMovementBlockedByUI= false;
             }
@@ -238,6 +346,13 @@ public class PlayerController : MonoBehaviour
             {
                 FloorController.PlayerData.HealAllCritters();
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("There you go, all your bugs are healed and ready to fight, good luck!"));
+                foreach(Critter critter in FloorController.PlayerData.GetCritters())
+                {
+                    if(critter.Ability.ID == AbilityID.Hypochondriac)
+                    {
+                        yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{critter.Name} has also had their attack uses restored."));
+                    }
+                }
                 CurrentRoom.HospitalAlreadyUsed = true;
                 _isMovementBlockedByUI = false;
             }
@@ -247,6 +362,13 @@ public class PlayerController : MonoBehaviour
                 {
                     FloorController.PlayerData.RestoreUsesToAllCritters();
                     yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("All your bugs have had their attack uses restored, use them carefully!"));
+                    foreach(Critter critter in FloorController.PlayerData.GetCritters())
+                    {
+                        if(critter.Ability.ID == AbilityID.Hypochondriac)
+                        {
+                            yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage($"{critter.Name} has also had their health restored."));
+                        }
+                    }
                     CurrentRoom.HospitalAlreadyUsed = true;
                     _isMovementBlockedByUI = false;
                 }

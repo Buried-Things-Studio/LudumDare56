@@ -50,9 +50,25 @@ public class CombatController : MonoBehaviour
         State.NpcCritter = OpponentData == null ? npcCritter : OpponentData.GetActiveCritter();
         State.PlayerCritter.ResetTemporaryStats();
         State.NpcCritter.ResetTemporaryStats();
+
         
         InitializeMeshes();
         _viz.InitializeCombatUI(this, playerData, State.PlayerCritter, State.NpcCritter);
+
+        List<Critter> playerCritters = playerData.GetCritters();
+        if(opponentData != null && opponentData.IsBoss())
+        {
+            foreach(Critter critter in playerCritters)
+            {
+                if(critter.Ability.ID == AbilityID.EmergencyMedPack)
+                {
+                    critter.RestoreAllHealth();
+                    _viz.UpdatePlayerBugData(State.PlayerCritter);
+                    _viz.AddVisualStep(new FullHealStep(critter.Name));
+                }
+            }
+        }
+
         StartCoroutine(InitializeTurn());
     }
 
@@ -76,6 +92,7 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator InitializeTurn()
     {
+        yield return StartCoroutine(_viz.ExecuteVisualSteps());
         ClearTurnData();
         PlayerData.ClearDeadCritters();
         yield return StartCoroutine(GetNewActiveCritters());
@@ -296,13 +313,28 @@ public class CombatController : MonoBehaviour
         {
             if (priorityMoveID == MoveID.TriedItsBest)
             {
-                TryExecuteMove(priorityCritter, new TriedItsBest(), State.IsPlayerPriority);
-
-                if (CheckDeath())
+                if(priorityCritter.Ability.ID == AbilityID.StruggleBetter)
                 {
-                    isEndingCombat = ExecuteDeath();
-                    
-                    isNonPriorityDead = true;
+                    List<Move> allMoves = MasterCollection.GetAllMoves();
+                    Move randomMove = allMoves[UnityEngine.Random.Range(0, allMoves.Count)];
+                    TryExecuteMove(priorityCritter, randomMove, State.IsPlayerPriority);
+                    if (CheckDeath())
+                    {
+                        isEndingCombat = ExecuteDeath();
+                        
+                        isNonPriorityDead = true;
+                    }
+
+                }
+                else{
+                    TryExecuteMove(priorityCritter, new TriedItsBest(), State.IsPlayerPriority);
+
+                    if (CheckDeath())
+                    {
+                        isEndingCombat = ExecuteDeath();
+                        
+                        isNonPriorityDead = true;
+                    }
                 }
             }
             else
@@ -326,13 +358,25 @@ public class CombatController : MonoBehaviour
         {
             if (nonPriorityMove == null)
             {
-                if (priorityMoveID == MoveID.TriedItsBest)
+                if (nonPriorityMoveID == MoveID.TriedItsBest)
                 {
-                    TryExecuteMove(nonPriorityCritter, new TriedItsBest(), !State.IsPlayerPriority);
-
-                    if (CheckDeath())
+                    if(nonPriorityCritter.Ability.ID == AbilityID.StruggleBetter)
                     {
-                        isEndingCombat = isEndingCombat || ExecuteDeath();
+                        List<Move> allMoves = MasterCollection.GetAllMoves();
+                        Move randomMove = allMoves[UnityEngine.Random.Range(0, allMoves.Count)];
+                        TryExecuteMove(nonPriorityCritter, randomMove, !State.IsPlayerPriority);
+                        if (CheckDeath())
+                        {
+                            isEndingCombat = isEndingCombat || ExecuteDeath();
+                        }
+
+                    } else {
+                        TryExecuteMove(nonPriorityCritter, new TriedItsBest(), !State.IsPlayerPriority);
+
+                        if (CheckDeath())
+                        {
+                            isEndingCombat = isEndingCombat || ExecuteDeath();
+                        }
                     }
                 }
                 else
@@ -484,7 +528,24 @@ public class CombatController : MonoBehaviour
             _viz.AddVisualStep(new MoveAccuracyCheckFailureStep(user.Name));
         }
 
-        move.CurrentUses--;
+        if(user.Ability.ID == AbilityID.PPOrNotPP)
+        {
+            int randomInt = UnityEngine.Random.Range(0,2);
+            if(randomInt > 0)
+            {
+                _viz.AddVisualStep(new NoPPLossStep(user.Name, move.Name));
+            }
+            else
+            {
+                move.CurrentUses--;
+            }
+
+        }
+        else
+        {
+            move.CurrentUses--;
+        }
+
     }
 
 

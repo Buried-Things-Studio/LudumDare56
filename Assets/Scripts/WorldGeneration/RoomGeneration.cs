@@ -35,7 +35,7 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private WallsOrDoorsController _wallsOrDoorsController;
 
 
-    public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController, FloorController floorController)
+    public void GenerateRooms(Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, EncounterController encounterController, FloorController floorController, bool doubleTreasureRoom = false)
     {
         _encounterController = encounterController;
         _map = _mapGeneration.SafeGenerateMainPath();
@@ -45,7 +45,7 @@ public class RoomGeneration: MonoBehaviour
             Debug.Log("Map generation failed too many times. No map generated");
         }
 
-        _allRooms = GenerateRoomData(_map, collectorLevelRange, teamSizeRange, bossAffinity);
+        _allRooms = GenerateRoomData(_map, collectorLevelRange, teamSizeRange, bossAffinity, doubleTreasureRoom);
         GenerateCollectors(collectorLevelRange, teamSizeRange, bossAffinity);
 
         _currentRoom = _allRooms.Find(room => room.Type == RoomType.Start);
@@ -132,7 +132,7 @@ public class RoomGeneration: MonoBehaviour
     }
 
 
-    private List<List<string>> GetRoomLayoutBasedOnAdjacencies(List<bool> adjacencies, RoomType roomType)
+    private List<List<string>> GetRoomLayoutBasedOnAdjacencies(List<bool> adjacencies, RoomType roomType, bool doubleTreasureRoom = false)
     {
 
         List<List<List<string>>> usableRoomLayouts = new List<List<List<string>>>();
@@ -158,11 +158,15 @@ public class RoomGeneration: MonoBehaviour
         }
         else if(roomType == RoomType.Treasure)
         {
-            usableRoomLayouts = RoomLayouts.TreasureRoomLayouts;
+            if(doubleTreasureRoom)
+            {
+                usableRoomLayouts = RoomLayouts.DoubleTreasureRoomLayouts;
+            }
+            else
+            {
+                usableRoomLayouts = RoomLayouts.TreasureRoomLayouts;
+            }
         }
-
-
-
 
         if(adjacencies[0])
         {
@@ -204,7 +208,7 @@ public class RoomGeneration: MonoBehaviour
     }
 
 
-    public List<Room> GenerateRoomData(Dictionary<Vector2Int, RoomType> map, Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity)
+    public List<Room> GenerateRoomData(Dictionary<Vector2Int, RoomType> map, Vector2Int collectorLevelRange, Vector2Int teamSizeRange, CritterAffinity bossAffinity, bool doubleTreasureRoom = false)
     {
         List<Room> allRooms = new List<Room>();
         List<Vector2Int> path = GetAllCoordsInMap(map);
@@ -212,18 +216,18 @@ public class RoomGeneration: MonoBehaviour
         foreach (KeyValuePair<Vector2Int, RoomType> kvp in map)
         {
             List<bool> adjacencyArray = GetAdjacencyArray(kvp.Key, path);
-            List<List<string>> layout = GetRoomLayoutBasedOnAdjacencies(adjacencyArray, kvp.Value);
+            List<List<string>> layout = GetRoomLayoutBasedOnAdjacencies(adjacencyArray, kvp.Value, doubleTreasureRoom);
             Room newRoom = new Room(kvp.Value, kvp.Key, layout);
             allRooms.Add(newRoom);
 
-            PopulateUniqueRoomData(newRoom, teamSizeRange, collectorLevelRange, bossAffinity);
+            PopulateUniqueRoomData(newRoom, teamSizeRange, collectorLevelRange, bossAffinity, doubleTreasureRoom);
         }
 
         return allRooms;
     }
 
 
-    private void PopulateUniqueRoomData(Room room, Vector2Int teamSizeRange, Vector2Int collectorLevelRange, CritterAffinity bossAffinity)
+    private void PopulateUniqueRoomData(Room room, Vector2Int teamSizeRange, Vector2Int collectorLevelRange, CritterAffinity bossAffinity, bool doubleTreasureRoom = false)
     {
         if (room.Type == RoomType.Boss)
         {
@@ -241,9 +245,21 @@ public class RoomGeneration: MonoBehaviour
         }
         else if(room.Type == RoomType.Treasure)
         {
-            MoveManual moveManual = new MoveManual();
-            moveManual.SetRandomMove();
-            room.Treasure = moveManual;
+            if(doubleTreasureRoom)
+            {
+                MoveManual moveManual1 = new MoveManual();
+                MoveManual moveManual2 = new MoveManual();
+                moveManual1.SetRandomMove();
+                moveManual2.SetRandomMove();
+                room.Treasure.Add(moveManual1);
+                room.Treasure.Add(moveManual2);
+            }
+            else 
+            {
+                MoveManual moveManual = new MoveManual();
+                moveManual.SetRandomMove();
+                room.Treasure.Add(moveManual);
+            }
         }
     }
 
@@ -363,15 +379,18 @@ public class RoomGeneration: MonoBehaviour
                         tileObject.GetComponent<ExitTileController>().ClosedTrapDoor.SetActive(true);
                     }
                 }
-                if(_currentRoom.Layout[i][j] == "M")
+                if(_currentRoom.Layout[i][j] == "M0" || _currentRoom.Layout[i][j] == "M1")
                 {
+                    string tileCode = _currentRoom.Layout[i][j];
+                    string number = tileCode == "M0" ? "0" : "1";
+                    int numb  = int.Parse(number);
                     GameObject randomTreasureTile = _treasureTilePrefabs[UnityEngine.Random.Range(0, _treasureTilePrefabs.Count)];
                     GameObject tileObject = GameObject.Instantiate(randomTreasureTile, new Vector3(j, 0f, 8-i), Quaternion.identity);
                     tileObject.GetComponent<Tile>().Coordinates = new Vector2Int(j, 8-i);
                     tileObject.GetComponent<Tile>().Type = TileType.Treasure;
                     tileObject.GetComponent<Tile>().IsWalkable = false;
-                    tileObject.GetComponent<Tile>().Treasure = _currentRoom.Treasure;
-                    if(_currentRoom.Treasure == null)
+                    tileObject.GetComponent<Tile>().Treasure = _currentRoom.Treasure[numb];
+                    if(_currentRoom.Treasure[numb] == null)
                     {
                         tileObject.GetComponent<TreasureTileController>().ScrollParent.SetActive(false);
                     }

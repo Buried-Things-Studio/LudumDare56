@@ -14,4 +14,12 @@ public class Ability
 public enum AbilityID
 {
     None,
+    EmergencyMedPack,
+    FlirtatiousCustomer,
+    Hypochondriac,
+    LoyaltyCard,
+    PPOrNotPP,
+    PrivateMedicalInsurance,
+    StruggleBetter,
+    TreasureOptions
 }

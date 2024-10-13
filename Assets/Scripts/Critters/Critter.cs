@@ -14,6 +14,7 @@ public class Critter
     public List<Move> Moves = new List<Move>();
     public List<Guid> Participants = new List<Guid>();
     public List<StatusEffect> StatusEffects = new List<StatusEffect>();
+    public Ability Ability = new None();
 
     public int Level;
     public int Exp;

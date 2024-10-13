@@ -103,9 +103,11 @@ public class FloorController : MonoBehaviour
 
 
         //TODO: remove!----------
-        // Critter starter = new BulletAnt();
-        // starter.SetStartingLevel(10);
-        // PlayerData.AddCritter(starter);
+        Critter starter = new BulletAnt();
+        starter.SetStartingLevel(10);
+        starter.Ability = new TreasureOptions();
+        PlayerData.AddCritter(starter);
+        PlayerData.AddMoney(1000);
 
         // Critter boye = new Honeybee();
         // boye.SetStartingLevel(10);
@@ -169,8 +171,17 @@ public class FloorController : MonoBehaviour
         _floorTMPs[0].text = ("FLOOR <size=60>" + _currentLevel.ToString());
         _floorTMPs[1].text = ("FLOOR <size=60>" + _currentLevel.ToString());
 
+        bool doubleTreasureRooms = false;
+        foreach(Critter critter in PlayerData.GetCritters())
+        {
+            if(critter.Ability.ID == AbilityID.TreasureOptions)
+            {
+                doubleTreasureRooms = true;
+            }
+        }
 
-        RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this);
+
+        RoomGen.GenerateRooms(_collectorLevelRanges[_currentLevel], _collectorTeamSizeRanges[_currentLevel], _levelBossAffinity, Encounters, this, doubleTreasureRooms);
         //GameObject.FindObjectOfType<OverworldMenu>().GetComponentsInScene();
     }
 
