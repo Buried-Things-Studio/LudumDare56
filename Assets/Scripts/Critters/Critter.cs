@@ -358,6 +358,11 @@ public class Critter
     {
         SharpDefenseStage += change;
     }
+
+    public void AddAbility(Ability ability)
+    {
+        Ability = ability; 
+    }
 }
 
 

@@ -82,6 +82,16 @@ public class PrivateMedicalInsurance: Ability
     }
 }
 
+public class SkillfulSavages: Ability
+{
+    public SkillfulSavages()
+    {
+        Name = "Skillful Savages"; 
+        Description = "50% chance for wild bugs that you catch to already have a random ability.";
+        ID = AbilityID.SkillfulSavages;
+    }
+}
+
 public class StruggleBetter: Ability
 {
     public StruggleBetter()

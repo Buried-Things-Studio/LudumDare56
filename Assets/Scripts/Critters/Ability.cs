@@ -21,6 +21,7 @@ public enum AbilityID
     LoyaltyCard,
     PPOrNotPP,
     PrivateMedicalInsurance,
+    SkillfulSavages,
     StruggleBetter,
     TreasureOptions
 }

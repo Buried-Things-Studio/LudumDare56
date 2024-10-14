@@ -453,6 +453,23 @@ public class BugMuncherStep: CombatVisualStep
     }
 }
 
+public class SkillfulSavagesStep: CombatVisualStep
+{
+    public string Name;
+    public string Ability; 
+
+    public SkillfulSavagesStep(string name, string ability)
+    {
+        Name = name;
+        Ability = ability; 
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} already has the ability {Ability}. Where did it learn to do that?";
+    }
+}
+
 
 public class WinningsStep : CombatVisualStep
 {

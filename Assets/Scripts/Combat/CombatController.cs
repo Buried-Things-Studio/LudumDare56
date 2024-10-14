@@ -477,13 +477,38 @@ public class CombatController : MonoBehaviour
                 string statToIncrease = stats[UnityEngine.Random.Range(0, stats.Count)];
                 activeCritter.IncreaseSingleStat(statToIncrease);
                 _viz.AddVisualStep(new BugMuncherStep(activeCritter.Name, statToIncrease));
-
             }
             else 
             {
+                int chancesForAbility = 0;
+                bool getsRandomAbility = false;
+                foreach(Critter critter in PlayerData.GetCritters())
+                {
+                    if(critter.Ability.ID == AbilityID.SkillfulSavages)
+                    {
+                        chancesForAbility ++;
+                    }
+                }
+                for(int i = 0; i < chancesForAbility; i++)
+                {
+                    int chance = UnityEngine.Random.Range(0, 2);
+                    if(chance < 1)
+                    {
+                        getsRandomAbility = true;
+                    }
+                }
                 PlayerData.AddCritter(State.NpcCritter);
                 State.NpcCritter.RestoreAllHealth();
                 State.NpcCritter.RestoreAllMoveUses();
+                if(getsRandomAbility)
+                {
+                    List<Ability> allAbilities = MasterCollection.GetAllAbilities();
+                    Ability randomAbility = allAbilities[UnityEngine.Random.Range(0, allAbilities.Count)];
+                    State.NpcCritter.AddAbility(randomAbility);
+                    _viz.AddVisualStep(new SkillfulSavagesStep(State.NpcCritter.Name, randomAbility.Name));
+
+                }
+                
             }
         }
 

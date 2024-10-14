@@ -9,6 +9,7 @@ public static class MasterCollection
 {
     private static List<Type> _allCritterTypes;
     private static List<Type> _allMoveTypes;
+    private static List<Type> _allAbilityTypes;
 
 
     public static List<Type> GetAllCritterTypes()
@@ -81,5 +82,24 @@ public static class MasterCollection
         Debug.Log($"returning {availableCritters.Count} critters");
 
         return availableCritters;
+    }
+
+    public static List<Type> GetAllAbilityTypes()
+    {
+        if(_allAbilityTypes == null)
+        {
+            _allAbilityTypes = new List<Type>(
+                AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => type.IsSubclassOf(typeof(Ability)))
+            );
+        }
+        return _allAbilityTypes;
+    }
+
+    public static List<Ability> GetAllAbilities()
+    {
+        List<Ability> allAbilities = GetAllAbilityTypes().Select(abilityType => (Ability)Activator.CreateInstance(abilityType)).ToList();
+        return allAbilities;
     }
 }
