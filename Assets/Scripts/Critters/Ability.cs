@@ -15,6 +15,7 @@ public enum AbilityID
 {
     None,
     BugMuncher,
+    CheatDeath,
     EmergencyMedPack,
     FlirtatiousCustomer,
     Hypochondriac,

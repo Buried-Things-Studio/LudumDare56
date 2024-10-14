@@ -629,6 +629,19 @@ public class CombatController : MonoBehaviour
             }
         }
 
+        if(PlayerData.GetCritters().Exists(critter => critter.Ability.ID == AbilityID.CheatDeath))
+        {
+            Critter critterWithCheatDeath = PlayerData.GetCritters().Find(critter => critter.Ability.ID == AbilityID.CheatDeath);
+            if(!((CheatDeath)critterWithCheatDeath.Ability).HasBeenUsed)
+            {
+                State.PlayerCritter.HealToHalfHealth();
+                _viz.AddVisualStep(new CheatDeathStep(critterWithCheatDeath.Name, State.PlayerCritter.Name, critterWithCheatDeath == State.PlayerCritter));
+                _viz.AddVisualStep(new HealthChangeStep(true, State.PlayerCritter.Level, 0, Mathf.RoundToInt(State.PlayerCritter.MaxHealth*0.5f), State.PlayerCritter.MaxHealth));
+                ((CheatDeath)critterWithCheatDeath.Ability).HasBeenUsed = true;
+                return false;
+            }
+        }
+
         if (!PlayerData.GetCritters().Exists(critter => critter.CurrentHealth > 0))
         {
             StartCoroutine(GoToLose());

@@ -22,6 +22,17 @@ public class BugMuncher: Ability
     }
 }
 
+public class CheatDeath: Ability
+{
+    public bool HasBeenUsed = false;
+    public CheatDeath()
+    {
+        Name = "Cheat Death"; 
+        Description = "One time only, if a party member (including this bug) dies, revive them with half health.";
+        ID = AbilityID.CheatDeath;
+    }
+}
+
 public class EmergencyMedPack: Ability
 {
     public EmergencyMedPack()

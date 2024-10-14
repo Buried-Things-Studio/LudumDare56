@@ -470,6 +470,32 @@ public class SkillfulSavagesStep: CombatVisualStep
     }
 }
 
+public class CheatDeathStep: CombatVisualStep
+{
+    public string Healer;
+    public string Healed;
+    public bool SelfHeal; 
+
+    public CheatDeathStep(string healer, string healed, bool selfHeal)
+    {
+        Healer = healer; 
+        Healed = healed; 
+        SelfHeal = selfHeal;
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        if(SelfHeal)
+        {
+            return $"{Healer} miraculously revives itself, that was a close one!";
+        }
+        else 
+        {
+            return $"{Healer} brings {Healed} back from the dead, that was a narrow escape!";
+        }
+    }
+}
+
 
 public class WinningsStep : CombatVisualStep
 {

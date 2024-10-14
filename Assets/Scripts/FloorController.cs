@@ -103,15 +103,16 @@ public class FloorController : MonoBehaviour
 
 
         //TODO: remove!----------
+        // Critter boye = new GardenSnail();
+        // boye.SetStartingLevel(0);
+        // PlayerData.AddCritter(boye);
+
         // Critter starter = new BulletAnt();
-        // starter.SetStartingLevel(1);
-        // starter.Ability = new SkillfulSavages();
+        // starter.SetStartingLevel(10);
+        // starter.Ability = new CheatDeath();
         // PlayerData.AddCritter(starter);
         // PlayerData.AddMoney(1000);
 
-        // Critter boye = new Honeybee();
-        // boye.SetStartingLevel(10);
-        // PlayerData.AddCritter(boye);
 
         // Critter boi = new MonarchButterfly();
         // boi.SetStartingLevel(10);
