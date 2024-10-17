@@ -276,6 +276,21 @@ public class OverworldMenu : MonoBehaviour
 
                         StartPlayerMenuActionChoice();
                     }
+
+                    if (selectedItem == ItemType.AbilityManual)
+                    {
+                        yield return StartCoroutine(ChooseAbilityTeachInteraction());
+
+                        if (_bugMenu.SelectedCritterGuid != Guid.Empty)
+                        {
+                            _player.TeachAbilityToCritter((AbilityManual)_itemOptions.GetSelectedItem(), _bugMenu.SelectedCritterGuid);
+                        }
+                        OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                        osc.MyClip = _selectClip;
+                        osc.Play();
+
+                        StartPlayerMenuActionChoice();
+                    }
                 }
 
             }
@@ -313,6 +328,16 @@ public class OverworldMenu : MonoBehaviour
         _bugMenu.ShowCurrentSelection();
         
         yield return StartCoroutine(_bugMenu.PlayerInteraction(BugMenuContext.TeachMoveWithoutCommit));
+    }
+
+    private IEnumerator ChooseAbilityTeachInteraction()
+    {
+        SetInactiveAllMenus();
+        _bugMenuObject.SetActive(true);
+        _bugMenu.PopulateCritters(_player.GetCritters());
+        _bugMenu.ShowCurrentSelection();
+        
+        yield return StartCoroutine(_bugMenu.PlayerInteraction(BugMenuContext.TeachAbilityWithoutCommit));
     }
 
 

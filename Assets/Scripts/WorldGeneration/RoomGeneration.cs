@@ -30,7 +30,7 @@ public class RoomGeneration: MonoBehaviour
     [SerializeField] private MiniMapController _miniMapController;
     private FloorController _floorController; 
     private List<Critter> _starters = new List<Critter>();
-    private List<MoveManual> _rewards = new List<MoveManual>();
+    private List<AbilityManual> _rewards = new List<AbilityManual>();
 
     [SerializeField] private WallsOrDoorsController _wallsOrDoorsController;
 
@@ -466,12 +466,12 @@ public class RoomGeneration: MonoBehaviour
                         if (_encounterController.IsStarterChosen)
                         {
                             starterTileController.MasonJarParent.SetActive(false);
-                            starterTileController.ScrollParent.SetActive(false);
+                            starterTileController.BookParent.SetActive(false);
                         }
                         else
                         {
                             starterTileController.MasonJarParent.SetActive(true);
-                            starterTileController.ScrollParent.SetActive(false);
+                            starterTileController.BookParent.SetActive(false);
                             tileObject.GetComponentInChildren<MasonJarObject>().Glow(_starters[starterTileIndex]);
                         }
                     }
@@ -481,11 +481,11 @@ public class RoomGeneration: MonoBehaviour
                         if(_rewards[starterTileIndex] == null)
                         {
                             starterTileController.MasonJarParent.SetActive(false);
-                            starterTileController.ScrollParent.SetActive(false);
+                            starterTileController.BookParent.SetActive(false);
                         }
                         else{
                             starterTileController.MasonJarParent.SetActive(false);
-                            starterTileController.ScrollParent.SetActive(true);
+                            starterTileController.BookParent.SetActive(true);
                         }
                     }
 
@@ -690,16 +690,16 @@ public class RoomGeneration: MonoBehaviour
         }
     }
 
-    public void GenerateRewardMoves()
+    public void GenerateRewardAbilities()
     {
-        List<MoveManual> moves = new List<MoveManual>();
+        List<AbilityManual> abilities = new List<AbilityManual>();
         for(int i = 0; i < 3; i ++)
         {
-            MoveManual moveManual= new MoveManual();
-            moveManual.SetRandomMove();
-            moves.Add(moveManual);
+            AbilityManual abilityManual= new AbilityManual();
+            abilityManual.SetRandomAbility();
+            abilities.Add(abilityManual);
         }
-        _rewards = moves;
+        _rewards = abilities;
     }
 
 

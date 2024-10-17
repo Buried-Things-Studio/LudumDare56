@@ -113,6 +113,16 @@ public class StruggleBetter: Ability
     }
 }
 
+public class TheresABugInMyJar: Ability
+{
+    public TheresABugInMyJar()
+    {
+        Name = "There's a Bug in my Jar"; 
+        Description = "Don't shout, or they'll all want one! Mason Jars in shops contain a bug.";
+        ID = AbilityID.TheresABugInMyJar;
+    }
+}
+
 public class TreasureOptions: Ability
 {
     public TreasureOptions()

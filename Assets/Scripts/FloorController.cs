@@ -109,7 +109,6 @@ public class FloorController : MonoBehaviour
 
         // Critter starter = new BulletAnt();
         // starter.SetStartingLevel(10);
-        // starter.Ability = new CheatDeath();
         // PlayerData.AddCritter(starter);
         // PlayerData.AddMoney(1000);
 
@@ -166,7 +165,7 @@ public class FloorController : MonoBehaviour
         }
         else
         {
-            RoomGen.GenerateRewardMoves();
+            RoomGen.GenerateRewardAbilities();
         }
 
         _floorTMPs[0].text = ("FLOOR <size=60>" + _currentLevel.ToString());

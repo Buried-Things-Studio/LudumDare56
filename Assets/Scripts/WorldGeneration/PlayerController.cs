@@ -399,7 +399,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator TryChooseReward(MoveManual reward, GameObject tileObject)
+    private IEnumerator TryChooseReward(AbilityManual reward, GameObject tileObject)
     {
         _isMovementBlockedByUI = true;
         StarterTileController starterTileController = tileObject.GetComponent<StarterTileController>();
@@ -409,22 +409,22 @@ public class PlayerController : MonoBehaviour
             _isMovementBlockedByUI = false;
         }
         else{
-            yield return StartCoroutine(GlobalUI.TextBox.ShowMoveYesNoChoice(reward.TeachableMove, "Would you like to choose this move?"));
+            yield return StartCoroutine(GlobalUI.TextBox.ShowYesNoChoice($"This book will teach your bug the ability {reward.TeachableAbility.Name}. {reward.TeachableAbility.Description} Would you like to choose this move?"));
             if(GlobalUI.TextBox.IsSelectingYes)
             {
                 FloorController.PlayerData.AddItemToInventory(reward);
-                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You can now teach the move to a bug of your choice."));
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("You can now teach the ability to a bug of your choice."));
                 List<GameObject> starterTiles = RoomTiles.Where(tile => tile.GetComponent<Tile>().Type == TileType.Starter).ToList();
                 foreach(GameObject tile in starterTiles)
                 {
                     tile.GetComponent<Tile>().Reward = null;
                     tile.GetComponent<StarterTileController>().MasonJarParent.SetActive(false);
-                    tile.GetComponent<StarterTileController>().ScrollParent.SetActive(false);
+                    tile.GetComponent<StarterTileController>().BookParent.SetActive(false);
                 }
                 _isMovementBlockedByUI= false;
             }
             else {
-                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Look at the other moves and pick the best one!"));
+                yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage("Look at the other abilities and pick the best one!"));
                 _isMovementBlockedByUI= false;
 
             }

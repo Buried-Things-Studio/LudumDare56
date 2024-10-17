@@ -24,5 +24,6 @@ public enum AbilityID
     PrivateMedicalInsurance,
     SkillfulSavages,
     StruggleBetter,
+    TheresABugInMyJar,
     TreasureOptions
 }
