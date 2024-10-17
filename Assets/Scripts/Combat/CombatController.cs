@@ -629,7 +629,7 @@ public class CombatController : MonoBehaviour
             }
         }
 
-        if(PlayerData.GetCritters().Exists(critter => critter.Ability.ID == AbilityID.CheatDeath))
+        else if(PlayerData.GetCritters().Exists(critter => critter.Ability.ID == AbilityID.CheatDeath))
         {
             Critter critterWithCheatDeath = PlayerData.GetCritters().Find(critter => critter.Ability.ID == AbilityID.CheatDeath);
             if(!((CheatDeath)critterWithCheatDeath.Ability).HasBeenUsed)
