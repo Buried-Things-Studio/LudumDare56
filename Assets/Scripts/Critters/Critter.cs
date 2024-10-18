@@ -296,6 +296,11 @@ public class Critter
         CurrentHealth = Mathf.RoundToInt(0.5f*MaxHealth);
     }
 
+    public void SetHealthToInt(int newHealth)
+    {
+        CurrentHealth= newHealth;
+    }
+
 
     public int DealDamage(int damageAmount)
     {

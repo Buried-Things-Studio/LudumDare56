@@ -496,6 +496,22 @@ public class CheatDeathStep: CombatVisualStep
     }
 }
 
+public class MusketeerStep: CombatVisualStep
+{
+    public string Musketeer;
+
+    public MusketeerStep(string musketeer)
+    {
+        Musketeer = musketeer;
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Musketeer} shouts 'All for one and one for all!' Remaining health has been equally distibuted amongst the party.";
+    }
+}
+
+
 
 public class WinningsStep : CombatVisualStep
 {

@@ -73,6 +73,17 @@ public class LoyaltyCard: Ability
     }
 }
 
+public class Musketeer: Ability
+{
+    public Musketeer()
+    {
+        Name = "Musketeer";
+        Description = "If a bug in your party has this ability, the total health of your bugs will be shared equally among them after each fight";
+        ID = AbilityID.Musketeer;
+    }
+
+}
+
 public class PPOrNotPP: Ability
 {
     public PPOrNotPP()
