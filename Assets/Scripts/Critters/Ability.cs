@@ -21,6 +21,7 @@ public enum AbilityID
     Hypochondriac,
     LoyaltyCard,
     PPOrNotPP,
+    PracticeMakesPerfect,
     PrivateMedicalInsurance,
     SkillfulSavages,
     StabProofVest,

@@ -83,6 +83,18 @@ public class PPOrNotPP: Ability
     }
 }
 
+public class PracticeMakesPerfect: Ability
+{
+    int count = 0; 
+    Move move;
+    public PracticeMakesPerfect()
+    {
+        Name = "Practice Makes Perfect"; 
+        Description = "That is the question... Each time a bug with this ability uses a move, it will have a 50% chance not to use up one of its uses.";
+        ID = AbilityID.PracticeMakesPerfect;
+    }
+}
+
 public class PrivateMedicalInsurance: Ability
 {
     public PrivateMedicalInsurance()
