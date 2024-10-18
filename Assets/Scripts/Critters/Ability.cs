@@ -23,6 +23,7 @@ public enum AbilityID
     PPOrNotPP,
     PrivateMedicalInsurance,
     SkillfulSavages,
+    StabProofVest,
     StruggleBetter,
     TheresABugInMyJar,
     TreasureOptions, 

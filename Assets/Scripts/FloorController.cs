@@ -109,7 +109,7 @@ public class FloorController : MonoBehaviour
 
         // Critter starter = new BulletAnt();
         // starter.SetStartingLevel(10);
-        // starter.Ability = new Versatile();
+        // starter.Ability = new StabProofVest();
         // PlayerData.AddCritter(starter);
         // PlayerData.AddMoney(1000);
 

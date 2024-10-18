@@ -103,6 +103,16 @@ public class SkillfulSavages: Ability
     }
 }
 
+public class StabProofVest: Ability
+{
+    public StabProofVest()
+    {
+        Name = "Stab Proof Vest"; 
+        Description = "Moves used against bugs with this ability do not get a same affinity power bonus.";
+        ID = AbilityID.StabProofVest;
+    }
+}
+
 public class StruggleBetter: Ability
 {
     public StruggleBetter()

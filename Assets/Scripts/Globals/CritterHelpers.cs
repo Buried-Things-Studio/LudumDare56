@@ -41,7 +41,7 @@ public static class CritterHelpers
         Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
         Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
         int baseDamage = move.BasePower / 5;
-        float sameAffinityBonus = user.Affinities.Contains(move.Affinity) ? 1.5f : 1f;
+        float sameAffinityBonus = user.Affinities.Contains(move.Affinity) && opponent.Ability.ID != AbilityID.StabProofVest ? 1.5f : 1f;
         float differentAffinityBonus = user.Ability.ID == AbilityID.Versatile && !user.Affinities.Contains(move.Affinity) ? 1.2f : 1f;
         float statRatio = 0f;
         int logAttackValue = 0;
