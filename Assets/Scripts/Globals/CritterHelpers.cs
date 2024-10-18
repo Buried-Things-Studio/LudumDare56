@@ -48,7 +48,7 @@ public static class CritterHelpers
             if(practice.Move == move)
             {
                 practice.Count ++; 
-                extraBaseDamage = 2 * practice.Count;
+                practiceBaseDamage = 2 * practice.Count;
             }
             else 
             {

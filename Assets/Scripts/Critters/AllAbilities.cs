@@ -96,8 +96,8 @@ public class PPOrNotPP: Ability
 
 public class PracticeMakesPerfect: Ability
 {
-    int count = 0; 
-    Move move;
+    public int Count = 0; 
+    public Move Move = null;
     public PracticeMakesPerfect()
     {
         Name = "Practice Makes Perfect"; 
