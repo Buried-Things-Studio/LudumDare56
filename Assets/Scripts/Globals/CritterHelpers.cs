@@ -42,6 +42,7 @@ public static class CritterHelpers
         Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
         int baseDamage = move.BasePower / 5;
         float sameAffinityBonus = user.Affinities.Contains(move.Affinity) ? 1.5f : 1f;
+        float differentAffinityBonus = user.Ability.ID == AbilityID.Versatile && !user.Affinities.Contains(move.Affinity) ? 1.2f : 1f;
         float statRatio = 0f;
         int logAttackValue = 0;
         int logDefenseValue = 0;
@@ -60,9 +61,9 @@ public static class CritterHelpers
         }
 
         damageMultiplier = GetDamageMultiplier(opponent.Affinities, move.Affinity);
-        int totalDamage = Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * (damageMultiplier / 4f));
+        int totalDamage = Mathf.CeilToInt(baseDamage * sameAffinityBonus * differentAffinityBonus * statRatio * (damageMultiplier / 4f));
         
-        Debug.Log($"DAMAGE CALCULATION FROM {user.Name} to {opponent.Name}. DAMAGE = {totalDamage} --> Base damage {baseDamage} * STAB {sameAffinityBonus} * att:def {logAttackValue}:{logDefenseValue} = {statRatio} * effectiveness {damageMultiplier / 4f}");
+        Debug.Log($"DAMAGE CALCULATION FROM {user.Name} to {opponent.Name}. DAMAGE = {totalDamage} --> Base damage {baseDamage} * STAB {sameAffinityBonus} * DAB {differentAffinityBonus} * att:def {logAttackValue}:{logDefenseValue} = {statRatio} * effectiveness {damageMultiplier / 4f}");
 
         return totalDamage;
     }

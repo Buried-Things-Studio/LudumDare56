@@ -25,5 +25,6 @@ public enum AbilityID
     SkillfulSavages,
     StruggleBetter,
     TheresABugInMyJar,
-    TreasureOptions
+    TreasureOptions, 
+    Versatile,
 }

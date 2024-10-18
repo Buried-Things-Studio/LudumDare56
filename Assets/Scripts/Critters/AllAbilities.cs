@@ -132,3 +132,13 @@ public class TreasureOptions: Ability
         ID = AbilityID.TreasureOptions;
     }
 }
+
+public class Versatile: Ability
+{
+    public Versatile()
+    {
+        Name = "Versatile"; 
+        Description = "Bugs with this ability get a 20% increase to power on moves which don't match their Affinity.";
+        ID = AbilityID.Versatile;
+    }
+}
