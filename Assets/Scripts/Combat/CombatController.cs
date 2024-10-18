@@ -707,6 +707,7 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator GoToMainGame()
     {
+        CheckForMusketeer();
         _isChangingScene = true;
         
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
@@ -724,5 +725,47 @@ public class CombatController : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    private void CheckForMusketeer()
+    {
+        List<Critter> playerCritters = PlayerData.GetCritters();
+        if(playerCritters.Exists(critter => critter.Ability.ID == AbilityID.Musketeer))
+        {
+            List<int> finalHealthValues = new List<int>();
+            int totalHealthPool = 0;
+            foreach(Critter critter in playerCritters)
+            {
+                totalHealthPool += critter.CurrentHealth;
+                finalHealthValues.Add(0);
+            }
+
+            int counter = 0;
+            int numbCritters = playerCritters.Count;
+
+            while(totalHealthPool > 0)
+            {
+                int index = counter % numbCritters;
+                if(playerCritters[index].MaxHealth > finalHealthValues[index])
+                {
+                    finalHealthValues[index] ++;
+                    totalHealthPool --;
+                    
+                }
+                counter ++;
+            } 
+            _viz.AddVisualStep(new MusketeerStep(playerCritters.Find(critter => critter.Ability.ID == AbilityID.Musketeer).Name));
+            
+            for(int i = 0; i < playerCritters.Count; i++)
+            {
+                Critter critter = playerCritters[i];
+                if(critter == State.PlayerCritter)
+                {
+                    _viz.AddVisualStep(new HealthChangeStep(true, critter.Level, critter.CurrentHealth, finalHealthValues[i], critter.MaxHealth));
+                }
+                playerCritters[i].SetHealthToInt(finalHealthValues[i]);
+            }
+
+        }    
     }
 }

@@ -109,6 +109,7 @@ public class FloorController : MonoBehaviour
 
         // Critter starter = new BulletAnt();
         // starter.SetStartingLevel(10);
+        // starter.Ability = new Musketeer();
         // PlayerData.AddCritter(starter);
         // PlayerData.AddMoney(1000);
 
