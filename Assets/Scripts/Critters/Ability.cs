@@ -20,6 +20,7 @@ public enum AbilityID
     FlirtatiousCustomer,
     Hypochondriac,
     LoyaltyCard,
+    Musketeer,
     PPOrNotPP,
     PrivateMedicalInsurance,
     SkillfulSavages,
