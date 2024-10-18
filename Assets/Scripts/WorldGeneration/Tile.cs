@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
     public TileType Type;
     public bool IsWalkable;
     public Critter Starter;
-    public MoveManual Reward;
+    public AbilityManual Reward;
     public Item ShopItem;
     public MoveManual Treasure;
     public RoomType ConnectingRoom = RoomType.None; 

@@ -453,6 +453,49 @@ public class BugMuncherStep: CombatVisualStep
     }
 }
 
+public class SkillfulSavagesStep: CombatVisualStep
+{
+    public string Name;
+    public string Ability; 
+
+    public SkillfulSavagesStep(string name, string ability)
+    {
+        Name = name;
+        Ability = ability; 
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} already has the ability {Ability}. Where did it learn to do that?";
+    }
+}
+
+public class CheatDeathStep: CombatVisualStep
+{
+    public string Healer;
+    public string Healed;
+    public bool SelfHeal; 
+
+    public CheatDeathStep(string healer, string healed, bool selfHeal)
+    {
+        Healer = healer; 
+        Healed = healed; 
+        SelfHeal = selfHeal;
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        if(SelfHeal)
+        {
+            return $"{Healer} miraculously revives itself, that was a close one!";
+        }
+        else 
+        {
+            return $"{Healer} brings {Healed} back from the dead, that was a narrow escape!";
+        }
+    }
+}
+
 
 public class WinningsStep : CombatVisualStep
 {

@@ -146,7 +146,11 @@ public class BugMenu : MonoBehaviour
         }
         else if (context == BugMenuContext.TeachMoveWithoutCommit)
         {
-            yield return StartCoroutine(ChooseMoveTeach(false));
+            yield return StartCoroutine(ChooseBugMoveTeach(false));
+        }
+        else if (context == BugMenuContext.TeachAbilityWithoutCommit)
+        {
+            yield return StartCoroutine(ChooseBugAbilityTeach(false));
         }
     }
 
@@ -197,7 +201,7 @@ public class BugMenu : MonoBehaviour
     }
 
 
-    public IEnumerator ChooseMoveTeach(bool isForcingChoice)
+    public IEnumerator ChooseBugMoveTeach(bool isForcingChoice)
     {
         yield return null;
 
@@ -241,7 +245,54 @@ public class BugMenu : MonoBehaviour
             yield return null;
         }
     }
+
+    public IEnumerator ChooseBugAbilityTeach(bool isForcingChoice)
+    {
+        yield return null;
+
+        bool isClosing = false;
+        SelectedCritterGuid = Guid.Empty;
+        
+        while (!isClosing)
+        {
+            if (Input.GetKeyDown(Controls.MenuUpKey))
+            {
+                MoveSelection(true);
+            }
+            else if (Input.GetKeyDown(Controls.MenuDownKey))
+            {
+                MoveSelection(false);
+            }
+            else if (Input.GetKeyDown(Controls.MenuSelectKey))
+            {
+                Critter selectedCritter = _bugOptions[_currentSelectedIndex].GetCritter();
+
+                if (selectedCritter.CurrentHealth > 0)
+                {
+                    SelectedCritterGuid = selectedCritter.GUID;
+                    isClosing = true;
+                }
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _teachMoveClip;
+                osc.Play();
+            }
+            else if (!isForcingChoice && Input.GetKeyDown(Controls.MenuBackKey))
+            {
+                SelectedCritterGuid = Guid.Empty;
+                isClosing = true;
+
+                OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
+                osc.MyClip = _backOutClip;
+                osc.Play();
+            }
+
+            yield return null;
+        }
+    }
 }
+
+
 
 
 public enum BugMenuContext
@@ -250,5 +301,6 @@ public enum BugMenuContext
     SwapToActiveSlot,
     ChooseActiveWithoutCommit,
     ForceChooseActive,
-    TeachMoveWithoutCommit
+    TeachMoveWithoutCommit,
+    TeachAbilityWithoutCommit,
 }

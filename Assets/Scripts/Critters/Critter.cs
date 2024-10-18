@@ -291,6 +291,11 @@ public class Critter
         return CurrentHealth - healthBeforeHeal;
     }
 
+    public void HealToHalfHealth()
+    {
+        CurrentHealth = Mathf.RoundToInt(0.5f*MaxHealth);
+    }
+
 
     public int DealDamage(int damageAmount)
     {
@@ -357,6 +362,11 @@ public class Critter
     public void ChangeSharpDefenseStage(int change)
     {
         SharpDefenseStage += change;
+    }
+
+    public void AddAbility(Ability ability)
+    {
+        Ability = ability; 
     }
 }
 

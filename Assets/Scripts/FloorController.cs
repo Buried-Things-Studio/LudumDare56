@@ -103,15 +103,15 @@ public class FloorController : MonoBehaviour
 
 
         //TODO: remove!----------
+        // Critter boye = new GardenSnail();
+        // boye.SetStartingLevel(0);
+        // PlayerData.AddCritter(boye);
+
         // Critter starter = new BulletAnt();
-        // starter.SetStartingLevel(1);
-        // starter.Ability = new BugMuncher();
+        // starter.SetStartingLevel(10);
         // PlayerData.AddCritter(starter);
         // PlayerData.AddMoney(1000);
 
-        // Critter boye = new Honeybee();
-        // boye.SetStartingLevel(10);
-        // PlayerData.AddCritter(boye);
 
         // Critter boi = new MonarchButterfly();
         // boi.SetStartingLevel(10);
@@ -165,7 +165,7 @@ public class FloorController : MonoBehaviour
         }
         else
         {
-            RoomGen.GenerateRewardMoves();
+            RoomGen.GenerateRewardAbilities();
         }
 
         _floorTMPs[0].text = ("FLOOR <size=60>" + _currentLevel.ToString());

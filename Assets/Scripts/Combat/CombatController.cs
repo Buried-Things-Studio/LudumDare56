@@ -477,13 +477,38 @@ public class CombatController : MonoBehaviour
                 string statToIncrease = stats[UnityEngine.Random.Range(0, stats.Count)];
                 activeCritter.IncreaseSingleStat(statToIncrease);
                 _viz.AddVisualStep(new BugMuncherStep(activeCritter.Name, statToIncrease));
-
             }
             else 
             {
+                int chancesForAbility = 0;
+                bool getsRandomAbility = false;
+                foreach(Critter critter in PlayerData.GetCritters())
+                {
+                    if(critter.Ability.ID == AbilityID.SkillfulSavages)
+                    {
+                        chancesForAbility ++;
+                    }
+                }
+                for(int i = 0; i < chancesForAbility; i++)
+                {
+                    int chance = UnityEngine.Random.Range(0, 2);
+                    if(chance < 1)
+                    {
+                        getsRandomAbility = true;
+                    }
+                }
                 PlayerData.AddCritter(State.NpcCritter);
                 State.NpcCritter.RestoreAllHealth();
                 State.NpcCritter.RestoreAllMoveUses();
+                if(getsRandomAbility)
+                {
+                    List<Ability> allAbilities = MasterCollection.GetAllAbilities();
+                    Ability randomAbility = allAbilities[UnityEngine.Random.Range(0, allAbilities.Count)];
+                    State.NpcCritter.AddAbility(randomAbility);
+                    _viz.AddVisualStep(new SkillfulSavagesStep(State.NpcCritter.Name, randomAbility.Name));
+
+                }
+                
             }
         }
 
@@ -601,6 +626,19 @@ public class CombatController : MonoBehaviour
             {
                 List<CombatVisualStep> expSteps = critter.IncreaseExp(State.NpcCritter.Level * 250 / crittersReceivingExp.Count);
                 _viz.AddVisualSteps(expSteps);
+            }
+        }
+
+        else if(PlayerData.GetCritters().Exists(critter => critter.Ability.ID == AbilityID.CheatDeath))
+        {
+            Critter critterWithCheatDeath = PlayerData.GetCritters().Find(critter => critter.Ability.ID == AbilityID.CheatDeath);
+            if(!((CheatDeath)critterWithCheatDeath.Ability).HasBeenUsed)
+            {
+                State.PlayerCritter.HealToHalfHealth();
+                _viz.AddVisualStep(new CheatDeathStep(critterWithCheatDeath.Name, State.PlayerCritter.Name, critterWithCheatDeath == State.PlayerCritter));
+                _viz.AddVisualStep(new HealthChangeStep(true, State.PlayerCritter.Level, 0, Mathf.RoundToInt(State.PlayerCritter.MaxHealth*0.5f), State.PlayerCritter.MaxHealth));
+                ((CheatDeath)critterWithCheatDeath.Ability).HasBeenUsed = true;
+                return false;
             }
         }
 

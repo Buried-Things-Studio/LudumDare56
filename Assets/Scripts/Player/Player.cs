@@ -119,6 +119,11 @@ public class Player
         _items.Remove(moveManual);
     }
 
+    public void TeachAbilityToCritter(AbilityManual abilityManual, Guid critterGuid)
+    {
+        _critters.Find(critter => critter.GUID == critterGuid).Ability = abilityManual.TeachableAbility;
+        _items.Remove(abilityManual);
+    }
 
     public void HealAllCritters()
     {

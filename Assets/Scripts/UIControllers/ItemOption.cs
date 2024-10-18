@@ -23,6 +23,11 @@ public class ItemOption : MonoBehaviour
             MoveManual moveManual = (MoveManual)item;
             _itemNameTMP.text = $"Scroll: {moveManual.TeachableMove.Name}";
         }
+        else if (item.ID == ItemType.AbilityManual)
+        {
+            AbilityManual abilityManual = (AbilityManual)item;
+            _itemNameTMP.text = $"Book: {abilityManual.TeachableAbility.Name}";
+        }
         else
         {
             _itemNameTMP.text = item.Name;

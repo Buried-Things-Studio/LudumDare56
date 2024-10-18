@@ -72,10 +72,37 @@ public class MoveManual : Item
     }
 }
 
+public class AbilityManual: Item
+{
+    public Ability TeachableAbility;
+
+    public AbilityManual()
+    {
+        Name = "Ability Book";
+        ID =  ItemType.AbilityManual;
+        Price = 3000;
+    }
+
+    public void SetRandomAbility()
+    {
+        List<Type> abilityTypes = MasterCollection.GetAllAbilityTypes();
+        abilityTypes.Remove(typeof(None));
+        Ability ability = Activator.CreateInstance(abilityTypes[UnityEngine.Random.Range(0, abilityTypes.Count)]) as Ability;
+        SetTeachableAbility(ability);
+    }
+
+    public void SetTeachableAbility(Ability ability)
+    {
+        TeachableAbility = ability;
+        Description = $"Teach one bug the move {TeachableAbility.Name}.";
+    }
+}
+
 
 public enum ItemType
 {
     None,
+    AbilityManual,
     MasonJar,
     MoveManual,
     Nectar,

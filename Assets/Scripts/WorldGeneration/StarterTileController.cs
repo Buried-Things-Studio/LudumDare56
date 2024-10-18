@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class StarterTileController : MonoBehaviour
 {
-    public GameObject ScrollParent;
     public GameObject MasonJarParent;
+    public GameObject BookParent;
 }

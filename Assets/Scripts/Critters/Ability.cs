@@ -15,12 +15,15 @@ public enum AbilityID
 {
     None,
     BugMuncher,
+    CheatDeath,
     EmergencyMedPack,
     FlirtatiousCustomer,
     Hypochondriac,
     LoyaltyCard,
     PPOrNotPP,
     PrivateMedicalInsurance,
+    SkillfulSavages,
     StruggleBetter,
+    TheresABugInMyJar,
     TreasureOptions
 }
