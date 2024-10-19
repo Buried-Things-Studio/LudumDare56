@@ -41,7 +41,23 @@ public static class CritterHelpers
         Critter user = isPlayerUser ? state.PlayerCritter : state.NpcCritter;
         Critter opponent = isPlayerUser ? state.NpcCritter : state.PlayerCritter;
         int baseDamage = move.BasePower / 5;
-        float sameAffinityBonus = user.Affinities.Contains(move.Affinity) ? 1.5f : 1f;
+        int practiceBaseDamage = 0;
+        if(user.Ability.ID == AbilityID.PracticeMakesPerfect)
+        {
+            PracticeMakesPerfect practice = (PracticeMakesPerfect)user.Ability;
+            if(practice.Move == move)
+            {
+                practice.Count ++; 
+                practiceBaseDamage = 2 * practice.Count;
+            }
+            else 
+            {
+                practice.Move = move; 
+                practice.Count = 0;
+            }
+        }
+        float sameAffinityBonus = user.Affinities.Contains(move.Affinity) && opponent.Ability.ID != AbilityID.StabProofVest ? 1.5f : 1f;
+        float differentAffinityBonus = user.Ability.ID == AbilityID.Versatile && !user.Affinities.Contains(move.Affinity) ? 1.2f : 1f;
         float statRatio = 0f;
         int logAttackValue = 0;
         int logDefenseValue = 0;
@@ -60,9 +76,9 @@ public static class CritterHelpers
         }
 
         damageMultiplier = GetDamageMultiplier(opponent.Affinities, move.Affinity);
-        int totalDamage = Mathf.CeilToInt(baseDamage * sameAffinityBonus * statRatio * (damageMultiplier / 4f));
+        int totalDamage = Mathf.CeilToInt((baseDamage + practiceBaseDamage) * sameAffinityBonus * differentAffinityBonus * statRatio * (damageMultiplier / 4f));
         
-        Debug.Log($"DAMAGE CALCULATION FROM {user.Name} to {opponent.Name}. DAMAGE = {totalDamage} --> Base damage {baseDamage} * STAB {sameAffinityBonus} * att:def {logAttackValue}:{logDefenseValue} = {statRatio} * effectiveness {damageMultiplier / 4f}");
+        Debug.Log($"DAMAGE CALCULATION FROM {user.Name} to {opponent.Name}. DAMAGE = {totalDamage} --> ( Base damage {baseDamage} + Practice Base Damage {practiceBaseDamage} ) * STAB {sameAffinityBonus} * DAB {differentAffinityBonus} * att:def {logAttackValue}:{logDefenseValue} = {statRatio} * effectiveness {damageMultiplier / 4f}");
 
         return totalDamage;
     }

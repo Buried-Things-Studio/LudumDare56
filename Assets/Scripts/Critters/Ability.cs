@@ -22,9 +22,12 @@ public enum AbilityID
     LoyaltyCard,
     Musketeer,
     PPOrNotPP,
+    PracticeMakesPerfect,
     PrivateMedicalInsurance,
     SkillfulSavages,
+    StabProofVest,
     StruggleBetter,
     TheresABugInMyJar,
-    TreasureOptions
+    TreasureOptions, 
+    Versatile,
 }

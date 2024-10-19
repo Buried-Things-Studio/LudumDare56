@@ -107,9 +107,9 @@ public class FloorController : MonoBehaviour
         // boye.SetStartingLevel(0);
         // PlayerData.AddCritter(boye);
 
-        // Critter starter = new BulletAnt();
-        // starter.SetStartingLevel(10);
-        // starter.Ability = new Musketeer();
+        // Critter starter = new Honeybee();
+        // starter.SetStartingLevel(3);
+        // starter.Ability = new PracticeMakesPerfect();
         // PlayerData.AddCritter(starter);
         // PlayerData.AddMoney(1000);
 

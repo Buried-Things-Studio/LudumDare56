@@ -708,6 +708,7 @@ public class CombatController : MonoBehaviour
     private IEnumerator GoToMainGame()
     {
         CheckForMusketeer();
+        ResetPractice();
         _isChangingScene = true;
         
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
@@ -767,5 +768,19 @@ public class CombatController : MonoBehaviour
             }
 
         }    
+    }
+
+    private void ResetPractice()
+    {
+        List<Critter> playerCritters = PlayerData.GetCritters();
+        foreach(Critter critter in playerCritters)
+        {
+            if(critter.Ability.ID == AbilityID.PracticeMakesPerfect)
+            {
+                PracticeMakesPerfect practice = (PracticeMakesPerfect)critter.Ability;
+                practice.Move = null; 
+                practice.Count = 0;
+            }
+        }
     }
 }

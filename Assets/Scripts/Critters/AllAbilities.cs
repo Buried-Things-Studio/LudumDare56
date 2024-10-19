@@ -94,6 +94,18 @@ public class PPOrNotPP: Ability
     }
 }
 
+public class PracticeMakesPerfect: Ability
+{
+    public int Count = 0; 
+    public Move Move = null;
+    public PracticeMakesPerfect()
+    {
+        Name = "Practice Makes Perfect"; 
+        Description = "That is the question... Each time a bug with this ability uses a move, it will have a 50% chance not to use up one of its uses.";
+        ID = AbilityID.PracticeMakesPerfect;
+    }
+}
+
 public class PrivateMedicalInsurance: Ability
 {
     public PrivateMedicalInsurance()
@@ -111,6 +123,16 @@ public class SkillfulSavages: Ability
         Name = "Skillful Savages"; 
         Description = "If a bug in your party has this ability, there is a 50% chance for wild bugs that you catch to already have a random ability.";
         ID = AbilityID.SkillfulSavages;
+    }
+}
+
+public class StabProofVest: Ability
+{
+    public StabProofVest()
+    {
+        Name = "Stab Proof Vest"; 
+        Description = "Moves used against bugs with this ability do not get a same affinity power bonus.";
+        ID = AbilityID.StabProofVest;
     }
 }
 
@@ -141,5 +163,15 @@ public class TreasureOptions: Ability
         Name = "Treasure Options"; 
         Description = "If a bug in your party has this ability, on subsequent floors the treasure room will offer a choice of 2 moves.";
         ID = AbilityID.TreasureOptions;
+    }
+}
+
+public class Versatile: Ability
+{
+    public Versatile()
+    {
+        Name = "Versatile"; 
+        Description = "Bugs with this ability get a 20% increase to power on moves which don't match their Affinity.";
+        ID = AbilityID.Versatile;
     }
 }
