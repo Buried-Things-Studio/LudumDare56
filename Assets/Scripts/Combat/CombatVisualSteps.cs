@@ -453,6 +453,36 @@ public class BugMuncherStep: CombatVisualStep
     }
 }
 
+public class ReadyToHunkerDownStep: CombatVisualStep
+{
+    public string Name;
+
+    public ReadyToHunkerDownStep(string name)
+    {
+        Name = name; 
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} is getting ready to hunker down. It won't take any damage next turn.";
+    }
+}
+
+public class HunkerDownStep: CombatVisualStep
+{
+    public string Name; 
+
+    public HunkerDownStep(string name)
+    {
+        Name = name; 
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} has hunkered down and doesn't take any damage.";
+    }
+}
+
 public class SkillfulSavagesStep: CombatVisualStep
 {
     public string Name;

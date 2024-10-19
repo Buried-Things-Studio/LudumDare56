@@ -55,10 +55,11 @@ public class FlirtatiousCustomer: Ability
 
 public class HunkerDown: Ability
 {
+    public int TurnsActive = 0; 
     public HunkerDown()
     {
         Name = "Hunker Down"; 
-        Description = "Bugs with this ability are unable to take damage on every third turn during a fight."
+        Description = "Bugs with this ability are unable to take damage on every third turn during a fight.";
         ID = AbilityID.HunkerDown;
     }
 

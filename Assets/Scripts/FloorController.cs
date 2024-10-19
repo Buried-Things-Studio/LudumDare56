@@ -109,7 +109,7 @@ public class FloorController : MonoBehaviour
 
         // Critter starter = new Honeybee();
         // starter.SetStartingLevel(3);
-        // starter.Ability = new PracticeMakesPerfect();
+        // starter.Ability = new HunkerDown();
         // PlayerData.AddCritter(starter);
         // PlayerData.AddMoney(1000);
 
