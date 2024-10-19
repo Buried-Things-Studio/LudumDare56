@@ -962,6 +962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Encounters: {fileID: 616055259}
+  _floorCanvasObject: {fileID: 1220496157}
   RoomGen: {fileID: 616055257}
   IsActivated: 0
   LastMapGeneratedLevel: 1
@@ -1072,6 +1073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsStarterChosen: 0
+  _floorCanvasObject: {fileID: 1220496157}
   _wildEncounterDataPrefab: {fileID: 4116016759439241374, guid: 80c61f55e5c6a494a870f3624a7e145a,
     type: 3}
   _wildEncounterDataParent: {fileID: 2016135126}
