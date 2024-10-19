@@ -123,7 +123,7 @@ public class CombatUIController : MonoBehaviour
             {
                 yield return StartCoroutine(GlobalUI.TextBox.ShowSimpleMessage(step.GetPopulatedMessage()));
 
-                _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter, false); //this might not be the critter that levelled, but there's no harm with a repopulate
+                //_playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter, false); //this might not be the critter that levelled, but there's no harm with a repopulate
             
                 if (step.GetType() == typeof(ChangeActiveStep))
                 {
@@ -144,6 +144,8 @@ public class CombatUIController : MonoBehaviour
                     ChangeActiveStep activeStep = (ChangeActiveStep)step;
                     GameObject newPrefab = Resources.Load<GameObject>("Bugs/" + activeStep.NewCritter.Name.Replace(" ", "")) as GameObject;
 
+                    _playerBugInfoContainer.PopulateBugData(activeStep.NewCritter, false);
+
                     GameObject.Destroy(_combatController.PlayerMesh);
 
                     yield return null;
@@ -157,6 +159,10 @@ public class CombatUIController : MonoBehaviour
                     _combatController.PlayerMeshParent.transform.parent.parent.GetComponent<Animator>().SetTrigger("Out");
 
                     yield return new WaitForSeconds(1f);
+                }
+                else
+                {
+                    _playerBugInfoContainer.PopulateBugData(_combatController.State.PlayerCritter, false); //this might not be the critter that levelled, but there's no harm with a repopulate
                 }
             }
             else if (step.GetType() == typeof(DoMoveStep))

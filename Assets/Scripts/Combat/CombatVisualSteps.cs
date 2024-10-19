@@ -165,7 +165,7 @@ public class ChangeActiveStep : CombatVisualStep
     
     public ChangeActiveStep(Critter newCritter, string name)
     {
-        NewCritter = newCritter;
+        NewCritter = new Critter(newCritter);
         Name = name;
     }
 
