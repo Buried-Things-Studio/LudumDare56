@@ -16,7 +16,6 @@ public class EncounterController : MonoBehaviour
     private Vector2Int _wildEncounterLevelRange;
     public bool IsStarterChosen;
 
-    [SerializeField] private GameObject _floorCanvasObject;
     [SerializeField] private GameObject _wildEncounterDataPrefab;
     [SerializeField] private Transform _wildEncounterDataParent;
     private List<GameObject> _wildEncounterDataObjects = new List<GameObject>();
@@ -125,7 +124,6 @@ public class EncounterController : MonoBehaviour
         }
 
         _wallsAndDoorsGO.SetActive(false);
-        _floorCanvasObject.SetActive(false);
 
         Debug.Log("looking for combat controller");
 
@@ -163,7 +161,6 @@ public class EncounterController : MonoBehaviour
         }
 
         _wallsAndDoorsGO.SetActive(false);
-        _floorCanvasObject.SetActive(false);
 
         CombatController combatController = GameObject.FindObjectOfType<CombatController>();
 

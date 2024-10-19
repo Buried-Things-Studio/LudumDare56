@@ -142,10 +142,7 @@ public class FloorController : MonoBehaviour
 
     private void OnSceneChange(Scene current, Scene next)
     {
-        if (next.name == "MainGame")
-        {
-            _floorCanvasObject.SetActive(true);
-        }
+        _floorCanvasObject.SetActive(next.name == "MainGame");
     }
 
 
