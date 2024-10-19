@@ -18,6 +18,7 @@ public enum AbilityID
     CheatDeath,
     EmergencyMedPack,
     FlirtatiousCustomer,
+    HunkerDown,
     Hypochondriac,
     LoyaltyCard,
     Musketeer,

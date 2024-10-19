@@ -47,10 +47,21 @@ public class FlirtatiousCustomer: Ability
 {
     public FlirtatiousCustomer()
     {
-        Name = "FlirtatiousCustomer"; 
+        Name = "Flirtatious Customer"; 
         Description = "Bugs with this ability will charm the shopkeeper into charging you 20% less.";
         ID = AbilityID.FlirtatiousCustomer;
     }
+}
+
+public class HunkerDown: Ability
+{
+    public HunkerDown()
+    {
+        Name = "Hunker Down"; 
+        Description = "Bugs with this ability are unable to take damage on every third turn during a fight."
+        ID = AbilityID.HunkerDown;
+    }
+
 }
 
 public class Hypochondriac: Ability
