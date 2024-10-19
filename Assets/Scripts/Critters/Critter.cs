@@ -44,6 +44,23 @@ public class Critter
     public Vector2Int BluntDefenseLevelIncrease;
 
 
+    public Critter(){}
+
+
+    public Critter(Critter critterToClone)
+    {
+        // Currently only the properties needed to populate a data box during combat
+        Name = critterToClone.Name;
+        Affinities = critterToClone.Affinities;
+        StatusEffects = critterToClone.StatusEffects;
+        Ability = critterToClone.Ability;
+        Level = critterToClone.Level;
+        Exp = critterToClone.Exp;
+        MaxHealth = critterToClone.MaxHealth;
+        CurrentHealth = critterToClone.CurrentHealth;
+    }
+
+
     public void SetStartingLevel(int startingLevel)
     {
         for (int i = 0; i < startingLevel; i++)
@@ -51,6 +68,7 @@ public class Critter
             IncreaseLevel();
         }
     }
+
 
     public void SetStartingMoves(OpponentType opponentType)
     {
@@ -188,6 +206,7 @@ public class Critter
         MaxBluntDefense += bluntDefenseIncrease;
     }
 
+
     public void IncreaseSingleStat(string stat)
     {
         if(stat == "Sharp Attack")
@@ -296,6 +315,7 @@ public class Critter
         CurrentHealth = Mathf.RoundToInt(0.5f*MaxHealth);
     }
 
+
     public void SetHealthToInt(int newHealth)
     {
         CurrentHealth= newHealth;
@@ -368,6 +388,7 @@ public class Critter
     {
         SharpDefenseStage += change;
     }
+
 
     public void AddAbility(Ability ability)
     {
