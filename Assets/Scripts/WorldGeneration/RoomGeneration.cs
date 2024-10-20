@@ -554,6 +554,7 @@ public class RoomGeneration: MonoBehaviour
         playerController.FloorController = _floorController;
         playerController.EncounterController = _encounterController;
         playerController.CollectorController = _collectorController;
+        playerController.JustEnteredNewRoom = false;
 
         OverworldMenu menu = GameObject.FindObjectOfType<OverworldMenu>();
         menu.GetComponentsInScene(_floorController.PlayerData, playerController);
@@ -600,6 +601,7 @@ public class RoomGeneration: MonoBehaviour
         playerController.CollectorController = _collectorController;
         playerController.Direction = direction;
         playerController.SnapToDirection();
+        playerController.JustEnteredNewRoom = false;
         _miniMapController.UpdateMap();
 
         OverworldMenu menu = GameObject.FindObjectOfType<OverworldMenu>();
@@ -642,6 +644,7 @@ public class RoomGeneration: MonoBehaviour
         playerController.CollectorController = _collectorController;
         playerController.Direction = direction;
         playerController.SnapToDirection();
+        playerController.JustEnteredNewRoom = true;
         _miniMapController.UpdateMap();
 
         OverworldMenu menu = GameObject.FindObjectOfType<OverworldMenu>();
