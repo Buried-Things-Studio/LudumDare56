@@ -20,4 +20,24 @@ public abstract class Move
 
 
     public abstract List<CombatVisualStep> ExecuteMove(CombatState state, bool isPlayerUser);
+
+    public List<CombatVisualStep> TryDealDamage(CombatState state, int damage, Critter opponent, Critter user)
+    {
+        bool opponentIsPlayer = opponent == state.PlayerCritter ? true : false;
+        int startingHealth = opponent.CurrentHealth;
+        bool canDealDamage = opponent.DealDamage(damage);
+
+        List<CombatVisualStep> steps = new List<CombatVisualStep>();
+
+        if(canDealDamage)
+        {
+            steps.Add(new HealthChangeStep(opponentIsPlayer, opponent.Level, startingHealth, opponent.CurrentHealth, opponent.MaxHealth));
+        }
+        else 
+        {
+            steps.Add(new HunkerDownStep(opponent.Name));
+        }
+        return steps;
+
+    }
 }

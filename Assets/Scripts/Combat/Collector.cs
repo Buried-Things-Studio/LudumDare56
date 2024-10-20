@@ -21,7 +21,7 @@ public class Collector
 
 
 
-    public Collector(bool isBoss, int teamSize, Vector2Int levelRange, List<CritterAffinity> availableAffinities)
+    public Collector(bool isBoss, int teamSize, Vector2Int levelRange, List<CritterAffinity> availableAffinities, int abilityChance)
     {
         _isBoss = isBoss;
         List<Critter> availableCritters = MasterCollection.GetAllCritters(availableAffinities);
@@ -36,6 +36,12 @@ public class Collector
             Critter randomCritterToClone = availableCritters[UnityEngine.Random.Range(0, availableCritters.Count)];
             Critter newCritter = Activator.CreateInstance(randomCritterToClone.GetType()) as Critter;
             newCritter.SetStartingLevel(level);
+            int randomAbilityChance = UnityEngine.Random.Range(0, 10);
+            if(randomAbilityChance < abilityChance)
+            {
+                List<Ability> availableAbilities = MasterCollection.GetAllNpcUsableAbilities();
+                newCritter.Ability = availableAbilities[UnityEngine.Random.Range(0, availableAbilities.Count)];
+            }
             _critters.Add(newCritter);
         }
         NoseValue = UnityEngine.Random.Range(0, 4);

@@ -178,6 +178,11 @@ public class Critter
         SharpDefenseStage = 0;
         BluntAttackStage = 0;
         BluntDefenseStage = 0;
+        if(Ability.ID == AbilityID.HunkerDown)
+        {
+            HunkerDown ability = (HunkerDown)Ability;
+            ability.TurnsActive = 0;
+        }
     }
 
 
@@ -322,12 +327,20 @@ public class Critter
     }
 
 
-    public int DealDamage(int damageAmount)
+    public bool DealDamage(int damageAmount)
     {
+        if(Ability.ID == AbilityID.HunkerDown)
+        {
+            HunkerDown ability = (HunkerDown)Ability;
+            if(ability.TurnsActive > 0 && ability.TurnsActive % 3 == 0)
+            {
+                return false;
+            }
+        }
         int healthBeforeDamage = CurrentHealth;
         CurrentHealth = Mathf.Max(CurrentHealth - damageAmount, 0);
 
-        return healthBeforeDamage - CurrentHealth;
+        return true;
     }
 
 

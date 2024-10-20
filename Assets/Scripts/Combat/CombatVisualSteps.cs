@@ -247,19 +247,30 @@ public class ChangeStatStageStep : CombatVisualStep
     public string CritterName;
     public string StatName;
     public string IsIncreaseString;
+    public string fastLearnerText; 
 
 
-    public ChangeStatStageStep(string critterName, string statName, int change)
+    public ChangeStatStageStep(string critterName, string statName, int change, bool isFastLearner = false)
     {
         CritterName = critterName;
         StatName = statName;
         IsIncreaseString = change > 0 ? "increased" : "decreased";
+        List<string> fastLearnerStrings = new List<string>(){
+            "What an astute bug!", 
+            "Nothing gets past them!", 
+            "They've got their eyes on the prize!", 
+        };
+        if(isFastLearner)
+        {
+            fastLearnerText = fastLearnerStrings[UnityEngine.Random.Range(0, fastLearnerStrings.Count)];
+        } else {
+            fastLearnerText = "";
+        }
     }
-
 
     public override string GetPopulatedMessage()
     {
-        return $"{CritterName}'s {StatName} {IsIncreaseString}!";
+        return $"{CritterName}'s {StatName} {IsIncreaseString}! {fastLearnerText}";
     }
 }
 
@@ -450,6 +461,36 @@ public class BugMuncherStep: CombatVisualStep
     public override string GetPopulatedMessage()
     {
         return $"{Name} gobbled up the bug you were about to catch. It's {Stat} increased.";
+    }
+}
+
+public class ReadyToHunkerDownStep: CombatVisualStep
+{
+    public string Name;
+
+    public ReadyToHunkerDownStep(string name)
+    {
+        Name = name; 
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} is getting ready to hunker down. It won't take any damage next turn.";
+    }
+}
+
+public class HunkerDownStep: CombatVisualStep
+{
+    public string Name; 
+
+    public HunkerDownStep(string name)
+    {
+        Name = name; 
+    }
+
+    public override string GetPopulatedMessage()
+    {
+        return $"{Name} has hunkered down and doesn't take any damage.";
     }
 }
 

@@ -229,12 +229,7 @@ public class RoomGeneration: MonoBehaviour
 
     private void PopulateUniqueRoomData(Room room, Vector2Int teamSizeRange, Vector2Int collectorLevelRange, CritterAffinity bossAffinity, bool doubleTreasureRoom = false)
     {
-        if (room.Type == RoomType.Boss)
-        {
-            Collector boss = new Collector(true, teamSizeRange.y, collectorLevelRange, new List<CritterAffinity>(){bossAffinity});
-            room.Collectors.Add(boss);
-        }
-        else if (room.Type == RoomType.Shop)
+        if (room.Type == RoomType.Shop)
         {
             room.ShopItems.Add(new MasonJar());
             room.ShopItems.Add(new Nectar());
@@ -267,6 +262,7 @@ public class RoomGeneration: MonoBehaviour
     private void GenerateCollectors(Vector2Int teamSizeRange, Vector2Int collectorLevelRange, CritterAffinity bossAffinity)
     {
         List<Room> availableRooms = _allRooms.Where(room => room.Type == RoomType.Normal).ToList();
+        int level = _floorController.GetCurrentLevel();
 
         for (int i = 0; i < availableRooms.Count; i++)
         {
@@ -274,7 +270,7 @@ public class RoomGeneration: MonoBehaviour
 
             if (availableRooms[randomIndex].Collectors.Count == 0)
             {
-                availableRooms[randomIndex].Collectors.Add(new Collector(false, Mathf.Min(UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y + 1), 5), collectorLevelRange, null));
+                availableRooms[randomIndex].Collectors.Add(new Collector(false, Mathf.Min(UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y + 1), 5), collectorLevelRange, null, level));
             }
             
             //Debug.Log("Collector at " + availableRooms[i].Coordinates.ToString());
@@ -282,7 +278,7 @@ public class RoomGeneration: MonoBehaviour
         }
 
         Room bossRoom = _allRooms.Find(room => room.Type == RoomType.Boss);
-        bossRoom.Boss = new Collector(true, UnityEngine.Random.Range(teamSizeRange.x, teamSizeRange.y + 1), collectorLevelRange, new List<CritterAffinity>(){bossAffinity});
+        bossRoom.Boss = new Collector(true, teamSizeRange.y, collectorLevelRange, new List<CritterAffinity>(){bossAffinity}, level + 5);
     }
 
 

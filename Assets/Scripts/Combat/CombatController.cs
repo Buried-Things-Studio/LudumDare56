@@ -18,6 +18,7 @@ public class CombatState
 
     public Guid PlayerSelectedHealItemTarget;
     public Guid PlayerSelectedSwitchActiveGUID;
+    
 }
 
 
@@ -90,8 +91,9 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private IEnumerator InitializeTurn()
+    private IEnumerator InitializeTurn() //happens start of every turn
     {
+        Debug.Log("NPC Critter Ability = " + State.NpcCritter.Ability.Name);
         yield return StartCoroutine(_viz.ExecuteVisualSteps());
         ClearTurnData();
         PlayerData.ClearDeadCritters();
@@ -268,10 +270,19 @@ public class CombatController : MonoBehaviour
     }
 
 
-    public void SetPlayerMove(MoveID moveID)
+    public void SetPlayerMove(MoveID moveID) // this sets of the turn again once the player has chosen a move
     {
         State.PlayerSelectedMoveID = moveID;
         ExecuteMoves();
+    }
+
+    private void IncrementTurnsActive(Critter critter)
+    {
+        if(critter.Ability.ID == AbilityID.HunkerDown)
+        {
+            HunkerDown ability = (HunkerDown)critter.Ability;
+            ability.TurnsActive ++; 
+        }
     }
 
 
@@ -283,6 +294,8 @@ public class CombatController : MonoBehaviour
         MoveID nonPriorityMoveID = State.IsPlayerPriority ? State.NpcSelectedMoveID : State.PlayerSelectedMoveID;
         Move priorityMove = priorityCritter.Moves.Find(move => move.ID == priorityMoveID);
         Move nonPriorityMove = nonPriorityCritter.Moves.Find(move => move.ID == nonPriorityMoveID);
+        IncrementTurnsActive(priorityCritter);
+        IncrementTurnsActive(nonPriorityCritter);
 
         if (State.PlayerSelectedMoveID == MoveID.SwitchActive || State.PlayerSelectedMoveID == MoveID.ThrowMasonJar || State.PlayerSelectedMoveID == MoveID.UseHealItem)
         {
@@ -401,6 +414,7 @@ public class CombatController : MonoBehaviour
         }
         else
         {
+            EndOfTurnEffects();
             StartCoroutine(ShowTurn());
         }
     }
@@ -413,6 +427,34 @@ public class CombatController : MonoBehaviour
             yield return StartCoroutine(_viz.ExecuteVisualSteps());
             
             StartCoroutine(InitializeTurn());
+        }
+    }
+
+    private void EndOfTurnEffects()
+    {
+        if(State.NpcCritter.Ability.ID == AbilityID.HunkerDown && State.NpcCritter.CurrentHealth > 0)
+        {
+            HunkerDown ability = (HunkerDown)State.NpcCritter.Ability;
+            if(ability.TurnsActive % 3 == 2)
+            {
+                _viz.AddVisualStep(new ReadyToHunkerDownStep(State.NpcCritter.Name));
+            }
+        }
+        if(State.PlayerCritter.Ability.ID == AbilityID.HunkerDown && State.PlayerCritter.CurrentHealth > 0)
+        {
+            HunkerDown ability = (HunkerDown)State.PlayerCritter.Ability;
+            if(ability.TurnsActive % 3 == 2)
+            {
+                _viz.AddVisualStep(new ReadyToHunkerDownStep(State.PlayerCritter.Name));
+            }
+        }
+        if(State.NpcCritter.Ability.ID == AbilityID.FastLearner && State.NpcCritter.CurrentHealth > 0)
+        {
+            _viz.AddVisualStep(CritterHelpers.BuffRandomStat(State.NpcCritter));
+        }
+        if(State.PlayerCritter.Ability.ID == AbilityID.FastLearner && State.PlayerCritter.CurrentHealth > 0)
+        {
+            _viz.AddVisualStep(CritterHelpers.BuffRandomStat(State.PlayerCritter));
         }
     }
 
@@ -613,6 +655,18 @@ public class CombatController : MonoBehaviour
 
     private bool ExecuteDeath()
     {
+        if(State.NpcCritter.CurrentHealth <= 0 && State.NpcCritter.Ability.ID == AbilityID.CheatDeath)
+        {
+            CheatDeath ability = (CheatDeath)State.NpcCritter.Ability;
+            if(!ability.HasBeenUsed)
+            {
+                State.NpcCritter.HealToHalfHealth();
+                _viz.AddVisualStep(new CheatDeathStep(State.NpcCritter.Name, State.NpcCritter.Name, true));
+                _viz.AddVisualStep(new HealthChangeStep(false, State.NpcCritter.Level, 0, Mathf.RoundToInt(State.NpcCritter.MaxHealth*0.5f), State.NpcCritter.MaxHealth));
+                ability.HasBeenUsed = true;
+            }
+        }
+
         if (State.NpcCritter.CurrentHealth <= 0)
         {
             _viz.AddVisualStep(new CritterSquishedStep(State.NpcCritter.Name));
@@ -629,15 +683,15 @@ public class CombatController : MonoBehaviour
             }
         }
 
-        else if(PlayerData.GetCritters().Exists(critter => critter.Ability.ID == AbilityID.CheatDeath))
+        if(State.PlayerCritter.CurrentHealth <= 0 && State.PlayerCritter.Ability.ID == AbilityID.CheatDeath)
         {
-            Critter critterWithCheatDeath = PlayerData.GetCritters().Find(critter => critter.Ability.ID == AbilityID.CheatDeath);
-            if(!((CheatDeath)critterWithCheatDeath.Ability).HasBeenUsed)
+            CheatDeath ability = (CheatDeath)State.PlayerCritter.Ability;
+            if(!ability.HasBeenUsed)
             {
                 State.PlayerCritter.HealToHalfHealth();
-                _viz.AddVisualStep(new CheatDeathStep(critterWithCheatDeath.Name, State.PlayerCritter.Name, critterWithCheatDeath == State.PlayerCritter));
+                _viz.AddVisualStep(new CheatDeathStep(State.PlayerCritter.Name, State.PlayerCritter.Name, true));
                 _viz.AddVisualStep(new HealthChangeStep(true, State.PlayerCritter.Level, 0, Mathf.RoundToInt(State.PlayerCritter.MaxHealth*0.5f), State.PlayerCritter.MaxHealth));
-                ((CheatDeath)critterWithCheatDeath.Ability).HasBeenUsed = true;
+                ability.HasBeenUsed = true;
                 return false;
             }
         }
