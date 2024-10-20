@@ -18,10 +18,11 @@ public class PlayerController : MonoBehaviour
     public bool IsInvisibleToEncounters;
     private bool _isMoving; 
     private bool _newTileChecks; 
-    private bool _checkContinuedMovement;
+    private bool _checkContinuedMovement = true;
     private bool _isMovementBlockedByUI;
     private bool _isMovementBlockedByOverworldMenu;
-    private bool _checkNewMovement = true;
+    private bool _checkNewMovement = false;
+    public bool JustEnteredNewRoom;
     private List<string> _keyPressPriorityOrder = new List<string>();
     public FloorController FloorController;
 
@@ -55,7 +56,6 @@ public class PlayerController : MonoBehaviour
         {
             CheckInteraction();
         }
-
         if (_checkContinuedMovement)
         {
             CheckForContinuedMovement();
@@ -580,11 +580,6 @@ public class PlayerController : MonoBehaviour
 
             int faceIntoNewRoom = Direction;
 
-            if (direction == "backward")
-            {
-                faceIntoNewRoom = (Direction + 2) % 4;
-            }
-
             OneShotController osc = Instantiate(_oneShotGO).GetComponent<OneShotController>();
             osc.MyClip = _doorClip;
             osc.PlayWithVariance();
@@ -618,6 +613,20 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForContinuedMovement()
     {
+        if(JustEnteredNewRoom)
+        {
+            Tile currentTile = RoomTiles.Find(tile => tile.GetComponent<Tile>().Coordinates == CurrentCoords).GetComponent<Tile>();
+            if(Input.GetKey("up"))
+            {
+                AttemptMove(currentTile, GetTargetCoords("forward"), "forward");
+                return;
+            }
+            else if(Input.GetKey("down"))
+            {
+                AttemptMove(currentTile, GetTargetCoords("backward"), "backward");
+                return;
+            }
+        }
         if(_keyPressPriorityOrder.Count == 0)
         {
             _checkContinuedMovement = false;
@@ -649,6 +658,7 @@ public class PlayerController : MonoBehaviour
         {
             _checkContinuedMovement = false;
             _checkNewMovement = true;
+            JustEnteredNewRoom = false;
             
         }
     }
