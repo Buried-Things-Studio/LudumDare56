@@ -17,6 +17,7 @@ public enum AbilityID
     BugMuncher,
     CheatDeath,
     EmergencyMedPack,
+    FastLearner, 
     FlirtatiousCustomer,
     HunkerDown,
     Hypochondriac,

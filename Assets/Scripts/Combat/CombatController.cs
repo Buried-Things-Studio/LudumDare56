@@ -447,6 +447,14 @@ public class CombatController : MonoBehaviour
                 _viz.AddVisualStep(new ReadyToHunkerDownStep(State.PlayerCritter.Name));
             }
         }
+        if(State.NpcCritter.Ability.ID == AbilityID.FastLearner && State.NpcCritter.CurrentHealth > 0)
+        {
+            _viz.AddVisualStep(CritterHelpers.BuffRandomStat(State.NpcCritter));
+        }
+        if(State.PlayerCritter.Ability.ID == AbilityID.FastLearner && State.PlayerCritter.CurrentHealth > 0)
+        {
+            _viz.AddVisualStep(CritterHelpers.BuffRandomStat(State.PlayerCritter));
+        }
     }
 
 

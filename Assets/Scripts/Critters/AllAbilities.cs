@@ -43,6 +43,16 @@ public class EmergencyMedPack: Ability
     }
 }
 
+public class FastLearner: Ability
+{
+    public FastLearner()
+    {
+        Name = "Fast Learner"; 
+        Description = "Bugs with this ability get a random stat increase at the end of each turn during a fight.";
+        ID = AbilityID.FastLearner;
+    }
+}
+
 public class FlirtatiousCustomer: Ability
 {
     public FlirtatiousCustomer()

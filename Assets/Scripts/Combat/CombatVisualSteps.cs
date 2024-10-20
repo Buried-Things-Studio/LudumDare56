@@ -247,19 +247,30 @@ public class ChangeStatStageStep : CombatVisualStep
     public string CritterName;
     public string StatName;
     public string IsIncreaseString;
+    public string fastLearnerText; 
 
 
-    public ChangeStatStageStep(string critterName, string statName, int change)
+    public ChangeStatStageStep(string critterName, string statName, int change, bool isFastLearner = false)
     {
         CritterName = critterName;
         StatName = statName;
         IsIncreaseString = change > 0 ? "increased" : "decreased";
+        List<string> fastLearnerStrings = new List<string>(){
+            "What an astute bug!", 
+            "Nothing gets past them!", 
+            "They've got their eyes on the prize!", 
+        };
+        if(isFastLearner)
+        {
+            fastLearnerText = fastLearnerStrings[UnityEngine.Random.Range(0, fastLearnerStrings.Count)];
+        } else {
+            fastLearnerText = "";
+        }
     }
-
 
     public override string GetPopulatedMessage()
     {
-        return $"{CritterName}'s {StatName} {IsIncreaseString}!";
+        return $"{CritterName}'s {StatName} {IsIncreaseString}! {fastLearnerText}";
     }
 }
 

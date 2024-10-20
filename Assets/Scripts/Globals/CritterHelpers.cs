@@ -283,4 +283,35 @@ public static class CritterHelpers
             "Speed", 
         };
     }
+
+    public static CombatVisualStep BuffRandomStat(Critter critter)
+    {
+        List<string> allStats = GetAllCritterStats();
+        string randomStat = allStats[UnityEngine.Random.Range(0, allStats.Count)];
+        if(randomStat == "Sharp Attack")
+        {
+            critter.ChangeSharpAttackStage(1);
+            return new ChangeStatStageStep(critter.Name, "sharp att", 1, true);
+        }
+        else if (randomStat == "Blunt Attack")
+        {
+            critter.ChangeBluntAttackStage(1);
+            return new ChangeStatStageStep(critter.Name, "blunt att", 1, true);
+        }
+        else if (randomStat == "Sharp Defence")
+        {
+            critter.ChangeSharpDefenseStage(1);
+            return new ChangeStatStageStep(critter.Name, "sharp def", 1, true);
+        }
+        else if (randomStat == "Blunt Defence")
+        {
+            critter.ChangeSharpDefenseStage(1);
+            return new ChangeStatStageStep(critter.Name, "blunt def", 1, true);
+        }
+        else
+        {
+            critter.ChangeSpeedStage(1);
+            return new ChangeStatStageStep(critter.Name, "speed", 1, true);
+        }
+    }
 }
