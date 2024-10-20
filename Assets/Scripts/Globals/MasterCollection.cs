@@ -102,4 +102,11 @@ public static class MasterCollection
         List<Ability> allAbilities = GetAllAbilityTypes().Select(abilityType => (Ability)Activator.CreateInstance(abilityType)).ToList();
         return allAbilities;
     }
+
+    public static List<Ability> GetAllNpcUsableAbilities()
+    {
+        List<Ability> allAbilities = GetAllAbilities();
+        List<Ability> npcUsableAbilities = allAbilities.Where(ability => ability.IsNpcUsable && ability.ID != AbilityID.None).ToList(); 
+        return npcUsableAbilities;
+    }
 }
