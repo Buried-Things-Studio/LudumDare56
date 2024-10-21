@@ -56,6 +56,7 @@ public class RoomGeneration: MonoBehaviour
         _miniMapController.UpdateMap();
     }
 
+
     public void GenerateMapFromMapState(MapState mapState)
     {
         Debug.Log("Generating Map from MapState");
@@ -67,6 +68,7 @@ public class RoomGeneration: MonoBehaviour
         PlacePlayerAtCoords(mapState.PlayerTile, mapState.PlayerDirection);
         _miniMapController.UpdateMap();
     }
+
 
     private List<Room> GetAdjacentRooms(Room room)
     {
@@ -89,6 +91,7 @@ public class RoomGeneration: MonoBehaviour
         }
         return adjRooms;
     }
+
 
     private void MarkAdjacentRooms(Room currentRoom)
     {

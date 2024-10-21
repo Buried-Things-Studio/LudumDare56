@@ -16,6 +16,10 @@ public class EncounterController : MonoBehaviour
     private Vector2Int _wildEncounterLevelRange;
     public bool IsStarterChosen;
 
+    [SerializeField] private GameObject _wildEncounterDataPrefab;
+    [SerializeField] private Transform _wildEncounterDataParent;
+    private List<GameObject> _wildEncounterDataObjects = new List<GameObject>();
+
     [Header("Animation")]
     public Animator PixelAnimator;
     public Animator ExclaimAnimator;
@@ -47,6 +51,30 @@ public class EncounterController : MonoBehaviour
             _critterTypesAvailableOnFloor.Add(availableCritterTypes[randomIndex]);
 
             availableCritterTypes.RemoveAt(randomIndex);
+        }
+
+        UpdateWildEncounterViz();
+    }
+
+
+    private void UpdateWildEncounterViz()
+    {
+        foreach (GameObject go in _wildEncounterDataObjects)
+        {
+            GameObject.Destroy(go);
+        }
+
+        _wildEncounterDataObjects.Clear();
+
+        foreach (Type critterType in _critterTypesAvailableOnFloor)
+        {
+            Critter randomCritter = Activator.CreateInstance(critterType) as Critter;
+            GameObject newWildEncounterDataObject = Instantiate(_wildEncounterDataPrefab);
+            WildEncounterDetails newWildEncounterData = newWildEncounterDataObject.GetComponent<WildEncounterDetails>();
+
+            _wildEncounterDataObjects.Add(newWildEncounterDataObject);
+            newWildEncounterDataObject.transform.SetParent(_wildEncounterDataParent);
+            newWildEncounterData.PopulateCritterDetails(randomCritter);
         }
     }
     
@@ -147,7 +175,4 @@ public class EncounterController : MonoBehaviour
 
         yield return null;
     }
-
-
-
 }

@@ -782,6 +782,7 @@ public class CombatController : MonoBehaviour
         }
     }
 
+
     private void CheckForMusketeer()
     {
         List<Critter> playerCritters = PlayerData.GetCritters();
@@ -823,6 +824,7 @@ public class CombatController : MonoBehaviour
 
         }    
     }
+
 
     private void ResetPractice()
     {
