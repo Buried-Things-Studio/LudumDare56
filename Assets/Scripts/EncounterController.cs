@@ -12,7 +12,7 @@ public class EncounterController : MonoBehaviour
     public Player PlayerData;
     private float _encounterChance = 0.125f;
     private int _critterTypesAvailablePerFloor = 5;
-    private List<Type> _critterTypesAvailableOnFloor = new List<Type>();
+    public List<Type> CritterTypesAvailableOnFloor = new List<Type>();
     private Vector2Int _wildEncounterLevelRange;
     public bool IsStarterChosen;
 
@@ -31,7 +31,7 @@ public class EncounterController : MonoBehaviour
     {
         _wildEncounterLevelRange = levelRange;
         
-        _critterTypesAvailableOnFloor.Clear();
+        CritterTypesAvailableOnFloor.Clear();
         List<Type> availableCritterTypes = new List<Type>(MasterCollection.GetAllCritterTypes());
 
         Debug.Log("CRITTERS AVAILABLE ON FLOOR:");
@@ -44,20 +44,21 @@ public class EncounterController : MonoBehaviour
             }
             
             int randomIndex = UnityEngine.Random.Range(0, availableCritterTypes.Count);
-            _critterTypesAvailableOnFloor.Add(availableCritterTypes[randomIndex]);
+            CritterTypesAvailableOnFloor.Add(availableCritterTypes[randomIndex]);
 
             availableCritterTypes.RemoveAt(randomIndex);
         }
     }
     
     
-    public bool CheckRandomEncounter(bool forceCombat = false)
+    public bool CheckRandomEncounter(Room currentRoom, bool forceCombat = false)
     {
         bool isEnteringEncounter = UnityEngine.Random.Range(0f, 1f) < _encounterChance;
+        List<Type> availableCritters = currentRoom.CritterTypesAvailableInRoom;
 
         if (isEnteringEncounter || forceCombat)
         {
-            Type randomCritterType = _critterTypesAvailableOnFloor[UnityEngine.Random.Range(0, _critterTypesAvailableOnFloor.Count)];
+            Type randomCritterType = availableCritters[UnityEngine.Random.Range(0, availableCritters.Count)];
             Critter randomCritter = Activator.CreateInstance(randomCritterType) as Critter;
             randomCritter.SetStartingLevel(UnityEngine.Random.Range(_wildEncounterLevelRange.x, _wildEncounterLevelRange.y + 1));
 

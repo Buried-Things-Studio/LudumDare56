@@ -690,7 +690,7 @@ public class PlayerController : MonoBehaviour
             ////Grass particle effect
             //_grassParticleSystem.Play();
 
-            if (EncounterController.CheckRandomEncounter(false))
+            if (EncounterController.CheckRandomEncounter(CurrentRoom, false))
             {
                 FloorController.MapState = mapState;
                 _newTileChecks = false;

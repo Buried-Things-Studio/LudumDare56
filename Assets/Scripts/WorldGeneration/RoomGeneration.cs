@@ -238,6 +238,18 @@ public class RoomGeneration: MonoBehaviour
             moveManual.SetRandomMove();
             room.ShopItems.Add(moveManual);
         }
+        else if(room.Type == RoomType.Normal)
+        {
+            int numberOfCrittersAvailable = UnityEngine.Random.Range(2, 4);
+            room.CritterTypesAvailableInRoom.Clear();
+            List<Type> crittersOnFloor = _encounterController.CritterTypesAvailableOnFloor;
+            for(int i = 0; i < numberOfCrittersAvailable; i++)
+            {
+                int index = UnityEngine.Random.Range(0, crittersOnFloor.Count);
+                room.CritterTypesAvailableInRoom.Add(crittersOnFloor[index]);
+                crittersOnFloor.RemoveAt(index);
+            }
+        }
         else if(room.Type == RoomType.Treasure)
         {
             if(doubleTreasureRoom)
