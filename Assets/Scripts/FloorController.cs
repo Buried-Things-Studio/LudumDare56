@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class FloorController : MonoBehaviour
 {
     [SerializeField] public EncounterController Encounters;
+    [SerializeField] public GameObject _floorCanvasObject;
     public RoomGeneration RoomGen;
     public Player PlayerData;
     public static FloorController SingleFloorController;
@@ -100,7 +101,7 @@ public class FloorController : MonoBehaviour
         Encounters.PlayerData = PlayerData;
         PlayerData.AddItemToInventory(new MasonJar());
         PlayerData.AddItemToInventory(new Nectar());
-
+        SceneManager.activeSceneChanged += OnSceneChange;
 
         //TODO: remove!----------
         // Critter boye = new GardenSnail();
@@ -136,6 +137,12 @@ public class FloorController : MonoBehaviour
         //--------------
 
         InitializeLevel();
+    }
+
+
+    private void OnSceneChange(Scene current, Scene next)
+    {
+        _floorCanvasObject.SetActive(next.name == "MainGame");
     }
 
 
