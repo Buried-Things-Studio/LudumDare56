@@ -11,6 +11,7 @@ public class BugInfoContainer : MonoBehaviour
     [SerializeField] TextMeshProUGUI _bugNameTMP;
     [SerializeField] TextMeshProUGUI _levelTMP;
     [SerializeField] TextMeshProUGUI _healthNumbersTMP;
+    [SerializeField] TextMeshProUGUI _abilityTMP;
     [SerializeField] Image _healthBarFillImage;
     [SerializeField] Image _affinityColorFadeImage;
     [SerializeField] private Image _typeIconImage;
@@ -33,6 +34,7 @@ public class BugInfoContainer : MonoBehaviour
         _bugNameTMP.text = critter.Name;
         _levelTMP.text = $"<size=18>Lv </size><mspace=16>{critter.Level}";
         _affinityColorFadeImage.color = CritterAffinityData.GetAffinityColor(critter.Affinities[0]);
+        _abilityTMP.text = $"Ability: {(critter.Ability == null ? "None" : critter.Ability.Name)}";
 
         _healthNumbersTMP.text = $"<mspace=14>{critter.CurrentHealth}/{critter.MaxHealth}";
         _healthBarFillImage.fillAmount = (float)critter.CurrentHealth / (float)critter.MaxHealth;
