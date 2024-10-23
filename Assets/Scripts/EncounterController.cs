@@ -49,15 +49,20 @@ public class EncounterController : MonoBehaviour
             
             int randomIndex = UnityEngine.Random.Range(0, availableCritterTypes.Count);
             CritterTypesAvailableOnFloor.Add(availableCritterTypes[randomIndex]);
+            Debug.Log("--- " + availableCritterTypes[randomIndex].Name);
 
             availableCritterTypes.RemoveAt(randomIndex);
         }
 
-        UpdateWildEncounterViz();
+    }
+
+    public List<Type> GetAvailableCrittersOnFloor()
+    {
+        return CritterTypesAvailableOnFloor;
     }
 
 
-    private void UpdateWildEncounterViz()
+    public void UpdateWildEncounterViz(Room room)
     {
         foreach (GameObject go in _wildEncounterDataObjects)
         {
@@ -66,7 +71,7 @@ public class EncounterController : MonoBehaviour
 
         _wildEncounterDataObjects.Clear();
 
-        foreach (Type critterType in _critterTypesAvailableOnFloor)
+        foreach (Type critterType in room.CritterTypesAvailableInRoom)
         {
             Critter randomCritter = Activator.CreateInstance(critterType) as Critter;
             GameObject newWildEncounterDataObject = Instantiate(_wildEncounterDataPrefab);

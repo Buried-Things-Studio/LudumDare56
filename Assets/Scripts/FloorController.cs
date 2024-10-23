@@ -166,6 +166,7 @@ public class FloorController : MonoBehaviour
         _levelBossAffinity = (CritterAffinity)randomAffinityIndex;
 
         Encounters.SetAvailableCrittersOnFloor(_wildEncounterLevelRanges[_currentLevel]);
+        Debug.Log("Number of critters available on floor = " + Encounters.CritterTypesAvailableOnFloor.Count.ToString());
 
         if (_currentLevel == 1)
         {

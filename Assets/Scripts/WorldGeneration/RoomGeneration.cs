@@ -245,7 +245,8 @@ public class RoomGeneration: MonoBehaviour
         {
             int numberOfCrittersAvailable = UnityEngine.Random.Range(2, 4);
             room.CritterTypesAvailableInRoom.Clear();
-            List<Type> crittersOnFloor = _encounterController.CritterTypesAvailableOnFloor;
+            List<Type> crittersOnFloor = new List<Type>();
+            crittersOnFloor.AddRange(_encounterController.GetAvailableCrittersOnFloor());
             for(int i = 0; i < numberOfCrittersAvailable; i++)
             {
                 int index = UnityEngine.Random.Range(0, crittersOnFloor.Count);
@@ -549,6 +550,7 @@ public class RoomGeneration: MonoBehaviour
         //Run my walls and doors code
         _wallsOrDoorsController.gameObject.SetActive(true);
         _wallsOrDoorsController.Generate();
+        _encounterController.UpdateWildEncounterViz(_currentRoom);
     }
 
 
