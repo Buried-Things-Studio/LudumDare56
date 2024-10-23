@@ -241,6 +241,19 @@ public class RoomGeneration: MonoBehaviour
             moveManual.SetRandomMove();
             room.ShopItems.Add(moveManual);
         }
+        else if(room.Type == RoomType.Normal)
+        {
+            int numberOfCrittersAvailable = UnityEngine.Random.Range(2, 4);
+            room.CritterTypesAvailableInRoom.Clear();
+            List<Type> crittersOnFloor = new List<Type>();
+            crittersOnFloor.AddRange(_encounterController.GetAvailableCrittersOnFloor());
+            for(int i = 0; i < numberOfCrittersAvailable; i++)
+            {
+                int index = UnityEngine.Random.Range(0, crittersOnFloor.Count);
+                room.CritterTypesAvailableInRoom.Add(crittersOnFloor[index]);
+                crittersOnFloor.RemoveAt(index);
+            }
+        }
         else if(room.Type == RoomType.Treasure)
         {
             if(doubleTreasureRoom)
@@ -537,6 +550,7 @@ public class RoomGeneration: MonoBehaviour
         //Run my walls and doors code
         _wallsOrDoorsController.gameObject.SetActive(true);
         _wallsOrDoorsController.Generate();
+        _encounterController.UpdateWildEncounterViz(_currentRoom);
     }
 
 

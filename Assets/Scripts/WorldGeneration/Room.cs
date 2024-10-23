@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Room
 {
@@ -18,6 +19,7 @@ public class Room
     public List<Critter> StarterPicks = new List<Critter>();
     public Collector Boss; 
     public bool HospitalAlreadyUsed = false;
+    public List<Type> CritterTypesAvailableInRoom = new List<Type>();
 
     public Room(RoomType type, Vector2Int coords, List<List<string>> layout)
     {
